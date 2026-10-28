@@ -29,7 +29,7 @@ export default function Hero() {
         <div className="flex flex-col items-center gap-10 px-38 py-10">
           <div data-reveal className="flex flex-col items-center gap-3 text-center">
             <h1 className="w-[682px] font-display text-[64px]/[71px] font-semibold text-neutral-900">
-              Best IAS Coaching in India
+              Best IAS Coaching in Delhi, India
             </h1>
             <Lead className="w-[780px]">
               For five decades, aspirants have trusted us to take them from their first class to the interview with
