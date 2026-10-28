@@ -1,0 +1,162 @@
+/*
+ * Vajiram & Ravi homepage styles.
+ * Everything is styled with Tailwind utilities in the components. This file only holds the design
+ * tokens, a few base rules, keyframes, and the scroll-reveal classes that ScrollReveal toggles at runtime.
+ *
+ * Layout concept: a 1440px desktop canvas rebuilt 1:1 from the Figma frame "home page" (1188:61619);
+ * full-bleed section bands with a fixed 1440px inner canvas, scaled to fit narrower screens (see CanvasFit).
+ */
+@import "tailwindcss";
+
+/* The original design prototype sits in the project root; keep Tailwind from scanning it for class names. */
+@source not "../../Vajiram & Ravi Homepage.html";
+
+@theme {
+  /* Only the design's own palette: no stray default colours. */
+  --color-*: initial;
+  --color-white: #fff;
+
+  --color-neutral-50: #fafafa;
+  --color-neutral-100: #f5f5f5;
+  --color-neutral-200: #e6e6e6;
+  --color-neutral-300: #d3d3d3;
+  --color-neutral-400: #a3a3a3;
+  --color-neutral-500: #737373;
+  --color-neutral-600: #535353;
+  --color-neutral-700: #404040;
+  --color-neutral-900: #1a1a1a;
+  --color-neutral-950: #0b0b0b;
+  --color-ink: #1c1917;
+  /* Card borders and dividers. */
+  --color-line: #e4e4e4;
+  /* Header rule and FAQ rules. */
+  --color-line-warm: #e8e4df;
+  /* Carousel dots, arrow and map-button outlines. */
+  --color-control: #ccc;
+  /* Empty media placeholder. */
+  --color-media: #ede8e2;
+
+  --color-brand-50: #fef8ec;
+  --color-brand-100: #fceac9;
+  --color-brand-500: #e57512;
+  --color-brand-600: #d1570e;
+  --color-brand-700: #ae3b0f;
+  --color-brand-800: #8d2e13;
+  --color-brand-900: #742713;
+  --color-brand-950: #431105;
+
+  --color-brown-700: #805c4e;
+  --color-brown-800: #694c43;
+  --color-brown-900: #563f38;
+  --color-brown-950: #2d201d;
+
+  --color-sun-100: #fef4c7;
+  --color-sun-200: #fde57c;
+
+  /* Figtree for headings and UI, Geist for body copy. The *-face variables come from next/font in layout.tsx. */
+  --font-display: var(--font-figtree-face), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-sans: var(--font-geist-face), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+
+  --container-canvas: 1440px;
+
+  --ease-smooth: cubic-bezier(0.22, 0.61, 0.36, 1);
+  /* Match plain CSS: transitions without an explicit easing use `ease`. */
+  --default-transition-timing-function: ease;
+
+  --animate-marquee: marquee var(--dur, 60s) linear infinite;
+  --animate-swap: swap 0.5s var(--ease-smooth);
+
+  @keyframes marquee {
+    to {
+      transform: translateX(calc(-1 * var(--dist, 0px)));
+    }
+  }
+  @keyframes swap {
+    0% {
+      opacity: 0.25;
+      transform: translateY(8px);
+    }
+    100% {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+/* Gentle "breathing" of the toppers banner rings. Used through an arbitrary animation value, so it lives outside @theme. */
+@keyframes ring {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.022);
+  }
+}
+
+@layer base {
+  :root {
+    --image-logo: url(/images/logo.webp);
+  }
+  html {
+    scroll-padding-top: 96px;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+  body {
+    background: var(--color-white);
+    color: var(--color-neutral-900);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: clip;
+    font-synthesis: none;
+  }
+  button {
+    cursor: pointer;
+  }
+  svg {
+    flex-shrink: 0;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-brand-700);
+    outline-offset: 3px;
+    border-radius: 999px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      transition-delay: 0ms !important;
+    }
+  }
+}
+
+/*
+ * Scroll reveal. ScrollReveal adds these classes to [data-reveal] blocks and [data-reveal-group] children.
+ * They are deliberately unlayered so they win over the elements' own transition utilities while revealing.
+ */
+.rv-pre {
+  opacity: 0;
+  transform: translateY(18px);
+}
+.rv-in {
+  transition:
+    opacity 0.8s var(--ease-smooth),
+    transform 0.8s var(--ease-smooth);
+  transition-delay: var(--d, 0ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  .rv-pre {
+    opacity: 1;
+    transform: none;
+  }
+}
