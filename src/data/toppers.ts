@@ -9,10 +9,7 @@ export type Topper = {
 /** Years offered by the results tabs, newest first. */
 export const resultYears = [2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016];
 
-/** Stand-in photo for toppers whose details have not come in yet. */
-const PLACEHOLDER_IMAGE = "/images/toppers/placeholder.svg";
-
-/** UPSC CSE 2025, ranks 1 to 15. Ranks 11 to 15 are placeholders: replace them with the real toppers before publishing. */
+/** UPSC CSE 2025, ranks 1 to 10. */
 export const toppers: Topper[] = [
   { rank: 1, name: "Anuj Agnihotri", programme: "Interview Guidance Programme (IGP)", image: "/images/toppers/anuj-agnihotri.webp" },
   { rank: 2, name: "Rajeshwari Suve M", programme: "PowerUp Prelims Test Series, IGP, Mains Test Series", image: "/images/toppers/rajeshwari-suve-m.webp" },
@@ -24,11 +21,6 @@ export const toppers: Topper[] = [
   { rank: 8, name: "Pakshal Secretry", programme: "Mains Camp, IGP", image: "/images/toppers/pakshal-secretry.webp" },
   { rank: 9, name: "Astha Jain", programme: "Interview Guidance Programme (IGP)", image: "/images/toppers/astha-jain.webp" },
   { rank: 10, name: "Ujjwal Priyank", programme: "Interview Guidance Programme (IGP)", image: "/images/toppers/ujjwal-priyank.webp" },
-  { rank: 11, name: "Topper name", programme: "Programme to be added", image: PLACEHOLDER_IMAGE },
-  { rank: 12, name: "Topper name", programme: "Programme to be added", image: PLACEHOLDER_IMAGE },
-  { rank: 13, name: "Topper name", programme: "Programme to be added", image: PLACEHOLDER_IMAGE },
-  { rank: 14, name: "Topper name", programme: "Programme to be added", image: PLACEHOLDER_IMAGE },
-  { rank: 15, name: "Topper name", programme: "Programme to be added", image: PLACEHOLDER_IMAGE },
 ];
 
 export type Story = { topper: Topper; quote: string; exam: string };
