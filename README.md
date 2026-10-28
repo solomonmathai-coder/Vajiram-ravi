@@ -8,13 +8,22 @@ It is a 1:1 port of the design prototype in `Vajiram & Ravi Homepage.html`, spli
 ```bash
 npm install
 npm run dev        # http://localhost:3000
-npm run build      # production build
-npm start          # serve the production build
+npm run build      # static site in out/
+npm start          # serve out/ at http://localhost:3000, the way Netlify will
 npm run typecheck
 ```
 
 The npm scripts call `node node_modules/...` directly instead of the usual `next dev`.
 On Windows, npm's command shims break when the project path contains `&`, as `D:\vajiram&ravi` does.
+
+## Deploy
+
+The site is a static export. `npm run build` writes plain HTML, CSS, JS and images to `out/`, and any static host can serve that folder.
+
+- **Netlify from GitHub:** connect the repo and deploy. `netlify.toml` sets the build command, the `out` publish folder and Node 22, and it overrides the settings in the Netlify UI.
+- **Netlify drag-and-drop:** run `npm run build`, then drag the `out` folder onto the Netlify deploys page. Dragging the project folder or `.next` gives a 404, because neither has an `index.html` at the top.
+
+`netlify.toml` also turns off Netlify's Next.js adapter with `NETLIFY_NEXT_PLUGIN_SKIP`. The adapter is for server-rendered sites and would reject `out` as the publish folder.
 
 ## Layout of the code
 
@@ -38,6 +47,8 @@ src/
   data/               all copy and lists (toppers, courses, faculty, FAQs, ...)
   lib/                small helpers (canvas zoom, motion, toast events)
 public/images/        logo, photos and illustrations
+scripts/serve-out.mjs preview server for the static export (npm start)
+netlify.toml          Netlify build settings
 ```
 
 To change content, edit the files in `src/data`. To change a section's look, edit the Tailwind classes in its component.
@@ -55,4 +66,5 @@ To change content, edit the files in `src/data`. To change a section's look, edi
 - The design is a fixed 1440px canvas. On narrower screens the page is zoomed down to fit, exactly like the prototype.
 - Sections are server components. Only the interactive parts are client components: the header, marquee, carousels, year tabs, stat counters, FAQ, city tabs and map zoom, and the counselling form.
 - Links with `href="#"` point at pages that do not exist yet. Clicking one shows a short toast.
-- The counselling form validates input and shows a thank-you state, but it does not send anything yet.
+- The counselling form validates input and shows a thank-you state, but it does not send anything yet. Because the site is static, sending it later needs a form service such as Netlify Forms or a serverless function.
+- Images are served as the original webp files. Next.js image resizing needs a server, so it is off.
