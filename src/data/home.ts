@@ -28,6 +28,15 @@ export const heroStats: HeroStat[] = [
   { value: 36, format: "{n}/50", label: "CSE 2025 rankers from V&R" },
 ];
 
+/**
+ * Looping background video for the hero.
+ * It comes from the hero design reference and is hosted by a third party (about 14 MB).
+ * Replace it with Vajiram & Ravi's own footage, ideally a compressed copy in public/, before launch.
+ */
+export const heroVideo = {
+  src: "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260314_131748_f2ca2a28-fed7-44c8-b9a9-bd9acdd5ec31.mp4",
+};
+
 export const features: { title: string; description: string; icon: ComponentType<IconProps> }[] = [
   { title: "Proven track record", description: "Five decades of experience and a steady record of producing UPSC toppers.", icon: TrendIcon },
   { title: "Expert faculty", description: "Learn from subject specialists for every GS paper, optional and the essay.", icon: GraduationCapIcon },

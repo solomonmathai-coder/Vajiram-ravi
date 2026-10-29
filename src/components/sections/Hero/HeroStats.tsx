@@ -47,18 +47,25 @@ export default function HeroStats({ stats }: { stats: HeroStat[] }) {
   }, [stats]);
 
   return (
-    <div className="flex items-center justify-center gap-4 pt-10" id="stats" ref={ref}>
-      {stats.map((stat, i) => (
-        <Fragment key={stat.label}>
-          {i > 0 && <div className="h-[105px] w-px bg-neutral-200" />}
-          <div className="flex h-[115px] w-[172px] flex-col items-center gap-1 text-center font-display font-medium">
-            <b className="text-[40px]/[47px] font-medium whitespace-nowrap text-brand-950 tabular-nums">
-              {stat.format.replace("{n}", String(values[i]))}
-            </b>
-            <span className="w-full text-[18px]/[28px] text-neutral-600">{stat.label}</span>
-          </div>
-        </Fragment>
-      ))}
+    <div className="relative z-10 mx-auto flex w-canvas animate-fade-rise-delay-3 justify-center px-6 pb-10">
+      {/* A frosted panel keeps the numbers readable over the bright foreground of the video. */}
+      <div
+        className="liquid-glass flex items-stretch rounded-[28px] bg-navy/45! px-2 py-6 backdrop-blur-xl!"
+        id="stats"
+        ref={ref}
+      >
+        {stats.map((stat, i) => (
+          <Fragment key={stat.label}>
+            {i > 0 && <div className="w-px self-stretch bg-white/15" />}
+            <div className="flex w-[232px] flex-col items-center gap-2 px-5 text-center">
+              <b className="font-serif text-[52px]/none font-normal tracking-[-1px] whitespace-nowrap text-white tabular-nums">
+                {stat.format.replace("{n}", String(values[i]))}
+              </b>
+              <span className="font-inter text-sm/snug text-white/75">{stat.label}</span>
+            </div>
+          </Fragment>
+        ))}
+      </div>
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import AnnouncementBar from "@/components/layout/AnnouncementBar";
 import Batches from "@/components/sections/Batches/Batches";
 import ClosingCta from "@/components/sections/ClosingCta/ClosingCta";
 import ContactOptions from "@/components/sections/ContactOptions/ContactOptions";
@@ -19,6 +20,8 @@ export default function HomePage() {
     <main id="main">
       <span id="top" />
       <Hero />
+      {/* The ticker sits under the hero, so the header can float directly over the hero video. */}
+      <AnnouncementBar />
       <Toppers />
       <WhyChoose />
       <Courses />

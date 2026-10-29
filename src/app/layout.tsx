@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
+import { Instrument_Serif, Inter } from "next/font/google";
 import localFont from "next/font/local";
 import type { ReactNode } from "react";
-import AnnouncementBar from "@/components/layout/AnnouncementBar";
 import SiteFooter from "@/components/layout/SiteFooter";
 import SiteHeader from "@/components/layout/SiteHeader";
 import UtilityBar from "@/components/layout/UtilityBar";
@@ -32,6 +32,24 @@ const geist = localFont({
   display: "swap",
 });
 
+// Hero redesign: Instrument Serif for display type, Inter for body text.
+// next/font downloads them at build time and serves them from this site, so the static export needs no Google request.
+const instrumentSerif = Instrument_Serif({
+  weight: "400",
+  subsets: ["latin"],
+  // Consumed by the --font-serif theme token in globals.css.
+  variable: "--font-instrument-face",
+  display: "swap",
+});
+
+const inter = Inter({
+  weight: ["400", "500"],
+  subsets: ["latin"],
+  // Consumed by the --font-inter theme token in globals.css.
+  variable: "--font-inter-face",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Vajiram & Ravi Homepage",
   description: "Working prototype of the redesigned Vajiram & Ravi homepage.",
@@ -48,7 +66,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     // The canvas-fit script sets an inline zoom on <html> before hydration.
     <html
       lang="en"
-      className={`${figtree.variable} ${geist.variable}`}
+      className={`${figtree.variable} ${geist.variable} ${instrumentSerif.variable} ${inter.variable}`}
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
@@ -62,7 +80,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </a>
         <UtilityBar />
         <SiteHeader />
-        <AnnouncementBar />
         {children}
         <SiteFooter />
         <Toast />
