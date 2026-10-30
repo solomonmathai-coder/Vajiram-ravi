@@ -3,7 +3,7 @@
  * Everything is styled with Tailwind utilities in the components. This file only holds the design
  * tokens, a few base rules, keyframes, and the scroll-reveal classes that ScrollReveal toggles at runtime.
  *
- * Layout concept: a 1440px desktop canvas rebuilt 1:1 from the Figma frame "home page" (1188:61619);
+ * Layout concept: a 1440px desktop canvas rebuilt from the Figma frame "new modern design" (1928:1061);
  * full-bleed section bands with a fixed 1440px inner canvas, scaled to fit narrower screens (see CanvasFit).
  */
 @import "tailwindcss";
@@ -16,53 +16,33 @@
   --color-*: initial;
   --color-white: #fff;
 
-  --color-neutral-50: #fafafa;
-  --color-neutral-100: #f5f5f5;
-  --color-neutral-200: #e6e6e6;
-  --color-neutral-300: #d3d3d3;
-  --color-neutral-400: #a3a3a3;
-  --color-neutral-500: #737373;
-  --color-neutral-600: #535353;
-  --color-neutral-700: #404040;
-  --color-neutral-900: #1a1a1a;
-  --color-neutral-950: #0b0b0b;
-  --color-ink: #1c1917;
-  /* Card borders and dividers. */
-  --color-line: #e4e4e4;
-  /* Header rule and FAQ rules. */
-  --color-line-warm: #e8e4df;
-  /* Carousel dots, arrow and map-button outlines. */
-  --color-control: #ccc;
-  /* Empty media placeholder. */
-  --color-media: #ede8e2;
+  /* Warm near-blacks, cream and paper, with Vajiram orange as the one accent. */
+  /* Page background, the ticker, scrims. */
+  --color-coal: #0d0a09;
+  /* Near-black: headings and dark buttons on light panels, dark surfaces. */
+  --color-char: #14100e;
+  /* Dark cards on the dark page. */
+  --color-soot: #17120f;
+  /* Text on the dark page. */
+  --color-cream: #f5f0ea;
+  /* Near-white: light buttons, text on orange and on photos. */
+  --color-paper: #fffdfb;
+  /* The light section panels. */
+  --color-shell: #fbfaf7;
+  /* Light cards and segmented controls on the panels. */
+  --color-sand: #f3efe9;
+  /* Borders and rules on the panels. */
+  --color-sand-line: #e4ded6;
+  /* Secondary text on the panels. */
+  --color-stone: #5e5650;
+  /* Vajiram orange, and its lighter tint for accent words on the dark page. */
+  --color-orange: #ee6a12;
+  --color-tangerine: #ff8a3d;
+  /* Deep plum at the dark end of the brand gradients. */
+  --color-plum: #420727;
 
-  --color-brand-50: #fef8ec;
-  --color-brand-100: #fceac9;
-  --color-brand-500: #e57512;
-  --color-brand-600: #d1570e;
-  --color-brand-700: #ae3b0f;
-  --color-brand-800: #8d2e13;
-  --color-brand-900: #742713;
-  --color-brand-950: #431105;
-
-  --color-brown-700: #805c4e;
-  --color-brown-800: #694c43;
-  --color-brown-900: #563f38;
-  --color-brown-950: #2d201d;
-
-  --color-sun-100: #fef4c7;
-  --color-sun-200: #fde57c;
-
-  /* Hero: deep navy behind the video, and the muted grey for secondary text on it. */
-  --color-navy: hsl(201 100% 13%);
-  --color-mist: hsl(240 4% 66%);
-
-  /* Figtree for headings and UI, Geist for body copy. The *-face variables come from next/font in layout.tsx. */
-  --font-display: var(--font-figtree-face), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  /* Geist throughout. The face variable comes from next/font in layout.tsx. */
   --font-sans: var(--font-geist-face), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
-  /* Hero: Instrument Serif for the cinematic headline and numbers, Inter for its body text and buttons. */
-  --font-serif: var(--font-instrument-face), "Instrument Serif", ui-serif, Georgia, serif;
-  --font-inter: var(--font-inter-face), "Inter", ui-sans-serif, system-ui, sans-serif;
 
   --container-canvas: 1440px;
 
@@ -71,12 +51,26 @@
   --default-transition-timing-function: ease;
 
   --animate-marquee: marquee var(--dur, 60s) linear infinite;
-  --animate-swap: swap 0.5s var(--ease-smooth);
-  /* Hero copy rises in on load, one step after another. */
-  --animate-fade-rise: fade-rise 0.8s ease-out both;
-  --animate-fade-rise-delay: fade-rise 0.8s ease-out 0.2s both;
-  --animate-fade-rise-delay-2: fade-rise 0.8s ease-out 0.4s both;
-  --animate-fade-rise-delay-3: fade-rise 0.8s ease-out 0.6s both;
+  /*
+   * Hero copy rises in on load, one step after another. `backwards` (not `both`) so nothing lingers
+   * once the rise ends: an element that keeps an animated opacity stops its descendants' backdrop blur
+   * from seeing what is behind them.
+   */
+  --animate-fade-rise: fade-rise 0.8s ease-out backwards;
+  --animate-fade-rise-delay-2: fade-rise 0.8s ease-out 0.4s backwards;
+  --animate-fade-rise-delay-3: fade-rise 0.8s ease-out 0.6s backwards;
+
+  /* Headline reveal: each word rises 24px and fades in (WordRise sets the stagger). */
+  --animate-word-rise: word-rise 0.6s ease-out backwards;
+  /* The "scroll down" arrow at the foot of the FAQ card dips gently. */
+  --animate-nudge-down: nudge-down 1.8s ease-in-out infinite;
+
+  /* Hero globe: the city pins' rings pulse outwards, the globe floats, light runs down the Delhi–Chennai arc. */
+  --animate-pulse-ring: pulse-ring 2.4s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+  --animate-globe-float: globe-float 7s ease-in-out infinite;
+  --animate-arc-flow: arc-flow 2.6s linear infinite;
+  /* The globe settles in after the headline. */
+  --animate-globe-in: globe-in 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) 0.35s backwards;
 
   @keyframes marquee {
     to {
@@ -93,73 +87,60 @@
       transform: translateY(0);
     }
   }
-  @keyframes swap {
+  @keyframes word-rise {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+  }
+  @keyframes nudge-down {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(5px);
+    }
+  }
+  @keyframes pulse-ring {
     0% {
-      opacity: 0.25;
-      transform: translateY(8px);
+      opacity: 0.9;
+      transform: scale(0.6);
     }
     100% {
-      opacity: 1;
-      transform: none;
+      opacity: 0;
+      transform: scale(2);
     }
   }
-}
-
-/*
- * Frosted "liquid glass" pill for controls that sit on the hero video: a faint blur, a soft top highlight,
- * and a 1.4px gradient rim drawn by ::before and masked to the border area.
- */
-@utility liquid-glass {
-  position: relative;
-  overflow: hidden;
-  border: none;
-  background: rgb(255 255 255 / 0.01);
-  background-blend-mode: luminosity;
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
-  box-shadow: inset 0 1px 1px rgb(255 255 255 / 0.1);
-
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    padding: 1.4px;
-    background: linear-gradient(
-      180deg,
-      rgb(255 255 255 / 0.45) 0%,
-      rgb(255 255 255 / 0.15) 20%,
-      rgb(255 255 255 / 0) 40%,
-      rgb(255 255 255 / 0) 60%,
-      rgb(255 255 255 / 0.15) 80%,
-      rgb(255 255 255 / 0.45) 100%
-    );
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
+  @keyframes globe-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
   }
-}
-
-/* Gentle "breathing" of the toppers banner rings. Used through an arbitrary animation value, so it lives outside @theme. */
-@keyframes ring {
-  0%,
-  100% {
-    transform: scale(1);
+  @keyframes arc-flow {
+    from {
+      mask-position: 0 100%;
+    }
+    to {
+      mask-position: 0 -100%;
+    }
   }
-  50% {
-    transform: scale(1.022);
+  @keyframes globe-in {
+    from {
+      opacity: 0;
+      transform: scale(0.94);
+    }
   }
 }
 
 @layer base {
-  :root {
-    --image-logo: url(/images/logo.webp);
-  }
   html {
-    scroll-padding-top: 96px;
+    /* Clears the floating nav, docked 12px from the top and 56px tall. */
+    scroll-padding-top: 88px;
   }
   @media (prefers-reduced-motion: no-preference) {
     html {
@@ -167,8 +148,8 @@
     }
   }
   body {
-    background: var(--color-white);
-    color: var(--color-neutral-900);
+    background: var(--color-coal);
+    color: var(--color-cream);
     font-family: var(--font-sans);
     font-size: 16px;
     line-height: 1.45;
@@ -184,7 +165,7 @@
     flex-shrink: 0;
   }
   :focus-visible {
-    outline: 2px solid var(--color-brand-700);
+    outline: 2px solid var(--color-orange);
     outline-offset: 3px;
     border-radius: 999px;
   }
@@ -206,17 +187,39 @@
  */
 .rv-pre {
   opacity: 0;
-  transform: translateY(18px);
+  transform: translateY(28px);
 }
 .rv-in {
   transition:
-    opacity 0.8s var(--ease-smooth),
-    transform 0.8s var(--ease-smooth);
+    opacity 1s cubic-bezier(0.2, 0.8, 0.2, 1),
+    transform 1s cubic-bezier(0.2, 0.8, 0.2, 1);
   transition-delay: var(--d, 0ms);
+}
+/*
+ * Headings rise word by word out of a mask as they scroll into view (RevealWords renders the words,
+ * ScrollReveal toggles rw-pre). The mask is padded so descenders and accents are not cut.
+ */
+.rw {
+  display: inline-block;
+  overflow: clip;
+  vertical-align: top;
+  padding: 0.06em 0 0.14em;
+  margin: -0.06em 0 -0.14em;
+}
+.rw > span {
+  display: inline-block;
+  transition: transform 1.05s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition-delay: calc(var(--i, 0) * 55ms);
+}
+.rw-pre .rw > span {
+  transform: translateY(112%);
 }
 @media (prefers-reduced-motion: reduce) {
   .rv-pre {
     opacity: 1;
+    transform: none;
+  }
+  .rw-pre .rw > span {
     transform: none;
   }
 }

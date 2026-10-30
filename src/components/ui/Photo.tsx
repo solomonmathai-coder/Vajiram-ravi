@@ -10,13 +10,15 @@ type PhotoProps = {
   className: string;
   style?: CSSProperties;
   id?: string;
+  /** "cover" fills the frame and may crop; "contain" shows the whole image. */
+  fit?: "cover" | "contain";
 };
 
-/** A cover-fit photo inside a frame. The frame carries the hover and zoom transforms from the design. */
-export default function Photo({ src, alt, sizes, className, style, id }: PhotoProps) {
+/** A photo inside a frame. The frame carries the hover and zoom transforms from the design. */
+export default function Photo({ src, alt, sizes, className, style, id, fit = "cover" }: PhotoProps) {
   return (
     <div className={className} style={style} id={id}>
-      <Image src={src} alt={alt} fill sizes={sizes} className="object-cover" />
+      <Image src={src} alt={alt} fill sizes={sizes} className={fit === "contain" ? "object-contain" : "object-cover"} />
     </div>
   );
 }
