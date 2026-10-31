@@ -1,10 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import type { ReactNode } from "react";
-import AnnouncementBar from "@/components/layout/AnnouncementBar";
 import SiteFooter from "@/components/layout/SiteFooter";
 import SiteHeader from "@/components/layout/SiteHeader";
-import UtilityBar from "@/components/layout/UtilityBar";
 import CanvasFit from "@/components/ui/CanvasFit";
 import Toast from "@/components/ui/Toast";
 import { fitCanvasScript } from "@/lib/canvas";
@@ -32,6 +30,14 @@ const geist = localFont({
   display: "swap",
 });
 
+const geistMono = localFont({
+  // Variable font, copied from the one Next.js bundles.
+  src: [{ path: "./fonts/geist-mono.woff2", weight: "100 900", style: "normal" }],
+  // Consumed by the --font-mono theme token in globals.css.
+  variable: "--font-geist-mono-face",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Vajiram & Ravi Homepage",
   description: "Working prototype of the redesigned Vajiram & Ravi homepage.",
@@ -48,7 +54,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     // The canvas-fit script sets an inline zoom on <html> before hydration.
     <html
       lang="en"
-      className={`${figtree.variable} ${geist.variable}`}
+      className={`${figtree.variable} ${geist.variable} ${geistMono.variable}`}
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
@@ -57,12 +63,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body>
         <CanvasFit />
-        <a className="sr-only" href="#main">
+        {/* Hidden until it gets keyboard focus, then it drops in at the top left, over the header. */}
+        <a
+          className="sr-only focus-visible:not-sr-only focus-visible:fixed focus-visible:top-3 focus-visible:left-3 focus-visible:z-50 focus-visible:rounded-xl focus-visible:bg-neutral-900 focus-visible:px-4 focus-visible:py-3 focus-visible:font-display focus-visible:text-[15px]/[22px] focus-visible:font-medium focus-visible:text-white"
+          href="#main"
+        >
           Skip to content
         </a>
-        <UtilityBar />
         <SiteHeader />
-        <AnnouncementBar />
         {children}
         <SiteFooter />
         <Toast />

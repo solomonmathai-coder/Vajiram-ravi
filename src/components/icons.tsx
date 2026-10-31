@@ -31,6 +31,20 @@ export function LaptopOutlineIcon(props: IconProps) {
   );
 }
 
+/** Clipboard with a tick, announcement bar */
+export function ClipboardCheckIcon(props: IconProps) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false" {...props}><path d="M6.66602 3.33398H5.41602C4.49554 3.33398 3.74935 4.08018 3.74935 5.00065V15.834C3.74935 16.7545 4.49554 17.5007 5.41602 17.5007H14.5827C15.5032 17.5007 16.2493 16.7545 16.2493 15.834V5.00065C16.2493 4.08018 15.5032 3.33398 14.5827 3.33398H13.3327" stroke="#F3811D" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" /><path d="M7.49935 1.66602H12.4993C12.9596 1.66602 13.3327 2.03911 13.3327 2.49935V4.16602C13.3327 4.62625 12.9596 4.99935 12.4993 4.99935H7.49935C7.03911 4.99935 6.66602 4.62625 6.66602 4.16602V2.49935C6.66602 2.03911 7.03911 1.66602 7.49935 1.66602Z" stroke="#F3811D" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" /><path d="M7.08398 11.25L9.16732 13.3333L12.9173 9.16667" stroke="#F3811D" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" /></svg>
+  );
+}
+
+/** Two people, mentor and student, announcement bar */
+export function MentorshipIcon(props: IconProps) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false" {...props}><path d="M7.49935 9.99935C9.34029 9.99935 10.8327 8.50697 10.8327 6.66602C10.8327 4.82507 9.34029 3.33268 7.49935 3.33268C5.6584 3.33268 4.16602 4.82507 4.16602 6.66602C4.16602 8.50697 5.6584 9.99935 7.49935 9.99935Z" stroke="#F3811D" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" /><path d="M1.66602 17.5007V16.6673C1.66602 14.366 3.53148 12.5007 5.83268 12.5007H9.16602C11.4672 12.5007 13.3327 14.366 13.3327 16.6673V17.5007" stroke="#F3811D" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" /><path d="M13.334 3.44141C14.7718 3.81141 15.834 5.11558 15.834 6.66724C15.834 8.21891 14.7718 9.52308 13.334 9.89308" stroke="#F3811D" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" /><path d="M15.834 12.6094C17.2718 12.9794 18.334 14.2836 18.334 15.8353V17.5007" stroke="#F3811D" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" /></svg>
+  );
+}
+
 /** Carousel arrow chevron, 20px */
 export function CarouselChevronIcon(props: IconProps) {
   return (
@@ -45,6 +59,13 @@ export function ArrowRightIcon(props: IconProps) {
   );
 }
 
+/** Arrow up-right, 18px (course cards) */
+export function ArrowUpRightIcon(props: IconProps) {
+  return (
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" focusable="false" {...props}><path d="M4.5 13.5L13.5 4.5M13.5 11.25V4.5H6.75" stroke="currentColor" strokeWidth="1.125" strokeLinecap="round" strokeLinejoin="round" /></svg>
+  );
+}
+
 /** Rank ribbon, 67px wide (topper cards) */
 export function RankShapeWide(props: IconProps) {
   return (
@@ -53,9 +74,44 @@ export function RankShapeWide(props: IconProps) {
 }
 
 /** Chevron right, 16px */
+/** Chevron down, 14px (header menu items) */
+export function ChevronDownSmIcon(props: IconProps) {
+  return (
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false" {...props}><path d="M4 6L8 10L12 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+  );
+}
+
 export function ChevronRightSmIcon(props: IconProps) {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false" {...props}><path d="M6 4L10 8L6 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
+  );
+}
+
+/** Play triangle, 16px (hero video toggle) */
+export function PlayIcon(props: IconProps) {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false" {...props}><path d="M5 3.25V12.75L12.75 8L5 3.25Z" fill="currentColor" /></svg>
+  );
+}
+
+/** Pause bars, 16px (hero video toggle) */
+export function PauseIcon(props: IconProps) {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true" focusable="false" {...props}><rect x="3.75" y="3.25" width="2.75" height="9.5" rx="0.75" fill="currentColor" /><rect x="9.5" y="3.25" width="2.75" height="9.5" rx="0.75" fill="currentColor" /></svg>
+  );
+}
+
+/** Close cross, 20px (video dialog) */
+/** Three dots in a column, 18px (the header's menu button) */
+export function MoreIcon(props: IconProps) {
+  return (
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" focusable="false" {...props}><rect x="7.5" y="2.5" width="3" height="3" rx="1" fill="currentColor" /><rect x="7.5" y="7.5" width="3" height="3" rx="1" fill="currentColor" /><rect x="7.5" y="12.5" width="3" height="3" rx="1" fill="currentColor" /></svg>
+  );
+}
+
+export function CloseIcon(props: IconProps) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true" focusable="false" {...props}><path d="M5 5L15 15M15 5L5 15" stroke="currentColor" strokeWidth="2" strokeLinecap="round" /></svg>
   );
 }
 

@@ -1,19 +1,54 @@
+import Image from "next/image";
 import type { ReactNode } from "react";
 import { cx } from "@/lib/cx";
 
-type EyebrowProps = { children: ReactNode; tone?: "brown" | "rust" };
+type EyebrowProps = {
+  children: ReactNode;
+  tone?: "brown" | "rust" | "neutral" | "green";
+  tagged?: boolean;
+  /** Colour of the tag shape in the tagged style. */
+  tag?: "dark" | "amber" | "green";
+  /** Renders the label as the section's heading, for sections without a separate title. */
+  as?: "p" | "h2";
+  id?: string;
+};
 
-/** Small label above a section heading, e.g. "WHY CHOOSE VAJIRAM & RAVI". */
-export function Eyebrow({ children, tone = "brown" }: EyebrowProps) {
-  return (
-    <p
+const EYEBROW_TONE = {
+  brown: "text-brown-700",
+  rust: "text-brand-900",
+  neutral: "text-neutral-600",
+  green: "text-green-800",
+};
+
+const TAG_IMAGE = {
+  dark: "/images/icons/eyebrow-tag.svg",
+  amber: "/images/icons/eyebrow-tag-amber.svg",
+  green: "/images/icons/eyebrow-tag-green.svg",
+};
+
+/**
+ * Small label above a section heading, e.g. "WHY CHOOSE VAJIRAM & RAVI". `tagged` is the newer
+ * style: uppercase, led by a small dark tag shape.
+ */
+export function Eyebrow({ children, tone = "brown", tagged = false, tag = "dark", as: Label = "p", id }: EyebrowProps) {
+  const label = (
+    <Label
+      id={id}
       className={cx(
         "font-display text-[14px]/[21px] font-semibold whitespace-nowrap",
-        tone === "brown" ? "text-brown-700" : "text-brand-900",
+        EYEBROW_TONE[tone],
+        tagged && "uppercase",
       )}
     >
       {children}
-    </p>
+    </Label>
+  );
+  if (!tagged) return label;
+  return (
+    <div className="flex items-center gap-2.5">
+      <Image src={TAG_IMAGE[tag]} alt="" width={18} height={10} />
+      {label}
+    </div>
   );
 }
 

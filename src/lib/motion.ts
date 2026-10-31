@@ -6,11 +6,6 @@ export function prefersReducedMotion(): boolean {
   );
 }
 
-/** Resolves once web fonts have loaded, so text measurements are final. */
-export function whenFontsReady(): Promise<unknown> {
-  return document.fonts?.ready ?? Promise.resolve();
-}
-
 /** Always-positive modulo, for wrapping carousel indexes. */
 export function mod(n: number, m: number): number {
   return ((n % m) + m) % m;

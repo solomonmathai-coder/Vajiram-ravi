@@ -7,7 +7,12 @@ import { getCanvasZoom } from "@/lib/canvas";
 import { cx } from "@/lib/cx";
 import { mod, prefersReducedMotion } from "@/lib/motion";
 
-export type PeekSlide = { src: string; alt: string };
+export type PeekSlide = {
+  src: string;
+  alt: string;
+  /** CSS object-position for the crop, e.g. "50% 40%". Centred when left out. */
+  position?: string;
+};
 
 type PeekCarouselProps = {
   /** Accessible name of the carousel, e.g. "Featured banners". */
@@ -33,6 +38,8 @@ type PeekCarouselProps = {
   nearDot: boolean;
   /** Autoplay interval in milliseconds. */
   interval: number;
+  /** Sets the active slide in the hero's glass frame and hides the peeking slides, as in the hero design. */
+  framed?: boolean;
 };
 
 /** Slides rendered on each side of the active one; the rest sit off-canvas and are not rendered. */
@@ -41,7 +48,35 @@ const DRAG_START_PX = 6;
 const SWIPE_PX = 60;
 
 const SLIDE =
-  "absolute top-0 h-[392px] overflow-hidden rounded-[20px] bg-media [transition:left_.7s_var(--ease-smooth),width_.7s_var(--ease-smooth),box-shadow_.7s] group-[.dragging]/car:transition-none";
+  "absolute top-0 h-[392px] overflow-hidden rounded-[20px] bg-media [transition:left_.7s_var(--ease-smooth),width_.7s_var(--ease-smooth),box-shadow_.7s,opacity_.7s_var(--ease-smooth)] group-[.dragging]/car:transition-none";
+
+/** Width of the glass frame's ring around the active slide. */
+const FRAME_PX = 12;
+
+/**
+ * Frosted-glass frame behind the active slide: a 12px translucent ring, tinted by a blurred copy
+ * of the slide it holds.
+ */
+function GlassFrame({ slide, width }: { slide?: PeekSlide; width: number }) {
+  return (
+    <div
+      aria-hidden="true"
+      className="pointer-events-none absolute -top-3 -bottom-3 overflow-clip rounded-[32px] border border-white/80 bg-white/35 shadow-[0_12px_32px_-8px_rgba(28,26,23,.1)] backdrop-blur-[12px]"
+      style={{ left: `calc(50% - ${width / 2 + FRAME_PX}px)`, width: `${width + FRAME_PX * 2}px` }}
+    >
+      {slide && (
+        <Photo
+          className="absolute inset-[calc(-9.59%-1.19px)_calc(-2.96%-1.06px)_calc(-9.11%-1.18px)_calc(-3.12%-1.06px)] opacity-55 blur-[20px]"
+          src={slide.src}
+          alt=""
+          sizes={`${width + FRAME_PX * 2}px`}
+          position={slide.position}
+        />
+      )}
+      <div className="absolute inset-[-1px_1px_1px_-1px] bg-white/35" />
+    </div>
+  );
+}
 
 /**
  * Endless "peek" carousel: the active slide is centred and its neighbours peek in from the sides.
@@ -49,7 +84,7 @@ const SLIDE =
  * never jumps. Positions use `calc(50% + offset)` and therefore need no measuring.
  */
 export default function PeekCarousel(props: PeekCarouselProps) {
-  const { count, slides, slideWidth, activeWidth, gap, dotOffset, nearDot, interval } = props;
+  const { count, slides, slideWidth, activeWidth, gap, dotOffset, nearDot, interval, framed = false } = props;
   const [index, setIndex] = useState(props.start);
 
   const rootRef = useRef<HTMLDivElement>(null);
@@ -159,7 +194,7 @@ export default function PeekCarousel(props: PeekCarouselProps) {
   return (
     <div
       ref={rootRef}
-      className="group/car relative flex flex-col items-center gap-4 py-3"
+      className={cx("group/car relative flex flex-col items-center py-3", framed ? "gap-7" : "gap-4")}
       aria-roledescription="carousel"
       aria-label={props.label}
       onKeyDown={onKeyDown}
@@ -174,6 +209,7 @@ export default function PeekCarousel(props: PeekCarouselProps) {
       onFocus={stop}
     >
       <div className="relative h-[392px] w-full touch-pan-y select-none" onPointerDown={onPointerDown} onClick={onViewClick}>
+        {framed && <GlassFrame slide={slides?.[mod(index, count)]} width={activeWidth} />}
         <div className="absolute inset-0" ref={stageRef}>
           {Array.from({ length: RANGE * 2 + 1 }, (_, i) => {
             const s = i - RANGE;
@@ -191,6 +227,8 @@ export default function PeekCarousel(props: PeekCarouselProps) {
                   active
                     ? "shadow-[0_8px_24px_0_rgba(28,25,23,.06),0_1px_2px_rgba(28,25,23,.04)]"
                     : "cursor-pointer shadow-[0_8px_24px_-4px_rgba(28,25,23,.06),0_1px_2px_rgba(28,25,23,.04)]",
+                  // The framed design hides the neighbours; they show only while the slides are dragged.
+                  framed && !active && "pointer-events-none opacity-0 group-[.dragging]/car:opacity-100",
                 )}
                 style={{ left: `calc(50% + ${offset(s)}px)`, width: `${active ? activeWidth : slideWidth}px` }}
               >
@@ -200,6 +238,7 @@ export default function PeekCarousel(props: PeekCarouselProps) {
                     src={slide.src}
                     alt={slide.alt}
                     sizes={props.slidesSizes ?? `${activeWidth}px`}
+                    position={slide.position}
                   />
                 )}
               </div>

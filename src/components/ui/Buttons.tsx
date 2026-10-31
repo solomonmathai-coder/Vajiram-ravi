@@ -1,106 +1,52 @@
 import type { ReactNode } from "react";
-import { ArrowRightIcon, ChevronRightMdIcon, ChevronRightSmIcon, PhoneIcon } from "@/components/icons";
+import { ChevronRightSmIcon } from "@/components/icons";
 import { cx } from "@/lib/cx";
-
-/** Pill-button base. `group/btn` lets the icon react when the whole button is hovered. */
-export const BUTTON_BASE =
-  "group/btn relative inline-flex shrink-0 cursor-pointer items-center justify-center rounded-full font-display font-semibold whitespace-nowrap [transition:background-color_.25s_var(--ease-smooth),box-shadow_.25s_var(--ease-smooth),color_.25s,scale_.15s] active:scale-98";
-
-export const BUTTON_SIZE = {
-  lg: "h-14 text-[18px]/[25px]",
-  md: "h-12 text-[16px]/[23px]",
-  sm: "h-10 text-[14px]/[21px]",
-};
-
-export const BUTTON_PRIMARY = "bg-brand-500 text-white hover:bg-brand-600";
-
-const BUTTON_OUTLINE =
-  "bg-white text-neutral-900 shadow-[inset_0_0_0_1px_var(--color-neutral-300)] hover:bg-neutral-50 hover:shadow-[inset_0_0_0_1px_var(--color-neutral-400)]";
 
 /** Smooth icon movement used for the little hover nudges on arrows and chevrons. */
 export const NUDGE = "transition-transform duration-300 ease-smooth";
 
-/** Orange text link (16px semibold). Pass `pre` to keep the design's spacing around the label. */
-export function textLink(pre = false): string {
-  return cx(
-    "inline-flex items-center gap-1.5 font-display text-[16px]/[22px] font-semibold text-brand-700",
-    pre ? "whitespace-pre" : "whitespace-nowrap",
-  );
-}
+/** The small orange square with an up-right arrow: the call to action on the course cards and the GS programme. */
+export const ARROW_TILE =
+  "flex size-9 shrink-0 items-center justify-center rounded-[4px] bg-brand-500 text-white transition-colors duration-300";
 
-type KnobButtonProps = {
-  href: string;
-  children: ReactNode;
-  size?: "lg" | "md";
-  /** "primary" is the orange pill; "light" is the white pill with a dark knob. */
-  tone?: "primary" | "light";
-  icon?: "arrow" | "phone";
+/**
+ * The site's button, after "Watch video" in the design: two 36px boxes 2px apart, the label and a
+ * square chevron. "primary" is orange with white text; "secondary" is white with black text, with a
+ * faint outline so it still reads on light backgrounds.
+ */
+export type ButtonTone = "primary" | "secondary";
+
+/** Classes for the <a> or <button> that holds the two boxes. `group/btn` lets both react to hovering either. */
+export const SPLIT_BUTTON =
+  "group/btn inline-flex shrink-0 cursor-pointer items-center gap-0.5 font-display text-[16px]/[22px] font-medium whitespace-nowrap transition-[scale] duration-150 active:scale-98 focus-visible:rounded-[6px]";
+
+const BOX = "flex h-9 items-center rounded-[4px] transition-colors duration-200";
+
+const TONE: Record<ButtonTone, string> = {
+  primary: "bg-brand-500 text-white group-hover/btn:bg-brand-600",
+  secondary:
+    "bg-white text-neutral-900 shadow-[inset_0_0_0_1px_rgba(26,26,26,.1)] group-hover/btn:bg-neutral-100",
 };
 
-/** Pill button with a round icon "knob" on the right. */
-export function KnobButton({ href, children, size = "lg", tone = "primary", icon = "arrow" }: KnobButtonProps) {
-  const Icon = icon === "phone" ? PhoneIcon : ArrowRightIcon;
-  const toneClass =
-    tone === "primary"
-      ? cx(BUTTON_PRIMARY, "gap-3 py-1.5 pr-1.5", size === "lg" ? "pl-6" : "pl-4.5")
-      : "gap-5 bg-white py-1.5 pr-1.5 pl-6 text-neutral-900 shadow-[inset_0_0_0_1px_var(--color-neutral-300)] hover:shadow-[inset_0_0_0_1px_var(--color-neutral-300),0_10px_24px_-10px_rgba(43,20,5,.45)]";
-
+/** The label box and the chevron box. Use inside an element with SPLIT_BUTTON, e.g. a <button> that opens a dialog. */
+export function SplitButtonParts({ children, tone = "secondary" }: { children: ReactNode; tone?: ButtonTone }) {
   return (
-    <a href={href} className={cx(BUTTON_BASE, BUTTON_SIZE[size], toneClass)}>
-      <span>{children}</span>
-      <span
-        className={cx(
-          "flex shrink-0 items-center justify-center overflow-hidden rounded-full",
-          size === "lg" ? "size-11" : "size-9",
-          tone === "primary" ? "bg-white text-brand-500" : "bg-neutral-900 text-white",
-        )}
-      >
-        <Icon
-          className={cx(
-            "transition-transform duration-300 ease-smooth",
-            icon === "phone" ? "group-hover/btn:scale-106 group-hover/btn:-rotate-12" : "group-hover/btn:translate-x-[3px]",
-          )}
-        />
+    <>
+      <span className={cx(BOX, TONE[tone], "px-3.5")}>{children}</span>
+      <span className={cx(BOX, TONE[tone], "w-9 justify-center")}>
+        <ChevronRightSmIcon className={cx(NUDGE, "group-hover/btn:translate-x-0.5")} />
       </span>
-    </a>
+    </>
   );
 }
 
-type OutlineButtonProps = { href: string; children: ReactNode; size?: "lg" | "md"; className?: string };
+type SplitButtonProps = { href: string; children: ReactNode; tone?: ButtonTone; className?: string };
 
-/** White outlined pill button. */
-export function OutlineButton({ href, children, size = "lg", className }: OutlineButtonProps) {
+/** A link styled as the site's button. */
+export function SplitButton({ href, children, tone = "secondary", className }: SplitButtonProps) {
   return (
-    <a
-      href={href}
-      className={cx(BUTTON_BASE, BUTTON_SIZE[size], BUTTON_OUTLINE, size === "lg" ? "gap-2 px-7 py-4" : "gap-2 px-6 py-3", className)}
-    >
-      <span>{children}</span>
-    </a>
-  );
-}
-
-type ChevronButtonProps = { href: string; children: ReactNode; size: "sm" | "md" };
-
-/** Outlined pill button with a trailing chevron. */
-export function ChevronButton({ href, children, size }: ChevronButtonProps) {
-  const chevron = cx(NUDGE, "group-hover/btn:translate-x-0.5");
-  return (
-    <a
-      href={href}
-      className={cx(BUTTON_BASE, BUTTON_SIZE[size], BUTTON_OUTLINE, "gap-2", size === "sm" ? "py-2 pr-4 pl-5" : "py-3 pr-5 pl-6")}
-    >
-      {size === "sm" ? (
-        <>
-          <span>{children}</span>
-          <ChevronRightSmIcon className={chevron} />
-        </>
-      ) : (
-        <>
-          <span className="whitespace-pre">{children}</span>
-          <ChevronRightMdIcon className={chevron} />
-        </>
-      )}
+    <a href={href} className={cx(SPLIT_BUTTON, className)}>
+      <SplitButtonParts tone={tone}>{children}</SplitButtonParts>
     </a>
   );
 }

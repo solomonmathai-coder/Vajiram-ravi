@@ -10,13 +10,17 @@ type PhotoProps = {
   className: string;
   style?: CSSProperties;
   id?: string;
+  /** CSS object-position for the crop, e.g. "50% 40%". Centred when left out. */
+  position?: string;
+  /** "eager" starts the download straight away; lazy (the default) waits until it nears the screen. */
+  loading?: "eager" | "lazy";
 };
 
 /** A cover-fit photo inside a frame. The frame carries the hover and zoom transforms from the design. */
-export default function Photo({ src, alt, sizes, className, style, id }: PhotoProps) {
+export default function Photo({ src, alt, sizes, className, style, id, position, loading }: PhotoProps) {
   return (
     <div className={className} style={style} id={id}>
-      <Image src={src} alt={alt} fill sizes={sizes} className="object-cover" />
+      <Image src={src} alt={alt} fill sizes={sizes} loading={loading} className="object-cover" style={position ? { objectPosition: position } : undefined} />
     </div>
   );
 }

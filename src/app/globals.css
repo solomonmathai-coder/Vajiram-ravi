@@ -24,6 +24,7 @@
   --color-neutral-500: #737373;
   --color-neutral-600: #535353;
   --color-neutral-700: #404040;
+  --color-neutral-800: #272727;
   --color-neutral-900: #1a1a1a;
   --color-neutral-950: #0b0b0b;
   --color-ink: #1c1917;
@@ -38,6 +39,8 @@
 
   --color-brand-50: #fef8ec;
   --color-brand-100: #fceac9;
+  --color-brand-200: #f9d38e;
+  --color-brand-300: #f6b653;
   --color-brand-500: #e57512;
   --color-brand-600: #d1570e;
   --color-brand-700: #ae3b0f;
@@ -53,9 +56,20 @@
   --color-sun-100: #fef4c7;
   --color-sun-200: #fde57c;
 
-  /* Figtree for headings and UI, Geist for body copy. The *-face variables come from next/font in layout.tsx. */
+  /* Testimonial card tints, and the testimonial eyebrow. */
+  --color-green-300: #73e2bd;
+  --color-green-800: #096652;
+  --color-yellow-300: #fcd54d;
+
+  /* Warm light greys for card surfaces and their borders. */
+  --color-sand-50: #fafaf9;
+  --color-sand-100: #f5f5f4;
+  --color-sand-200: #e8e4e3;
+
+  /* Figtree for headings and UI, Geist for body copy, Geist Mono for counters. The *-face variables come from next/font in layout.tsx. */
   --font-display: var(--font-figtree-face), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   --font-sans: var(--font-geist-face), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-mono: var(--font-geist-mono-face), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   --container-canvas: 1440px;
 
@@ -63,14 +77,8 @@
   /* Match plain CSS: transitions without an explicit easing use `ease`. */
   --default-transition-timing-function: ease;
 
-  --animate-marquee: marquee var(--dur, 60s) linear infinite;
   --animate-swap: swap 0.5s var(--ease-smooth);
 
-  @keyframes marquee {
-    to {
-      transform: translateX(calc(-1 * var(--dist, 0px)));
-    }
-  }
   @keyframes swap {
     0% {
       opacity: 0.25;
@@ -91,6 +99,26 @@
   }
   50% {
     transform: scale(1.022);
+  }
+}
+
+/* Programme reel (ProgrammeReel): each slide's photo settles from a slight zoom, and its caption rises in. */
+@keyframes reel-settle {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes reel-caption {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 
