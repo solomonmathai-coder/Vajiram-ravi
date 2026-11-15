@@ -15,9 +15,9 @@
 <link rel="stylesheet" href="css/story.css?v=18">
 <link rel="stylesheet" href="css/life-gallery.css?v=21">
 <link rel="stylesheet" href="css/intro.css?v=2">
-<link rel="stylesheet" href="css/podium.css?v=67">
+<link rel="stylesheet" href="css/podium.css?v=82">
 <link rel="stylesheet" href="css/batches-row.css?v=3">
-<link rel="stylesheet" href="css/resources-stack.css?v=4">
+<link rel="stylesheet" href="css/resources-stack.css?v=7">
 <script>document.documentElement.classList.add('js')</script>
   <link rel="stylesheet" href="css/faculty-ring.css?v=2">
   <link rel="stylesheet" href="css/programme-shelf.css?v=2">
@@ -159,6 +159,8 @@
 <!-- ============ TOPPERS: the top three of UPSC CSE 2025 (user 2026-11-13, from a reference: a podium poster; the crests from a second reference, a portrait in a laurelled shield).
      It replaces the results-special newspaper front page. Styles: css/podium.css; the reveal is scroll.js's .rv. ============ -->
 <section class="pd" id="toppers" aria-labelledby="pdH">
+  <!-- firefly sparkles behind everything: four-pointed stars (as Gemini's mark) floating and lighting up like fireflies (user 2026-11-15): js/stars.js, css/podium.css .stars -->
+  <div class="stars" data-stars="#FFF3D6" aria-hidden="true"></div>
   <!-- the portrait's cut (css/podium.css .pd__pic): open above the shield, below its top the Figma shield's photo area
        (assets/img/toppers/figma/shield-*.svg, 495 x 618), in fractions of the shield's box -->
   <svg class="pd__defs" width="0" height="0" aria-hidden="true" focusable="false">
@@ -217,33 +219,12 @@
       </g>
     </g>
   </svg>
-  <!-- the waves (user 2026-11-15: "a wave pattern instead of just lines", then "let the waves curve around the toppers"): two ribbons
-       of gold lines a side, starting low under the middle, running under the names and turning up around the outside of rank 2's and
-       rank 3's crests to wrap in over their tops; their ripples roll slowly in. Drawn by js/podium-fx.js from where the crests and
-       names actually are (and redrawn when the row changes size). Reworked after the user's sketch into crossing strands outside the side crests. css/podium.css .pd__waves -->
-  <svg class="pd__waves" aria-hidden="true" focusable="false">
-    <defs>
-      <linearGradient id="pdSidesFade" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0" stop-color="#000"/><stop offset=".12" stop-color="#000" stop-opacity=".9"/><stop offset=".32" stop-color="#fff"/><stop offset=".68" stop-color="#fff"/><stop offset=".88" stop-color="#000" stop-opacity=".9"/><stop offset="1" stop-color="#000"/>
-      </linearGradient>
-      <mask id="pdSides" maskUnits="userSpaceOnUse"><rect class="pd__waves-fade" fill="url(#pdSidesFade)"/></mask>
-      <filter id="pdWaveGlow" x="-5%" y="-5%" width="110%" height="110%">
-        <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="b"/>
-        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-      </filter>
-    </defs>
-    <g mask="url(#pdSides)" filter="url(#pdWaveGlow)">
-      <g class="pd__side" data-side="l"></g>
-      <g class="pd__side" data-side="r"></g>
-    </g>
-  </svg>
   <ol class="pd__row rv" style="--d:.1s" aria-label="Ranks 1 to 3, UPSC CSE 2025">
     <li class="pd__col pd__col--1">
       <div class="pd__fig"><span class="pd__gem pd__gem--gold" aria-hidden="true"><span class="pd__laurel"></span><img class="pd__shield" src="assets/img/toppers/figma/shield-gold.svg?v=2" alt="" width="495" height="618"></span><span class="pd__pic"><img class="pd__img" src="assets/img/toppers/portrait/2025-group/01-anuj-agnihotri.png" alt="" width="640" height="864" loading="lazy" decoding="async"></span></div>
       <div class="pd__lbl">
         <b class="pd__n" aria-hidden="true"><small>AIR</small> 1</b>
         <h3 class="pd__name">Anuj Agnihotri<span class="pd__vh">, All India Rank 1</span></h3>
-        <p class="pd__prog">Interview Guidance Programme</p>
       </div>
     </li>
     <li class="pd__col pd__col--2">
@@ -251,7 +232,6 @@
       <div class="pd__lbl">
         <b class="pd__n" aria-hidden="true"><small>AIR</small> 2</b>
         <h3 class="pd__name">Rajeshwari Suve M<span class="pd__vh">, All India Rank 2</span></h3>
-        <p class="pd__prog">Test series&nbsp;&middot; Interview Guidance</p>
       </div>
     </li>
     <li class="pd__col pd__col--3">
@@ -259,7 +239,6 @@
       <div class="pd__lbl">
         <b class="pd__n" aria-hidden="true"><small>AIR</small> 3</b>
         <h3 class="pd__name">Akansh Dhull<span class="pd__vh">, All India Rank 3</span></h3>
-        <p class="pd__prog">GS Prelims-cum-Mains Classroom</p>
       </div>
     </li>
   </ol>
@@ -271,18 +250,22 @@
        css/podium.css .dr, js/diamond-reel.js -->
   <div class="dr" role="region" aria-label="More UPSC CSE 2025 rank holders">
     <p class="dr__h rv" style="--d:.05s"><span id="drHead">More rank holders, CSE 2025</span></p>
-    <!-- the year (user 2026-11-13): 2025 back to 2016; js/diamond-reel.js swaps the diamonds to that year's rank holders -->
-    <div class="dr__tabs rv" style="--d:.1s" role="tablist" aria-label="Year of the examination">
+    <!-- the year (user 2026-11-13): 2025 back to 2016; js/diamond-reel.js swaps the diamonds to that year's rank holders. The five latest
+         show; "View all" at the end of the bar brings in the older years (user 2026-11-15) -->
+    <div class="dr__bar rv" style="--d:.1s">
+    <div class="dr__tabs" id="drTabs" role="tablist" aria-label="Year of the examination">
       <button type="button" class="dr__tab" role="tab" id="drTab2025" aria-controls="drList" aria-selected="true">2025</button>
       <button type="button" class="dr__tab" role="tab" id="drTab2024" aria-controls="drList" aria-selected="false" tabindex="-1">2024</button>
       <button type="button" class="dr__tab" role="tab" id="drTab2023" aria-controls="drList" aria-selected="false" tabindex="-1">2023</button>
       <button type="button" class="dr__tab" role="tab" id="drTab2022" aria-controls="drList" aria-selected="false" tabindex="-1">2022</button>
       <button type="button" class="dr__tab" role="tab" id="drTab2021" aria-controls="drList" aria-selected="false" tabindex="-1">2021</button>
-      <button type="button" class="dr__tab" role="tab" id="drTab2020" aria-controls="drList" aria-selected="false" tabindex="-1">2020</button>
-      <button type="button" class="dr__tab" role="tab" id="drTab2019" aria-controls="drList" aria-selected="false" tabindex="-1">2019</button>
-      <button type="button" class="dr__tab" role="tab" id="drTab2018" aria-controls="drList" aria-selected="false" tabindex="-1">2018</button>
-      <button type="button" class="dr__tab" role="tab" id="drTab2017" aria-controls="drList" aria-selected="false" tabindex="-1">2017</button>
-      <button type="button" class="dr__tab" role="tab" id="drTab2016" aria-controls="drList" aria-selected="false" tabindex="-1">2016</button>
+      <button type="button" class="dr__tab dr__tab--old" role="tab" id="drTab2020" hidden aria-controls="drList" aria-selected="false" tabindex="-1">2020</button>
+      <button type="button" class="dr__tab dr__tab--old" role="tab" id="drTab2019" hidden aria-controls="drList" aria-selected="false" tabindex="-1">2019</button>
+      <button type="button" class="dr__tab dr__tab--old" role="tab" id="drTab2018" hidden aria-controls="drList" aria-selected="false" tabindex="-1">2018</button>
+      <button type="button" class="dr__tab dr__tab--old" role="tab" id="drTab2017" hidden aria-controls="drList" aria-selected="false" tabindex="-1">2017</button>
+      <button type="button" class="dr__tab dr__tab--old" role="tab" id="drTab2016" hidden aria-controls="drList" aria-selected="false" tabindex="-1">2016</button>
+    </div>
+    <button type="button" class="dr__all" aria-controls="drTabs" aria-expanded="false"><span class="dr__all-t">View all</span></button>
     </div>
     <div class="dr__view rv" style="--d:.12s" id="drList" role="tabpanel" aria-labelledby="drTab2025">
       <ul class="dr__track">
@@ -687,7 +670,7 @@
           <h3 class="rk__t">Current Affairs</h3>
           <p class="rk__d">Prelims, Mains and Quest articles, written the way UPSC asks.</p>
           <ul class="rk__pts"><li>Prelims articles</li><li>Mains articles</li><li>Quest</li><li>New every day</li></ul>
-          <a class="rk__btn" href="#" data-rs>Read today&rsquo;s articles<span class="rk__btn-ic" aria-hidden="true"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></span></a>
+          <a class="cmp__cta rk__btn" href="#" data-rs>Read today&rsquo;s articles<span class="cmp__cta-ic" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></a>
         </div>
         <div class="rk__media" aria-hidden="true"><p class="rk__badge"><span>Today</span><time id="rsToday"></time></p><img src="assets/img/resources/cutout/current-affairs.png?v=2" alt="" width="640" height="410" loading="lazy" decoding="async"></div>
       </li>
@@ -697,7 +680,7 @@
           <h3 class="rk__t">The Recitals</h3>
           <p class="rk__d">UPSC current affairs monthly material, free to download.</p>
           <ul class="rk__pts"><li>A new issue every month</li><li>The month&rsquo;s current affairs in one place</li><li>Free to download</li></ul>
-          <a class="rk__btn" href="#" data-rs>Download this month<span class="rk__btn-ic" aria-hidden="true"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></span></a>
+          <a class="cmp__cta rk__btn" href="#" data-rs>Download this month<span class="cmp__cta-ic" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></a>
         </div>
         <div class="rk__media" aria-hidden="true"><img src="assets/img/resources/cutout/the-recitals.png" alt="" width="640" height="520" loading="lazy" decoding="async"></div>
       </li>
@@ -707,7 +690,7 @@
           <h3 class="rk__t">Previous Year Papers</h3>
           <p class="rk__d">Prelims and Mains papers, with the UPSC answer key.</p>
           <ul class="rk__pts"><li>Prelims papers</li><li>Mains papers</li><li>The UPSC answer key</li></ul>
-          <a class="rk__btn" href="#" data-rs>Browse papers<span class="rk__btn-ic" aria-hidden="true"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></span></a>
+          <a class="cmp__cta rk__btn" href="#" data-rs>Browse papers<span class="cmp__cta-ic" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></a>
         </div>
         <div class="rk__media" aria-hidden="true"><img src="assets/img/resources/cutout/previous-year-papers.png?v=2" alt="" width="640" height="595" loading="lazy" decoding="async"></div>
       </li>
@@ -717,7 +700,7 @@
           <h3 class="rk__t">Syllabus &amp; Exam Pattern</h3>
           <p class="rk__d">What is asked at each stage, and how it is marked.</p>
           <ul class="rk__pts"><li>Prelims</li><li>Mains</li><li>Interview</li><li>How each stage is marked</li></ul>
-          <a class="rk__btn" href="#" data-rs>Read the guide<span class="rk__btn-ic" aria-hidden="true"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></span></a>
+          <a class="cmp__cta rk__btn" href="#" data-rs>Read the guide<span class="cmp__cta-ic" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></a>
         </div>
         <div class="rk__media" aria-hidden="true"><img src="assets/img/resources/cutout/syllabus-exam-pattern.png?v=2" alt="" width="640" height="663" loading="lazy" decoding="async"></div>
       </li>
@@ -727,7 +710,7 @@
           <h3 class="rk__t">GS Postal Books</h3>
           <p class="rk__d">Printed General Studies material for UPSC preparation.</p>
           <ul class="rk__pts"><li>Printed material</li><li>General Studies</li></ul>
-          <a class="rk__btn" href="#" data-rs>Buy now<span class="rk__btn-ic" aria-hidden="true"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></span></a>
+          <a class="cmp__cta rk__btn" href="#" data-rs>Buy now<span class="cmp__cta-ic" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></a>
         </div>
         <div class="rk__media" aria-hidden="true"><img src="assets/img/resources/cutout/gs-postal-books.png?v=2" alt="" width="640" height="624" loading="lazy" decoding="async"></div>
       </li>
@@ -737,7 +720,7 @@
           <h3 class="rk__t">UPSC Calendar 2027</h3>
           <p class="rk__d">Every stage date, plus the age limit and eligibility rules.</p>
           <ul class="rk__pts"><li>Notification</li><li>Prelims</li><li>Mains</li><li>Interview</li></ul>
-          <a class="rk__btn" href="#" data-rs>See the calendar<span class="rk__btn-ic" aria-hidden="true"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></span></a>
+          <a class="cmp__cta rk__btn" href="#" data-rs>See the calendar<span class="cmp__cta-ic" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></a>
         </div>
         <div class="rk__media" aria-hidden="true"><img src="assets/img/resources/cutout/upsc-calendar.png" alt="" width="640" height="612" loading="lazy" decoding="async"></div>
       </li>
@@ -1004,7 +987,8 @@
 <script src="js/lang-switch.js?v=1"></script>
 <script src="js/trending.js?v=3"></script>
 <script src="js/magnetic.js?v=1"></script>
-<script src="js/diamond-reel.js?v=5"></script>
-<script src="js/podium-fx.js?v=6"></script>
+<script src="js/diamond-reel.js?v=6"></script>
+<script src="js/podium-fx.js?v=7"></script>
+<script src="js/stars.js?v=3"></script>
 </body>
 </html>

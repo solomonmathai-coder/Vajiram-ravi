@@ -88,12 +88,25 @@
   if (data) {
     tabs.forEach(t => t.addEventListener('click', () => choose(t)));
     row.addEventListener('keydown', e => {
-      const i = tabs.indexOf(document.activeElement); if (i < 0) return;
-      const to = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+      const shown = tabs.filter(t => !t.hidden);   // only the years on show (the older ones wait behind "View all")
+      const i = shown.indexOf(document.activeElement); if (i < 0) return;
+      const to = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: shown.length - 1 }[e.key];
       if (to === undefined) return;
-      e.preventDefault(); choose(tabs[(to + tabs.length) % tabs.length], true);
+      e.preventDefault(); choose(shown[(to + shown.length) % shown.length], true);
     });
-  } else row.hidden = true;   // no data, no years to choose from
+    // "View all" (user 2026-11-15): the five latest years show; this brings in the older ones, and "Show fewer" puts them away again
+    // (choosing the latest year if one of the older ones was chosen)
+    const all = dr.querySelector(".dr__all"), older = tabs.filter(t => t.classList.contains("dr__tab--old"));
+    if (all && older.length) all.addEventListener("click", () => {
+      const open = all.getAttribute("aria-expanded") !== "true";
+      older.forEach(t => { t.hidden = !open; });
+      all.setAttribute("aria-expanded", open);
+      all.querySelector(".dr__all-t").textContent = open ? "Show fewer" : "View all";
+      if (!open && older.some(t => t.getAttribute("aria-selected") === "true")) choose(tabs[0]);
+      requestAnimationFrame(() => { placeInd(true); centre(true); });
+    });
+    else if (all) all.hidden = true;
+  } else (dr.querySelector(".dr__bar") || row).hidden = true;   // no data, no years to choose from
 
   layout(); centre(false);
   let rt = 0; addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { layout(); centre(false); }, 150); });

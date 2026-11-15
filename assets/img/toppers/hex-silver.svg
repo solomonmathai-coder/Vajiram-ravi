@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 115.47" fill="none">
+  <!-- The rank holders' frame in the carousel (user 2026-11-15, after a reference: a double hexagon outline, its outer line broken and
+       stepped in at the middle of each side), in polished silver, no wreath. A regular pointy-top hexagon in a 100-wide box. -->
+  <defs>
+    <linearGradient id="s" x1="0" y1="0" x2="0" y2="115.47" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF"/><stop offset=".18" stop-color="#D3D8DE"/><stop offset=".34" stop-color="#8E959D"/>
+      <stop offset=".5" stop-color="#F4F6F8"/><stop offset=".66" stop-color="#A3AAB2"/><stop offset=".82" stop-color="#E6E9EC"/>
+      <stop offset="1" stop-color="#7E858D"/>
+    </linearGradient>
+    <linearGradient id="t" x1="0" y1="0" x2="100" y2="115.47" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F7F8FA"/><stop offset=".45" stop-color="#9DA4AC"/><stop offset=".7" stop-color="#EEF0F3"/><stop offset="1" stop-color="#8A9199"/>
+    </linearGradient>
+  </defs>
+  <!-- the outer line, in two halves: broken at the middle of each side, each end stepped in -->
+  <path stroke="url(#s)" stroke-width="2.6" stroke-linejoin="miter" stroke-linecap="square"
+        d="M4.6 55L2 52V30.02L50 2.31L98 30.02V52L95.4 55M95.4 60.5L98 63.5V85.45L50 113.16L2 85.45V63.5L4.6 60.5"/>
+  <!-- the inner line, whole -->
+  <path stroke="url(#t)" stroke-width="1.8" stroke-linejoin="miter" d="M50 8.08L93 32.9V82.57L50 107.39L7 82.57V32.9Z"/>
+</svg>

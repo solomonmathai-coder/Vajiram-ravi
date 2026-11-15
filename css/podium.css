@@ -3,21 +3,25 @@
    in a crest: a shield outlined in metal with a laurel round its lower half, gold, silver, bronze (user 2026-11-13), the head rising
    over the shield's top edge. It replaced the results-special newspaper front page
    (css/toppers.css, css/toppers-wall.css, gone).
-   It comes in once, when scroll.js adds .in to .pd__row: the crests grow into place, 3 then 2 then 1, each laurel growing round its
-   shield, the portrait rising in, then the type; after that a band of light passes across the gold every few seconds (the shine).
+   It is presented once, when scroll.js adds .in to .pd__row, in podium order (3, 2, then 1): each crest turns in like a medal, rank
+   1's spinning a whole turn with rays and sparks behind it; see "presenting the three" below.
    Markup: index.html #toppers. */
+/* the ground (user 2026-11-15): warm bokeh, glowing orange discs and fine embers on a deep maroon (assets/img/photos/toppers-bokeh-bg.jpg,
+   in place of the brighter sparkle image, which replaced the toppers' collage), covering the whole section, under a light (20%) tint of
+   the site's orange so it sits with the rest of the page. Dark enough that the white and metal type has its contrast without more help. */
 #toppers.pd { --pd-gold: #FFD48A; --pd-plate-a: #8E2F0C; --pd-plate-b: #6C2208; --pd-line: rgba(255, 255, 255, .42);
   position: relative; isolation: isolate; padding-left: var(--px); padding-right: var(--px); color: #fff; text-align: center;
-  background: linear-gradient(rgba(194, 65, 12, .78), rgba(194, 65, 12, .78)),
-              url(../assets/img/photos/toppers-collage.webp) center / cover no-repeat fixed, var(--brand, #C2410C); }
+  background: linear-gradient(rgba(194, 65, 12, .2), rgba(194, 65, 12, .2)),
+              url(../assets/img/photos/toppers-bokeh-bg.jpg) center / cover no-repeat, #3A0E06; }
 #toppers.pd::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
   background: url(../assets/img/patterns/grain.png) repeat fixed; background-size: 220px; mix-blend-mode: soft-light; opacity: .35; }
 @media (max-width: 1023px), (hover: none) {
-  #toppers.pd { background: linear-gradient(180deg, rgba(194, 65, 12, .8) 0, rgba(194, 65, 12, .88) 40vw, var(--brand, #C2410C) 75vw),
-                            url(../assets/img/photos/toppers-collage.webp) center top / auto 75vw no-repeat, var(--brand, #C2410C); }
   #toppers.pd::before { background-attachment: scroll; }
 }
-
+/* firefly sparkles (user 2026-11-15; js/stars.js draws them on a canvas): four-pointed stars, as Gemini's mark, floating and lighting
+   up like fireflies, over the ground and under everything else */
+#toppers .stars { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; border-radius: inherit; }
+#toppers .stars canvas { display: block; width: 100%; height: 100%; }
 /* ---------- the header ---------- */
 .pd__hd { max-width: 820px; margin: 0 auto; }
 .pd__hd .lbl { justify-content: center; }
@@ -25,7 +29,7 @@
 #toppers .lbl .lbl__t { border-image-source: url(../assets/img/brand/cartouche.svg); color: #fff !important; }
 #toppers .pd__h { max-width: 14em; margin-left: auto; margin-right: auto; color: #fff; text-align: center; }
 .pd__h em { display: block; font-style: italic; color: var(--pd-gold); }   /* "with the guidance we gave." on a line of its own, on every screen */
-.pd__intro { max-width: 520px; margin: 16px auto 0; font: 400 var(--body-fs, 17px)/var(--body-lh, 1.6) var(--f); color: rgba(255, 255, 255, .9); text-wrap: pretty; }
+.pd__intro { max-width: 520px; margin: 16px auto 0; font: 400 var(--body-fs, 17px)/var(--body-lh, 1.6) var(--f); color: #fff; text-wrap: pretty; text-shadow: 0 1px 2px rgba(70, 16, 0, .5); }   /* solid, with a close shadow, over the sparkle ground */
 
 /* ---------- the three ---------- */
 /* --w: a crest's shield width; --h: its height (the Figma shield's 495 x 618, so 1.2485 w). Ranks 2 and 3 stand 1.5 w either side of
@@ -39,24 +43,15 @@
 .pd__col--3 { order: 3; margin-top: calc(var(--h) * .42); z-index: 2; }
 
 /* ---------- the light behind the three (user 2026-11-15, after a reference: gold streaks over black), animated ----------
-   An inline SVG (index.html .pd__fx), the section's full width behind the row: ribbons of gold waves rising up both sides, a feathered
-   beam from above, sparks and a few bokeh lights. Screen-blended, so on the orange it reads as light and the orange stays. The waves
-   fade out across the middle, so the sides never meet (mask #pdSides), and the light is cut away around each name tag
-   (js/podium-fx.js). Moving smoothly and quietly (user: "make the animation smooth and subtle"): the waves flow slowly in from the
-   outer edges and the two sides breathe in turn; the beam sways a degree; sparks drift up and fade; the bokeh float. The sparks'
-   timings (--t, --d) are stretched by --pd-slow here. Still with reduced motion. */
+   An inline SVG (index.html .pd__fx), the section's full width behind the row: a feathered beam from above, sparks and a few bokeh
+   lights. Screen-blended, so on the orange it reads as light and the orange stays; cut away around each name tag (js/podium-fx.js).
+   The gold wave strands that once stood beside the side crests were removed (user 2026-11-15). Moving smoothly and quietly: the
+   beam sways a degree; sparks drift up and fade; the bokeh float. The sparks' timings (--t, --d) are stretched by --pd-slow here.
+   Still with reduced motion. */
 .pd__scene { position: relative; }
 /* it reaches 300px below the row, so the light runs on under all three names (and their lines of programme) */
 .pd__fx { --pd-slow: 2.2; position: absolute; z-index: 0; top: -60px; left: calc(var(--px) * -1); width: calc(100% + var(--px) * 2); height: calc(100% + 300px); pointer-events: none;
   mix-blend-mode: screen; -webkit-mask: linear-gradient(180deg, transparent 0, #000 22%); mask: linear-gradient(180deg, transparent 0, #000 22%); }
-/* the waves (index.html .pd__waves, drawn by js/podium-fx.js around the crests): a layer of their own, the section's full width,
-   from 140px above the row to 160px below it, unscaled (its viewBox is its own size). The ripples roll by SMIL in the drawing; here
-   the two sides only breathe, out of step. */
-.pd__waves { position: absolute; z-index: 0; left: calc(var(--px) * -1); top: -140px; width: calc(100% + var(--px) * 2); height: calc(100% + 300px);
-  pointer-events: none; overflow: visible; mix-blend-mode: screen; }
-.pd__wave { fill: none; stroke-linecap: round; }
-.pd__side { animation: pdBreathe 8s ease-in-out infinite; }
-.pd__side + .pd__side { animation-delay: -4s; }
 .pd__beam { transform-box: view-box; transform-origin: 720px 0; animation: pdSway 16s ease-in-out infinite, pdBreathe 8s ease-in-out infinite; }
 @keyframes pdSway { 0%, 100% { rotate: -1.2deg; } 50% { rotate: 1.2deg; } }
 @keyframes pdBreathe { 0%, 100% { opacity: .72; } 50% { opacity: 1; } }
@@ -66,7 +61,6 @@
 .pd__bokeh circle { transform-box: fill-box; animation: pdBokeh calc(var(--t, 9s) * 1.6) ease-in-out calc(var(--d, 0s) * -1.6) infinite; }
 @keyframes pdBokeh { 0%, 100% { opacity: .3; translate: 0 0; } 50% { opacity: .7; translate: 12px -24px; } }
 @media (prefers-reduced-motion: reduce) {
-  .pd__side { animation: none; }
   .pd__beam, .pd__bokeh circle { animation: none; }
   .pd__sparks circle { animation: none; opacity: .6; }
 }
@@ -117,16 +111,24 @@
   filter: drop-shadow(0 3px 0 rgba(70, 18, 0, .35)) drop-shadow(0 10px 16px rgba(60, 14, 0, .35)); }
 /* the rank reads "AIR 1" (user 2026-11-13): "AIR" smaller, on the number's baseline, in the same metal */
 .pd__n small { font-size: .5em; letter-spacing: .04em; vertical-align: baseline; }
-/* chrome lettering, as the reference's "CHAMPIONS": bright above a hard horizon just under the middle, darker below it, a light band
-   near the foot; gold for 1, silver for 2, bronze for 3 */
-.pd__col--1 .pd__n { background-image: linear-gradient(180deg, #FFF9DC 0%, #FFE795 26%, #F3C44E 50%, #9C6612 51.5%, #C98E22 66%, #FFE08A 86%, #A8721A 100%); }
-.pd__col--2 .pd__n { background-image: linear-gradient(180deg, #FFFFFF 0%, #F3F5F8 26%, #CFD4DA 50%, #7E858D 51.5%, #A9B0B8 66%, #F0F2F5 86%, #8D949C 100%); }
-.pd__col--3 .pd__n { background-image: linear-gradient(180deg, #FFE6CC 0%, #F6BF8E 26%, #D98B4F 50%, #7E3F16 51.5%, #B06A34 66%, #F2BC8E 86%, #864719 100%); }
-.pd__n { filter: drop-shadow(0 1px 0 rgba(255, 255, 255, .28)) drop-shadow(0 -1px 0 rgba(60, 16, 0, .55)) drop-shadow(0 3px 0 rgba(70, 18, 0, .4)) drop-shadow(0 10px 16px rgba(60, 14, 0, .35)); }
+/* chrome lettering, as the reference's "CHAMPIONS": bright above a horizon just under the middle, a deeper tone below it, a light band
+   near the foot; gold for 1, silver for 2, bronze for 3. Readable on the orange (user 2026-11-15: "this has accessibility issues"):
+   no tone in the metals is darker than a light mid-tone, so every part of each letter stands at least 3:1 (WCAG AA for large text)
+   against the section's orange, and a thin dark rim round each letter keeps its edge clear over the lighter streaks of the light. */
+.pd__col--1 .pd__n { background-image: linear-gradient(180deg, #FFFBE6 0%, #FFEDB0 26%, #FFDC7A 50%, #F7C965 51.5%, #FFD877 66%, #FFF0B8 86%, #F8CB68 100%); }
+.pd__col--2 .pd__n { background-image: linear-gradient(180deg, #FFFFFF 0%, #F6F8FA 26%, #E6E9ED 50%, #D0D5DA 51.5%, #DCE0E4 66%, #F7F8FA 86%, #D2D7DC 100%); }
+.pd__col--3 .pd__n { background-image: linear-gradient(180deg, #FFF3E6 0%, #FFDDBC 26%, #FDCDA3 50%, #F8C291 51.5%, #FBC99B 66%, #FFE2C6 86%, #F9C493 100%); }
+.pd__n { filter: drop-shadow(0 0 1px rgba(52, 12, 0, .85)) drop-shadow(0 -1px 0 rgba(60, 16, 0, .45)) drop-shadow(0 3px 0 rgba(70, 18, 0, .45)) drop-shadow(0 10px 16px rgba(60, 14, 0, .35)); }
 .pd__name { margin: 10px 0 0; font: 800 clamp(15px, 1.35vw, 20px)/1.15 var(--f); letter-spacing: .08em; text-transform: uppercase; color: #fff; text-wrap: balance;
-  text-shadow: 0 2px 10px rgba(60, 14, 0, .3); }
-.pd__prog { margin: 6px 0 0; font: 600 clamp(10px, .85vw, 12.5px)/1.35 var(--f); letter-spacing: .14em; text-transform: uppercase; color: rgba(255, 238, 214, .85); text-wrap: balance; }
+  text-shadow: 0 1px 2px rgba(60, 14, 0, .45), 0 2px 10px rgba(60, 14, 0, .3); }
 .pd__vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+/* a soft darker glow behind each name tag, so the lettering keeps its contrast over the lighter patches of the background photo and
+   the gold light (user 2026-11-15, accessibility): with it the metals stand about 3.9:1 or better and the small lines 5.9:1 or better */
+.pd__lbl::before, .dr__item::after { content: ""; position: absolute; z-index: -1; pointer-events: none;
+  background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(90, 22, 0, .42) 0%, rgba(90, 22, 0, .3) 55%, rgba(90, 22, 0, 0) 100%); }
+.pd__lbl::before { inset: -22px -8% -18px; }
+.dr__item { position: relative; isolation: isolate; }
+.dr__item::after { left: 0; right: 0; bottom: -16px; height: 150px; }
 
 /* hover: the crest lifts a touch and the portrait steps up */
 @media (hover: hover) and (pointer: fine) {
@@ -137,21 +139,73 @@
 
 /* (the "Explore all UPSC results" button under it was removed, user 2026-11-13) */
 
-/* ---------- coming in (3, then 2, then 1): the shield grows up into place, the laurel grows round it from its stems, the portrait rises
-   in, then the type ---------- */
+/* ---------- presenting the three (user 2026-11-15: "a better animation when presenting the top 3"), once, when scroll.js adds .in to
+   .pd__row; in podium order, 3, then 2, then 1:
+   - the crest turns in like a medal swinging round to face you (2 from the left, 3 from the right), lifts and settles; rank 1's spins
+     a whole turn, like a coin, and lands last
+   - a band of light sweeps across the shield's metal as it lands; the laurel grows up round it from its stems
+   - the portrait rises out of the shield, coming into focus
+   - the rank stamps in (from large to its size), then the name (the programme lines were removed, user 2026-11-15)
+   - for rank 1, as it lands: gold rays bloom behind the crest and a ring of sparks bursts out; the rays stay, faint, turning slowly
+   ---------- */
 .pd__row.rv { opacity: 1; transform: none; translate: none; }
-.pd__col--3 { --pd-t: 0s; }
-.pd__col--2 { --pd-t: .22s; }
-.pd__col--1 { --pd-t: .5s; }
-.js .pd__row.rv .pd__gem { transform-origin: 50% 100%; transition: scale 1s cubic-bezier(.34, 1.3, .5, 1) var(--pd-t), translate 1s cubic-bezier(.22, 1, .36, 1) var(--pd-t), opacity .5s ease var(--pd-t); }
-.js .pd__row.rv .pd__laurel { transition: clip-path 1.1s cubic-bezier(.65, 0, .35, 1) calc(var(--pd-t) + .3s); }
-.js .pd__row.rv .pd__img { transition: opacity .8s ease calc(var(--pd-t) + .45s), translate 1s cubic-bezier(.22, 1, .36, 1) calc(var(--pd-t) + .45s); }
-.js .pd__row.rv .pd__lbl { transition: opacity .7s ease calc(var(--pd-t) + .7s), translate .9s cubic-bezier(.22, 1, .36, 1) calc(var(--pd-t) + .7s); }
-.pd__laurel { clip-path: inset(0 0 0 0); }
-.js .pd__row.rv:not(.in) .pd__gem { scale: .6; translate: 0 30px; opacity: 0; }
+.pd__col--3 { --pd-t: 0s;   --pd-ry: 72deg;   --pd-shield: url(../assets/img/toppers/figma/shield-bronze.svg?v=2); }
+.pd__col--2 { --pd-t: .45s; --pd-ry: -72deg;  --pd-shield: url(../assets/img/toppers/figma/shield-silver.svg?v=2); }
+.pd__col--1 { --pd-t: 1.1s; --pd-ry: -360deg; --pd-shield: url(../assets/img/toppers/figma/shield-gold.svg?v=2); }
+
+/* before: everything waits, hidden */
+.js .pd__row.rv:not(.in) .pd__gem, .js .pd__row.rv:not(.in) .pd__img, .js .pd__row.rv:not(.in) .pd__lbl > *,
+.js .pd__row.rv:not(.in) .pd__fig::before, .js .pd__row.rv:not(.in) .pd__fig::after { opacity: 0; }
 .js .pd__row.rv:not(.in) .pd__laurel { clip-path: inset(100% 0 0 0); }
-.js .pd__row.rv:not(.in) .pd__img { opacity: 0; translate: -50% 36px; }
-.js .pd__row.rv:not(.in) .pd__lbl { opacity: 0; translate: 0 14px; }
+
+/* the crest turns in */
+.js .pd__row.rv.in .pd__gem { transform-origin: 50% 70%; animation: pdCrest 1.15s cubic-bezier(.2, .8, .25, 1) var(--pd-t) both; }
+.js .pd__row.rv.in .pd__col--1 .pd__gem { animation-duration: 1.5s; animation-timing-function: cubic-bezier(.3, .7, .2, 1); }
+@keyframes pdCrest {
+  0%   { opacity: 0; transform: perspective(1100px) translateY(70px) rotateY(var(--pd-ry)) scale(.72); }
+  30%  { opacity: 1; }
+  70%  { transform: perspective(1100px) translateY(-10px) rotateY(calc(var(--pd-ry) * -.04)) scale(1.04); }
+  100% { opacity: 1; transform: none; }
+}
+/* the laurel grows round it */
+.js .pd__row.rv.in .pd__laurel { animation: pdLaurel 1.1s cubic-bezier(.65, 0, .35, 1) calc(var(--pd-t) + .55s) both; }
+.js .pd__row.rv.in .pd__col--1 .pd__laurel { animation: pdLaurel 1.1s cubic-bezier(.65, 0, .35, 1) calc(var(--pd-t) + .85s) both,
+  pdShine 4.5s cubic-bezier(.45, .05, .3, 1) calc(var(--pd-t) + 3s) infinite; }
+@keyframes pdLaurel { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
+/* a band of light across the shield's metal, once, as it lands (the shield's own outline as the mask; the portrait stays in front) */
+.pd__gem::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0;
+  background: linear-gradient(115deg, transparent 38%, rgba(255, 252, 240, .75) 50%, transparent 62%) 130% 0 / 260% 100% no-repeat;
+  -webkit-mask: var(--pd-shield) 0 0 / 100% auto no-repeat; mask: var(--pd-shield) 0 0 / 100% auto no-repeat; mix-blend-mode: screen; }
+.js .pd__row.rv.in .pd__gem::after { animation: pdSweep 1s cubic-bezier(.45, 0, .3, 1) calc(var(--pd-t) + .8s) both; }
+.js .pd__row.rv.in .pd__col--1 .pd__gem::after { animation-delay: calc(var(--pd-t) + 1.2s); }
+@keyframes pdSweep { 0% { opacity: 0; background-position: 130% 0; } 15%, 80% { opacity: 1; } 100% { opacity: 0; background-position: -30% 0; } }
+/* the portrait rises out of the shield */
+.js .pd__row.rv.in .pd__img { animation: pdRise 1s cubic-bezier(.2, .8, .25, 1) calc(var(--pd-t) + .6s) both; }
+.js .pd__row.rv.in .pd__col--1 .pd__img { animation-delay: calc(var(--pd-t) + 1s); }
+@keyframes pdRise { from { opacity: 0; transform: translateY(26%); filter: blur(6px); } 60% { opacity: 1; filter: blur(0); } to { opacity: 1; transform: none; filter: none; } }
+/* the rank stamps in, then the name */
+.js .pd__row.rv.in .pd__n { animation: pdStamp .6s cubic-bezier(.3, 1.5, .5, 1) calc(var(--pd-t) + .95s) both; }
+.js .pd__row.rv.in .pd__name { animation: pdUp .7s cubic-bezier(.2, .8, .25, 1) calc(var(--pd-t) + 1.15s) both; }
+.js .pd__row.rv.in .pd__col--1 .pd__n { animation-delay: calc(var(--pd-t) + 1.35s); }
+.js .pd__row.rv.in .pd__col--1 .pd__name { animation-delay: calc(var(--pd-t) + 1.55s); }
+@keyframes pdStamp { from { opacity: 0; transform: scale(1.7); } 60% { opacity: 1; } to { opacity: 1; transform: none; } }
+@keyframes pdUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+/* rank 1: gold rays bloom behind the crest and stay, faint and slowly turning; a ring of sparks bursts out as it lands */
+.pd__col--1 .pd__fig::before { content: ""; position: absolute; z-index: 0; left: 50%; top: 46%; width: calc(var(--w) * 2.6); aspect-ratio: 1; translate: -50% -50%;
+  pointer-events: none; border-radius: 50%; mix-blend-mode: screen;
+  background: repeating-conic-gradient(from 0deg, rgba(255, 226, 150, .55) 0deg 4deg, transparent 4deg 15deg);
+  -webkit-mask: radial-gradient(closest-side, #000 18%, rgba(0, 0, 0, .5) 45%, transparent 100%); mask: radial-gradient(closest-side, #000 18%, rgba(0, 0, 0, .5) 45%, transparent 100%); }
+.js .pd__row.rv.in .pd__col--1 .pd__fig::before { animation: pdRays 1.6s cubic-bezier(.2, .8, .25, 1) calc(var(--pd-t) + 1s) both, pdTurn 90s linear calc(var(--pd-t) + 1s) infinite; }
+@keyframes pdRays { 0% { opacity: 0; scale: .3; } 40% { opacity: 1; } 100% { opacity: .32; scale: 1; } }
+@keyframes pdTurn { to { rotate: 1turn; } }
+.pd__col--1 .pd__fig::after { content: ""; position: absolute; z-index: 3; left: 50%; top: 42%; width: 6px; height: 6px; margin: -3px; border-radius: 50%; pointer-events: none;
+  opacity: 0; color: #FFF0C2;
+  box-shadow: 0 -150px 0 0, 106px -106px 0 -1px, 150px 0 0 0, 106px 106px 0 -1px, 0 150px 0 -1px, -106px 106px 0 -1px, -150px 0 0 0, -106px -106px 0 -1px,
+              57px -138px 0 -2px, 138px -57px 0 -2px, 138px 57px 0 -2px, 57px 138px 0 -2px, -57px 138px 0 -2px, -138px 57px 0 -2px, -138px -57px 0 -2px, -57px -138px 0 -2px; }
+.js .pd__row.rv.in .pd__col--1 .pd__fig::after { animation: pdBurst 1.3s cubic-bezier(.15, .7, .3, 1) calc(var(--pd-t) + 1.15s) both; }
+@keyframes pdBurst { 0% { opacity: 0; transform: scale(.15); } 15% { opacity: 1; } 100% { opacity: 0; transform: scale(1.35); } }
+
 /* once in, the hover moves are quick again */
 @media (hover: hover) and (pointer: fine) {
   .js .pd__row.rv.in .pd__col:hover .pd__gem, .js .pd__row.rv.in .pd__col:hover .pd__img { transition-delay: 0s; transition-duration: .5s; }
@@ -166,23 +220,27 @@
   .pd__n { font-size: 40px; }
   .pd__col--1 .pd__n { font-size: 52px; }
   .pd__name { margin-top: 6px; font-size: 13px; letter-spacing: .05em; }
-  .pd__prog { font-size: 10px; letter-spacing: .08em; }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  /* no presentation: the three are simply there, still (the rays faint, no sparks) */
   .pd__gem, .pd__img, .pd__lbl, .pd__laurel { transition: none !important; }
-  .pd__row.in .pd__col--1 .pd__laurel { animation: none; }
+  .js .pd__row.rv .pd__gem, .js .pd__row.rv .pd__img, .js .pd__row.rv .pd__lbl > *, .js .pd__row.rv .pd__laurel, .js .pd__row.rv .pd__gem::after,
+  .js .pd__row.rv .pd__fig::before, .js .pd__row.rv .pd__fig::after { animation: none !important; opacity: 1; transform: none; clip-path: none; }
+  .js .pd__row.rv .pd__gem::after, .js .pd__row.rv .pd__fig::after { opacity: 0; }
+  .js .pd__row.rv .pd__col--1 .pd__fig::before { opacity: .32; }
   .pd__col:hover .pd__gem { scale: none; }
   .pd__col:hover .pd__img { translate: -50% 0; }
 }
 
 /* =====================================================================================================================================
-   More rank holders (user 2026-11-13): the rest of CSE 2025 (ranks 4 to 48) under the podium, each portrait on a diamond as the podium
+   More rank holders (user 2026-11-13): the rest of CSE 2025 (ranks 4 to 48) under the podium, each portrait in a silver hexagon (user
+   2026-11-15; until then a diamond, as the podium
    was before the crests (taller than wide; the head rising over the top corner, the body cut along the two lower edges and fading into
    the metal), drifting slowly left in an endless loop. One metal for all of them, an antique champagne, so gold, silver and bronze stay
    the podium's. js/diamond-reel.js copies the list once for the loop and sets the pace; it stops under the pointer, and off screen.
    ===================================================================================================================================== */
-.dr { --dw: clamp(132px, 12vw, 172px); --dh: calc(var(--dw) * 1.27); margin: clamp(72px, 8vw, 112px) calc(var(--px) * -1) 0; }
+.dr { --dw: clamp(132px, 12vw, 172px); --dh: calc(var(--dw) * 1.1547); margin: clamp(72px, 8vw, 112px) calc(var(--px) * -1) 0; }
 .dr__h { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 0 var(--px); font: 700 12.5px/1.2 var(--f); letter-spacing: .18em;
   text-transform: uppercase; color: rgba(255, 238, 214, .9); }
 .dr__h::before, .dr__h::after { content: ""; width: min(120px, 14vw); height: 1px; background: linear-gradient(90deg, transparent, rgba(255, 220, 160, .7)); }
@@ -196,31 +254,31 @@
 .dr__view:hover .dr__track, .dr.is-off .dr__track { animation-play-state: paused; }
 @keyframes drMove { to { transform: translate3d(-50%, 0, 0); } }
 
-/* the diamond */
+/* the frame (user 2026-11-15, after a reference): a hexagon, point up, in a double silver outline whose outer line breaks and steps in at
+   the middle of each side (assets/img/toppers/hex-silver.svg), no wreath; inside the inner line, the podium crests' amber-to-rust panel.
+   One soft shadow under the whole frame. */
 .dr__fig { position: relative; width: var(--dw); height: var(--dh); }
-.dr__gem { position: absolute; inset: 0; }
-.dr__gem > i { --s: calc(var(--dw) * .7071); position: absolute; left: 50%; top: 50%; width: var(--s); height: var(--s); margin: calc(var(--s) / -2) 0 0 calc(var(--s) / -2);
-  transform: scaleY(1.27) rotate(45deg); border-radius: 4px; overflow: hidden; isolation: isolate;
-  background: radial-gradient(60% 60% at 18% 18%, rgba(255, 248, 228, .6), transparent 60%),
-              linear-gradient(135deg, #54452F 0%, #B9A47E 14%, #E8D9B8 24%, #A08A63 36%, #66563B 48%, #C9B48D 60%, #EADCBD 68%, #94805C 80%, #4E402B 100%);
-  box-shadow: inset 0 0 0 1.5px rgba(255, 255, 255, .55), inset 0 0 0 3px rgba(0, 0, 0, .1), inset 8px 8px 16px rgba(255, 255, 255, .4), inset -9px -9px 18px rgba(0, 0, 0, .26),
-              0 22px 34px -18px rgba(60, 14, 0, .7), 0 6px 12px -6px rgba(60, 14, 0, .35); }
-.dr__gem > i::before { content: ""; position: absolute; inset: 7%; border-radius: 2px;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, .5), 0 0 0 2px rgba(0, 0, 0, .12), inset 0 0 0 1px rgba(0, 0, 0, .08); }
-/* the portrait: open above, cut along the lower edges just inside the engraved line; each photo's own bottom edge is faded in its file
-   (assets/img/toppers/portrait/2025-diamond), so there is no second fade here (on the pale metal it read as haze) */
-.dr__pic { position: absolute; inset: 0; z-index: 2; pointer-events: none; clip-path: polygon(-40% -40%, 140% -40%, 140% 3%, 100% 43%, 50% 93%, 0% 43%, -40% 3%); }
+.dr__gem { position: absolute; inset: 0; background: url(../assets/img/toppers/hex-silver.svg) 0 0 / 100% 100% no-repeat;
+  filter: drop-shadow(0 1px 1px rgba(40, 8, 0, .4)) drop-shadow(0 16px 18px rgba(45, 10, 0, .4)); }
+.dr__gem > i { position: absolute; inset: 0; z-index: -1;
+  clip-path: polygon(50% 8%, 92% 29.1%, 92% 70.9%, 50% 92%, 8% 70.9%, 8% 29.1%);
+  background: radial-gradient(70% 50% at 50% 30%, rgba(255, 226, 180, .35), transparent 70%), linear-gradient(180deg, #F0A04B, #9C3A0E); }
+.dr__gem { isolation: isolate; }
+/* the portrait: open above (the head rises over the top point), below cut along the hexagon's lower edges, just inside the inner line;
+   each photo's own bottom edge is faded in its file (assets/img/toppers/portrait/2025-diamond) */
+.dr__pic { position: absolute; inset: 0; z-index: 2; pointer-events: none; clip-path: polygon(-40% -40%, 140% -40%, 92% 29.1%, 92% 70.9%, 50% 92%, 8% 70.9%, 8% 29.1%); }
 .dr__pic img { position: absolute; left: 50%; top: calc(var(--dh) * -.06); width: calc(var(--dw) * 1.18); max-width: none; height: auto; translate: -50% 0;
   transition: translate .5s cubic-bezier(.22, 1, .36, 1); }
 @media (hover: hover) and (pointer: fine) { .dr__item:hover .dr__pic img { translate: -50% -6px; } }
 
 /* the type */
 .dr__n { margin: 12px 0 0; font: 800 32px/.9 var(--f); letter-spacing: -.02em; -webkit-background-clip: text; background-clip: text; color: transparent;
-  background-image: linear-gradient(180deg, #FFFAEE 0%, #EDDFC2 38%, #C2AC84 62%, #F5EAD3 80%, #9C8763 100%); filter: drop-shadow(0 2px 0 rgba(70, 18, 0, .3)); }
+  background-image: linear-gradient(180deg, #FFFCF4 0%, #F6ECD8 38%, #EDDFC4 62%, #FBF3E4 80%, #E6D7B8 100%);
+  filter: drop-shadow(0 0 1px rgba(52, 12, 0, .8)) drop-shadow(0 2px 0 rgba(70, 18, 0, .35));   /* light metal with a thin dark rim: 3:1 or better on the orange */ }
 .dr__n small { font-size: .7em; letter-spacing: .05em; }   /* "AIR", bigger (user 2026-11-15) */
 .dr__name { margin: 7px 0 0; font: 800 13px/1.2 var(--f); letter-spacing: .06em; text-transform: uppercase; color: #fff; text-wrap: balance; }
 .dr__prog { margin: 5px 0 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-  font: 600 10px/1.35 var(--f); letter-spacing: .08em; text-transform: uppercase; color: rgba(255, 238, 214, .78); }
+  font: 600 10px/1.35 var(--f); letter-spacing: .08em; text-transform: uppercase; color: #FFF6EA; text-shadow: 0 1px 2px rgba(60, 14, 0, .55); }
 
 /* phones: a little smaller */
 @media (max-width: 640px) { .dr { --dw: 118px; } .dr__h { gap: 10px; font-size: 11px; letter-spacing: .12em; } .dr__h::before, .dr__h::after { width: 36px; } .dr__n { font-size: 27px; } .dr__name { font-size: 11.5px; } .dr__prog { font-size: 9px; } }
@@ -234,8 +292,19 @@
 /* the year tabs over the diamonds (user 2026-11-13): 2025 back to 2016, made as the Programmes tabs are (css/v49.css #courses .ptabs
    .seg: a cream bar with rounded corners, the years in ink, and one brand pill, .seg__ind, that springs along under them to the chosen
    year; js/diamond-reel.js moves it). On narrow screens the bar scrolls sideways. */
-.dr__tabs { position: relative; isolation: isolate; display: flex; width: max-content; max-width: calc(100% - 2 * var(--px)); margin: 20px auto 0; padding: 4px;
-  box-sizing: border-box; overflow-x: auto; scrollbar-width: none; border-radius: 14px; background: #F9F0E4; box-shadow: 0 12px 26px -18px rgba(110, 40, 8, .45); }
+/* the bar (user 2026-11-15): the five latest years, then "View all", which brings in the older ones (and reads "Show fewer" while they
+   show); the cream ground and shadow are the bar's, the years scroll inside it on narrow screens */
+.dr__bar { display: flex; align-items: center; width: max-content; max-width: calc(100% - 2 * var(--px)); margin: 20px auto 0; padding: 4px;
+  box-sizing: border-box; border-radius: 14px; background: #F9F0E4; box-shadow: 0 12px 26px -18px rgba(110, 40, 8, .45); }
+.dr__bar[hidden] { display: none; }
+.dr__tabs { position: relative; isolation: isolate; display: flex; flex: 0 1 auto; min-width: 0; overflow-x: auto; scrollbar-width: none; border-radius: 10px; }
+.dr__all { flex: none; display: inline-flex; align-items: center; height: 40px; margin-left: 6px; padding: 0 16px; border: 0; border-radius: 10px;
+  position: relative; background: transparent; cursor: pointer; font: 700 15px/1 var(--f); color: var(--brand, #C2410C); white-space: nowrap;
+  transition: background-color .3s var(--ease, ease); }
+.dr__all::before { content: ""; position: absolute; left: -3px; top: 10px; bottom: 10px; width: 1px; background: rgba(29, 23, 18, .14); }   /* a hairline after the years */
+.dr__all:hover { background: rgba(194, 65, 12, .08); }
+.dr__all:focus-visible { outline: 2px solid var(--brand, #C2410C); outline-offset: 2px; }
+.dr__all:active { scale: .97; }
 .dr__tabs::-webkit-scrollbar { display: none; }
 .dr__tab { flex: none; position: relative; height: 40px; padding: 0 14px; border: 0; border-radius: 10px; background: transparent; cursor: pointer;
   font: 600 15px/1 var(--f); color: var(--ink, #1D1712); white-space: nowrap; font-variant-numeric: tabular-nums;
@@ -245,11 +314,11 @@
 .dr__tabs.has-ind .dr__tab[aria-selected="true"], .dr__tabs.has-ind .dr__tab[aria-selected="true"]:hover { background: transparent; }
 .dr__tab:focus-visible { outline: 2px solid var(--brand, #C2410C); outline-offset: 2px; }
 .dr__tab:active { scale: .97; }
-.dr__tabs .seg__ind { position: absolute; left: 0; top: 4px; bottom: 4px; z-index: -1; width: 0; border-radius: 10px; background: var(--brand, #C2410C); pointer-events: none;
+.dr__tabs .seg__ind { position: absolute; left: 0; top: 0; bottom: 0; z-index: -1; width: 0; border-radius: 10px; background: var(--brand, #C2410C); pointer-events: none;
   transition: transform .45s cubic-bezier(.7, 0, .2, 1), width .45s cubic-bezier(.7, 0, .2, 1); }
 @supports (transition-timing-function: linear(0, 1)) { .dr__tabs .seg__ind { transition: transform .57s var(--spring-pill), width .57s var(--spring-pill); } }
-@media (max-width: 640px) { .dr__tab { padding: 0 12px; font-size: 14px; } }
-@media (prefers-reduced-motion: reduce) { .dr__tabs .seg__ind, .dr__tab { transition: none; } .dr__tab:active { scale: none; } }
+@media (max-width: 640px) { .dr__tab, .dr__all { padding: 0 12px; font-size: 14px; } }
+@media (prefers-reduced-motion: reduce) { .dr__tabs .seg__ind, .dr__tab, .dr__all { transition: none; } .dr__tab:active, .dr__all:active { scale: none; } }
 /* a year swap: the diamonds fade out and back in */
 .dr__track { transition: opacity .28s ease; }
 .dr__view.is-sw .dr__track { opacity: 0; }
