@@ -1,96 +1,103 @@
-/* Life at Vajiram & Ravi (user 2026-11-13, from a reference: a cover-flow photo carousel, auto-playing in a loop). It lives in the Why
-   section after the six points, on its orange ground: a centred white title and intro in the section's type, then the photos as tall
-   rounded cards, the one in front large and flat, two each side smaller, turned away and dimmed, overlapping towards the middle. Under them the caption of the photo in front and dots; round
-   arrows at the sides. js/life-gallery.js sets each card's place (--d: -4 to 4 from the front) and runs it.
-   In the pinned scene (css/story.css .cmp--run) the gallery is a layer over the stage that rises in as the chapters lift away (--gv from
-   js/story.js); stacked (phones, short screens, reduced motion) it simply follows the six points. */
-.lg { --cw: clamp(220px, 21vw, 330px); --ch: calc(var(--cw) * 1.28); position: relative; color: #fff; text-align: center; }
-.lg__hd { max-width: 720px; margin: 0 auto; }
-.lg__h { margin: 0; font: 400 clamp(40px, 4.2vw, 64px)/1.02 var(--f-title, Georgia), serif; letter-spacing: -.02em; color: #fff; }
-.lg__intro { max-width: 520px; margin: 14px auto 0; font: 400 var(--body-fs, 17px)/var(--body-lh, 1.6) var(--f); color: rgba(255, 255, 255, .9); text-wrap: pretty; }
+/* Life at Vajiram & Ravi: photos and videos, its own section after Free resources, laid out after rox.com's customer stories, on
+   the Why section's orange ground and grain (css/story.css #story.cmp) in the site's title face. The heading and a sub-headline on
+   the left; under them a row of large media cards that starts
+   in line with the heading and runs off the right edge (and off the left once moved along), each card with a caption line beneath:
+   a name on the left, a grey detail on the right. The row scrolls natively (swipe, trackpad) and snaps to a card; js/life-gallery.js
+   drives the arrows, moves it along by itself and plays the videos in view. */
+.lgal { --cw: clamp(260px, 31vw, 585px); --ch: calc(var(--cw) * 550 / 585); --gap: clamp(14px, 2vw, 38px); position: relative; isolation: isolate; overflow: hidden;
+  padding: var(--sec-y, 96px) 0; color: #fff; background:
+  radial-gradient(48% 60% at 85% 20%, rgba(255, 170, 90, .45), transparent 70%),
+  radial-gradient(45% 55% at 8% 100%, rgba(150, 40, 8, .5), transparent 70%),
+  linear-gradient(135deg, #E85020 0%, #C2410C 55%, #A8380A 100%); }
+.lgal::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: url(../assets/img/patterns/grain.png) repeat; background-size: 200px; mix-blend-mode: soft-light; opacity: .28; }
+.lg__hd { padding: 0 var(--px); text-align: center; }
+.lg__h { margin: 0; font: 400 clamp(40px, 4.2vw, 64px)/1.02 var(--f-title, Georgia), serif; letter-spacing: -.02em; color: #fff; text-align: center; }
+.lg__sub { max-width: 520px; margin: 12px auto 0; font: 400 var(--body-fs, 17px)/var(--body-lh, 1.6) var(--f); color: rgba(255, 255, 255, .9); text-wrap: pretty; }
 
-/* the cards */
-.lg__stage { position: relative; height: calc(var(--ch) * 1.14 + 40px);   /* room for the front card at 1.14 */
-   margin-top: clamp(28px, 4vh, 44px); touch-action: pan-y; }
-/* each card carries its own perspective and the track stays flat, so the cards stack by z-index: the one in front is always on top
-   (in a shared 3D space the turned side cards' near edges came forward past it, user 2026-11-13) */
-.lg__track { position: absolute; inset: 0; margin: 0; padding: 0; list-style: none; }
-.lg__card { --d: 0; --a: 0;   /* --d: place from the front (signed); --a: |--d| */
-  position: absolute; left: 50%; top: calc(20px + var(--ch) * .07); width: var(--cw); height: var(--ch); margin: 0 0 0 calc(var(--cw) / -2);
-  transform: translateX(calc(var(--x, 0) * var(--cw))) perspective(1500px) scale(var(--s, 1)) rotateY(var(--r, 0deg));
-  opacity: var(--o, 1); z-index: var(--z, 1);
-  transition: transform .9s cubic-bezier(.22, .8, .24, 1), opacity .6s ease, filter .9s ease; filter: brightness(var(--b, 1)); }
-.lg__pick { display: block; width: 100%; height: 100%; padding: 0; border: 0; border-radius: 22px; overflow: hidden; background: #6b2a0c; cursor: pointer;
-  box-shadow: 0 30px 50px -24px rgba(50, 12, 0, .75), 0 4px 10px rgba(50, 12, 0, .2), inset 0 0 0 1px rgba(255, 255, 255, .2); }
-.lg__card.is-on .lg__pick { cursor: default; }
-.lg__pick img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s cubic-bezier(.22, .8, .24, 1); transform: scale(1.06); }
-.lg__card.is-on .lg__pick img { transform: scale(1); }
-/* no text on the photos (user 2026-11-13, "remove the text from the photo"): each card is the photograph alone; its title stays in
-   the card's accessible name and the caption below says what it shows */
+/* All / Images / Videos: the Programmes tabs (css/v49.css #courses .ptabs .seg, as finally set): a sand bar, the labels in ink and
+   one brand pill (.lg__ind) that springs along under them to the chosen tab */
+.lg__tabs { position: relative; isolation: isolate; display: flex; width: max-content; max-width: 100%; margin: 24px auto 0; padding: 4px; box-sizing: border-box;
+  border-radius: 14px; background: #F9F0E4; }
+.lg__tab { flex: none; display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px; border: 0; border-radius: 10px; background: transparent; cursor: pointer;
+  font: 600 15px/1 var(--f); color: var(--ink, #1D1712); white-space: nowrap;
+  transition: background-color .3s var(--ease, ease), color .3s var(--ease, ease) .05s; }
+.lg__tab:hover { background: rgba(194, 65, 12, .08); color: var(--brand, #C2410C); }
+.lg__tab[aria-selected="true"], .lg__tab[aria-selected="true"]:hover { background: transparent; color: #fff; }
+.lg__tab:focus-visible { outline: 2px solid var(--brand, #C2410C); outline-offset: 2px; }
+.lg__tab:active { scale: .97; }
+.lg__ind { position: absolute; left: 0; top: 4px; bottom: 4px; z-index: -1; width: 0; border-radius: 10px; background: var(--brand, #C2410C); pointer-events: none;
+  transition: transform .45s cubic-bezier(.7, 0, .2, 1), width .45s cubic-bezier(.7, 0, .2, 1); }
+@supports (transition-timing-function: linear(0, 1)) { .lg__ind { transition: transform .57s var(--spring-pill, cubic-bezier(.7, 0, .2, 1)), width .57s var(--spring-pill, cubic-bezier(.7, 0, .2, 1)); } }
+.lg__ind.is-instant { transition: none; }
+
+/* the row fades out and back in when the filter changes */
+.lg__track { transition: opacity .2s ease; }
+.lg__track.is-sw { opacity: 0; }
+.lg__slide[hidden] { display: none; }
+
+/* the arrows: the site's round cream arrow buttons (css/trending.css .tr__nav, css/v49.css .cm__navb), at either side of the row,
+   level with the middle of the pictures; they show only while the pointer is over the row or one of them has keyboard focus, and
+   touch screens (no hover) swipe instead */
+.lg__rail { position: relative; }
+.lg__arw { position: absolute; top: calc(var(--ch) / 2 - 23px); z-index: 4; display: grid; place-items: center; width: 46px; height: 46px; padding: 0;
+  border: 1px solid rgba(255, 255, 255, .8); border-radius: 50%;
+  background: rgba(255, 249, 241, .92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); color: #C2410C; cursor: pointer;
+  box-shadow: 0 12px 24px -12px rgba(58, 20, 6, .6);
+  opacity: 0; pointer-events: none; transition: opacity .3s ease, translate .35s cubic-bezier(.22, 1, .36, 1), background-color .2s, scale .2s; }
+.lg__prev { left: max(12px, calc(var(--px) - 23px)); translate: 8px 0; }
+.lg__next { right: max(12px, calc(var(--px) - 23px)); translate: -8px 0; }
+.lg__arw svg { fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.lg__arw:focus-visible { opacity: 1; pointer-events: auto; translate: 0 0; outline: 2px solid #fff; outline-offset: 3px; }
 @media (hover: hover) and (pointer: fine) {
-  .lg__card:not(.is-on):hover { filter: brightness(calc(var(--b, 1) + .12)); }
-  .lg__card.is-on:hover .lg__pick img { transform: scale(1.03); }
+  .lg__rail:hover .lg__arw { opacity: 1; pointer-events: auto; translate: 0 0; }
+  .lg__arw:hover { background: #fff; scale: 1.06; }
 }
+.lg__arw:active { scale: .94; }
 
-/* the arrows at the sides */
-.lg__nav { position: absolute; top: calc(20px + var(--ch) * .57 - 24px); z-index: 20; display: grid; place-items: center; width: 48px; height: 48px; padding: 0;
-  border: 1px solid rgba(255, 255, 255, .7); border-radius: 50%; background: rgba(255, 249, 241, .92); color: #C2410C; cursor: pointer;
-  box-shadow: 0 14px 26px -14px rgba(50, 12, 0, .7); transition: background-color .2s, scale .2s, translate .25s; }
-.lg__nav svg { fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
-.lg__nav--prev { left: max(0px, calc(50% - var(--cw) * 2.35 - 48px)); }
-.lg__nav--next { right: max(0px, calc(50% - var(--cw) * 2.35 - 48px)); }
-.lg__nav:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
-.lg__nav:active { scale: .94; }
+/* the row */
+.lg__track { display: flex; gap: var(--gap); margin: clamp(32px, 4vw, 52px) 0 0; padding: 0 var(--px); list-style: none;
+  overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--px); overscroll-behavior-x: contain; scrollbar-width: none; }
+.lg__track::-webkit-scrollbar { display: none; }
+.lg__slide { flex: 0 0 var(--cw); min-width: 0; scroll-snap-align: start;
+  opacity: 0; translate: 0 24px; transition: opacity .7s ease var(--td, 0s), translate .9s cubic-bezier(.22, .8, .24, 1) var(--td, 0s); }
+.lgal.is-in .lg__slide { opacity: 1; translate: 0 0; }
+
+/* every card is the same height; a video card is 16:9, so wider than a photo */
+.lg__slide--vid { flex-basis: calc(var(--ch) * 16 / 9); }
+.lg__media { position: relative; margin: 0; height: var(--ch); overflow: hidden; border-radius: 8px; background: #6b2a0c;
+  box-shadow: 0 30px 50px -28px rgba(50, 12, 0, .75); }
+.lg__media img, .lg__media video { display: block; width: 100%; height: 100%; object-fit: cover; filter: brightness(.92);
+  transition: transform 1.1s cubic-bezier(.22, .8, .24, 1), filter .5s ease; }
 @media (hover: hover) and (pointer: fine) {
-  /* the arrows show only while the pointer is over the carousel, or one of them has keyboard focus (user 2026-11-13) */
-  .lg__nav { opacity: 0; pointer-events: none; transition: opacity .3s ease, background-color .2s, scale .2s, translate .25s; }
-  .lg__nav--prev { translate: 10px 0; }
-  .lg__nav--next { translate: -10px 0; }
-  .lg__stage:hover .lg__nav, .lg__stage:focus-within .lg__nav { opacity: 1; pointer-events: auto; translate: 0 0; }
-  .lg__nav:hover { background: #fff; }
-  .lg__stage:hover .lg__nav--prev:hover { translate: -2px 0; }
-  .lg__stage:hover .lg__nav--next:hover { translate: 2px 0; }
+  .lg__slide:hover .lg__media img, .lg__slide:hover .lg__media video { transform: scale(1.03); filter: brightness(1); }
 }
+/* a video card says so, top left */
+.lg__badge { position: absolute; top: 14px; left: 14px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px 6px 8px; border-radius: 999px;
+  background: rgba(60, 15, 0, .55); backdrop-filter: blur(6px); font: 600 12px/1 var(--f); letter-spacing: .02em; color: #fff; }
+.lg__badge svg { fill: currentColor; }
 
-/* the caption and the dots */
-.lg__cap { min-height: 2.9em; max-width: 520px; margin: 10px auto 0; font: 400 16px/1.45 var(--f); color: rgba(255, 255, 255, .92); text-wrap: balance; transition: opacity .3s ease; }
-.lg__cap.is-sw { opacity: 0; }
-.lg__dots { display: flex; justify-content: center; gap: 8px; margin: 14px 0 0; }
-.lg__dots button { position: relative; width: 8px; height: 8px; padding: 0; border: 0; border-radius: 999px; background: rgba(255, 255, 255, .42); cursor: pointer; transition: width .35s cubic-bezier(.65, 0, .35, 1), background-color .2s; }
-.lg__dots button::after { content: ""; position: absolute; inset: -8px -4px; }
-.lg__dots button:hover { background: rgba(255, 255, 255, .75); }
-/* the indicator, as the faculty section's (css/faculty-ring.css .fr__dots): the current dot stretches and fills with the time until the
-   next photo, left to right, in gold over a faint gold track (js/life-gallery.js restarts it with each photo; it sits empty while held,
-   and is solid gold with reduced motion, when nothing counts) */
-.lg__dots button { overflow: hidden; transition: width .35s cubic-bezier(.65, 0, .35, 1), background-color .2s cubic-bezier(.22, 1, .36, 1); }
-.lg__dots button[aria-current="true"] { width: 24px; background: #FFD48A; }
-.lg.is-auto .lg__dots button[aria-current="true"] { background: rgba(255, 212, 138, .3); }
-.lg__dots i { position: absolute; inset: 0; border-radius: inherit; background: #FFD48A; transform: scaleX(0); transform-origin: left; }
-.lg.is-run .lg__dots button[aria-current="true"] i { animation: lgFill var(--lg-t, 2.5s) linear forwards; }
-@keyframes lgFill { to { transform: scaleX(1); } }
-.lg__dots button:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
-
-/* ---------- stacked (no pinned scene): after the six points ---------- */
-#story:not(.cmp--run) .cmp__gal { margin-top: clamp(96px, 14vh, 160px); }
-
-/* ---------- in the pinned scene: a layer over the stage, rising in as the chapters lift away ---------- */
-.cmp--run .cmp__gal { position: absolute; inset: 0; z-index: 30; display: flex; flex-direction: column; justify-content: center; padding: calc(84px + 2vh) var(--px) 3vh;
-  box-sizing: border-box; --cw: clamp(200px, min(22vw, 33vh), 340px); opacity: var(--gv, 0); pointer-events: none; }
-.cmp--run .cmp__gal.is-shown { pointer-events: auto; }
-.cmp--run .lg__hd { translate: 0 calc((1 - var(--gv, 0)) * 10vh); }
-.cmp--run .lg__stage, .cmp--run .lg__cap, .cmp--run .lg__dots { translate: 0 calc((1 - var(--gv, 0)) * 16vh); }
-.cmp--run .cmp__ov { translate: 0 calc(var(--lift, 0) * -10vh); opacity: calc(var(--ov) * (1 - var(--lift, 0))); }
-.cmp--run .cmp__ov.is-gone { visibility: hidden; }
-@media (max-height: 760px) { .cmp--run .lg__intro { display: none; } .cmp--run .lg__stage { margin-top: 20px; } }
+/* the caption line */
+.lg__cap { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin: 18px 0 0; text-align: left; }
+.lg__cap b { flex: none; font: 600 16px/1.3 var(--f); color: #fff; white-space: nowrap; }
+.lg__cap span { min-width: 0; font: 400 14px/1.35 var(--f); color: rgba(255, 255, 255, .78); text-align: right; }
+/* on a narrow card the detail goes under the name */
+.lg__slide { container-type: inline-size; }
+@container (max-width: 440px) {
+  .lg__cap { flex-direction: column; gap: 4px; }
+  .lg__cap span { text-align: left; }
+}
 
 /* ---------- phones and small tablets ---------- */
 @media (max-width: 760px) {
-  .lg { --cw: min(62vw, 260px); }
+  .lgal { --cw: 72vw; --gap: 14px; }
+  .lg__slide--vid { flex-basis: min(calc(var(--ch) * 16 / 9), calc(100vw - 2 * var(--px))); }
   .lg__h { font-size: 38px; }
-  .lg__nav { display: none; }
+  .lg__tab { padding: 0 12px; font-size: 14px; }
+  .lg__cap { margin-top: 14px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .lg__card, .lg__pick img, .lg__cap { transition: none; }
-  .cmp--run .lg__hd, .cmp--run .lg__stage, .cmp--run .lg__cap, .cmp--run .lg__dots, .cmp--run .cmp__ov { translate: none; }
+  .lg__slide, .lg__media img, .lg__media video, .lg__ind, .lg__tab, .lg__track { transition: none; }
+  .lg__track { scroll-behavior: auto; }
 }

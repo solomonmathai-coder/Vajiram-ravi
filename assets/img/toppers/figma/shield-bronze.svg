@@ -1,0 +1,18 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="495" height="618" viewBox="0 0 495 618" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Shield">
+<path id="Shield &#194;&#183; gold border" d="M0 28C164.667 -9.33333 329.667 -9.33333 495 28V392C495 438 399 542 247 618C95 542 0 438 0 392V28Z" fill="url(#paint0_linear_0_4)"/>
+<path id="Shield &#194;&#183; inner line" d="M7 35C167 -1.86666 327.333 -1.86666 488 35V392C488 438 394.8 539.2 247 607.5C99.2 539.2 7 438 7 392V35Z" fill="#5E2E10"/>
+<path id="Shield &#194;&#183; photo area (add image fill)" d="M9 37C167.667 0.266666 326.667 0.266666 486 37V392C486 438 393.6 538.4 247 604.5C100.4 538.4 9 438 9 392V37Z" fill="url(#paint1_linear_0_4)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_4" x1="0" y1="0" x2="0" y2="618" gradientUnits="userSpaceOnUse">
+<stop stop-color="#F6D2B0"/>
+<stop offset="0.5" stop-color="#D08A55"/>
+<stop offset="1" stop-color="#8F4E22"/>
+</linearGradient>
+<linearGradient id="paint1_linear_0_4" x1="9" y1="9.45" x2="9" y2="604.5" gradientUnits="userSpaceOnUse">
+<stop stop-color="#F0A04B"/>
+<stop offset="1" stop-color="#9C3A0E"/>
+</linearGradient>
+</defs>
+</svg>

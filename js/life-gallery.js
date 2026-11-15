@@ -1,85 +1,148 @@
-/* Life at Vajiram & Ravi (#lifeGal; styles in css/life-gallery.css). A cover-flow carousel that loops: every card gets its place from
-   the front, d = -4..4 (the shortest way round), and from it where it sits (--x, in card widths), its size (--s), its turn (--r), how
-   bright (--b) and whether it shows (--o: two cards each side, the rest wait unseen just outside). It advances every 2.5 s, round and round,
-   while it is in view (in the pinned Why scene: once js/story.js has raised it, the "lifegal" event). It keeps going under the pointer
-   and after a click; it holds only while keyboard focus is in it and while the tab is hidden; with prefers-reduced-motion it does not
-   advance on its own. The
-   arrows, the dots, the arrow keys, a click on a side photo and a sideways swipe move it. */
+/* Life at Vajiram & Ravi (#lifeGal; styles in css/life-gallery.css): a row of photo and video cards that scrolls sideways, snaps to
+   a card and loops: copies of the shown cards sit before and after them, and whenever the row comes to rest among the copies it is
+   moved, unseen, by exactly one set to the same picture among the originals. Tabs above it show all the cards, only the images or
+   only the videos (the copies are made again for each). The arrows move it a card at a time. It moves on by itself every 3.5 s while
+   in view; it keeps going under the pointer and after a click, holds while keyboard focus is in it or the tab is hidden, and waits a
+   full turn after someone scrolls it by hand. A video card plays muted and looping while most of it is on screen. With
+   prefers-reduced-motion nothing moves or plays on its own. A video with an empty data-src is a placeholder: its poster stands in. */
 (() => {
   const gal = document.getElementById('lifeGal'); if (!gal) return;
-  const sec = document.getElementById('story');
-  const cards = [...gal.querySelectorAll('.lg__card')], dots = [...gal.querySelectorAll('.lg__dots button')];
-  const stage = gal.querySelector('.lg__stage'), cap = gal.querySelector('.lg__cap');
-  const N = cards.length; if (N < 2) return;
+  const track = gal.querySelector('.lg__track'); if (!track) return;
+  const slides = [...track.querySelectorAll('.lg__slide')]; if (slides.length < 2) return;
   const auto = !matchMedia('(prefers-reduced-motion: reduce)').matches;
-  // the front photo a size up (1.14) and the others see-through (55%, then 32%), so the one in front stands out (user 2026-11-13)
-  const X = [0, .9, 1.5, 1.92, 2.2], S = [1.14, .8, .66, .58, .55], R = [0, 16, 24, 28, 30], B = [1, .92, .85, .8, .8], O = [1, .55, .32, 0, 0];
-  let i = 0, inView = false, raised = false, focus = false, timer = 0, near = false;
+  const T = 3500;
+  let inView = false, kbFocus = false, timer = 0, settle = 0, moving = false, jumping = false;
+  let setW = 0;   // the width of one set of the shown cards, gaps included
 
-  const place = () => {
-    cards.forEach((c, k) => {
-      let d = ((k - i) % N + N) % N; if (d > N / 2) d -= N;
-      const a = Math.min(4, Math.abs(d)), sg = Math.sign(d);
-      c.style.setProperty('--x', (sg * X[a]).toFixed(3));
-      c.style.setProperty('--s', S[a]);
-      c.style.setProperty('--r', (sg * R[a]) + 'deg');
-      c.style.setProperty('--b', B[a]);
-      c.style.setProperty('--o', O[a]);
-      c.style.setProperty('--z', 10 - a);
-      c.classList.toggle('is-on', d === 0);
-      c.setAttribute('aria-hidden', d === 0 ? 'false' : 'true');
-    });
-    dots.forEach((b, k) => { if (k === i) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current'); });
-  };
-  // once the section is on screen, load the photos in view and the next ones round (the rest stay lazy until they come near)
-  const preload = () => { if (!near) return; [i - 3, i - 2, i - 1, i, i + 1, i + 2, i + 3].forEach(k => { const im = cards[((k % N) + N) % N].querySelector('img'); if (im) im.loading = 'eager'; }); };
-  const pinned = () => !!(sec && sec.classList.contains('cmp--run'));
-  const running = () => auto && (pinned() ? raised : inView) && !focus && !document.hidden;
-  const T = 2500;   // 2.5 s a photo (user 2026-11-13)
-  // the current dot fills over the same 2.5 s (css/life-gallery.css .lg.is-run), from empty each time the count starts again
-  const restart = () => {
-    clearTimeout(timer);
-    const run = running();
-    gal.classList.remove('is-run'); void gal.offsetWidth; gal.classList.toggle('is-run', run);
-    if (run) timer = setTimeout(() => go(i + 1), T);
-  };
-  const go = n => {
-    const next = ((n % N) + N) % N;
-    if (next !== i) {
-      i = next; place();
-      // the caption fades out and back in with the new text
-      cap.classList.add('is-sw'); clearTimeout(cap._t);
-      cap._t = setTimeout(() => { cap.textContent = cards[i].dataset.cap || ''; cap.classList.remove('is-sw'); }, auto ? 220 : 0);
+  slides.forEach((s, k) => s.style.setProperty('--td', Math.min(k, 4) * 0.08 + 's'));
+
+  // where the row must scroll to for a card to sit at its start (the track's padding lines the first child up with the heading)
+  const cards = () => [...track.children].filter(s => !s.hidden);
+  const rel = s => s.offsetLeft - cards()[0].offsetLeft;
+  const firstOriginal = () => slides.find(s => !s.hidden);
+
+  // ---- the loop: copies of the shown cards either side ----
+  const build = () => {
+    track.querySelectorAll('.is-copy').forEach(c => c.remove());
+    const shown = slides.filter(s => !s.hidden); if (!shown.length) { setW = 0; return; }
+    const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+    const last = shown[shown.length - 1];
+    setW = last.offsetLeft + last.offsetWidth + gap - shown[0].offsetLeft;
+    // enough copies each side that a screen's width of cards is always there to scroll into
+    const n = Math.max(1, Math.ceil(track.clientWidth / setW));
+    // the copies show the same files as the originals (already fetched), so they need not wait to come near the screen
+    const copy = s => { const c = s.cloneNode(true); c.classList.add('is-copy'); c.setAttribute('aria-hidden', 'true'); c.inert = true; c.querySelectorAll('img').forEach(i => { i.loading = 'eager'; }); return c; };
+    for (let k = 0; k < n; k++) {
+      track.prepend(...shown.map(copy));
+      track.append(...shown.map(copy));
     }
-    preload(); restart();
+    track.scrollTo({ left: rel(shown[0]), behavior: 'auto' });
+    watchVideos();
   };
-  const sync = () => { if (inView || raised) near = true; preload(); restart(); };
+  // back among the originals, to the same picture (one set over looks exactly the same)
+  const normalise = () => {
+    if (!setW) return;
+    const base = rel(firstOriginal()), x = track.scrollLeft;
+    if (x >= base - 2 && x < base + setW - 2) return;
+    jumping = true;
+    track.scrollTo({ left: base + ((((x - base) % setW) + setW) % setW), behavior: 'auto' });
+  };
 
-  gal.querySelector('.lg__nav--prev').addEventListener('click', () => go(i - 1));
-  gal.querySelector('.lg__nav--next').addEventListener('click', () => go(i + 1));
-  dots.forEach((b, k) => b.addEventListener('click', () => go(k)));
-  cards.forEach((c, k) => c.querySelector('.lg__pick').addEventListener('click', () => { if (k !== i) go(k); }));
+  const to = left => { moving = true; track.scrollTo({ left, behavior: auto ? 'smooth' : 'auto' }); };
+  // cards differ in width (videos are wider), so step by each card's own position; each step starts from among the originals, so
+  // there is always a card to go to either side
+  const next = () => { normalise(); const x = track.scrollLeft, p = cards().map(rel).find(v => v > x + 4); if (p !== undefined) to(p); };
+  const prev = () => { normalise(); const x = track.scrollLeft, b = cards().map(rel).filter(v => v < x - 4); if (b.length) to(b[b.length - 1]); };
+
+  const schedule = () => {
+    clearTimeout(timer);
+    if (!auto || !inView || document.hidden || kbFocus) return;
+    timer = setTimeout(() => { next(); schedule(); }, T);
+  };
+
+  gal.querySelector('.lg__next').addEventListener('click', () => { next(); schedule(); });
+  gal.querySelector('.lg__prev').addEventListener('click', () => { prev(); schedule(); });
   gal.addEventListener('keydown', e => {
-    if (e.key === 'ArrowLeft') { go(i - 1); e.preventDefault(); }
-    if (e.key === 'ArrowRight') { go(i + 1); e.preventDefault(); }
+    if (e.target.closest('.lg__rail')) {
+      if (e.key === 'ArrowRight') { next(); schedule(); e.preventDefault(); }
+      if (e.key === 'ArrowLeft') { prev(); schedule(); e.preventDefault(); }
+    }
   });
-  let sx = 0, sy = 0, on = false;
-  stage.addEventListener('touchstart', e => { const t = e.touches[0]; sx = t.clientX; sy = t.clientY; on = true; }, { passive: true });
-  stage.addEventListener('touchend', e => {
-    if (!on) return; on = false;
-    const t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
-    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.3) go(i + (dx < 0 ? 1 : -1));
+  // once the row comes to rest it is put back among the originals; a scroll by hand (swipe, trackpad) also restarts the count
+  track.addEventListener('scroll', () => {
+    if (jumping) { jumping = false; return; }
+    clearTimeout(settle);
+    settle = setTimeout(() => { normalise(); if (!moving) schedule(); moving = false; }, 140);
   }, { passive: true });
 
-  // it keeps looping under the pointer and after a click; only keyboard focus inside it (someone reading with the keyboard) holds it
-  gal.addEventListener('focusin', e => { focus = e.target.matches(':focus-visible'); restart(); });
-  gal.addEventListener('focusout', e => { if (!gal.contains(e.relatedTarget)) { focus = false; restart(); } });
-  document.addEventListener('visibilitychange', restart);
-  new IntersectionObserver(es => { inView = es[0].isIntersecting; sync(); }, { threshold: .3 }).observe(stage);
-  gal.addEventListener('lifegal', e => { raised = !!e.detail; sync(); });   // from js/story.js, in the pinned scene
+  // videos (copies included): play while most of the card is on screen and the gallery is in view
+  let vids = [];
+  const syncVideos = () => vids.forEach(o => {
+    if (!o.src) return;
+    if (auto && inView && o.seen && !document.hidden) { if (!o.v.src) o.v.src = o.src; o.v.play().catch(() => {}); }
+    else o.v.pause();
+  });
+  const vio = new IntersectionObserver(es => {
+    es.forEach(e => { const o = vids.find(x => x.v === e.target); if (o) o.seen = e.isIntersecting; });
+    syncVideos();
+  }, { root: track, threshold: .6 });
+  function watchVideos() {
+    vio.disconnect();
+    vids.forEach(o => o.v.pause());
+    vids = cards().map(s => s.querySelector('video')).filter(Boolean).map(v => ({ v, src: (v.dataset.src || '').trim(), seen: false }));
+    vids.forEach(o => vio.observe(o.v));
+  }
 
-  dots.forEach(b => b.insertAdjacentHTML('beforeend', '<i aria-hidden="true"></i>'));
-  gal.style.setProperty('--lg-t', T / 1000 + 's');
-  if (auto) gal.classList.add('is-auto');
-  place();
+  // All / Images / Videos: the brand pill slides to the chosen tab; the row fades out, keeps only those cards (with their copies),
+  // starts again from the first and fades back in
+  const tabBar = gal.querySelector('.lg__tabs');
+  if (tabBar) {
+    const tabs = [...tabBar.querySelectorAll('.lg__tab')], ind = tabBar.querySelector('.lg__ind');
+    let cur = 'all', swapT = 0;
+    const placeInd = instant => {
+      const sel = tabs.find(b => b.getAttribute('aria-selected') === 'true'); if (!sel) return;
+      ind.classList.toggle('is-instant', !!instant);
+      ind.style.transform = `translateX(${sel.offsetLeft}px)`; ind.style.width = sel.offsetWidth + 'px';
+      if (instant) { void ind.offsetWidth; ind.classList.remove('is-instant'); }
+    };
+    const apply = f => {
+      slides.forEach(s => { const v = s.classList.contains('lg__slide--vid'); s.hidden = f === 'img' ? v : f === 'vid' ? !v : false; });
+      build();
+    };
+    const pick = f => {
+      if (f === cur) return;
+      cur = f;
+      tabs.forEach(b => { const on = b.dataset.f === f; b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1; });
+      placeInd(!auto);
+      clearTimeout(swapT);
+      if (!auto) { apply(f); schedule(); return; }
+      track.classList.add('is-sw');
+      swapT = setTimeout(() => { apply(f); track.classList.remove('is-sw'); syncVideos(); schedule(); }, 200);
+    };
+    tabBar.addEventListener('click', e => { const b = e.target.closest('.lg__tab'); if (b) pick(b.dataset.f); });
+    tabBar.addEventListener('keydown', e => {
+      const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0; if (!d) return;
+      const k = tabs.findIndex(b => b.dataset.f === cur), nx = tabs[(k + d + tabs.length) % tabs.length];
+      pick(nx.dataset.f); nx.focus(); e.preventDefault();
+    });
+    placeInd(true);
+    // web fonts and resizes change the label widths; the pill follows
+    if ('ResizeObserver' in window) new ResizeObserver(() => placeInd(false)).observe(tabBar);
+  }
+
+  // the card widths follow the screen, so the copies are made again when it changes size
+  let rw = track.clientWidth, rT = 0;
+  addEventListener('resize', () => { clearTimeout(rT); rT = setTimeout(() => { if (track.clientWidth !== rw) { rw = track.clientWidth; build(); } }, 150); });
+
+  build();
+  new IntersectionObserver(es => {
+    inView = es[0].isIntersecting;
+    if (inView) gal.classList.add('is-in');
+    syncVideos(); schedule();
+  }, { threshold: .3 }).observe(track);
+  document.addEventListener('visibilitychange', () => { syncVideos(); schedule(); });
+  // only someone reading with the keyboard holds it; a mouse click keeps it going
+  gal.addEventListener('focusin', e => { kbFocus = e.target.matches(':focus-visible'); schedule(); });
+  gal.addEventListener('focusout', e => { if (!gal.contains(e.relatedTarget)) { kbFocus = false; schedule(); } });
+  if (!auto) gal.classList.add('is-in');
 })();

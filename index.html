@@ -13,9 +13,11 @@
 <link rel="stylesheet" href="css/v49.css?v=305">
 <link rel="stylesheet" href="css/trending.css?v=7">
 <link rel="stylesheet" href="css/story.css?v=18">
-<link rel="stylesheet" href="css/life-gallery.css?v=7">
+<link rel="stylesheet" href="css/life-gallery.css?v=21">
 <link rel="stylesheet" href="css/intro.css?v=2">
-<link rel="stylesheet" href="css/podium.css?v=32">
+<link rel="stylesheet" href="css/podium.css?v=67">
+<link rel="stylesheet" href="css/batches-row.css?v=3">
+<link rel="stylesheet" href="css/resources-stack.css?v=4">
 <script>document.documentElement.classList.add('js')</script>
   <link rel="stylesheet" href="css/faculty-ring.css?v=2">
   <link rel="stylesheet" href="css/programme-shelf.css?v=2">
@@ -157,17 +159,12 @@
 <!-- ============ TOPPERS: the top three of UPSC CSE 2025 (user 2026-11-13, from a reference: a podium poster; the crests from a second reference, a portrait in a laurelled shield).
      It replaces the results-special newspaper front page. Styles: css/podium.css; the reveal is scroll.js's .rv. ============ -->
 <section class="pd" id="toppers" aria-labelledby="pdH">
-  <!-- the metal relief on the crests (css/podium.css .pd__gem): light from the top left over the laurel's leaves and the shield's edge -->
+  <!-- the portrait's cut (css/podium.css .pd__pic): open above the shield, below its top the Figma shield's photo area
+       (assets/img/toppers/figma/shield-*.svg, 495 x 618), in fractions of the shield's box -->
   <svg class="pd__defs" width="0" height="0" aria-hidden="true" focusable="false">
-    <filter id="pdRelief" x="-4%" y="-4%" width="108%" height="108%" color-interpolation-filters="sRGB">
-      <feGaussianBlur in="SourceAlpha" stdDeviation="1.5" result="bump"/>
-      <feDiffuseLighting in="bump" surfaceScale="3" diffuseConstant="1.18" lighting-color="#ffffff" result="diffuse"><feDistantLight azimuth="225" elevation="52"/></feDiffuseLighting>
-      <feComposite in="SourceGraphic" in2="diffuse" operator="arithmetic" k1="1.1" k2="0" k3="0" k4="0" result="shaded"/>
-      <feSpecularLighting in="bump" surfaceScale="3" specularConstant="1.25" specularExponent="70" lighting-color="#fffbea" result="spec"><feDistantLight azimuth="225" elevation="52"/></feSpecularLighting>
-      <feComposite in="spec" in2="SourceAlpha" operator="in" result="glint"/>
-      <feComposite in="shaded" in2="glint" operator="arithmetic" k1="0" k2="1" k3=".75" k4="0" result="lit"/>
-      <feComposite in="lit" in2="SourceAlpha" operator="in"/>
-    </filter>
+    <clipPath id="pdPhoto" clipPathUnits="objectBoundingBox">
+      <path d="M-.4 -.4H1.4V.05987H.98182V.6343C.98182 .70874 .79515 .8712 .49899 .97816C.20283 .8712 .01818 .70874 .01818 .6343V.05987H-.4Z"/>
+    </clipPath>
   </svg>
   <div class="pd__hd">
     <div class="lbl lbl--w rv" style="--d:.05s"><span class="lbl__t">UPSC CSE 2025 results</span><i></i><span class="lbl__orn lbl__orn--w" aria-hidden="true"></span></div>
@@ -177,9 +174,72 @@
 
   <!-- portraits: cut from the three's group photo (user 2026-11-13), assets/img/toppers/portrait/2025-group. Ranks in reading order (1, 2, 3); css/podium.css sets them out as a podium, 1 raised in the middle, 2 left and 3 right, each
        portrait in a crest: gold, silver, bronze -->
+  <!-- the light behind the three (user 2026-11-15, after a reference: gold light streaks sweeping up from a glowing horizon, a beam from
+       above and drifting sparks), animated; css/podium.css .pd__fx -->
+  <div class="pd__scene">
+  <svg class="pd__fx" viewBox="0 0 1440 800" preserveAspectRatio="xMidYMax slice" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="pdBeam" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#FFF4DC" stop-opacity=".7"/><stop offset=".55" stop-color="#FFDDA8" stop-opacity=".18"/><stop offset="1" stop-color="#FFDDA8" stop-opacity="0"/>
+      </linearGradient>
+      <radialGradient id="pdBokeh"><stop offset="0" stop-color="#FFE6B0" stop-opacity=".6"/><stop offset="1" stop-color="#FFC870" stop-opacity="0"/></radialGradient>
+      <filter id="pdGlow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="6"/></filter>
+      <filter id="pdSoft" x="-40%" y="-10%" width="180%" height="120%"><feGaussianBlur stdDeviation="26"/></filter>
+    </defs>
+    <g class="pd__beam"><polygon points="640,-40 800,-40 960,660 480,660" fill="url(#pdBeam)" filter="url(#pdSoft)"/></g>
+    <g class="pd__bokeh">
+      <circle style="--t:9s;--d:0s" cx="150" cy="190" r="16" fill="url(#pdBokeh)"/><circle style="--t:10.5s;--d:3s" cx="1290" cy="230" r="20" fill="url(#pdBokeh)"/>
+      <circle style="--t:8.5s;--d:5s" cx="300" cy="90" r="11" fill="url(#pdBokeh)"/><circle style="--t:11s;--d:2s" cx="1150" cy="110" r="14" fill="url(#pdBokeh)"/>
+      <circle style="--t:9.5s;--d:6s" cx="1360" cy="420" r="12" fill="url(#pdBokeh)"/><circle style="--t:10s;--d:4s" cx="70" cy="470" r="13" fill="url(#pdBokeh)"/>
+    </g>
+    <g class="pd__sparks">
+      <g style="--pd-off:0s">
+          <circle style="--t:3.6s;--d:0s" cx="240" cy="590" r="2"/><circle style="--t:4.2s;--d:.7s" cx="330" cy="540" r="1.5"/>
+          <circle style="--t:3.2s;--d:1.4s" cx="420" cy="600" r="2.2"/><circle style="--t:4.6s;--d:.3s" cx="160" cy="470" r="1.6"/>
+          <circle style="--t:3.8s;--d:2.1s" cx="560" cy="585" r="1.4"/><circle style="--t:4.4s;--d:2.8s" cx="90" cy="330" r="1.8"/>
+          <circle style="--t:3.4s;--d:1.1s" cx="380" cy="420" r="1.3"/><circle style="--t:4.8s;--d:3.3s" cx="230" cy="280" r="1.6"/>
+          <circle style="--t:3s;--d:.5s" cx="500" cy="520" r="1.2"/><circle style="--t:3.5s;--d:1.8s" cx="620" cy="600" r="1.8"/>
+          <circle style="--t:4s;--d:2.5s" cx="300" cy="620" r="1.4"/><circle style="--t:3.9s;--d:3.6s" cx="120" cy="560" r="2"/>
+          <circle style="--t:3.3s;--d:.9s" cx="450" cy="470" r="1.1"/><circle style="--t:4.3s;--d:1.6s" cx="60" cy="420" r="1.5"/>
+          <circle style="--t:3.7s;--d:2.2s" cx="200" cy="360" r="1.2"/><circle style="--t:4.1s;--d:3s" cx="350" cy="300" r="1"/>
+          <circle style="--t:3.2s;--d:.2s" cx="660" cy="560" r="1.6"/><circle style="--t:4.4s;--d:2.7s" cx="540" cy="440" r="1.3"/>
+      </g>
+      <g style="--pd-off:1.7s" transform="translate(1440 0) scale(-1 1)">
+          <circle style="--t:3.6s;--d:0s" cx="240" cy="590" r="2"/><circle style="--t:4.2s;--d:.7s" cx="330" cy="540" r="1.5"/>
+          <circle style="--t:3.2s;--d:1.4s" cx="420" cy="600" r="2.2"/><circle style="--t:4.6s;--d:.3s" cx="160" cy="470" r="1.6"/>
+          <circle style="--t:3.8s;--d:2.1s" cx="560" cy="585" r="1.4"/><circle style="--t:4.4s;--d:2.8s" cx="90" cy="330" r="1.8"/>
+          <circle style="--t:3.4s;--d:1.1s" cx="380" cy="420" r="1.3"/><circle style="--t:4.8s;--d:3.3s" cx="230" cy="280" r="1.6"/>
+          <circle style="--t:3s;--d:.5s" cx="500" cy="520" r="1.2"/><circle style="--t:3.5s;--d:1.8s" cx="620" cy="600" r="1.8"/>
+          <circle style="--t:4s;--d:2.5s" cx="300" cy="620" r="1.4"/><circle style="--t:3.9s;--d:3.6s" cx="120" cy="560" r="2"/>
+          <circle style="--t:3.3s;--d:.9s" cx="450" cy="470" r="1.1"/><circle style="--t:4.3s;--d:1.6s" cx="60" cy="420" r="1.5"/>
+          <circle style="--t:3.7s;--d:2.2s" cx="200" cy="360" r="1.2"/><circle style="--t:4.1s;--d:3s" cx="350" cy="300" r="1"/>
+          <circle style="--t:3.2s;--d:.2s" cx="660" cy="560" r="1.6"/><circle style="--t:4.4s;--d:2.7s" cx="540" cy="440" r="1.3"/>
+      </g>
+    </g>
+  </svg>
+  <!-- the waves (user 2026-11-15: "a wave pattern instead of just lines", then "let the waves curve around the toppers"): two ribbons
+       of gold lines a side, starting low under the middle, running under the names and turning up around the outside of rank 2's and
+       rank 3's crests to wrap in over their tops; their ripples roll slowly in. Drawn by js/podium-fx.js from where the crests and
+       names actually are (and redrawn when the row changes size). Reworked after the user's sketch into crossing strands outside the side crests. css/podium.css .pd__waves -->
+  <svg class="pd__waves" aria-hidden="true" focusable="false">
+    <defs>
+      <linearGradient id="pdSidesFade" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#000"/><stop offset=".12" stop-color="#000" stop-opacity=".9"/><stop offset=".32" stop-color="#fff"/><stop offset=".68" stop-color="#fff"/><stop offset=".88" stop-color="#000" stop-opacity=".9"/><stop offset="1" stop-color="#000"/>
+      </linearGradient>
+      <mask id="pdSides" maskUnits="userSpaceOnUse"><rect class="pd__waves-fade" fill="url(#pdSidesFade)"/></mask>
+      <filter id="pdWaveGlow" x="-5%" y="-5%" width="110%" height="110%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <g mask="url(#pdSides)" filter="url(#pdWaveGlow)">
+      <g class="pd__side" data-side="l"></g>
+      <g class="pd__side" data-side="r"></g>
+    </g>
+  </svg>
   <ol class="pd__row rv" style="--d:.1s" aria-label="Ranks 1 to 3, UPSC CSE 2025">
     <li class="pd__col pd__col--1">
-      <div class="pd__fig"><span class="pd__gem pd__gem--gold" aria-hidden="true"><span class="pd__laurel"></span><i class="pd__shield"></i><b class="pd__face"></b></span><span class="pd__pic"><img class="pd__img" src="assets/img/toppers/portrait/2025-group/01-anuj-agnihotri.png" alt="" width="640" height="864" loading="lazy" decoding="async"></span></div>
+      <div class="pd__fig"><span class="pd__gem pd__gem--gold" aria-hidden="true"><span class="pd__laurel"></span><img class="pd__shield" src="assets/img/toppers/figma/shield-gold.svg?v=2" alt="" width="495" height="618"></span><span class="pd__pic"><img class="pd__img" src="assets/img/toppers/portrait/2025-group/01-anuj-agnihotri.png" alt="" width="640" height="864" loading="lazy" decoding="async"></span></div>
       <div class="pd__lbl">
         <b class="pd__n" aria-hidden="true"><small>AIR</small> 1</b>
         <h3 class="pd__name">Anuj Agnihotri<span class="pd__vh">, All India Rank 1</span></h3>
@@ -187,7 +247,7 @@
       </div>
     </li>
     <li class="pd__col pd__col--2">
-      <div class="pd__fig"><span class="pd__gem pd__gem--silver" aria-hidden="true"><span class="pd__laurel"></span><i class="pd__shield"></i><b class="pd__face"></b></span><span class="pd__pic"><img class="pd__img" src="assets/img/toppers/portrait/2025-group/02-rajeshwari-suve-m.png" alt="" width="640" height="864" loading="lazy" decoding="async"></span></div>
+      <div class="pd__fig"><span class="pd__gem pd__gem--silver" aria-hidden="true"><span class="pd__laurel"></span><img class="pd__shield" src="assets/img/toppers/figma/shield-silver.svg?v=2" alt="" width="495" height="618"></span><span class="pd__pic"><img class="pd__img" src="assets/img/toppers/portrait/2025-group/02-rajeshwari-suve-m.png" alt="" width="640" height="864" loading="lazy" decoding="async"></span></div>
       <div class="pd__lbl">
         <b class="pd__n" aria-hidden="true"><small>AIR</small> 2</b>
         <h3 class="pd__name">Rajeshwari Suve M<span class="pd__vh">, All India Rank 2</span></h3>
@@ -195,7 +255,7 @@
       </div>
     </li>
     <li class="pd__col pd__col--3">
-      <div class="pd__fig"><span class="pd__gem pd__gem--bronze" aria-hidden="true"><span class="pd__laurel"></span><i class="pd__shield"></i><b class="pd__face"></b></span><span class="pd__pic"><img class="pd__img" src="assets/img/toppers/portrait/2025-group/03-akansh-dhull.png" alt="" width="640" height="864" loading="lazy" decoding="async"></span></div>
+      <div class="pd__fig"><span class="pd__gem pd__gem--bronze" aria-hidden="true"><span class="pd__laurel"></span><img class="pd__shield" src="assets/img/toppers/figma/shield-bronze.svg?v=2" alt="" width="495" height="618"></span><span class="pd__pic"><img class="pd__img" src="assets/img/toppers/portrait/2025-group/03-akansh-dhull.png" alt="" width="640" height="864" loading="lazy" decoding="async"></span></div>
       <div class="pd__lbl">
         <b class="pd__n" aria-hidden="true"><small>AIR</small> 3</b>
         <h3 class="pd__name">Akansh Dhull<span class="pd__vh">, All India Rank 3</span></h3>
@@ -203,6 +263,7 @@
       </div>
     </li>
   </ol>
+  </div>
 
   <!-- the other CSE 2025 rank holders (ranks 4 to 48), each on a diamond as the podium once was, drifting past in an endless loop
        (user 2026-11-13). Written from js/data/toppers-archive.js. For now every card shows one placeholder portrait (user 2026-11-13,
@@ -561,49 +622,6 @@
         </article>
       </div>
     </div>
-    <!-- Life at Vajiram & Ravi (user 2026-11-13): a photo carousel after the six points; in the pinned scene it rises in as the chapters
-         lift away (js/story.js --gv), stacked it follows them. css/life-gallery.css, js/life-gallery.js -->
-    <div class="cmp__gal lg" id="lifeGal">
-      <div class="lg__hd">
-        <h3 class="lg__h" id="lifeH">Life at Vajiram &amp; Ravi</h3>
-        <p class="lg__intro">The classrooms, the teachers and the campus in Old Rajinder Nagar, where aspirants have prepared for the UPSC since 1976.</p>
-      </div>
-      <div class="lg__stage" role="region" aria-roledescription="carousel" aria-labelledby="lifeH">
-        <ul class="lg__track">
-            <li class="lg__card" role="group" aria-roledescription="slide" aria-label="1 of 9: In the classroom" data-cap="A full classroom for an Indian Polity lecture at Old Rajinder Nagar.">
-              <button type="button" class="lg__pick" tabindex="-1" aria-hidden="true"><img src="assets/img/photos/footer-classroom.webp" alt="A Vajiram &amp; Ravi classroom during an Indian Polity lecture" width="1672" height="941" loading="lazy" decoding="async" style="object-position:50% 50%"></button>
-            </li>
-            <li class="lg__card" role="group" aria-roledescription="slide" aria-label="2 of 9: Our faculty" data-cap="Subject specialists teach every General Studies paper, the optionals and the essay.">
-              <button type="button" class="lg__pick" tabindex="-1" aria-hidden="true"><img src="assets/img/photos/why-2-faculty.webp" alt="A Vajiram &amp; Ravi professor teaching a General Studies class" width="1536" height="1024" loading="lazy" decoding="async" style="object-position:62% 30%"></button>
-            </li>
-            <li class="lg__card" role="group" aria-roledescription="slide" aria-label="3 of 9: Mentoring" data-cap="A mentor goes through the study plan with an aspirant and keeps it on track.">
-              <button type="button" class="lg__pick" tabindex="-1" aria-hidden="true"><img src="assets/img/photos/why-3-guidance.webp" alt="A mentor going through a study plan with an aspirant" width="1536" height="1024" loading="lazy" decoding="async" style="object-position:45% 40%"></button>
-            </li>
-            <li class="lg__card" role="group" aria-roledescription="slide" aria-label="4 of 9: The campus" data-cap="The campus gate and building at 1-B/7, Pusa Road, Old Rajinder Nagar.">
-              <button type="button" class="lg__pick" tabindex="-1" aria-hidden="true"><img src="assets/img/photos/campus-hd.webp" alt="The Vajiram &amp; Ravi campus gate and building at Old Rajinder Nagar" width="2000" height="1334" loading="lazy" decoding="async" style="object-position:62% 50%"></button>
-            </li>
-            <li class="lg__card" role="group" aria-roledescription="slide" aria-label="5 of 9: Classroom + LIVE-Online" data-cap="Lectures stream live, so online students learn with the same teachers and take the same tests.">
-              <button type="button" class="lg__pick" tabindex="-1" aria-hidden="true"><img src="assets/img/photos/why-6-classroom-online.webp" alt="A Vajiram &amp; Ravi classroom with the lecture streaming live to online students" width="1536" height="1024" loading="lazy" decoding="async" style="object-position:50% 40%"></button>
-            </li>
-            <li class="lg__card" role="group" aria-roledescription="slide" aria-label="6 of 9: Study material" data-cap="Notes, test series and printed material for every stage of the examination.">
-              <button type="button" class="lg__pick" tabindex="-1" aria-hidden="true"><img src="assets/img/photos/why-4-study-material.webp" alt="Vajiram &amp; Ravi study material, test series sheets and notes on a desk" width="1536" height="1024" loading="lazy" decoding="async" style="object-position:50% 50%"></button>
-            </li>
-            <li class="lg__card" role="group" aria-roledescription="slide" aria-label="7 of 9: The entrance" data-cap="The institute’s entrance, next to Gate 5 of Karol Bagh Metro Station.">
-              <button type="button" class="lg__pick" tabindex="-1" aria-hidden="true"><img src="assets/img/photos/campus-entrance.webp" alt="The institute entrance with the Vajiram &amp; Ravi sign" width="900" height="1600" loading="lazy" decoding="async" style="object-position:50% 32%"></button>
-            </li>
-            <li class="lg__card" role="group" aria-roledescription="slide" aria-label="8 of 9: Arriving for class" data-cap="Aspirants walking in to the campus in Old Rajinder Nagar.">
-              <button type="button" class="lg__pick" tabindex="-1" aria-hidden="true"><img src="assets/img/photos/why-5-location.webp" alt="Aspirants walking to the Vajiram &amp; Ravi gate in Old Rajinder Nagar" width="1286" height="1024" loading="lazy" decoding="async" style="object-position:55% 50%"></button>
-            </li>
-            <li class="lg__card" role="group" aria-roledescription="slide" aria-label="9 of 9: The building" data-cap="The Vajiram &amp; Ravi building, seen from the street.">
-              <button type="button" class="lg__pick" tabindex="-1" aria-hidden="true"><img src="assets/img/photos/building-hd.webp" alt="The Vajiram &amp; Ravi building seen from the street" width="2240" height="1685" loading="lazy" decoding="async" style="object-position:40% 50%"></button>
-            </li>
-        </ul>
-        <button type="button" class="lg__nav lg__nav--prev" aria-label="Previous photo"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
-        <button type="button" class="lg__nav lg__nav--next" aria-label="Next photo"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-      </div>
-      <p class="lg__cap" aria-live="polite">A full classroom for an Indian Polity lecture at Old Rajinder Nagar.</p>
-      <p class="lg__dots" role="group" aria-label="Choose a photo"><button type="button" aria-label="Show photo 1: In the classroom" aria-current="true"></button><button type="button" aria-label="Show photo 2: Our faculty"></button><button type="button" aria-label="Show photo 3: Mentoring"></button><button type="button" aria-label="Show photo 4: The campus"></button><button type="button" aria-label="Show photo 5: Classroom + LIVE-Online"></button><button type="button" aria-label="Show photo 6: Study material"></button><button type="button" aria-label="Show photo 7: The entrance"></button><button type="button" aria-label="Show photo 8: Arriving for class"></button><button type="button" aria-label="Show photo 9: The building"></button></p>
-    </div>
   </div>
 </section>
 </div>
@@ -616,6 +634,11 @@
   <div class="bhead rv" style="--d:.16s">
     <p class="intro">Register online, or call <a href="tel:08062206330">080-6220-6330</a> for registration or seat allotment, Monday to Saturday, 9 am to 7 pm.</p>
     <button class="tlink" id="allBatches" type="button"><span>View all batches</span><svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></button>
+  </div>
+  <!-- one row of tickets that scrolls sideways; the buttons above move it a card at a time: css/batches-row.css, js/batches-row.js -->
+  <div class="bnav" role="group" aria-label="Move through the batches">
+    <button type="button" class="bnav__btn bnav__prev" aria-label="Previous batch" aria-controls="price"><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M16 10H4m5-5-5 5 5 5"/></svg></button>
+    <button type="button" class="bnav__btn bnav__next" aria-label="Next batch" aria-controls="price"><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M4 10h12m-5-5 5 5-5 5"/></svg></button>
   </div>
   <div class="cards" id="price"></div>
 </section>
@@ -644,7 +667,7 @@
   </div>
 </section>
 
-<!-- ============ FREE RESOURCES (content from vajiram-ravi-sharon.vercel.app): six resource cards, each with its own action; css/v49.css .sm / .sm__card--res.
+<!-- ============ FREE RESOURCES (content from vajiram-ravi-sharon.vercel.app): the six resources as a stacking deck of cards; css/resources-stack.css.
      Every link opens the Vajiram &amp; Ravi site (content.js [data-rs]) until the resource pages exist. ============ -->
 <section class="sm" id="resources" aria-labelledby="resrcH">
   <div class="sm__in">
@@ -655,39 +678,70 @@
         <p class="intro rv" style="--d:.2s">Daily current affairs, a monthly magazine and the official papers, free, from the Vajiram &amp; Ravi editorial desk.</p>
       </div>
     </div>
-    <ul class="sm__grid sm__grid--res">
-      <li class="sm__card sm__card--res"><span class="sm__ghost" aria-hidden="true" style="background-image:url(assets/img/resources/current-affairs.webp)"></span><span class="sm__motif sm__motif--mandala" aria-hidden="true"></span><figure class="sm__pic" aria-hidden="true"><img src="assets/img/resources/cutout/current-affairs.png?v=2" alt="" width="640" height="410" loading="lazy" decoding="async"></figure>
-        <h3 class="sm__t">Current Affairs</h3>
-        <p class="sm__d">Prelims, Mains and Quest articles, written the way UPSC asks.</p>
-        <a class="tlink sm__act" href="#" data-rs>Read today&rsquo;s articles<svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></a>
+    <!-- the resources as a deck (after loopsii.com's highlights): one card each, every card sticking a step lower than the one before, so
+         they pile up as you scroll and the ones underneath tip back and shrink (css/resources-stack.css, js/resources-stack.js) -->
+    <ol class="rk" aria-label="Free resources">
+      <li class="rk__card" style="--i:0;--tone:linear-gradient(149deg, #e57512 14.3%, #ae3b0f 85.7%)">
+        <div class="rk__txt">
+          <p class="rk__n">01<small>/06</small></p>
+          <h3 class="rk__t">Current Affairs</h3>
+          <p class="rk__d">Prelims, Mains and Quest articles, written the way UPSC asks.</p>
+          <ul class="rk__pts"><li>Prelims articles</li><li>Mains articles</li><li>Quest</li><li>New every day</li></ul>
+          <a class="rk__btn" href="#" data-rs>Read today&rsquo;s articles<span class="rk__btn-ic" aria-hidden="true"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></span></a>
+        </div>
+        <div class="rk__media" aria-hidden="true"><p class="rk__badge"><span>Today</span><time id="rsToday"></time></p><img src="assets/img/resources/cutout/current-affairs.png?v=2" alt="" width="640" height="410" loading="lazy" decoding="async"></div>
       </li>
-      <li class="sm__card sm__card--res"><span class="sm__ghost" aria-hidden="true" style="background-image:url(assets/img/resources/the-recitals.webp)"></span><span class="sm__motif sm__motif--mandala" aria-hidden="true"></span><figure class="sm__pic" aria-hidden="true"><img src="assets/img/resources/cutout/the-recitals.png" alt="" width="640" height="520" loading="lazy" decoding="async"></figure>
-        <h3 class="sm__t">The Recitals</h3>
-        <p class="sm__d">UPSC current affairs monthly material, free to download.</p>
-        <a class="tlink sm__act" href="#" data-rs>Download this month<svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></a>
+      <li class="rk__card" style="--i:1;--tone:#B47A20">
+        <div class="rk__txt">
+          <p class="rk__n">02<small>/06</small></p>
+          <h3 class="rk__t">The Recitals</h3>
+          <p class="rk__d">UPSC current affairs monthly material, free to download.</p>
+          <ul class="rk__pts"><li>A new issue every month</li><li>The month&rsquo;s current affairs in one place</li><li>Free to download</li></ul>
+          <a class="rk__btn" href="#" data-rs>Download this month<span class="rk__btn-ic" aria-hidden="true"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></span></a>
+        </div>
+        <div class="rk__media" aria-hidden="true"><img src="assets/img/resources/cutout/the-recitals.png" alt="" width="640" height="520" loading="lazy" decoding="async"></div>
       </li>
-      <li class="sm__card sm__card--res"><span class="sm__ghost" aria-hidden="true" style="background-image:url(assets/img/resources/previous-year-papers.webp)"></span><span class="sm__motif sm__motif--mandala" aria-hidden="true"></span><figure class="sm__pic" aria-hidden="true"><img src="assets/img/resources/cutout/previous-year-papers.png?v=2" alt="" width="640" height="595" loading="lazy" decoding="async"></figure>
-        <h3 class="sm__t">Previous Year Papers</h3>
-        <p class="sm__d">Prelims and Mains papers, with the UPSC answer key.</p>
-        <a class="tlink sm__act" href="#" data-rs>Browse papers<svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></a>
+      <li class="rk__card" style="--i:2;--tone:#3F5B87">
+        <div class="rk__txt">
+          <p class="rk__n">03<small>/06</small></p>
+          <h3 class="rk__t">Previous Year Papers</h3>
+          <p class="rk__d">Prelims and Mains papers, with the UPSC answer key.</p>
+          <ul class="rk__pts"><li>Prelims papers</li><li>Mains papers</li><li>The UPSC answer key</li></ul>
+          <a class="rk__btn" href="#" data-rs>Browse papers<span class="rk__btn-ic" aria-hidden="true"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></span></a>
+        </div>
+        <div class="rk__media" aria-hidden="true"><img src="assets/img/resources/cutout/previous-year-papers.png?v=2" alt="" width="640" height="595" loading="lazy" decoding="async"></div>
       </li>
-      <li class="sm__card sm__card--res"><span class="sm__ghost" aria-hidden="true" style="background-image:url(assets/img/resources/syllabus-exam-pattern.webp)"></span><span class="sm__motif sm__motif--mandala" aria-hidden="true"></span><figure class="sm__pic" aria-hidden="true"><img src="assets/img/resources/cutout/syllabus-exam-pattern.png?v=2" alt="" width="640" height="663" loading="lazy" decoding="async"></figure>
-        <h3 class="sm__t">Syllabus &amp; Exam Pattern</h3>
-        <p class="sm__d">What is asked at each stage, and how it is marked.</p>
-        <a class="tlink sm__act" href="#" data-rs>Read the guide<svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></a>
+      <li class="rk__card" style="--i:3;--tone:#326F66">
+        <div class="rk__txt">
+          <p class="rk__n">04<small>/06</small></p>
+          <h3 class="rk__t">Syllabus &amp; Exam Pattern</h3>
+          <p class="rk__d">What is asked at each stage, and how it is marked.</p>
+          <ul class="rk__pts"><li>Prelims</li><li>Mains</li><li>Interview</li><li>How each stage is marked</li></ul>
+          <a class="rk__btn" href="#" data-rs>Read the guide<span class="rk__btn-ic" aria-hidden="true"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></span></a>
+        </div>
+        <div class="rk__media" aria-hidden="true"><img src="assets/img/resources/cutout/syllabus-exam-pattern.png?v=2" alt="" width="640" height="663" loading="lazy" decoding="async"></div>
       </li>
-      <li class="sm__card sm__card--res"><span class="sm__ghost" aria-hidden="true" style="background-image:url(assets/img/resources/gs-postal-books.webp)"></span><span class="sm__motif sm__motif--mandala" aria-hidden="true"></span><figure class="sm__pic" aria-hidden="true"><img src="assets/img/resources/cutout/gs-postal-books.png?v=2" alt="" width="640" height="624" loading="lazy" decoding="async"></figure>
-        <h3 class="sm__t">GS Postal Books</h3>
-        <p class="sm__d">Printed General Studies material for UPSC preparation.</p>
-        <a class="tlink sm__act" href="#" data-rs>Buy now<svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></a>
+      <li class="rk__card" style="--i:4;--tone:#9D485B">
+        <div class="rk__txt">
+          <p class="rk__n">05<small>/06</small></p>
+          <h3 class="rk__t">GS Postal Books</h3>
+          <p class="rk__d">Printed General Studies material for UPSC preparation.</p>
+          <ul class="rk__pts"><li>Printed material</li><li>General Studies</li></ul>
+          <a class="rk__btn" href="#" data-rs>Buy now<span class="rk__btn-ic" aria-hidden="true"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></span></a>
+        </div>
+        <div class="rk__media" aria-hidden="true"><img src="assets/img/resources/cutout/gs-postal-books.png?v=2" alt="" width="640" height="624" loading="lazy" decoding="async"></div>
       </li>
-      <li class="sm__card sm__card--res"><span class="sm__ghost" aria-hidden="true" style="background-image:url(assets/img/resources/upsc-calendar.webp)"></span><span class="sm__motif sm__motif--mandala" aria-hidden="true"></span><figure class="sm__pic" aria-hidden="true"><img src="assets/img/resources/cutout/upsc-calendar.png" alt="" width="640" height="612" loading="lazy" decoding="async"></figure>
-        <h3 class="sm__t">UPSC Calendar 2027</h3>
-        <p class="sm__d">Every stage date, plus the age limit and eligibility rules.</p>
-        <ul class="sm__stages" aria-label="Stages with dates in the calendar"><li>Notification</li><li>Prelims</li><li>Mains</li><li>Interview</li></ul>
-        <a class="tlink sm__act" href="#" data-rs>See the calendar<svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></a>
+      <li class="rk__card" style="--i:5;--tone:#C64613">
+        <div class="rk__txt">
+          <p class="rk__n">06<small>/06</small></p>
+          <h3 class="rk__t">UPSC Calendar 2027</h3>
+          <p class="rk__d">Every stage date, plus the age limit and eligibility rules.</p>
+          <ul class="rk__pts"><li>Notification</li><li>Prelims</li><li>Mains</li><li>Interview</li></ul>
+          <a class="rk__btn" href="#" data-rs>See the calendar<span class="rk__btn-ic" aria-hidden="true"><svg viewBox="0 0 16 16" width="16" height="16"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></span></a>
+        </div>
+        <div class="rk__media" aria-hidden="true"><img src="assets/img/resources/cutout/upsc-calendar.png" alt="" width="640" height="612" loading="lazy" decoding="async"></div>
       </li>
-    </ul>
+    </ol>
     <div class="sm__more rv" style="--d:.08s">
       <p class="sm__more-k" id="smMoreK">More free resources</p>
       <ul class="sm__more-list sm__more-list--bento" aria-labelledby="smMoreK">
@@ -701,6 +755,64 @@
         <li><a class="sm__mini" href="#" data-rs><span class="sm__mini-t">Interview Guidance Tips</span><svg class="sm__mini-go" viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></a></li>
       </ul>
     </div>
+  </div>
+</section>
+
+<!-- ============ LIFE AT VAJIRAM & RAVI: photos and videos, after Free resources. A looping row of large media cards that runs off both
+     edges (after rox.com's customer stories), a caption line under each, All / Images / Videos tabs, arrows on hover; css/life-gallery.css, js/life-gallery.js ============ -->
+<section class="lgal" id="lifeGal" aria-labelledby="lifeH">
+  <div class="lg__hd">
+    <h2 class="lg__h" id="lifeH">Life at Vajiram &amp; Ravi</h2>
+    <p class="lg__sub">Where aspirants have prepared since 1976.</p>
+    <div class="lg__tabs" role="tablist" aria-label="Show">
+      <button type="button" class="lg__tab" role="tab" data-f="all" aria-selected="true" aria-controls="lifeTrack">All</button>
+      <button type="button" class="lg__tab" role="tab" data-f="img" aria-selected="false" aria-controls="lifeTrack" tabindex="-1">Images</button>
+      <button type="button" class="lg__tab" role="tab" data-f="vid" aria-selected="false" aria-controls="lifeTrack" tabindex="-1">Videos</button>
+      <span class="lg__ind" aria-hidden="true"></span>
+    </div>
+  </div>
+  <!-- dummy media: every card uses a placeholder photo; a video card plays its clip once data-src names a file (e.g. assets/video/classroom.mp4) -->
+  <div class="lg__rail">
+  <button type="button" class="lg__arw lg__prev" aria-label="Previous photo"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 6L9 12L15 18"/></svg></button>
+  <button type="button" class="lg__arw lg__next" aria-label="Next photo"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 6L15 12L9 18"/></svg></button>
+  <ul class="lg__track" id="lifeTrack" aria-labelledby="lifeH">
+    <li class="lg__slide lg__slide--vid">
+      <figure class="lg__media"><video poster="assets/img/photos/footer-classroom.webp" data-src="" muted loop playsinline preload="none" aria-label="Video: a full classroom for an Indian Polity lecture"></video><span class="lg__badge" aria-hidden="true"><svg viewBox="0 0 24 24" width="12" height="12"><path d="M8 5.5v13l11-6.5z"/></svg>Video</span></figure>
+      <p class="lg__cap"><b>In the classroom</b><span>Indian Polity lecture, Old Rajinder Nagar</span></p>
+    </li>
+    <li class="lg__slide">
+      <figure class="lg__media"><img src="assets/img/photos/why-2-faculty.webp" alt="A Vajiram &amp; Ravi professor teaching a General Studies class" width="1536" height="1024" loading="lazy" decoding="async" style="object-position:62% 30%"></figure>
+      <p class="lg__cap"><b>Our faculty</b><span>Specialists for every General Studies paper</span></p>
+    </li>
+    <li class="lg__slide">
+      <figure class="lg__media"><img src="assets/img/photos/campus-entrance.webp" alt="The institute entrance with the Vajiram &amp; Ravi sign" width="900" height="1600" loading="lazy" decoding="async" style="object-position:50% 32%"></figure>
+      <p class="lg__cap"><b>The entrance</b><span>Next to Gate 5, Karol Bagh Metro</span></p>
+    </li>
+    <li class="lg__slide">
+      <figure class="lg__media"><img src="assets/img/photos/why-3-guidance.webp" alt="A mentor going through a study plan with an aspirant" width="1536" height="1024" loading="lazy" decoding="async" style="object-position:45% 40%"></figure>
+      <p class="lg__cap"><b>Mentoring</b><span>A study plan, kept on track</span></p>
+    </li>
+    <li class="lg__slide">
+      <figure class="lg__media"><img src="assets/img/photos/why-4-study-material.webp" alt="Vajiram &amp; Ravi study material, test series sheets and notes on a desk" width="1536" height="1024" loading="lazy" decoding="async"></figure>
+      <p class="lg__cap"><b>Study material</b><span>Notes and test series for every stage</span></p>
+    </li>
+    <li class="lg__slide lg__slide--vid">
+      <figure class="lg__media"><video poster="assets/img/photos/why-5-location.webp" data-src="" muted loop playsinline preload="none" aria-label="Video: aspirants walking in to the campus in Old Rajinder Nagar"></video><span class="lg__badge" aria-hidden="true"><svg viewBox="0 0 24 24" width="12" height="12"><path d="M8 5.5v13l11-6.5z"/></svg>Video</span></figure>
+      <p class="lg__cap"><b>Arriving for class</b><span>Old Rajinder Nagar, New Delhi</span></p>
+    </li>
+    <li class="lg__slide">
+      <figure class="lg__media"><img src="assets/img/photos/building-hd.webp" alt="The Vajiram &amp; Ravi building seen from the street" width="2240" height="1685" loading="lazy" decoding="async" style="object-position:40% 50%"></figure>
+      <p class="lg__cap"><b>The building</b><span>1-B/7, Pusa Road</span></p>
+    </li>
+    <li class="lg__slide">
+      <figure class="lg__media"><img src="assets/img/photos/why-6-classroom-online.webp" alt="A Vajiram &amp; Ravi classroom with the lecture streaming live to online students" width="1536" height="1024" loading="lazy" decoding="async" style="object-position:50% 40%"></figure>
+      <p class="lg__cap"><b>Classroom + LIVE-Online</b><span>The same teachers and the same tests</span></p>
+    </li>
+    <li class="lg__slide">
+      <figure class="lg__media"><img src="assets/img/photos/campus-hd.webp" alt="The Vajiram &amp; Ravi campus gate and building at Old Rajinder Nagar" width="2000" height="1334" loading="lazy" decoding="async" style="object-position:62% 50%"></figure>
+      <p class="lg__cap"><b>The campus</b><span>Old Rajinder Nagar since 1976</span></p>
+    </li>
+  </ul>
   </div>
 </section>
 
@@ -872,6 +984,8 @@
 <script src="js/data/toppers-archive.js?v=4"></script>
 <script src="js/custom-select.js?v=3"></script>
 <script src="js/content.js?v=49"></script>
+<script src="js/batches-row.js?v=2"></script>
+<script src="js/resources-stack.js?v=2"></script>
 <script src="js/hero-v6.js?v=8"></script>
 <script src="js/faculty-ring.js?v=2"></script>
 <script src="js/programme-shelf.js?v=2"></script>
@@ -882,7 +996,7 @@
 <script src="js/page-motion.js?v=17"></script>
 <script src="js/visit-map.js?v=2"></script>
 <script src="js/visit-gallery.js?v=3"></script>
-<script src="js/life-gallery.js?v=4"></script>
+<script src="js/life-gallery.js?v=17"></script>
 <script src="js/story.js?v=5"></script>
 <script src="js/accordion.js"></script>
 <script src="js/footer-curtain.js?v=2"></script>
@@ -891,5 +1005,6 @@
 <script src="js/trending.js?v=3"></script>
 <script src="js/magnetic.js?v=1"></script>
 <script src="js/diamond-reel.js?v=5"></script>
+<script src="js/podium-fx.js?v=6"></script>
 </body>
 </html>
