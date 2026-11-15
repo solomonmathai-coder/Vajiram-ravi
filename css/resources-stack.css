@@ -5,7 +5,7 @@
    screens get a plain column of cards. */
 .rk { --rk-top: 112px; position: relative; display: flex; flex-direction: column; gap: 36px; margin: 44px 0 0; padding: 0; list-style: none; }
 .rk__card { position: sticky; top: calc(var(--rk-top) + var(--i) * 20px); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  min-height: min(520px, calc(100vh - var(--rk-top) - 140px)); border-radius: 28px; overflow: hidden; background: #fff;
+  min-height: min(520px, calc(100vh - var(--rk-top) - 140px)); border-radius: 14px; overflow: hidden; background: #fff;
   box-shadow: 0 0 0 1px rgba(194, 65, 12, .1), 0 -18px 40px -30px rgba(80, 25, 5, .35), 0 36px 60px -44px rgba(80, 25, 5, .5);
   transform-origin: 50% 0; will-change: transform; }
 
@@ -50,9 +50,18 @@
 /* ---------- phones: a plain column, the picture first ---------- */
 @media (max-width: 700px) {
   .rk { gap: 20px; }
-  .rk__card { position: relative; top: auto; grid-template-columns: 1fr; min-height: 0; border-radius: 20px; will-change: auto; transform: none !important; }
+  .rk__card { position: relative; top: auto; grid-template-columns: 1fr; min-height: 0; border-radius: 12px; will-change: auto; transform: none !important; }
   .rk__media { order: -1; min-height: 240px; padding: 28px; }
   .rk__txt { padding: 28px 24px 30px; }
   .rk__pts { margin-top: 20px; }
   .rk__pts li { padding: 7px 0; font-size: 15px; }
 }
+
+/* ---------- "More free resources": the cards zoom in (user 2026-11-15, after animate-ui's Zooms: initial scale .5 to 1, 100 ms between
+   items) when the list scrolls into view, in place of the shared rise (css/v25.css .rise; js/content.js adds .rise, each card's --i and
+   then .in once, on entry): each card grows from half its size to full and fades in, the next 100 ms after, settling with a slight
+   spring. On the list item (scale), so the card's own hover lift (transform on the link) is untouched. Off with reduced motion. ---------- */
+.sm__more-list.rise > li { opacity: 0; transform: none; scale: .5;
+  transition: opacity .45s ease calc(var(--i, 0) * 100ms), scale .75s cubic-bezier(.34, 1.45, .5, 1) calc(var(--i, 0) * 100ms); }
+.sm__more-list.rise.in > li { opacity: 1; scale: 1; }
+@media (prefers-reduced-motion: reduce) { .sm__more-list.rise > li { opacity: 1; scale: none; transition: none; } }

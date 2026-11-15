@@ -29,6 +29,19 @@
 #toppers .lbl .lbl__t { border-image-source: url(../assets/img/brand/cartouche.svg); color: #fff !important; }
 #toppers .pd__h { max-width: 14em; margin-left: auto; margin-right: auto; color: #fff; text-align: center; }
 .pd__h em { display: block; font-style: italic; color: var(--pd-gold); }   /* "with the guidance we gave." on a line of its own, on every screen */
+/* the heading shines (user 2026-11-15, after animate-ui's GradientText): each line keeps its colour, white and the gold, as a gradient
+   clipped to the letters, and a soft bright band glides through them from left to right every 4.5 s (in 1.8 s, then still), the gold
+   line a beat behind the white so it seems to run down the heading. Plain colours where text can't take a background; still with
+   reduced motion. */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  #toppers .pd__h, #toppers .pd__h em { -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;
+    background-size: 250% 100%; background-repeat: no-repeat; background-position: 100% 0; animation: pdTextShine 4.5s linear infinite; }
+  #toppers .pd__h { background-image: linear-gradient(105deg, #fff 0%, #fff 38%, #FFD79A 45%, #FFF6E2 50%, #FFD79A 55%, #fff 62%, #fff 100%); }   /* on white, the glint shows as a gold edge round a warm light */
+  #toppers .pd__h em { background-image: linear-gradient(105deg, #FFD48A 0%, #FFD48A 40%, #FFE9BE 46%, #FFFBEA 50%, #FFE9BE 54%, #FFD48A 60%, #FFD48A 100%);
+    animation-delay: .25s; }
+}
+@keyframes pdTextShine { 0% { background-position: 100% 0; animation-timing-function: cubic-bezier(.45, 0, .55, 1); } 40%, 100% { background-position: 0% 0; } }   /* the gradient always covers the whole line; the band starts just off the left and ends just off the right */
+@media (prefers-reduced-motion: reduce) { #toppers .pd__h, #toppers .pd__h em { animation: none; } }
 .pd__intro { max-width: 520px; margin: 16px auto 0; font: 400 var(--body-fs, 17px)/var(--body-lh, 1.6) var(--f); color: #fff; text-wrap: pretty; text-shadow: 0 1px 2px rgba(70, 16, 0, .5); }   /* solid, with a close shadow, over the sparkle ground */
 
 /* ---------- the three ---------- */

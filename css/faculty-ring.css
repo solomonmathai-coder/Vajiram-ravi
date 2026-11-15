@@ -49,6 +49,12 @@
 .fr__btn:active { scale: .96; }
 .fr__btn:focus-visible { outline: 2px solid #cc5500; outline-offset: 3px; }
 .fr__btn svg { fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+/* the arrows only while the pointer is over the carousel (user 2026-11-15), fading in and out; also while anything in it has keyboard
+   focus; always there on touch screens, which cannot hover */
+@media (hover: hover) and (pointer: fine) {
+  .fr__arrow { opacity: 0; pointer-events: none; transition: opacity .3s ease; }
+  .fr:hover .fr__arrow, .fr:focus-visible .fr__arrow, .fr:has(:focus-visible) .fr__arrow { opacity: 1; pointer-events: auto; }
+}
 
 /* The dots: the active one stretches, and shows the autoplay's progress inside it. */
 .fr__dots { display: flex; align-items: center; gap: 8px; margin-top: var(--fr-sp, 28px); }
@@ -62,5 +68,5 @@
 .fr__dots button:focus-visible { outline: 2px solid #cc5500; outline-offset: 3px; }
 
 @media (prefers-reduced-motion: reduce) {
-  .fr__pic, .fr__btn, .fr__dots button { transition: none; }
+  .fr__pic, .fr__btn, .fr__arrow, .fr__dots button { transition: none; }
 }

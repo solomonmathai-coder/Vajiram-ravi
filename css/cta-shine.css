@@ -1,0 +1,16 @@
+/* The shine on every call-to-action button (user 2026-11-15, after animate-ui's Shine; then "make the shine smooth and subtle"), only
+   while the button is hovered or focused from the keyboard: a soft, wide band of light, leaning 15 degrees and fading out at both edges,
+   glides across it from left to right in 1.6 s, rests 0.9 s and goes again for as long as the pointer stays. It replaced the buttons'
+   magnetic pull (js/magnetic.js, removed). On the site's buttons (.cta, made by js/page-motion.js: .bt, .talk, .pbtn, .vbtn, .inv__reg)
+   and the Why section's and Free resources' dark pills (.cmp__cta). It sits on each button's ::after, over the hover fill (::before)
+   and inside the button's rounded shape. Off with reduced motion. */
+.cta, .cmp__cta { position: relative; overflow: hidden; isolation: isolate; }
+.cta::after, .cmp__cta::after { content: ""; position: absolute; inset: 0; z-index: 2; pointer-events: none; border-radius: inherit;
+  background: linear-gradient(75deg, transparent 0%, rgba(255, 246, 234, 0) 30%, rgba(255, 246, 234, .08) 40%, rgba(255, 246, 234, .2) 50%, rgba(255, 246, 234, .08) 60%, rgba(255, 246, 234, 0) 70%, transparent 100%) -160% 0 / 70% 100% no-repeat; }
+/* on the pale buttons (white, outlined, the highlighted ticket's), a band of the brand's orange instead of light */
+.cta.bt--white::after, .cta.bt--line::after, .inv--hi .inv__reg.cta::after {
+  background-image: linear-gradient(75deg, transparent 0%, rgba(194, 65, 12, 0) 30%, rgba(194, 65, 12, .04) 40%, rgba(194, 65, 12, .1) 50%, rgba(194, 65, 12, .04) 60%, rgba(194, 65, 12, 0) 70%, transparent 100%); }
+.cta:hover::after, .cta:focus-visible::after, .cmp__cta:hover::after, .cmp__cta:focus-visible::after { animation: ctaShine 2.5s linear infinite; }
+/* the band starts clear of the left edge and ends clear of the right; a gentle ease through the 1.6 s sweep, then still for 0.9 s */
+@keyframes ctaShine { 0% { background-position: -160% 0; animation-timing-function: cubic-bezier(.37, 0, .63, 1); } 64%, 100% { background-position: 260% 0; } }
+@media (prefers-reduced-motion: reduce) { .cta::after, .cmp__cta::after { animation: none !important; } }
