@@ -130,3 +130,13 @@
   .rk__media { min-height: 0; }
   .rk__media img { max-height: calc(var(--rk-h) - 88px); }   /* the panel's height less its padding and a little room for the tilt */
 }
+
+/* the heading pinned under the deck (user 2026-11-16, "make this section sticky on top so the cards scroll on top"): the "Free
+   resources" label and "Your preparation can begin today." stay put once they reach the spot where the cards come to rest, and the
+   first card slides up over them, the rest piling on as before. The heading belongs to .sm__deck with the cards, so it leaves with the
+   deck and never shows behind "More free resources". On phones the cards don't pin, so they simply scroll up over the pinned heading. */
+.sm__deck { --rk-top: 112px; position: relative; }
+.sm__head { position: sticky; top: var(--rk-top); z-index: 0; }
+.sm__deck .rk { position: relative; z-index: 1; }
+@media (min-width: 701px) and (max-width: 1000px) { .sm__deck { --rk-top: 96px; } }
+@media (max-width: 700px) { .sm__head { top: 84px; } }

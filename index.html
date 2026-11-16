@@ -10,15 +10,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Geist:wght@500&family=Anek+Devanagari:wght@500&family=Geist+Mono:wght@400&family=Hanken+Grotesk:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300&family=League+Spartan:wght@600;700&family=Mukta:wght@400;500;600;700&family=Source+Sans+3:wght@500;700&family=Tiro+Devanagari+Hindi:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/v49.css?v=314">
+<link rel="stylesheet" href="css/v49.css?v=315">
 <link rel="stylesheet" href="css/contact-compact.css?v=9">
 <link rel="stylesheet" href="css/trending.css?v=7">
 <link rel="stylesheet" href="css/story.css?v=19">
 <link rel="stylesheet" href="css/life-gallery.css?v=24">
 <link rel="stylesheet" href="css/intro.css?v=2">
-<link rel="stylesheet" href="css/podium.css?v=97">
+<link rel="stylesheet" href="css/podium.css?v=98">
 <link rel="stylesheet" href="css/batches-row.css?v=9">
-<link rel="stylesheet" href="css/resources-stack.css?v=25">
+<link rel="stylesheet" href="css/resources-stack.css?v=26">
 <link rel="stylesheet" href="css/cta-shine.css?v=2">
 <link rel="stylesheet" href="css/footer-v6.css?v=4">
 <script>document.documentElement.classList.add('js')</script>
@@ -28,7 +28,7 @@
 </head>
 <body>
 <!-- brand intro: Vajiram & Ravi reveal on orange, plays on every load -->
-<script src="js/intro.js?v=2"></script>
+<script src="js/intro.js?v=3"></script>
 
 <!-- ============ floating navigation ============ -->
 <header class="nav" id="nav">
@@ -665,11 +665,13 @@
      Every link opens the Vajiram &amp; Ravi site (content.js [data-rs]) until the resource pages exist. ============ -->
 <section class="sm" id="resources" aria-labelledby="resrcH">
   <div class="sm__in">
+    <!-- the heading and the deck together (user 2026-11-16): the heading stays pinned where the cards come to rest while the first card
+         slides up over it, and leaves with the deck (css/resources-stack.css .sm__deck) -->
+    <div class="sm__deck">
     <div class="sm__head">
       <div class="sm__titles">
         <div class="lbl rv" style="--d:.05s"><span class="lbl__t">Free resources</span><i></i><span class="lbl__orn" aria-hidden="true"></span></div>
         <h2 id="resrcH" class="h2 h2--sec rv" style="--d:.12s">Your preparation can begin today.</h2>
-        <p class="intro rv" style="--d:.2s">Daily current affairs, a monthly magazine and the official papers, free, from the Vajiram &amp; Ravi editorial desk.</p>
       </div>
     </div>
     <!-- the resources as a deck (after loopsii.com's highlights): one card each, every card sticking a step lower than the one before, so
@@ -678,9 +680,9 @@
       <li class="rk__card" style="--i:0;--tone:linear-gradient(149deg, #e57512 14.3%, #ae3b0f 85.7%)">
         <div class="rk__txt">
           <p class="rk__n">01<small>/06</small></p>
-          <h3 class="rk__t">Current Affairs</h3>
-          <p class="rk__d">The day&rsquo;s news, chosen and explained the way UPSC asks about it.</p>
-          <ul class="rk__pts"><li>Prelims articles</li><li>Mains articles</li><li>Quest</li></ul>
+          <h3 class="rk__t">Daily Current Affairs</h3>
+          <p class="rk__d">Articles on the day&rsquo;s news for Prelims and Mains, with Quest, published every day.</p>
+          <ul class="rk__pts"><li>Saves you reading every newspaper</li><li>Shows how a story could be asked in the exam</li><li>Covers Prelims and Mains in one place</li></ul>
           <a class="bt bt--line rk__cta" href="#" data-rs>Read today&rsquo;s articles</a>
         </div>
         <div class="rk__media" aria-hidden="true"><p class="rk__badge"><span>Today</span><time id="rsToday"></time></p><img src="assets/img/resources/cutout/current-affairs.png?v=2" alt="" width="640" height="410" loading="lazy" decoding="async"></div>
@@ -688,9 +690,9 @@
       <li class="rk__card" style="--i:1;--tone:#B47A20">
         <div class="rk__txt">
           <p class="rk__n">02<small>/06</small></p>
-          <h3 class="rk__t">The Recitals</h3>
-          <p class="rk__d">Current affairs gathered into one issue you can revise from.</p>
-          <ul class="rk__pts"><li>A new issue every month</li><li>Free to download</li></ul>
+          <h3 class="rk__t">The Recitals: Monthly Magazine</h3>
+          <p class="rk__d">The month&rsquo;s current affairs gathered into one issue, free to download.</p>
+          <ul class="rk__pts"><li>Revise a whole month in one sitting</li><li>Catch up on anything you missed</li><li>A new issue every month</li></ul>
           <a class="bt bt--line rk__cta" href="#" data-rs>Download this month</a>
         </div>
         <div class="rk__media" aria-hidden="true"><img src="assets/img/resources/cutout/the-recitals.png" alt="" width="640" height="520" loading="lazy" decoding="async"></div>
@@ -699,8 +701,8 @@
         <div class="rk__txt">
           <p class="rk__n">03<small>/06</small></p>
           <h3 class="rk__t">Previous Year Papers</h3>
-          <p class="rk__d">See exactly what UPSC has asked, and practise on the real thing.</p>
-          <ul class="rk__pts"><li>Prelims papers</li><li>Mains papers</li><li>The UPSC answer key</li></ul>
+          <p class="rk__d">UPSC&rsquo;s past Prelims and Mains question papers, with the answer key.</p>
+          <ul class="rk__pts"><li>Shows the kind of questions UPSC asks</li><li>Lets you practise on the real papers</li><li>Check your answers against the key</li></ul>
           <a class="bt bt--line rk__cta" href="#" data-rs>Browse papers</a>
         </div>
         <div class="rk__media" aria-hidden="true"><img src="assets/img/resources/cutout/previous-year-papers.png?v=2" alt="" width="640" height="595" loading="lazy" decoding="async"></div>
@@ -709,8 +711,8 @@
         <div class="rk__txt">
           <p class="rk__n">04<small>/06</small></p>
           <h3 class="rk__t">Syllabus &amp; Exam Pattern</h3>
-          <p class="rk__d">Know what to study before you start, and where the marks are.</p>
-          <ul class="rk__pts"><li>Prelims, Mains and Interview syllabus</li><li>Papers and marks at each stage</li><li>Which stages count for the final rank</li></ul>
+          <p class="rk__d">The full syllabus, and how Prelims, Mains and the Interview are set and marked.</p>
+          <ul class="rk__pts"><li>Tells you exactly what to study</li><li>Helps you plan by where the marks are</li><li>Shows which stages count for your rank</li></ul>
           <a class="bt bt--line rk__cta" href="#" data-rs>Read the guide</a>
         </div>
         <div class="rk__media" aria-hidden="true"><img src="assets/img/resources/cutout/syllabus-exam-pattern.png?v=2" alt="" width="640" height="663" loading="lazy" decoding="async"></div>
@@ -718,9 +720,9 @@
       <li class="rk__card" style="--i:4;--tone:#9D485B">
         <div class="rk__txt">
           <p class="rk__n">05<small>/06</small></p>
-          <h3 class="rk__t">GS Postal Books</h3>
-          <p class="rk__d">Study from the institute&rsquo;s material wherever you prepare.</p>
-          <ul class="rk__pts"><li>General Studies books in print</li><li>Delivered by post</li></ul>
+          <h3 class="rk__t">GS Books by Post</h3>
+          <p class="rk__d">Vajiram &amp; Ravi&rsquo;s General Studies books in print, delivered by post.</p>
+          <ul class="rk__pts"><li>Study the institute&rsquo;s material from anywhere</li><li>Printed, so you can read and mark them up</li><li>Covers General Studies for the exam</li></ul>
           <a class="bt bt--line rk__cta" href="#" data-rs>Buy now</a>
         </div>
         <div class="rk__media" aria-hidden="true"><img src="assets/img/resources/cutout/gs-postal-books.png?v=2" alt="" width="640" height="624" loading="lazy" decoding="async"></div>
@@ -729,13 +731,14 @@
         <div class="rk__txt">
           <p class="rk__n">06<small>/06</small></p>
           <h3 class="rk__t">UPSC Calendar 2027</h3>
-          <p class="rk__d">Plan your year around the exam, from the notification to the interview.</p>
-          <ul class="rk__pts"><li>Dates for every stage</li><li>Age limit</li><li>Eligibility rules</li></ul>
+          <p class="rk__d">The dates for every stage of the 2027 exam, with the age limit and eligibility rules.</p>
+          <ul class="rk__pts"><li>Plan your preparation around the dates</li><li>Check you are eligible before you apply</li><li>Keep track of notifications and deadlines</li></ul>
           <a class="bt bt--line rk__cta" href="#" data-rs>See the calendar</a>
         </div>
         <div class="rk__media" aria-hidden="true"><img src="assets/img/resources/cutout/upsc-calendar.png" alt="" width="640" height="612" loading="lazy" decoding="async"></div>
       </li>
     </ol>
+    </div>
     <div class="sm__more rv" style="--d:.08s">
       <p class="sm__more-k" id="smMoreK">More free resources</p>
       <ul class="sm__more-list sm__more-list--bento" aria-labelledby="smMoreK">
@@ -1000,7 +1003,7 @@
 <script src="js/footer-curtain.js?v=3"></script>
 <script src="js/footer-word.js?v=4"></script>
 <script src="js/trending.js?v=3"></script>
-<script src="js/diamond-reel.js?v=7"></script>
+<script src="js/diamond-reel.js?v=9"></script>
 <script src="js/podium-fx.js?v=7"></script>
 <script src="js/stars.js?v=3"></script>
 </body>

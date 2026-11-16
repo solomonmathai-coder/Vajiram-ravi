@@ -387,3 +387,11 @@
 .dr__h { font-size: 18px; letter-spacing: .14em; }
 .dr__h::before, .dr__h::after { width: min(170px, 16vw); }
 @media (max-width: 640px) { .dr__h { font-size: 14px; letter-spacing: .1em; } .dr__h::before, .dr__h::after { width: 28px; } }
+
+/* the rank holders' reel can be dragged (user 2026-11-16; js/diamond-reel.js moves it now, not the drMove animation): a grab hand over
+   it and a closed hand while held; a sideways drag is the reel's, an up-and-down swipe still scrolls the page; the portraits cannot
+   be picked up and dragged away, and no text gets selected */
+.dr__track.is-drag { animation: none; will-change: transform; }
+.dr__view:has(.is-drag) { cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
+.dr__view.is-grabbing { cursor: grabbing; }
+.dr__view img { -webkit-user-drag: none; }

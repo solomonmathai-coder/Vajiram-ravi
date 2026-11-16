@@ -1,5 +1,5 @@
 /* v49 intro: the original logo reveal (iris, mandala ring, logo, tagline, curtain lifts) in brand orange. No video.
-   Skip button, Esc or scrolling ends it. Fires 'vr:intro-done' and clears html.vrv-lock. */
+   It ends by itself; Esc or scrolling ends it sooner (no Skip button, 2026-11-16). Fires 'vr:intro-done' and clears html.vrv-lock. */
 (function () {
   'use strict';
   // plays on every load, reloads included (user 2026-11-11; it used to play once per browser session)
@@ -15,8 +15,7 @@
       '<p class="vrv__tag"><span>Understanding India.</span> <span>Shaping its Future.</span></p>' +
     '</div>' +
     '<span class="vrv__bar" aria-hidden="true"></span>' +
-    '<span class="vrv__edge" aria-hidden="true"></span>' +
-    '<button class="vrv__skip" type="button">Skip intro</button>';
+    '<span class="vrv__edge" aria-hidden="true"></span>';   // no Skip intro button (user 2026-11-16): it ends by itself after 2.5 s, or on Esc or a scroll
   document.body.insertBefore(el, document.body.firstChild);
   root.classList.add('vrv-lock');
   var done = false, t = 0;
@@ -25,7 +24,6 @@
     el.classList.add('vrv--out');
     setTimeout(function () { el.remove(); root.classList.remove('vrv-lock'); document.dispatchEvent(new CustomEvent('vr:intro-done')); }, reduce ? 420 : 850);
   };
-  el.querySelector('.vrv__skip').addEventListener('click', finish);
   addEventListener('keydown', function k(e) { if (e.key === 'Escape') { removeEventListener('keydown', k); finish(); } });
   ['wheel', 'touchmove'].forEach(function (ev) { addEventListener(ev, finish, { passive: true, once: true }); });
   requestAnimationFrame(function () { el.classList.add('vrv--fin'); t = setTimeout(finish, reduce ? 1500 : 2500); });

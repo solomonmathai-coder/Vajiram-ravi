@@ -2749,3 +2749,21 @@ main .cover > #toppers { z-index: 3; margin-top: 0; }
 /* the page casts a shadow onto the footer as it slides up off it (user 2026-11-16): a soft, warm shadow under the page's bottom edge
    (below "Ready to start your UPSC preparation"), seen only while the footer is being uncovered. Pulled in at the sides so only the foot shows. */
 html.foot-curtain main { box-shadow: 0 26px 44px -18px rgba(70, 25, 5, .38), 0 8px 16px -8px rgba(70, 25, 5, .22); }
+
+/* ---- one connected nav (user 2026-11-16, "make the nav connected"): instead of a white pill (logo and links) and a separate "Let's
+   talk" button with empty page between them, the whole header is one white bar, edge to edge of the page's text width: the logo and
+   links on the left, "Let's talk" inside the bar at its right end, a little smaller so it fits within the bar's 6px rim. The same in every
+   state (over the hero and scrolled). The menus still open from the bar's left end. ---- */
+header.nav { box-sizing: border-box; height: 52px; padding: 6px; border-radius: 999px; background: #fff;
+  box-shadow: 0 0 0 1px rgba(38, 38, 38, .06), 0 10px 30px -10px rgba(38, 38, 38, .22); }
+header.nav .nav__pill, header.nav.nav--hero .nav__pill { flex: 1 1 auto; min-width: 0; max-width: none; height: 100%; padding: 0 0 0 8px;
+  background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: none; }
+header.nav .nav__end { margin-left: 8px; }
+header.nav .cta.cta.cta.cta.talk { height: 40px; padding-right: 4px; }
+header.nav .cta.cta.cta.cta.talk .sq { width: 32px; height: 32px; }
+@media (max-width: 480px) {
+  header.nav { height: 46px; padding: 5px; }
+  header.nav .nav__pill, header.nav.nav--hero .nav__pill { height: 100%; }
+  header.nav .cta.cta.cta.cta.talk { height: 36px; }
+  header.nav .cta.cta.cta.cta.talk .sq { width: 28px; height: 28px; }
+}
