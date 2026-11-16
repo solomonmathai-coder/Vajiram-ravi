@@ -29,9 +29,9 @@
   ];
 
   // The card and the ring, as in version 6 (EducatorFlow's settings).
-  const W = 264, H = 381, GAP = 30, RADIUS_PX = 20, INTERVAL = 4500, ARROW_REACH = 523, SPACING = 28;
+  const W = 264, H = 381, GAP = 30, RADIUS_PX = 20, INTERVAL = 1750, ARROW_REACH = 523, SPACING = 28;   // INTERVAL: a new educator every 1.75 s (user 2026-11-16; it was 4.5 s)
   const STRIPS = 8, MIN_CARDS = 10, TILT = -6, PERSPECTIVE = 2400;
-  const SNAP_HAND = 9, SNAP_AUTO = 6.5, FIRST_STEP_MS = 6000, MOMENTUM = 0.28, MAX_SPEED = 10;
+  const SNAP_HAND = 9, SNAP_AUTO = 6.5, FIRST_STEP_MS = 1750, MOMENTUM = 0.28, MAX_SPEED = 10;   // FIRST_STEP_MS: the first turn too after 1.75 s (was 6 s)
 
   const count = EDUCATORS.length;
   const slots = count * Math.max(1, Math.ceil(MIN_CARDS / count));
@@ -80,7 +80,8 @@
   // The slide's content for assistive technology: the card itself is only the picture.
   const slideText = ed => `<h3>${esc(ed.name)}</h3><p>${esc([ed.focus, ed.qualifications, ed.experience, ed.introduction].filter(Boolean).join('. '))}</p>`;
 
-  const ARROW = d => `<svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="${d === 'prev' ? 'M16 10H4m5-5-5 5 5 5' : 'M4 10h12m-5-5 5 5-5 5'}"/></svg>`;
+  // the banner carousel's chevron (index.html .tr__nav; user 2026-11-16)
+  const ARROW = d => `<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="${d === 'prev' ? 'M15 6L9 12L15 18' : 'M9 6L15 12L9 18'}"/></svg>`;
 
   // ---- Build ----
   host.setAttribute('role', 'region');
@@ -148,7 +149,14 @@
     front = slot;
     cards[front].classList.add('is-front');
     f.hover = false;   // a card that turns away from under a still pointer never gets its pointerleave
-    const active = mod(front, count);
+  };
+  // the dots follow where the ring is going, not where it is (user 2026-11-16, "the indicator seems to be lagging"): the next dot lights
+  // the moment a turn begins, and its progress starts from empty, instead of after the ring is halfway round. While a hand holds the
+  // ring there is no destination yet, so they follow the card nearest the front.
+  let dotOn = -1;
+  const setDot = active => {
+    if (active === dotOn) return;
+    dotOn = active;
     dots.forEach((d, i) => {
       d.classList.toggle('is-on', i === active);
       if (i === active) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current');
@@ -169,6 +177,7 @@
       cards[i].style.setProperty('--fr-depth', depth);
     }
     setFront(mod(Math.round(s.pos), slots));
+    setDot(mod(Math.round(s.held ? s.pos : s.target), count));
   };
 
   const tick = time => {

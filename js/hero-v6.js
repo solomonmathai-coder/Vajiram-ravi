@@ -37,11 +37,28 @@
     dots.forEach((d, k) => { if (k === cur) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current'); });
     air.textContent = pad(rank);
     name.textContent = who;
+    // the results pill's line follows the topper on show, and glides from the start again (index.html #hxGlide)
+    const glide = document.getElementById('hxGlide');
+    if (glide) {
+      const line = `${who} \u00b7 AIR ${rank}, UPSC CSE 2025 \u00b7 See all the results`;
+      glide.children[0].textContent = line; glide.children[1].textContent = line;
+      if (!reduce) { glide.style.animation = 'none'; void glide.offsetWidth; glide.style.animation = ''; }
+    }
     if (!reduce) restart(mark, 'is-drawn');
     tick();
   };
 
   dots.forEach((d, k) => d.addEventListener('click', () => show(k)));
+  // previous / next on the panel's sides (index.html .hx__navs): a step back or on, and the slide's time starts again
+  const prevB = hero.querySelector('.hx__nav--prev'), nextB = hero.querySelector('.hx__nav--next');
+  if (prevB) prevB.addEventListener('click', () => show(cur - 1));
+  if (nextB) nextB.addEventListener('click', () => show(cur + 1));
+  // the arrows' layer lies exactly over the panel (it sits outside the panel, which clips, so each arrow can straddle its edge)
+  const navs = hero.querySelector('.hx__navs'), panel = hero.querySelector('.hx__panel');
+  const lay = () => { if (!navs || !panel) return;
+    Object.assign(navs.style, { left: panel.offsetLeft + 'px', top: panel.offsetTop + 'px', width: panel.offsetWidth + 'px', height: panel.offsetHeight + 'px' }); };
+  lay(); addEventListener('resize', lay); addEventListener('load', lay);
+  if ('ResizeObserver' in window && panel) new ResizeObserver(lay).observe(panel);
   if (reduce) pauseBtn.hidden = true;
   pauseBtn.addEventListener('click', () => {
     paused = !paused;

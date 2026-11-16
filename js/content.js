@@ -403,7 +403,8 @@
   // All / IGP / General Studies / Optional / Module Courses / Test Series, twelve programmes, each in one tab.
   // cat: the catalogue category its "View courses" opens; without one the button enquires with the programme pre-selected.
   // c: cloth colour (.gsbook--k0..k11), so no two neighbours match
-  const PTABS = window.__ptabs = ['All', 'IGP', 'General Studies', 'Optional', 'Module Courses', 'Test Series'];
+  // the eight books of version 6's shelf, and its four categories as the tabs (user 2026-11-16: "we only need these 8 books")
+  const PTABS = window.__ptabs = ['All', 'Foundation', 'Optional', 'Tests', 'Guidance'];
   // a small illustration for each programme book, in the slot the description used to fill (same order as PROGS): gold line work with soft fills and an accent, inside a dotted medallion
   const PICON = [
     '<path class="f" d="M32 22c-4-3-10-4-16-3v22c6-1 12 0 16 3 4-3 10-4 16-3V19c-6-1-12 0-16 3Z"/><path d="M32 22v22"/><path d="M20 26c3 0 6 .6 9 2M20 31c3 0 6 .6 9 2M20 36c3 0 6 .6 9 2M44 26c-3 0-6 .6-9 2M44 31c-3 0-6 .6-9 2"/><path class="f" d="M40 19v9l3-2 3 2v-9"/><path d="M26 15l-2-3M38 15l2-3"/><circle class="a" cx="32" cy="13" r="1.6"/>',
@@ -420,18 +421,22 @@
     '<path d="M32 52V37"/><path class="f" d="M32 10 20 28h6l-8 12h28l-8-12h6L32 10Z"/><path d="M14 52h36"/><circle class="a" cx="49" cy="15" r="3"/>'
   ];
   const PROGS = window.__progs = [
-    { t: 'General Studies PCM', tab: 'General Studies', sp: 'GS PCM', c: 0, prog: 'General Studies Prelims cum Mains 2027 (1 year)', d: 'The whole General Studies syllabus for Prelims and Mains, in one year, for graduates.' },
-    { t: 'GS PCM – 2 Year Fledgling', tab: 'General Studies', sp: 'Fledgling', c: 5, prog: 'GS PCM 2-Year Fledgling 2028', d: 'The General Studies programme spread over two years, for college students.' },
-    { t: 'GS Mains Crash Course', tab: 'General Studies', sp: 'GS Mains Crash', c: 4, prog: 'GS Mains Crash Course', d: 'A short, intensive run through General Studies for the Mains papers.' },
-    { t: 'Optional Subjects', tab: 'Optional', sp: 'Optional', c: 1, prog: 'Optional Subject Programme', d: 'Two papers, 500 marks, taught by a specialist in your optional subject.' },
-    { t: 'CSAT', tab: 'Module Courses', sp: 'CSAT', c: 2, prog: 'CSAT Course', d: 'Prelims Paper II. Qualifying at 33%, but it has to be cleared.' },
-    { t: 'Interview Guidance Programme', tab: 'IGP', sp: 'Interview', c: 3, prog: 'UPSC CSE Interview Guidance Programme', d: 'Mock boards with detailed feedback, for the 275-mark personality test.' },
-    { t: 'Prelims Test Series', tab: 'Test Series', sp: 'Prelims Tests', c: 6, prog: 'PowerUp Prelims Test Series', d: 'Full-length tests with the reasoning behind every answer, plus current affairs.' },
-    { t: 'UPSC Mentorship Program', tab: 'IGP', sp: 'Mentorship', c: 11, prog: 'StepUp Mentorship Programme 2027', d: 'A mentor keeps your plan on track, week by week, in English or Hindi.' },
-    { t: 'Module Courses', tab: 'Module Courses', sp: 'Modules', c: 8, prog: 'Module Courses', d: 'Short courses that take one subject at a time, such as the Economics module.' },
-    { t: 'Mains Test Series', tab: 'Test Series', sp: 'Mains Tests', c: 9, prog: 'Sure Shot Mains Programme 2027', d: 'Write to time, then read what an evaluator would change. English and Hindi.' },
-    { t: 'Optional Subject Crash Course', tab: 'Optional', sp: 'Optional Crash', c: 10, prog: 'Optional Subject Crash Course', d: 'A fast, focused revision of your optional before Mains.' },
-    { t: 'IFoS Programmes', tab: 'General Studies', sp: 'IFoS', c: 7, prog: 'IFoS Programmes', d: 'Preparation for the Indian Forest Service examination.' }
+    { t: 'UPSC GS foundation course – PCM', tab: 'Foundation', n: 4, sp: 'GS foundation', c: 0, prog: 'General Studies Prelims cum Mains 2027 (1 year)', d: '1-year and 2-year General Studies programmes that take you from the basics to Prelims and Mains.',
+      cover: { light: '#d9581c', base: '#c2410c', deep: '#8f3010', emblem: 'books', art: 'bars' } },
+    { t: 'CSAT course', tab: 'Foundation', n: 2, sp: 'CSAT', c: 2, prog: 'CSAT Course', d: 'Prepare for Prelims Paper II and clear the 33% qualifying mark with confidence.',
+      cover: { light: '#2e6a80', base: '#1f4a5f', deep: '#14323f', emblem: 'abacus', art: 'grid' } },
+    { t: 'Optional subject programme', tab: 'Optional', n: 26, sp: 'Optional', c: 1, prog: 'Optional Subject Programme', d: 'Coaching in 13 optional subjects, from Anthropology to Sociology, in classroom and LIVE-Online.',
+      cover: { light: '#c0362c', base: '#a3231c', deep: '#701510', emblem: 'quill', art: 'circles' } },
+    { t: 'Optional test series', tab: 'Optional', n: 16, sp: 'Optional tests', c: 10, prog: 'Optional test series', d: 'Year-long and Mains test series to practise answer writing in your optional subject.',
+      cover: { light: '#336650', base: '#264f3e', deep: '#18352a', emblem: 'layers', art: 'quarters' } },
+    { t: 'Prelims test series', tab: 'Tests', n: 7, sp: 'Prelims tests', c: 6, prog: 'PowerUp Prelims Test Series', d: 'PowerUp test series, Prelims CAMP and current affairs tests to get Prelims-ready.',
+      cover: { light: '#7a3556', base: '#5e2742', deep: '#3f192c', emblem: 'target', art: 'target' } },
+    { t: 'Mains test series', tab: 'Tests', n: 11, sp: 'Mains tests', c: 9, prog: 'Sure Shot Mains Programme 2027', d: 'Sure Shot test series, Mains CAMP and Essay tests to sharpen your answer writing.',
+      cover: { light: '#a3545c', base: '#873f48', deep: '#5e2a31', emblem: 'pen', art: 'lines' } },
+    { t: 'Mentorship programme', tab: 'Guidance', n: 6, sp: 'Mentorship', c: 11, prog: 'StepUp Mentorship Programme 2027', d: 'StepUp mentorship pairs regular tests with a personal mentor, from Prelims to Mains.',
+      cover: { light: '#b8673a', base: '#9b5029', deep: '#6e3519', emblem: 'compass', art: 'arcs' } },
+    { t: 'Interview guidance programme', tab: 'Guidance', n: 2, sp: 'Interview', c: 3, prog: 'UPSC CSE Interview Guidance Programme', d: 'Guidance for the UPSC CSE and IFoS interviews once you have cleared Mains.',
+      cover: { light: '#5e5f63', base: '#4a4b4e', deep: '#303133', emblem: 'mic', art: 'arches' } }
   ];
   const pAct = p => p.cat != null
     ? `<button type="button" class="vbtn" data-open="${p.cat}"><span>View courses</span><span class="sq sq--30 sq--ink">${ico('arrow-white.svg')}</span></button>`
@@ -735,7 +740,10 @@
   batchDlg.addEventListener('click', e => { if (e.target === batchDlg || e.target.closest('[data-prog]')) batchDlg.close(); });
 
   /* ---------------- FAQ (one open at a time) ---------------- */
-  $('#faqList').innerHTML = FAQS.map(([q, a], i) => `<details class="qa"${i ? '' : ' open'}><summary>${esc(q)}${ico('faq-plus.svg', 20)}</summary><p>${esc(a)}</p></details>`).join('');
+  // the FAQ button: a plus that becomes a minus when the answer is open (user 2026-11-16, it used to turn into an x): drawn inline so the
+  // upright stroke can fold away (css/v49.css .qa__ic)
+  const FAQ_IC = '<span class="qa__ic" aria-hidden="true"><svg viewBox="0 0 20 20" width="16" height="16"><path d="M4.17 10H15.83"/><path class="qa__v" d="M10 4.17V15.83"/></svg></span>';
+  $('#faqList').innerHTML = FAQS.map(([q, a], i) => `<details class="qa"${i ? '' : ' open'}><summary>${esc(q)}${FAQ_IC}</summary><p>${esc(a)}</p></details>`).join('');
   // one answer open at a time + the open/close motion: js/accordion.js
 
   /* ---------------- resources: six static cards in index.html; their links open the Vajiram & Ravi site until the pages exist ---------------- */

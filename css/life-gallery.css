@@ -101,3 +101,29 @@
   .lg__slide, .lg__media img, .lg__media video, .lg__ind, .lg__tab, .lg__track { transition: none; }
   .lg__track { scroll-behavior: auto; }
 }
+
+/* ---------- the curved row (user 2026-11-16, "a curved image gallery just like the reference"): narrower cards of one size, portrait,
+   close together, a card centred in the row; js/life-gallery.js turns each card towards the middle and brings it closer the further it
+   is from the middle, so the row reads as the inside of a cylinder: the middle card smallest, the ones at the screen's edges larger and
+   angled in. The row keeps room above and below (--cpad) so the nearer cards are not clipped by its scroll box. ---------- */
+.lgal { --cw: clamp(220px, 21vw, 380px); --ch: calc(var(--cw) * 1.18); --gap: clamp(10px, 1.1vw, 18px); --cpad: 64px; }
+.lg__track { margin-top: calc(clamp(32px, 4vw, 52px) - var(--cpad)); margin-bottom: calc(var(--cpad) * -1); padding-block: var(--cpad); }
+.lg__slide { scroll-snap-align: center; transform-origin: 50% calc(var(--ch) / 2); will-change: transform; }
+.lg__slide--vid { flex-basis: var(--cw); }   /* a video card too is one card wide (its picture is cropped to fit), so the curve stays even */
+.lg__media { border-radius: 10px; }
+.lg__arw { top: calc(var(--cpad) + var(--ch) / 2 - 23px); }
+/* captions: the name over the detail, as the cards are narrow */
+.lg__cap { flex-direction: column; gap: 4px; margin-top: 14px; }
+.lg__cap span { text-align: left; }
+.lg__cap b { white-space: normal; }
+@media (max-width: 760px) {
+  .lgal { --cw: 56vw; --gap: 10px; --cpad: 44px; }
+  .lg__slide--vid { flex-basis: var(--cw); }
+}
+/* the row glides on without stopping (js/life-gallery.js, user 2026-11-16), so it no longer snaps to a card: a snap would pull against
+   the glide. The arrows still bring a card to the middle. */
+.lg__track { scroll-snap-type: none; }
+/* video cards wide again (user 2026-11-16, "the video card should have more width"): the full 16:9 of the card height, so the clip
+   is not cropped, on phones no wider than the screen's text column */
+.lg__slide--vid { flex-basis: calc(var(--ch) * 16 / 9); }
+@media (max-width: 760px) { .lg__slide--vid { flex-basis: min(calc(var(--ch) * 16 / 9), calc(100vw - 2 * var(--px, 20px))); } }

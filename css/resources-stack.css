@@ -86,3 +86,34 @@
 .rk__link:focus-visible { outline: 2px solid #C2410C; outline-offset: 5px; border-radius: 6px; }
 @media (max-width: 760px) { .rk__link { font-size: 17px; gap: 10px; } .rk__txt .rk__pts + .rk__link { margin-top: 18px; } }
 @media (prefers-reduced-motion: reduce) { .rk__lt::after, .rk__ic, .rk__ic svg { transition: none; } }
+
+/* the batch tickets' inner line (user 2026-11-16; css/v49.css .ticket__head::after): a fine, faint white line 7px inside the coloured
+   panel, rounded where the card is rounded and square where the panel meets the white half. Drawn as an outline pulled inside the
+   panel, since the panel's ::before and ::after already hold its glow and grain. */
+.rk__media { border-radius: 0 14px 14px 0; outline: 1px solid rgba(255, 255, 255, .19); outline-offset: -8px; }
+@media (max-width: 700px) { .rk__media { border-radius: 12px 12px 0 0; } }
+
+/* each card's link is now the site's secondary button (user 2026-11-16, "use secondary cta here"): the hero's "Get expert guidance"
+   pill (.bt--line, made a rolling-label .cta by js/page-motion.js), drawn as on the white Contact cards (css/v49.css #visit): an orange
+   ring and orange words, the ring full strength on hover. It sits at the foot of the words, on the left. */
+.rk__cta { align-self: flex-start; margin-top: auto; }
+.rk__txt .rk__pts + .rk__cta { margin-top: 28px; }
+#resources .cta.cta.bt--line { box-shadow: inset 0 0 0 1.5px rgba(194, 65, 12, .45); color: var(--brand, #C2410C); }
+#resources .cta.cta.bt--line::before { background: rgba(194, 65, 12, .08); }
+#resources .cta.cta.bt--line:hover { box-shadow: inset 0 0 0 1.5px var(--brand, #C2410C); color: var(--brand, #C2410C); }
+@media (max-width: 760px) { .rk__txt .rk__pts + .rk__cta { margin-top: 20px; } }
+
+/* the card's number (01 / 06) is a small label over the title, not larger than it (user 2026-11-16: it outranked the title): the
+   number in orange, the count after it in grey, both in the body face, set small and spaced out */
+.rk__n { font: 700 14px/1 var(--f); letter-spacing: .12em; color: var(--brand, #C2410C); }
+.rk__n small { margin-left: 4px; font: 600 14px/1 var(--f); letter-spacing: .12em; color: var(--ink, #1D1712); opacity: .45; vertical-align: baseline; }
+.rk__t { margin-top: 14px; }
+
+/* the points' marker: a four-petal flower instead of the diamond (user 2026-11-16), in brand orange. Four round petals about the
+   centre (fuller than the first, thin ones, which read as a plus at this size), drawn as a mask so the colour comes from the background. */
+.rk__pts li::before { width: 14px; height: 14px; margin: 0; rotate: none; background: var(--brand, #C2410C);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cellipse cx='12' cy='6.4' rx='3.9' ry='5.2'/%3E%3Cellipse cx='12' cy='6.4' rx='3.9' ry='5.2' transform='rotate%2890 12 12%29'/%3E%3Cellipse cx='12' cy='6.4' rx='3.9' ry='5.2' transform='rotate%28180 12 12%29'/%3E%3Cellipse cx='12' cy='6.4' rx='3.9' ry='5.2' transform='rotate%28270 12 12%29'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cellipse cx='12' cy='6.4' rx='3.9' ry='5.2'/%3E%3Cellipse cx='12' cy='6.4' rx='3.9' ry='5.2' transform='rotate%2890 12 12%29'/%3E%3Cellipse cx='12' cy='6.4' rx='3.9' ry='5.2' transform='rotate%28180 12 12%29'/%3E%3Cellipse cx='12' cy='6.4' rx='3.9' ry='5.2' transform='rotate%28270 12 12%29'/%3E%3C/svg%3E") center / contain no-repeat; }
+
+/* the pictures a little larger (user 2026-11-16): up to 88% of the panel's width (520px at most, from 78% / 440px) and 90% of its height */
+.rk__media img { width: min(88%, 520px); max-height: 90%; }

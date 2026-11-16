@@ -70,3 +70,27 @@
 @media (prefers-reduced-motion: reduce) {
   .fr__pic, .fr__btn, .fr__arrow, .fr__dots button { transition: none; }
 }
+
+/* the arrows as the banner carousel's (user 2026-11-16, css/trending.css .tr__nav): cream glass with a white rim and a soft shadow, the
+   chevron in orange; white and a touch larger on hover */
+.fr__btn { border-color: rgba(255, 255, 255, .8); background: rgba(255, 249, 241, .92); color: #C2410C; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  box-shadow: 0 12px 24px -12px rgba(58, 20, 6, .6); transition: opacity .3s ease, background-color .2s, scale .2s; }
+.fr__btn:hover { border-color: rgba(255, 255, 255, .8); background: #fff; color: #C2410C; scale: 1.06; }
+.fr__btn:active { scale: .94; }
+.fr__btn svg { stroke-width: 2.2; }
+
+/* only the card in the middle carries its educator's details (user 2026-11-16: the others turn away and cannot be read): the years
+   seal, the name and subject with the LinkedIn mark, and the shade under them are hidden on every other card, and come in as a card
+   arrives in the middle (.is-front, js/faculty-ring.js): the shade and the words fade and rise in, the seal springs in */
+.fr__card .fr__scrim, .fr__card .fr__ft, .fr__card .fr__seal { opacity: 0; transition: opacity .2s ease, translate .2s ease, scale .2s ease; }
+.fr__card .fr__ft { translate: 0 10px; }
+.fr__card .fr__seal { scale: .6; }
+.fr__card.is-front .fr__scrim, .fr__card.is-front .fr__ft, .fr__card.is-front .fr__seal { opacity: 1; translate: 0 0; scale: 1;
+  transition: opacity .45s ease .15s, translate .6s cubic-bezier(.22, 1, .36, 1) .15s, scale .6s cubic-bezier(.34, 1.56, .64, 1) .1s; }
+@media (prefers-reduced-motion: reduce) {
+  .fr__card .fr__scrim, .fr__card .fr__ft, .fr__card .fr__seal { transition: none !important; translate: none; scale: none; }
+}
+
+/* the active dot stretches quickly (user 2026-11-16: the indicator lagged; it took .35 s, a fifth of a turn), so it keeps up with the ring */
+.fr__dots button { transition: width .2s cubic-bezier(.22, 1, .36, 1), background-color .2s cubic-bezier(.22, 1, .36, 1); }
+@media (prefers-reduced-motion: reduce) { .fr__dots button { transition: none; } }

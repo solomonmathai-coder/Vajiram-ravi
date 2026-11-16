@@ -30,3 +30,43 @@
   #batches .cards { --per: 1; }
 }
 @media (prefers-reduced-motion: reduce) { .bnav__btn { transition: none; } }
+
+/* the buttons on the row's two sides (user 2026-11-16, "button should be on both sides not on the top ... should appear when hovered"):
+   each centred in the page margin beside the row (or as near the edge as a narrow screen allows), level with the middle of the
+   tickets, shown while the pointer is over the row or a button has keyboard focus; the one at an end of the row stays hidden. On
+   touch screens the row is swiped, so they stay hidden there. */
+#batches .brow { position: relative; }
+#batches .bnav { position: absolute; inset: 0; z-index: 3; display: block; margin: 0; pointer-events: none; }
+#batches .bnav.is-none { display: none; }
+#batches .bnav__btn { position: absolute; top: 50%; translate: -50% -50%; pointer-events: auto; background: rgb(255 248 236 / .9);
+  transition: opacity .3s ease, background-color .2s cubic-bezier(.22, 1, .36, 1), color .2s cubic-bezier(.22, 1, .36, 1), border-color .2s cubic-bezier(.22, 1, .36, 1), scale 80ms cubic-bezier(.22, 1, .36, 1); }
+#batches .bnav__prev { left: max(calc(var(--px, 24px) * -.5), calc(24px - var(--px, 24px))); }
+#batches .bnav__next { left: min(calc(100% + var(--px, 24px) * .5), calc(100% + var(--px, 24px) - 24px)); }
+#batches .bnav__btn:disabled { opacity: 0; pointer-events: none; }
+@media (hover: hover) and (pointer: fine) {
+  #batches .bnav__btn { opacity: 0; pointer-events: none; }
+  #batches .brow:hover .bnav__btn:not(:disabled), #batches .bnav:focus-within .bnav__btn:not(:disabled) { opacity: 1; pointer-events: auto; }
+}
+@media (hover: none), (pointer: coarse) { #batches .bnav { display: none; } }
+
+/* the buttons as the banner carousel's (user 2026-11-16, css/trending.css .tr__nav): cream glass with a white rim and a soft shadow, the
+   chevron in orange; white and a touch larger on hover */
+#batches .bnav__btn { border-color: rgba(255, 255, 255, .8); background: rgba(255, 249, 241, .92); color: #C2410C; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  box-shadow: 0 12px 24px -12px rgba(58, 20, 6, .6); transition: opacity .3s ease, background-color .2s, scale .2s; }
+#batches .bnav__btn:not(:disabled):hover { border-color: rgba(255, 255, 255, .8); background: #fff; color: #C2410C; scale: 1.06; }
+#batches .bnav__btn:not(:disabled):active { scale: .94; }
+#batches .bnav__btn svg { stroke-width: 2.2; }
+
+/* no hard cut at the row's sides (user 2026-11-16): the tickets' soft shadow reaches about as far past a ticket as the scroll box does, so
+   the box sliced it along a straight line at the edge. The box now fades out across that margin (the tickets themselves start where it is
+   fully opaque), so a shadow, or a ticket gliding past, softens away instead of ending in a line. */
+#batches .cards {
+  -webkit-mask: linear-gradient(90deg, transparent, #000 var(--bleed), #000 calc(100% - var(--bleed)), transparent);
+          mask: linear-gradient(90deg, transparent, #000 var(--bleed), #000 calc(100% - var(--bleed)), transparent);
+}
+
+/* the arrows show while the pointer is anywhere across the page at the height of the row (user 2026-11-16, "when hovered over any part of
+   this section, horizontally"), page margins included, not only over the tickets: an invisible strip, the full width of the screen and as
+   tall as the row, lies behind the tickets and counts as part of the row. */
+#batches .brow { isolation: isolate; }
+#batches .brow::before { content: ""; position: absolute; z-index: -1; top: 0; bottom: 0; left: 50%; width: 100vw; translate: -50% 0; }

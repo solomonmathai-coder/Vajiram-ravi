@@ -60,7 +60,8 @@
 .hx__copy { position: relative; z-index: 3; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; height: 100%;
   padding: 0 clamp(24px, 4vw, 64px) 8px; box-sizing: border-box; }
 /* the headline: Newsreader, as the Why section's; the last line in italic cream gold */
-.hx__h { margin: 0; font: 400 clamp(40px, 4.2vw, 60px)/1.06 var(--f-title, Georgia), serif; letter-spacing: -.02em; color: #fff; }
+.hx__h { margin: 0; font: 400 44px/1.1 var(--f-title, Georgia), serif;   /* 44px (user 2026-11-16; it was up to 60px, then 40px) */
+   letter-spacing: -.02em; color: #fff; }
 .hx__line { display: block; white-space: nowrap; }
 .hx__h em { font-style: normal; color: inherit; }   /* upright and white like the rest of the headline (user 2026-11-16: "remove the italic", then "use white") */
 .hx__lead { max-width: 760px; margin: 24px 0 0; font: 400 17px/1.6 var(--f); color: rgba(255, 255, 255, .92); text-wrap: pretty; }
@@ -171,7 +172,7 @@ main .cover > #hero.hx + section > * { opacity: var(--cov, 1); transform: transl
   .hx__wash { background: linear-gradient(0deg, rgb(var(--hx-brown) / .55) 0%, rgb(var(--hx-brown) / .45) 40%, rgb(var(--hx-brown) / .1) 62%, transparent 75%); }
   .hx__copy { height: auto; justify-content: flex-end; padding: 120px 24px 84px; }
   .hx__line { white-space: normal; display: inline; }
-  .hx__h { font-size: clamp(34px, 6.4vw, 48px); line-height: 1.08; }
+  .hx__h { font-size: clamp(34px, 6.4vw, 44px); line-height: 1.08; }   /* no larger than 44px (user 2026-11-16) */
   .hx__lead { font-size: 16px; }
   .hx__mark { top: 18px; right: auto; left: 18px; }   /* top left, clear of the topper's face on the right */
   .hx__mark-card { text-align: left; }
@@ -202,3 +203,53 @@ main .cover > #hero.hx + section > * { opacity: var(--cov, 1); transform: transl
   .hx__mark.is-drawn { animation: none; }
   .hx__dots button[aria-current="true"] i { transform: scaleX(1); }
 }
+
+/* the results pill over the headline (user 2026-11-16, version 6's hero Ticker with the tag in orange instead of saffron): a dark pill
+   with a fine light ring; the orange tag; a window, faded at both ends, in which the current topper's line glides slowly left (two
+   copies side by side, moved by one copy's width); an arrow that steps on under the pointer */
+.hx__tick { margin: 0 0 22px; max-width: 100%; }
+.hx__ticker { display: inline-flex; align-items: center; gap: 16px; width: 490px; max-width: 100%; box-sizing: border-box; padding: 6px 16px 6px 6px; border-radius: 999px;
+  background: rgba(43, 18, 6, .8); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .2); color: #fff; text-decoration: none; transition: background-color .2s ease; }
+.hx__ticker:hover { background: #2B1206; }
+.hx__ticker:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.hx__tag { flex: none; display: flex; align-items: center; height: 28px; padding: 0 14px; border-radius: 999px;
+  background: linear-gradient(135deg, #F06A2C 0%, #E85020 55%, #C2410C 100%); color: #fff; font: 700 15px/1 var(--f, "Mukta"), sans-serif;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .25); }
+.hx__win { position: relative; flex: 1; min-width: 0; height: 20px; overflow: hidden;
+  -webkit-mask: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 24px), transparent); mask: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 24px), transparent); }
+.hx__glide { position: absolute; top: 0; left: 0; display: flex; height: 100%; align-items: center; white-space: nowrap; font: 500 15px/20px var(--f, "Mukta"), sans-serif;
+  animation: hxGlide 14s linear infinite; }
+.hx__glide > span { padding-right: 40px; }
+@keyframes hxGlide { to { transform: translateX(-50%); } }
+.hx__tick-arw { flex: none; width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; transition: translate .2s ease; }
+.hx__ticker:hover .hx__tick-arw { translate: 2px 0; }
+@media (max-width: 640px) {
+  .hx__tick { margin-bottom: 16px; }
+  .hx__ticker { gap: 12px; padding-right: 12px; }
+  .hx__tag { height: 26px; padding: 0 11px; font-size: 13.5px; }
+  .hx__glide { font-size: 14px; }
+}
+@media (prefers-reduced-motion: reduce) { .hx__glide { animation: none; } }
+
+/* previous / next (user 2026-11-16: "when hovered over the hero show the navigation buttons", "on both sides, just like the faculty
+   section", then "the same chevron as the banner carousel"): the banner carousel's buttons (css/trending.css .tr__nav: cream glass with
+   a white rim and an orange chevron, white and a touch larger on hover), one centred on each side edge of the panel, half outside it,
+   so they never sit on the type. This layer is laid over the panel by js/hero-v6.js (the panel clips its own contents). They fade in
+   while the pointer is over the hero or one of them has keyboard focus; on touch screens they stay hidden. */
+.hx__navs { position: absolute; z-index: 6; pointer-events: none; }
+.hx__nav { position: absolute; top: 50%; display: flex; align-items: center; justify-content: center; width: 48px; height: 48px; padding: 0; translate: -50% -50%;
+  border: 1px solid rgba(255, 255, 255, .8); border-radius: 50%; background: rgba(255, 249, 241, .92); color: #C2410C; cursor: pointer;
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); box-shadow: 0 12px 24px -12px rgba(58, 20, 6, .6); pointer-events: auto;
+  transition: opacity .3s ease, background-color .2s cubic-bezier(.22, 1, .36, 1), color .2s cubic-bezier(.22, 1, .36, 1), border-color .2s cubic-bezier(.22, 1, .36, 1), scale 80ms cubic-bezier(.22, 1, .36, 1); }
+.hx__nav--prev { left: 0; }
+.hx__nav--next { left: 100%; }
+.hx__nav svg { fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.hx__nav:hover { background: #fff; scale: 1.06; }
+.hx__nav:active { scale: .96; }
+.hx__nav:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) {
+  .hx__nav { opacity: 0; pointer-events: none; }
+  .hx:has(.hx__panel:hover) .hx__nav, .hx__navs:hover .hx__nav, .hx__navs:focus-within .hx__nav { opacity: 1; pointer-events: auto; }
+}
+@media (hover: none), (pointer: coarse) { .hx__navs { display: none; } }
+@media (prefers-reduced-motion: reduce) { .hx__nav { transition: opacity .2s ease; } }

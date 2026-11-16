@@ -45,7 +45,8 @@
     { light: '#336650', base: '#264f3e', deep: '#18352a', emblem: 'hourglass', art: 'diamonds' },  // Optional crash course
     { light: '#5d6b34', base: '#485428', deep: '#2f3819', emblem: 'tree', art: 'triangles' }, // IFoS
   ];
-  const PROGS = window.__progs.map((p, i) => ({ name: p.t, category: p.tab, line: p.d, prog: p.prog, cover: COVERS[i % COVERS.length] }));
+  // a programme may bring its own cover (version 6's eight do, js/content.js); its course count goes on the foot, as in version 6
+  const PROGS = window.__progs.map((p, i) => ({ name: p.t, category: p.tab, count: p.n, line: p.d, prog: p.prog, cover: p.cover || COVERS[i % COVERS.length] }));
 
   /* ---- Measurements (px): version 6's, made to hold this page's twelve programmes. Books a little smaller than
      version 6's (172 × 228, the same proportions), 30px apart. How many stand on a plank follows the room there is
@@ -176,7 +177,7 @@
         <span class="ps-face__name">${esc(p.name)}</span>
         <span class="ps-face__rule" aria-hidden="true"><i></i><b></b><i></i></span>
         <span class="ps-face__em" aria-hidden="true">${emblem(p.cover.emblem, large ? 128 : 58)}</span>
-        <span class="ps-face__foot"><span class="ps-face__cat">${esc(p.category)}</span><span class="ps-face__open" aria-hidden="true">Open the book</span></span>
+        <span class="ps-face__foot"><span class="ps-face__cat">${esc(p.category)}${p.count ? ` &middot; ${p.count} courses` : ''}</span><span class="ps-face__open" aria-hidden="true">Open the book</span></span>
       </span>
       <span class="ps-glint" aria-hidden="true" style="animation-delay:${-glintOffset(p.name)}s"></span>
       <span class="ps-shine" aria-hidden="true"></span>
@@ -218,7 +219,7 @@
   const measure = () => {
     const room = grid.clientWidth || 1280;
     const fits = n => n * BOOK.w + (n - 1) * GAP + 2 * SIDE + 40;
-    PER_SHELF = [6, 4, 3, 2].find(n => fits(n) <= room) || 2;
+    PER_SHELF = [4, 3, 2].find(n => fits(n) <= room) || 2;   // four to a plank at most: the eight books on two planks of four (user 2026-11-16)
     STAGE_W = fits(PER_SHELF);
     PLANK_W = STAGE_W - 40;
     SPINE.x = STAGE_W / 2;

@@ -1,0 +1,104 @@
+/* Contact us, compact (user 2026-11-16, after a reference; index.html #visit .cx). Two columns of equal width, close together:
+   - left: the centre's card (a warm sand card with a fine orange edge: a small orange label, the address as the heading, the landmark
+     in grey, then the hours, phone and email on one wrapping row, each with an Iconoir icon), and under it the map, filling the rest
+     of the column's height, with an orange "View on maps" button laid on its lower left;
+   - right: the campus photos, the full height of the left column, cross-fading (js/visit-gallery.js), a shade along the foot with the
+     photo's caption on the left and the dots on the right (the current one a longer orange pill); arrows at the sides on hover.
+   On narrower screens the columns stack: card, map, photos. */
+#visit .cx { --cx-r: 16px; --cx-gap: 14px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--cx-gap);
+  width: 100%; max-width: 1180px; margin: clamp(28px, 3.4vw, 44px) auto 0; text-align: left; }
+
+.cx__l { display: flex; flex-direction: column; gap: var(--cx-gap); min-width: 0; }
+
+/* the centre's card */
+.cx__card { padding: clamp(22px, 2.2vw, 30px); border-radius: var(--cx-r); background: #FBEEDC; box-shadow: inset 0 0 0 1px rgba(194, 65, 12, .16); }
+.cx__k { margin: 0; font: 600 12.5px/1.2 var(--f); letter-spacing: .02em; color: var(--brand, #C2410C); }
+.cx__addr { max-width: 26ch; margin: 10px 0 0; font: 600 clamp(20px, 1.7vw, 24px)/1.3 var(--f); letter-spacing: -.01em; color: var(--ink, #1D1712); text-wrap: balance; }
+.cx__near { margin: 10px 0 0; font: 400 14.5px/1.5 var(--f); color: var(--body, #5b4a40); }
+.cx__meta { display: flex; flex-wrap: wrap; gap: 10px 26px; margin: 22px 0 0; padding: 0; list-style: none; }
+.cx__meta li, .cx__meta a { display: inline-flex; align-items: center; gap: 8px; font: 500 14.5px/1.3 var(--f); color: var(--ink, #1D1712); }
+.cx__meta a { text-decoration: none; background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; padding-bottom: 1px;
+  transition: color .2s ease, background-size .3s cubic-bezier(.22, 1, .36, 1); }
+.cx__meta a:hover, .cx__meta a:focus-visible { color: var(--brand, #C2410C); background-size: 100% 1px; }
+.cx__meta a:focus-visible { outline: 2px solid var(--brand, #C2410C); outline-offset: 3px; border-radius: 2px; }
+.cx__meta svg { flex: none; fill: none; stroke: var(--brand, #C2410C); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+
+/* the map, and the button on it */
+.cx__map { position: relative; flex: 1 1 auto; min-height: 200px; overflow: hidden; border-radius: var(--cx-r); background: #EDE6DA; box-shadow: inset 0 0 0 1px rgba(29, 23, 18, .08); }
+.cx__map iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+/* "View on maps": the site's main button (.bt--brand with the white arrow circle, made a rolling-label .cta by js/page-motion.js;
+   user 2026-11-16, "update the cta"), laid on the map's lower left */
+#visit .cx__map .cx__go { position: absolute; left: 14px; bottom: 14px; top: auto; z-index: 1; margin: 0; }
+
+/* the photos */
+.cx__gal { position: relative; isolation: isolate; min-height: 440px; overflow: hidden; border-radius: var(--cx-r); background: #6b2a0c; }
+.cx__ph { position: absolute; inset: 0; margin: 0; opacity: 0; transition: opacity .8s ease; }
+.cx__ph.is-on { opacity: 1; }
+.cx__ph img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.cx__gal::after { content: ""; position: absolute; inset: auto 0 0; z-index: 1; height: 38%; pointer-events: none;
+  background: linear-gradient(to top, rgba(20, 8, 2, .62), rgba(20, 8, 2, .28) 45%, transparent); }
+.cx__cap { position: absolute; left: 20px; bottom: 18px; z-index: 2; margin: 0; max-width: calc(100% - 140px); font: 600 15px/1.3 var(--f); color: #fff; text-shadow: 0 1px 8px rgba(0, 0, 0, .35); }
+.cx__dots { position: absolute; right: 20px; bottom: 22px; z-index: 2; display: flex; align-items: center; gap: 6px; }
+.cx__dots button { position: relative; width: 6px; height: 6px; padding: 0; border: 0; border-radius: 999px; background: rgba(255, 255, 255, .55); cursor: pointer;
+  transition: width .3s cubic-bezier(.22, 1, .36, 1), background-color .2s ease; }
+.cx__dots button::after { content: ""; position: absolute; inset: -8px -4px; }   /* a larger target */
+.cx__dots button.is-on { width: 22px; background: #fff; }
+.cx__dots button:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+/* arrows at the photo's sides, as the banner carousel's (css/trending.css .tr__nav), shown on hover or keyboard focus */
+.cx__nav { position: absolute; top: 50%; z-index: 3; display: grid; place-items: center; width: 44px; height: 44px; padding: 0; translate: 0 -50%;
+  border: 1px solid rgba(255, 255, 255, .8); border-radius: 50%; background: rgba(255, 249, 241, .92); color: #C2410C; cursor: pointer;
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); box-shadow: 0 12px 24px -12px rgba(58, 20, 6, .6);
+  opacity: 0; pointer-events: none; transition: opacity .3s ease, background-color .2s, scale .2s; }
+.cx__nav--prev { left: 14px; }
+.cx__nav--next { right: 14px; }
+.cx__nav svg { fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.cx__gal:hover .cx__nav, .cx__nav:focus-visible { opacity: 1; pointer-events: auto; }
+.cx__nav:hover { background: #fff; scale: 1.06; }
+.cx__nav:active { scale: .94; }
+.cx__nav:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+@media (hover: none), (pointer: coarse) { .cx__nav { display: none; } }
+
+/* stacked */
+@media (max-width: 860px) {
+  #visit .cx { grid-template-columns: minmax(0, 1fr); }
+  .cx__map { flex: none; height: 240px; }
+  .cx__gal { min-height: 0; aspect-ratio: 4 / 3; }
+}
+@media (max-width: 480px) {
+  #visit .cx { --cx-r: 14px; --cx-gap: 12px; }
+  .cx__meta { flex-direction: column; gap: 10px; }
+  .cx__gal { aspect-ratio: 1 / 1; }
+  .cx__cap { left: 16px; bottom: 14px; font-size: 14px; }
+  .cx__dots { right: 16px; bottom: 19px; }
+}
+@media (prefers-reduced-motion: reduce) { .cx__ph, .cx__dots button, .cx__nav { transition: none; } }
+
+/* "View on maps" carries the map icon (Iconoir map, user 2026-11-16) in its white circle instead of the sliding arrows: it stays put,
+   a little thinner than the arrows' stroke, and tips slightly on hover */
+#visit .cx__go .sq[data-icon] svg { width: 18px; height: 18px; stroke-width: 1.8; transform: none; transition: rotate .3s cubic-bezier(.22, 1, .36, 1); }
+#visit .cx__go:hover .sq[data-icon] svg { transform: none; rotate: -8deg; }
+
+/* no "Open in Maps" link on the map (user 2026-11-16): Google draws it inside the map frame, at the top left, where the page cannot
+   reach, so the frame starts 64px above the panel's top edge, which cuts that strip off ("View on maps" below does the same job).
+   Google's credits and terms along the foot stay in view. */
+.cx__map iframe { top: -64px; height: calc(100% + 64px); }
+
+/* the opening hours as words, without the clock (user 2026-11-16): a line of their own under the landmark, in ink */
+.cx__hrs { margin: 6px 0 0; font: 500 14.5px/1.5 var(--f); color: var(--ink, #1D1712); }
+
+/* "New Delhi centre" as a badge (user 2026-11-16), the footer news tag's (css/footer-v6.css .vf__tag): an outlined pill, a fine orange
+   ring, small bold capitals spaced out in deep rust */
+.cx__k { display: inline-block; padding: 2px 9px; border: 1px solid rgba(204, 85, 0, .45); border-radius: 999px; color: #9A3412;
+  font: 700 10.5px/1.4 var(--f, "Mukta"), sans-serif; letter-spacing: .1em; text-transform: uppercase; }
+.cx__addr { margin-top: 12px; }
+
+/* smaller corners (user 2026-11-16): 8px on the centre's card, the map and the photos, from 16px (14px on phones) */
+#visit .cx, #visit .cx { --cx-r: 8px; }
+@media (max-width: 480px) { #visit .cx { --cx-r: 8px; } }
+
+/* the centre's card framed as the "Book your free session" form (user 2026-11-16): the same fine lines crossing at the corners with a
+   small diamond (assets/img/patterns/frame.svg, as a border image 12px inside the card, as on .form--note), and room inside it */
+.cx__card { position: relative; padding: clamp(34px, 3vw, 42px); }
+.cx__card::before { content: ""; position: absolute; inset: 12px; border: 16px solid transparent; border-image: url(../assets/img/patterns/frame.svg) 16 stretch;
+  pointer-events: none; }

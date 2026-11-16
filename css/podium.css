@@ -337,3 +337,48 @@
 /* a year whose rank holders all fit on screen stands still, centred */
 .dr__track.is-still { width: auto; justify-content: center; }
 .dr__view:has(.is-still) { -webkit-mask: none; mask: none; }
+
+/* the year bar over the rank holders' reel is hidden (user 2026-11-16): the reel shows CSE 2025 only */
+.dr .dr__bar[hidden] { display: none !important; }
+
+/* the running carousel's frame is now the AIR 2 crest's silver shield, without the laurel wreath (user 2026-11-16), in place of the
+   hexagon: assets/img/toppers/figma/shield-silver.svg (495 x 618; its own orange photo area, so the hexagon's panel goes), the frame
+   as tall as the shield's proportions. The portrait is cut as on the crests (#pdPhoto: open above, so the head rises over the shield's
+   top edge, and below that the shield's sides and point), and is large enough to reach down into the point. */
+.dr { --dh: calc(var(--dw) * 618 / 495); }
+.dr__gem { background: url(../assets/img/toppers/figma/shield-silver.svg?v=2) 0 0 / 100% 100% no-repeat; }
+.dr__gem > i { display: none; }
+.dr__pic { clip-path: url(#pdPhoto); }
+.dr__pic img { top: calc(var(--dh) * -.07); width: calc(var(--dw) * 1.32); }
+.dr__view { padding-top: calc(var(--dh) * .12); }
+
+/* the reel's heading a little larger (user 2026-11-16): 15px from 12.5px (13px on phones from 11px), the lines either side longer */
+.dr__h { gap: 20px; font-size: 15px; letter-spacing: .16em; }
+.dr__h::before, .dr__h::after { width: min(150px, 16vw); }
+@media (max-width: 640px) { .dr__h { gap: 12px; font-size: 13px; letter-spacing: .12em; } .dr__h::before, .dr__h::after { width: 32px; } }
+
+/* the top three a little smaller (user 2026-11-16): the shield 15.5% of the screen's width, from 17.5% (235px at most, from 265px);
+   phones keep their own sizes, set by the screen's width */
+@media (min-width: 641px) { .pd__row { --w: clamp(110px, 15.5vw, 235px); } }
+
+/* a little less room around the top three (user 2026-11-16): above them (from the heading) 4vw, 32 to 56px, from 6vw, 48 to 80px;
+   below them, to "More rank holders", 5.5vw, 52 to 80px, from 8vw, 72 to 112px */
+.pd__row { margin-top: clamp(32px, 4vw, 56px); }
+.dr { margin-top: clamp(52px, 5.5vw, 80px); }
+
+/* "View all toppers" under the reel, centred (user 2026-11-16) */
+.dr__cta { display: flex; justify-content: center; margin: clamp(28px, 3vw, 40px) var(--px) 0; }
+
+/* ---------- the crest from Figma "Shield with laurel wreath" (VAR, node 4155:343, user 2026-11-16) ----------
+   A new shield (its top edge arched) and a new laurel wreath (assets/img/toppers/figma/shield2-*.svg, laurel2-*.svg; gold as drawn
+   there, silver and bronze recoloured from it shade for shade by lightness, the orange photo area as drawn). Placed as in the 720 x 720
+   frame: the shield's file box at x 114.2, y 71.17 (495.17 x 614.45), the wreath's at x 28, y 195.79 (668 x 516.38), so relative to
+   the shield the wreath starts .17408 w to its left and .25168 w below its top. The portrait is cut to the new photo area (#pdPhoto). */
+.pd__col { --h: calc(var(--w) * 1.24089); }
+.pd__col--1 { --pd-laurel: url(../assets/img/toppers/figma/laurel2-gold.svg); }
+.pd__col--2 { --pd-laurel: url(../assets/img/toppers/figma/laurel2-silver.svg); }
+.pd__col--3 { --pd-laurel: url(../assets/img/toppers/figma/laurel2-bronze.svg); }
+.pd__laurel { left: calc(var(--w) * -.17408); top: calc(var(--w) * .25168); width: calc(var(--w) * 1.34903); aspect-ratio: 668 / 516.376; }
+/* the running carousel keeps to the AIR 2 crest: the new silver shield, no wreath */
+.dr { --dh: calc(var(--dw) * 1.24089); }
+.dr__gem { background-image: url(../assets/img/toppers/figma/shield2-silver.svg); }

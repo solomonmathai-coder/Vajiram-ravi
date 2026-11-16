@@ -2711,3 +2711,37 @@ html, body { overflow-x: clip; }
    follows it (js/hero-v6.js keeps the panel 16px under the nav). Scrolled, it still tucks up to 16px / 12px (.nav.scrolled). */
 header.nav { top: 20px; }
 @media (max-width: 640px) { header.nav { top: 14px; } }
+
+/* Programmes -> toppers (user 2026-11-16, "see how the programme section is animated, apply a similar effect on the UPSC CSE 2025
+   results"): as the hero does under Programmes, Programmes now stays put while the toppers sheet (rounded top, shadow: #toppers above)
+   slides up over it. Programmes is taller than the screen, so it sticks by its foot (--crs-stick = screen height - its height, from
+   js/page-motion.js), darkens (.crs__shade) and settles back a little (--cover2), while the toppers' content fades and lifts in (--cov).
+   The toppers section now sits inside .cover, after Programmes. */
+main .cover > #hero.hx + section#courses { position: sticky; top: var(--crs-stick, 0px); }
+main .cover > #toppers { z-index: 3; margin-top: 0; }
+#courses > .band__in { scale: calc(1 - var(--cover2, 0) * .04); transform-origin: 50% 100%; }
+.crs__shade { position: absolute; inset: 0; z-index: 5; border-radius: inherit; pointer-events: none; background: rgb(26 10 2 / calc(var(--cover2, 0) * .8)); }   /* the dark is in the colour: as a child of Programmes its opacity follows --cov (the rule above) */
+@media (prefers-reduced-motion: reduce) {
+  main .cover > #hero.hx + section#courses { position: relative; top: auto; }
+  #courses > .band__in { scale: none; }
+  .crs__shade { display: none; }
+}
+
+/* FAQ: the button shows a minus when the answer is open, not an x (user 2026-11-16). The icon is drawn inline (js/content.js FAQ_IC) as
+   the old one was drawn: a white plus in an orange circle, ink when open. Opening folds the upright stroke away, leaving the minus;
+   closing brings it straight back, as soon as the panel starts to close (js/accordion.js .is-closing). */
+.qa__ic { flex: none; display: grid; place-items: center; box-sizing: content-box; width: 16px; height: 16px; padding: 6px; border-radius: 50%; background: var(--brand);
+  transition: background-color .3s; }
+.qa__ic svg { display: block; fill: none; stroke: #fff; stroke-width: 1.5; stroke-linecap: round; overflow: visible; }
+.qa__v { transform-box: fill-box; transform-origin: center; transition: transform .3s var(--ease, ease); }
+.qa[open] .qa__v { transform: scaleY(0); }
+.qa.is-closing .qa__v { transform: none; }
+#faq .qa[open] .qa__ic { background: var(--ink); }
+#faq .qa.is-closing .qa__ic { background: var(--brand); }
+@media (prefers-reduced-motion: reduce) { .qa__v, .qa__ic { transition: none; } }
+
+/* "More free resources" tiles: the same fine inner line as the big resource cards and the batch tickets (user 2026-11-16;
+   css/resources-stack.css .rk__media): faint white, 7px inside the tile. An outline pulled inside, as the tile's ::before and ::after
+   hold its hover fill and lotus; keyboard focus still swaps it for the focus ring. */
+#resources .sm__mini { outline: 1px solid rgba(255, 255, 255, .19); outline-offset: -8px; }
+#resources .sm__mini:focus-visible { outline: 2px solid var(--tile, #3F5B87); outline-offset: 3px; }

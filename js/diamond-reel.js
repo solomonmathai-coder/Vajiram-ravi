@@ -40,7 +40,7 @@
   const render = y => {
     const list = ((data && data.ARCHIVE[y]) || []).slice().sort((a, b) => a.rank - b.rank).filter(t => y !== 2025 || t.rank > 3);
     track.innerHTML = list.map(t => card(y, t)).join('');
-    head.textContent = y === 2025 ? 'More rank holders, CSE 2025' : `Rank holders, CSE ${y}`;
+    head.textContent = y === 2025 ? '36 rank holders, CSE 2025' : `Rank holders, CSE ${y}`;
     dr.setAttribute('aria-label', y === 2025 ? 'More UPSC CSE 2025 rank holders' : `UPSC CSE ${y} rank holders`);
   };
 

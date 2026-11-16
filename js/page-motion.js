@@ -56,6 +56,26 @@
   show(0); sync();
 })();
 
+/* Programmes -> toppers (user 2026-11-16): the same as hero -> Programmes. q2 = how far the toppers sheet has risen into view; Programmes
+   sticks by its foot meanwhile (--crs-stick), darkens and settles back (--cover2), and the toppers' content fades and lifts in (--cov). */
+(() => {
+  const under = document.getElementById('courses'), over = document.getElementById('toppers');
+  if (!under || !over || under.nextElementSibling !== over || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const c = v => Math.max(0, Math.min(1, v));
+  let tick = false;
+  const stick = () => under.style.setProperty('--crs-stick', Math.min(0, innerHeight - under.offsetHeight) + 'px');
+  const f = () => {
+    tick = false;
+    const q = c(1 - over.getBoundingClientRect().top / innerHeight);
+    under.style.setProperty('--cover2', q.toFixed(3));
+    over.style.setProperty('--cov', c((q - .12) / .58).toFixed(3));
+  };
+  addEventListener('scroll', () => { if (!tick) { tick = true; requestAnimationFrame(f); } }, { passive: true });
+  addEventListener('resize', () => { stick(); f(); });
+  if ('ResizeObserver' in window) new ResizeObserver(() => { stick(); f(); }).observe(under);
+  stick(); f();
+})();
+
 /* nav: transparent while the hero is in view */
 (() => {
   const nav = document.getElementById('nav'), hero = document.getElementById('dlPin'); if (!nav || !hero) return;
@@ -97,7 +117,7 @@
     const label = document.createElement('span'); label.className = 'btn__label';
     label.innerHTML = live ? '<span class="btn__t">' + html + '</span>' : '<span class="btn__t">' + html + '</span><span class="btn__t" aria-hidden="true">' + html + '</span>';
     el.insertBefore(label, sq || null);
-    if (sq) sq.innerHTML = ARROW + ARROW;
+    if (sq && !sq.hasAttribute('data-icon')) sq.innerHTML = ARROW + ARROW;   // a circle marked data-icon keeps its own icon (e.g. Contact us "View on maps")
   };
   const SEL = '.bt, .pbtn, .talk, .vbtn, .inv__reg';
   const scan = root => (root.matches && root.matches(SEL) ? [root] : []).concat([...(root.querySelectorAll ? root.querySelectorAll(SEL) : [])]).forEach(enhance);
