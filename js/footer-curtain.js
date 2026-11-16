@@ -3,7 +3,7 @@
    A footer taller than the screen now sticks with its top at the top of the screen (bottom = screen height - footer height) while the page
    slides away, then scrolls the rest of the way. Re-checked on resize, load and font load. */
 (() => {
-  const foot = document.querySelector('footer.foot'); if (!foot) return;
+  const foot = document.querySelector('footer.foot, footer.vf'); if (!foot) return;
   const root = document.documentElement;
   const check = () => {
     root.style.setProperty('--foot-off', Math.min(0, innerHeight - foot.offsetHeight) + 'px');

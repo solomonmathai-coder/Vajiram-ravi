@@ -62,7 +62,7 @@
 /* the headline: Newsreader, as the Why section's; the last line in italic cream gold */
 .hx__h { margin: 0; font: 400 clamp(40px, 4.2vw, 60px)/1.06 var(--f-title, Georgia), serif; letter-spacing: -.02em; color: #fff; }
 .hx__line { display: block; white-space: nowrap; }
-.hx__h em { font-style: italic; color: #FFE3B0; }
+.hx__h em { font-style: normal; color: #FFE3B0; }   /* upright, one type style through the headline (user 2026-11-16, "remove the italic"); the gold still marks the phrase */
 .hx__lead { max-width: 760px; margin: 24px 0 0; font: 400 17px/1.6 var(--f); color: rgba(255, 255, 255, .92); text-wrap: pretty; }
 .hx__btns { display: flex; flex-wrap: wrap; gap: 12px; margin: 28px 0 0; }
 .hx__btns > span { display: flex; }

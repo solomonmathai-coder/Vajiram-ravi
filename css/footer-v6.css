@@ -1,0 +1,94 @@
+/* =====================================================================================================================================
+   Footer (user 2026-11-16: "use the footer style from v6"): version 6's SiteFooter (Figma "Footer – v5 (minimal)" 2567:4286), set
+   here for the static page and made to reflow on smaller screens (version 6 was fixed at 1280px).
+   - The cream paper (#FFF8EC); everything in a warm grey (#6E655C) with the hairlines in ink at 12%.
+   - The logo row: the logo on the left, the six social icons opposite on the right (the brand marks as masks, painted in the text colour,
+     burnt orange on a soft burnt disc on hover), over a hairline.
+   - Four link columns (Vajiram & Ravi, Courses & Test Series, UPSC Exam, Free Resources) and the latest current affairs beside them (the
+     content of version 8's own footer, user 2026-11-16); heads in Mukta semibold capitals
+     at 16px, spaced a little, in ink; links at 16px. A link turns burnt as a line draws in under it from the left (a background line, so it
+     follows a wrapped label onto its second line).
+   - The giant "Vajiram & Ravi" pressed into the paper: version 6's deboss filter (index.html #vf-deboss) on Mukta Bold, a shade deeper
+     than the cream.
+   - The legal bar over a hairline. It stays parked under the page, which slides up off it (js/footer-curtain.js).
+   ===================================================================================================================================== */
+.vf { --vf-paper: #FFF8EC; --vf-text: #6E655C; --vf-ink: #1A1714; --vf-burnt: #CC5500; --vf-rule: rgba(26, 23, 20, .12);
+  position: relative; background: var(--vf-paper); color: var(--vf-text); font-family: var(--f, "Mukta", system-ui, sans-serif); }
+/* the gold frame (user 2026-11-16): version 8's double gold rule with a diamond on each corner (css/v49.css .foot__frame, its reveal in
+   js/page-motion.js), here on the cream; the content keeps clear of the inner rule (30px in) */
+.vf { isolation: isolate; }
+.vf .foot__frame { z-index: 0; }
+html.foot-curtain footer.vf { position: sticky; bottom: var(--foot-off, 0px); z-index: 0; margin-top: 0; }
+.vf__in { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 48px; max-width: 1280px; margin: 0 auto;
+  padding: 72px max(var(--px, 24px), 48px) 56px; box-sizing: content-box; }   /* clear of the gold frame's inner rule (30px in) */
+
+/* the logo row */
+.vf__bar { display: flex; align-items: center; justify-content: space-between; gap: 24px; width: 100%; padding-bottom: 24px; border-bottom: 1px solid var(--vf-rule); }
+.vf__logo { display: block; }
+.vf__logo img { display: block; width: 156px; height: auto; }
+.vf__socials { display: flex; align-items: center; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.vf__socials a { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; color: var(--vf-text);
+  transition: color .2s ease, background-color .2s ease; }
+.vf__socials a:hover, .vf__socials a:focus-visible { color: var(--vf-burnt); background: rgba(204, 85, 0, .1); }
+.vf__soc { display: block; width: 20px; height: 20px; background: currentColor; -webkit-mask: var(--m) center / contain no-repeat; mask: var(--m) center / contain no-repeat; }
+
+/* the four link columns, and the latest current affairs beside them (the content of version 8's own footer, user 2026-11-16) */
+.vf__top { display: grid; grid-template-columns: minmax(0, 2.85fr) minmax(0, 1.55fr); align-items: start; gap: 40px 56px; width: 100%; }
+.vf__cols { display: grid; grid-template-columns: .8fr 1.15fr 1.15fr 1fr; align-items: start; column-gap: 32px; row-gap: 40px; width: 100%; }
+.vf__col { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; min-width: 0; }
+.vf__h { margin: 0; font: 600 16px/22px "Mukta", var(--f), sans-serif; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; color: var(--vf-ink); }
+.vf__col ul { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; margin: 0; padding: 0; list-style: none; }
+.vf__col a, .vf__legal a { font: 500 16px/22px var(--f, "Mukta"), sans-serif; color: var(--vf-text); text-decoration: none; text-wrap: pretty;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  transition: color .2s ease, background-size .25s ease; }
+.vf__col a:hover, .vf__col a:focus-visible, .vf__legal a:hover, .vf__legal a:focus-visible { color: var(--vf-burnt); background-size: 100% 1px; }
+.vf a:focus-visible { outline: 2px solid var(--vf-burnt); outline-offset: 3px; border-radius: 2px; }
+
+/* the latest current affairs: a white card on the paper with a brand edge down its left; "Updated daily" in a soft pill with a pulsing
+   dot; three headlines, each with its paper (Mains, Prelims) as an outlined tag and the site's arrow, which steps on as the headline
+   turns burnt on hover */
+.vf__news { position: relative; padding: 22px 24px 8px 27px; border-radius: 14px; background: #fff; overflow: hidden;
+  box-shadow: 0 1px 0 rgba(26, 23, 20, .05), 0 18px 40px -24px rgba(110, 40, 8, .35); }
+.vf__news::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: linear-gradient(180deg, #F08A3C, #C2410C); }
+.vf__news-h { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 12px; white-space: normal; }
+.vf__live { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; background: #FFF1DE; color: #9A3412;
+  font: 700 11px/1.2 var(--f, "Mukta"), sans-serif; letter-spacing: .08em; }
+.vf__live i { width: 6px; height: 6px; border-radius: 50%; background: #E8590C; animation: vfPulse 1.8s ease-in-out infinite; }
+@keyframes vfPulse { 50% { opacity: .35; scale: .8; } }
+.vf__news-list { margin: 14px 0 0; padding: 0; list-style: none; }
+.vf__news-list li + li { border-top: 1px solid var(--vf-rule); }
+.vf__news-list a { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 16px; row-gap: 6px; padding: 14px 0; color: var(--vf-ink); text-decoration: none; }
+.vf__tag { grid-column: 1; justify-self: start; padding: 2px 9px; border: 1px solid rgba(204, 85, 0, .45); border-radius: 999px; color: #9A3412;
+  font: 700 10.5px/1.4 var(--f, "Mukta"), sans-serif; letter-spacing: .1em; text-transform: uppercase; }
+.vf__nt { grid-column: 1; font: 500 16px/1.35 var(--f, "Mukta"), sans-serif; transition: color .2s ease; text-wrap: pretty; }
+.vf__arw { grid-column: 2; grid-row: 1 / span 2; width: 16px; height: 16px; fill: none; stroke: #E8590C; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
+  transition: translate .3s cubic-bezier(.22, 1, .36, 1); }
+.vf__news-list a:hover .vf__nt, .vf__news-list a:focus-visible .vf__nt { color: var(--vf-burnt); }
+.vf__news-list a:hover .vf__arw, .vf__news-list a:focus-visible .vf__arw { translate: 4px 0; }
+
+/* the name, pressed into the paper */
+.vf__word { width: 100%; user-select: none; }
+.vf__word svg { display: block; width: 100%; height: auto; overflow: visible; }
+.vf__word text { font: 700 224px "Mukta", var(--f), sans-serif; letter-spacing: -.03em; fill: #F6EAD8; }
+
+/* the legal bar */
+.vf__legal { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; width: 100%; padding-top: 24px; border-top: 1px solid var(--vf-rule);
+  font-size: 14px; line-height: 20px; }
+.vf__legal p { margin: 0; }
+.vf__legal nav { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+.vf__legal a, .vf__legal span { font-size: 14px; line-height: 20px; }
+
+/* ---------- smaller screens ---------- */
+@media (max-width: 1180px) { .vf__top { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 860px) { .vf__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) {
+  .vf__in { gap: 36px; padding: 52px 30px 44px; }
+  .vf__bar { flex-direction: column; align-items: flex-start; gap: 18px; }
+  .vf__socials { gap: 6px; margin-left: -6px; }
+  .vf__cols { column-gap: 20px; row-gap: 32px; }
+  .vf__h { white-space: normal; font-size: 14px; line-height: 20px; }
+  .vf__col, .vf__col ul { gap: 11px; }
+  .vf__col a { font-size: 15px; line-height: 21px; }
+  .vf__legal { flex-direction: column; }
+}
+@media (prefers-reduced-motion: reduce) { .vf__col a, .vf__legal a, .vf__socials a, .vf__nt, .vf__arw { transition: none; } .vf__live i { animation: none; } }

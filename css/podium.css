@@ -28,7 +28,7 @@
 /* the eyebrow badge in the dark cartouche, as Talk to us (css/v49.css #contact .lbl .lbl__t) */
 #toppers .lbl .lbl__t { border-image-source: url(../assets/img/brand/cartouche.svg); color: #fff !important; }
 #toppers .pd__h { max-width: 14em; margin-left: auto; margin-right: auto; color: #fff; text-align: center; }
-.pd__h em { display: block; font-style: italic; color: var(--pd-gold); }   /* "with the guidance we gave." on a line of its own, on every screen */
+.pd__h em { display: block; font-style: normal; color: var(--pd-gold); }   /* upright: one type style, no italics (user 2026-11-16) */   /* "with the guidance we gave." on a line of its own, on every screen */
 /* the heading shines (user 2026-11-15, after animate-ui's GradientText): each line keeps its colour, white and the gold, as a gradient
    clipped to the letters, and a soft bright band glides through them from left to right every 4.5 s (in 1.8 s, then still), the gold
    line a beat behind the white so it seems to run down the heading. Plain colours where text can't take a background; still with
@@ -107,8 +107,7 @@
 
 /* Akansh's body sits right of his face (his arms are crossed), so on his face's centre line his shield showed an empty strip down its
    left side (user 2026-11-13): his portrait sits a little left of centre */
-.pd__col--3 .pd__img { left: calc(50% - var(--w) * .08); }
-.pd__col--2 .pd__img { left: calc(50% + var(--w) * .05); }   /* Rajeshwari's the other way: a small gap low on her right */
+/* (the sideways nudges for the group-photo crops were removed when the crests went back to the 2025 portraits, user 2026-11-16) */
 
 /* the shine on the gold: a band of light that crosses the laurel from left to right every 4.5 s, once the three have come in (a second
    background layer, 2.5 times as wide as the wreath, slid across it) */

@@ -65,3 +65,24 @@
   transition: opacity .45s ease calc(var(--i, 0) * 100ms), scale .75s cubic-bezier(.34, 1.45, .5, 1) calc(var(--i, 0) * 100ms); }
 .sm__more-list.rise.in > li { opacity: 1; scale: 1; }
 @media (prefers-reduced-motion: reduce) { .sm__more-list.rise > li { opacity: 1; scale: none; transition: none; } }
+
+/* each card's link (user 2026-11-16, from a reference: "See the calendar" as words and an arrow, no button): the words in the serif in a
+   deep rust beside the "Let's talk" button's curved-head teer arrow, alone and in orange (no chip, user 2026-11-16): two copies, so on
+   hover one slides out as the other slides in (as css/v49.css .cta .sq). On hover or keyboard focus a line
+   draws under the words from the left. The words sit centred on the chip (the underline is drawn outside the layout). */
+.rk__link { display: inline-flex; align-items: center; gap: 10px; align-self: flex-start; margin-top: auto; color: #9A3412; text-decoration: none;
+  font: 600 19px/1.2 var(--f-title, Georgia), serif; letter-spacing: -.005em; }
+.rk__txt .rk__pts + .rk__link { margin-top: 26px; }
+.rk__lt { position: relative; display: block; }
+.rk__lt::after { content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 1.5px; background: currentColor; transform: scaleX(0); transform-origin: left;
+  transition: transform .45s cubic-bezier(.22, 1, .36, 1); }
+.rk__ic { flex: none; display: grid; place-items: center; width: 20px; height: 20px; overflow: hidden; }   /* the arrow alone, no chip (user 2026-11-16) */
+.rk__ic svg { grid-area: 1 / 1; width: 18px; height: 18px; fill: none; stroke: #E8590C; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round;
+  transition: transform .5s cubic-bezier(.7, 0, .2, 1); }
+.rk__ic svg + svg { transform: translateX(-220%); }
+.rk__link:hover .rk__lt::after, .rk__link:focus-visible .rk__lt::after { transform: scaleX(1); }
+.rk__link:hover .rk__ic svg, .rk__link:focus-visible .rk__ic svg { transform: translateX(220%); }
+.rk__link:hover .rk__ic svg + svg, .rk__link:focus-visible .rk__ic svg + svg { transform: translateX(0); }
+.rk__link:focus-visible { outline: 2px solid #C2410C; outline-offset: 5px; border-radius: 6px; }
+@media (max-width: 760px) { .rk__link { font-size: 17px; gap: 10px; } .rk__txt .rk__pts + .rk__link { margin-top: 18px; } }
+@media (prefers-reduced-motion: reduce) { .rk__lt::after, .rk__ic, .rk__ic svg { transition: none; } }

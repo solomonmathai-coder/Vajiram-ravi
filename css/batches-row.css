@@ -24,7 +24,7 @@
 #batches .cards > .inv { scroll-snap-align: start; }
 
 @media (max-width: 1100px) { #batches .cards { --per: 3; } }
-@media (max-width: 860px) { #batches .cards { --per: 2; --gap: 28px; --bleed: 22px; } }
+@media (max-width: 860px) { #batches .cards { --per: 2; --gap: 28px; --bleed: min(22px, var(--px, 20px)); } }   /* never wider than the page margin (on a 375px phone it is 20.6px; 22px made the row, and the page, a little too wide, user 2026-11-16) */
 @media (max-width: 640px) {
   #batches .bnav { justify-content: center; }
   #batches .cards { --per: 1; }

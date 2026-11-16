@@ -2699,3 +2699,9 @@ html .inv--ticket .inv__reg.cta:active { translate: var(--mx, 0px) calc(var(--my
   .nav .lang__thumb { top: 4px; bottom: 4px; left: 4px; width: calc(50% - 4px); }
   .nav .cta.cta.cta.cta.talk { padding: 0 4px; }
 }
+
+/* Phones (user 2026-11-16, "fix" the nav that ran off a 375px screen): nothing may widen the page sideways, not even for a moment while it
+   loads (a phone sets its zoom from the widest the page has been, so a passing overflow left the whole page zoomed out a little and the
+   nav's right end past the edge). "clip" on both, not "hidden": hidden would make <body> a scroll container and stop the sticky footer
+   and the pinned scenes; clip cuts the overflow without one. */
+html, body { overflow-x: clip; }
