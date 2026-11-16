@@ -29,7 +29,10 @@
   ];
 
   // The card and the ring, as in version 6 (EducatorFlow's settings).
-  const W = 264, H = 381, GAP = 30, RADIUS_PX = 20, INTERVAL = 1750, ARROW_REACH = 523, SPACING = 28;   // INTERVAL: a new educator every 1.75 s (user 2026-11-16; it was 4.5 s)
+  // phones (user 2026-11-16): the front card large (72% of the screen's width) and the cards either side closer in (8px apart), so about
+  // a quarter of each neighbour shows (measured at 375px: front 267px, 48px of each neighbour)
+  const PHONE = matchMedia('(max-width: 760px)').matches;
+  const W = 264, H = 381, GAP = PHONE ? 8 : 30, RADIUS_PX = 20, INTERVAL = 1750, ARROW_REACH = 523, SPACING = 28;   // INTERVAL: a new educator every 1.75 s (user 2026-11-16; it was 4.5 s)
   const STRIPS = 8, MIN_CARDS = 10, TILT = -6, PERSPECTIVE = 2400;
   const SNAP_HAND = 9, SNAP_AUTO = 6.5, FIRST_STEP_MS = 1750, MOMENTUM = 0.28, MAX_SPEED = 10;   // FIRST_STEP_MS: the first turn too after 1.75 s (was 6 s)
 
@@ -124,7 +127,7 @@
   let fit = 1;
   const fitRing = () => {
     const room = host.clientWidth || RING_W;
-    fit = Math.max(MIN_FIT, Math.min(1, room / RING_W));
+    fit = PHONE ? (innerWidth * 0.72) / W : Math.max(MIN_FIT, Math.min(1, room / RING_W));
     stage.style.zoom = String(fit);
     const reach = Math.min(ARROW_REACH, room / 2 / fit - 34);
     arrows[0].style.left = `calc(50% - ${reach}px)`;

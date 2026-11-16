@@ -1,0 +1,105 @@
+/* ============ Phones (user 2026-11-16, "mobile version updates"): everything here applies at 760px and narrower only, loaded last.
+   Goals: the desktop changes carried over, carousels where a long stack made the page long, no arrow icons in buttons, and one
+   tighter spacing rhythm (48px around a section, 28px from a heading group to its content) to cut the scroll length. ============ */
+/* the phone carousels' arrows exist only on phones */
+.mcar__btn { display: none; }
+
+@media (max-width: 760px) {
+
+  /* ---------- header: the logo and the menu button across the whole width; no "Let's talk" button ---------- */
+  header.nav .nav__end { display: none; }
+  header.nav .nav__pill, header.nav.nav--hero .nav__pill { flex: 1 1 auto; max-width: none; }
+
+  /* ---------- buttons: no arrow chips or arrow icons, the words centred ---------- */
+  .bt .sq, .cta .sq, .inv__reg .sq, .cmp__cta-ic, #allBatches svg { display: none !important; }
+  .bt, .cta.bt, .inv__reg, .cmp__cta { justify-content: center; text-align: center; }
+  .cta.cta.bt, .bt { padding-left: 24px; padding-right: 24px; }
+
+  /* ---------- hero: centred, as on desktop otherwise (results pill, white 44px-style headline, arrows at the panel's sides) ---------- */
+  .hx__copy { align-items: center; text-align: center; }
+  .hx__tick { display: flex; justify-content: center; }
+  .hx__lead { margin-left: auto; margin-right: auto; }
+  .hx__btns { justify-content: center; }
+  .hx__btns .bt { justify-content: center; }
+  .hx__navs { display: block; }
+  .hx__nav { top: 34%; width: 40px; height: 40px; opacity: 1; pointer-events: auto; }   /* beside the portrait, clear of the words */
+  .hx__nav svg { width: 18px; height: 18px; }
+
+  /* ---------- the stats under the hero: centred, each number over its words ---------- */
+  .hx__stats { justify-items: center; text-align: center; }
+  .hx__stat { flex-direction: column; align-items: center; text-align: center; }
+  .hx__stat-t { text-align: center; }
+
+  /* ---------- one arrow style for the phone carousels (js/mobile.js adds them): the banner carousel's chevron buttons, centred on the
+     cards' height at the two sides; shown on hover where there is a mouse, always on a touch screen; hidden at the row's ends ---------- */
+  .mcar { position: relative; }
+  .mcar__btn { position: absolute; top: var(--mcar-y, 50%); z-index: 6; display: grid; place-items: center; width: 40px; height: 40px; padding: 0; translate: 0 -50%;
+    border: 1px solid rgba(255, 255, 255, .8); border-radius: 50%; background: rgba(255, 249, 241, .94); color: #C2410C; cursor: pointer;
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); box-shadow: 0 12px 24px -12px rgba(58, 20, 6, .6); transition: opacity .25s ease; }
+  .mcar__btn svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  .mcar__btn--prev { left: 8px; } .mcar__btn--next { right: 8px; }
+  .mcar__btn[disabled] { opacity: 0; pointer-events: none; }
+  @media (hover: hover) and (pointer: fine) { .mcar__btn { opacity: 0; } .mcar:hover .mcar__btn:not([disabled]), .mcar__btn:focus-visible { opacity: 1; } }
+
+  /* a scrolling row: one card at 82% of the width, a quarter of the next showing to say there is more */
+  .mrow { display: flex; gap: 12px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scroll-padding-inline: var(--px, 20px);
+    margin-left: calc(var(--px, 20px) * -1); margin-right: calc(var(--px, 20px) * -1); padding-left: var(--px, 20px); padding-right: var(--px, 20px); scrollbar-width: none; }
+  .mrow::-webkit-scrollbar { display: none; }
+  .mrow > * { flex: 0 0 82%; min-width: 0; scroll-snap-align: start; }
+
+  /* ---------- Upcoming batches: a quarter of the next ticket shows; the arrows, as everywhere; "Enroll now" fits its words;
+     "View all batches" as an outlined pill ---------- */
+  #batches .cards { grid-auto-columns: 80%; --gap: 12px; column-gap: 12px; }
+  #batches .bnav { display: block; }
+  #batches .bnav__btn { opacity: 1; pointer-events: auto; width: 40px; height: 40px; }
+  #batches .bnav__btn:disabled { opacity: 0; pointer-events: none; }
+  #batches .bnav__prev { left: 28px; } #batches .bnav__next { left: calc(100% - 28px); }
+  @media (hover: hover) and (pointer: fine) { #batches .bnav__btn { opacity: 0; } #batches .brow:hover .bnav__btn:not(:disabled) { opacity: 1; } }
+  #batches .inv .inv__reg.cta { width: auto; align-self: center; margin-left: auto; margin-right: auto; padding: 0 28px; justify-content: center; grid-template-columns: auto; }   /* one column: no empty arrow slots */
+  #allBatches { display: inline-flex; align-items: center; justify-content: center; height: 44px; padding: 0 22px; border: 1.5px solid rgba(194, 65, 12, .55); border-radius: 999px;
+    background: rgba(194, 65, 12, .06); color: var(--brand, #C2410C); font: 600 15px/1 var(--f); text-decoration: none; }
+  #allBatches span { background: none; }
+
+  /* ---------- GS: a smaller book ---------- */
+  #gs .gsbook { --w: 210px; --h: 280px; --t: 30px; }
+
+  /* ---------- Why Vajiram & Ravi: the six reasons as a carousel under the heading, which stays put (js/mobile.js) ---------- */
+  #story:not(.cmp--run) .cmp__track { display: flex; gap: 12px; margin-top: 28px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory;
+    margin-left: calc(var(--px, 20px) * -1); margin-right: calc(var(--px, 20px) * -1); padding: 0 var(--px, 20px); scroll-padding-inline: var(--px, 20px); scrollbar-width: none; }
+  #story:not(.cmp--run) .cmp__track::-webkit-scrollbar { display: none; }
+  #story:not(.cmp--run) .cmp__p { flex: 0 0 82%; min-width: 0; scroll-snap-align: start; }
+
+  /* ---------- Free resources: the six cards as a carousel instead of a stack ---------- */
+  #resources .rk { display: flex; flex-direction: row; gap: 12px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory;
+    margin-left: calc(var(--px, 20px) * -1); margin-right: calc(var(--px, 20px) * -1); padding: 4px var(--px, 20px) 24px; scroll-padding-inline: var(--px, 20px); scrollbar-width: none; }
+  #resources .rk::-webkit-scrollbar { display: none; }
+  #resources .rk__card { flex: 0 0 82%; min-width: 0; scroll-snap-align: start; position: relative; top: auto; height: auto; }
+  #resources .rk__card::after { inset: 6px; }
+  #resources .rk__media { min-height: 200px; padding: 22px; }
+
+  /* ---------- Life at Vajiram & Ravi: its own arrows shown on phones too, centred on the pictures ---------- */
+  .lg__arw { opacity: 1; pointer-events: auto; translate: 0 0; width: 40px; height: 40px; }
+  .lg__prev { left: 8px; } .lg__next { right: 8px; }
+  @media (hover: hover) and (pointer: fine) { .lg__arw { opacity: 0; } .lg__rail:hover .lg__arw { opacity: 1; } }
+
+  /* ---------- one tighter rhythm on phones: 48px around every section (from 72px) ---------- */
+  :root body main section:is(#courses, #toppers, #stories, #gs, #faculty, #batches, #resources, #lifeGal, #faq, #visit) { padding-top: 48px; padding-bottom: 48px; }
+  :root body main #contact > .contact__in { padding-top: 48px; }
+  :root body main #contact .contact__l, :root body main #contact .form { margin-bottom: 48px; }
+  :root body main section#closing { padding-bottom: 48px; }
+
+  /* ---------- 28px from each heading group to its content on phones (measured at 375px with everything settled) ---------- */
+  :root body #courses #pgrid { margin-top: 8px; }                                   /* tabs -> books: 60 -> 28 */
+  :root body #toppers .pd__row { margin-top: 12px; }                                /* heading -> AIR 1's head: 48 -> 28 */
+  :root body #stories .pst__track { margin-top: -61px; }                            /* heading -> highest card: 89 -> 28 */
+  :root body #gs .gsbook { margin-top: -12px; }                                     /* button -> book: 60 -> 28 */
+  :root body #faculty .fr { margin-top: -7px; }                                     /* heading -> end cards: 67 -> 28 */
+  :root body #batches .bhead { margin-bottom: 0; }
+  :root body #batches .brow { margin-top: 28px; }                                   /* "View all batches" -> tickets: 68 -> 28 */
+  :root body #resources .rk { margin-top: 24px; }                                   /* heading -> first card: 72 -> 28 */
+  :root body #lifeGal .lg__track { margin-top: 40px; }                              /* tabs -> highest picture: about 28 (the curve varies it a little as the row glides) */
+  :root body #faq .qas { margin-top: 28px; }                                        /* button -> questions: 64 -> 28 */
+  :root body #visit .cx { margin-top: 28px; }                                       /* intro -> card: 68 -> 28 */
+  :root body main #contact .contact__l { margin-bottom: 0; }
+  :root body #contact .contact__in { row-gap: 28px; }                               /* intro -> form: 80 -> 28 */
+}
