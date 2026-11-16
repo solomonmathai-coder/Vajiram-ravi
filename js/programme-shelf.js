@@ -12,6 +12,8 @@
      the book". While the shelf is on screen, a faint glint passes across one cover or another now and then.
    - A tab lays the books that leave down flat where they stand, fading; slides the rest along the planks to their
      new places; and stands the arriving ones up in theirs, all within about 500ms. Planks with no books fade away.
+   - Over a book (or with focus in it) a "View courses" button rises on its cover (user 2026-11-16, as on the reference build) and
+     follows the pointer, just below it; it opens that programme's list of courses (js/content.js [data-cat]), not the book.
    - Choosing a book brings it forward to the middle, larger, the rest blurred back; its cover swings open on the
      spine and its pages can be turned: the programme, then the way to enquire about it. A chip above says the page,
      previous and next sit under it, a click on the right-hand page or → turns forward, the left-hand page or ←
@@ -46,7 +48,7 @@
     { light: '#5d6b34', base: '#485428', deep: '#2f3819', emblem: 'tree', art: 'triangles' }, // IFoS
   ];
   // a programme may bring its own cover (version 6's eight do, js/content.js); its course count goes on the foot, as in version 6
-  const PROGS = window.__progs.map((p, i) => ({ name: p.t, category: p.tab, count: p.n, line: p.d, prog: p.prog, cover: p.cover || COVERS[i % COVERS.length] }));
+  const PROGS = window.__progs.map((p, i) => ({ name: p.t, category: p.tab, count: p.n, line: p.d, prog: p.prog, cat: p.c, cover: p.cover || COVERS[i % COVERS.length] }));
 
   /* ---- Measurements (px): version 6's, made to hold this page's twelve programmes. Books a little smaller than
      the reference build's 195 × 230 (user 2026-11-16, "copy the book covers"), 30px apart. How many stand on a plank follows the room there is
@@ -211,6 +213,7 @@
             <span class="ps-cover__inside" aria-hidden="true" style="background-color:${p.cover.deep}"><span>Vajiram &amp; Ravi</span><span class="ps-cover__foot"><b>Since 1976</b><img src="assets/img/brand/logo-mark.webp" alt="" width="73" height="76"></span></span>
           </button>
         </div>
+        ${p.cat !== undefined ? `<a class="bt ps-view" href="#courses" data-cat="${p.cat}" aria-label="View courses: ${esc(p.name)}">View courses<span class="sq"></span></a>` : ''}
       </div>`).join('')}
     </div>`;
   const stage = grid.querySelector('.ps-stage');
@@ -400,6 +403,24 @@
     b.addEventListener('mouseenter', () => { hovered = i; if (picked === null) Object.assign(b.style, place(i)); });
     b.addEventListener('mouseleave', () => { if (hovered === i) hovered = null; if (picked === null) Object.assign(b.style, place(i)); });
     b.querySelector('.ps-cover').addEventListener('click', () => (picked === i ? close() : pick(i)));
+    // "View courses" follows the pointer over the cover (user 2026-11-16): centred on it across, a little below it, so the pointer itself
+    // stays on the book (a click there still opens the book); kept inside the cover. Mouse only; with keyboard focus it sits low on the
+    // cover (its CSS place).
+    const view = b.querySelector('.ps-view');
+    if (view) {
+      const follow = (e, instant) => {
+        if (e.pointerType !== 'mouse' || picked !== null) return;
+        const r = b.getBoundingClientRect(), k = b.offsetWidth / (r.width || 1);
+        const x = (e.clientX - r.left) * k - b.offsetWidth / 2, y = (e.clientY - r.top) * k - b.offsetHeight / 2 + 34;
+        const mx = Math.max(0, (b.offsetWidth - view.offsetWidth) / 2 - 5), my = Math.max(0, (b.offsetHeight - view.offsetHeight) / 2 - 10);
+        if (instant) view.classList.add('is-jump');
+        view.style.setProperty('--vx', Math.max(-mx, Math.min(mx, x)).toFixed(1) + 'px');
+        view.style.setProperty('--vy', Math.max(-my, Math.min(my, y)).toFixed(1) + 'px');
+        if (instant) requestAnimationFrame(() => view.classList.remove('is-jump'));
+      };
+      b.addEventListener('pointerenter', e => follow(e, true));
+      b.addEventListener('pointermove', e => follow(e, false));
+    }
     b.addEventListener('click', e => {
       if (picked !== i) return;
       if (e.target.closest('.ps-close')) { close(); return; }

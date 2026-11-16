@@ -205,3 +205,27 @@
 .ps-front--lg .ps-face__name { margin-top: 20px; font: 500 36px/1.08 Newsreader, Georgia, serif; }
 .ps-face__foot { margin-top: 10px; font: 600 10px/13px "IBM Plex Sans", sans-serif; letter-spacing: .18em; text-transform: uppercase; }
 .ps-front--lg .ps-face__foot { font-size: 12px; line-height: 16px; }
+
+/* "View courses" over a book (user 2026-11-16, as on the reference build): the site's orange pill with its white arrow disc, small,
+   centred low on the cover; it rises in (fades up from three-quarter size) while the pointer is over the book or anything in it has
+   keyboard focus, lifting with the book; hidden on the open book. A click opens that programme's courses (js/content.js [data-cat]). */
+#pgrid .ps-book .ps-view.cta.cta { position: absolute; left: 50%; bottom: 45px; z-index: 101; height: 34px; gap: 8px; padding: 0 4px 0 14px; font-size: 14px; font-weight: 700;
+  translate: -50% 10px; scale: .75; opacity: 0; pointer-events: none; white-space: nowrap;
+  transition: translate .45s cubic-bezier(.22, 1, .36, 1), opacity .25s cubic-bezier(.22, 1, .36, 1), scale .35s cubic-bezier(.22, 1, .36, 1), background-color .2s, box-shadow .2s; }
+#pgrid .ps-book .ps-view.cta .sq { width: 26px; height: 26px; }
+#pgrid .ps-book .ps-view.cta .sq svg { width: 12px; height: 12px; }
+#pgrid .ps-book:hover .ps-view.cta.cta, #pgrid .ps-book:has(:focus-visible) .ps-view.cta.cta { translate: -50% 0; scale: 1; opacity: 1; pointer-events: auto; }
+#pgrid .ps-book.is-out .ps-view.cta.cta { opacity: 0; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { #pgrid .ps-book .ps-view.cta.cta { transition: opacity .2s; translate: -50% 0; scale: 1; } }
+
+/* "View courses" follows the pointer (user 2026-11-16): placed from the cover's centre by --vx / --vy (js/programme-shelf.js), easing
+   after the pointer; it starts where the pointer comes in (.is-jump). Without a pointer (keyboard focus) it sits low on the cover. */
+#pgrid .ps-book .ps-view.cta.cta { top: 50%; bottom: auto; --vx: 0px; --vy: 53px;
+  translate: calc(-50% + var(--vx)) calc(-50% + var(--vy) + 10px);
+  transition: translate .35s cubic-bezier(.22, 1, .36, 1), opacity .25s cubic-bezier(.22, 1, .36, 1), scale .35s cubic-bezier(.22, 1, .36, 1), background-color .2s, box-shadow .2s; }
+#pgrid .ps-book:hover .ps-view.cta.cta, #pgrid .ps-book:has(:focus-visible) .ps-view.cta.cta { translate: calc(-50% + var(--vx)) calc(-50% + var(--vy)); }
+#pgrid .ps-book .ps-view.cta.cta.is-jump { transition: opacity .25s cubic-bezier(.22, 1, .36, 1), scale .35s cubic-bezier(.22, 1, .36, 1); }
+@media (prefers-reduced-motion: reduce) { #pgrid .ps-book .ps-view.cta.cta { transition: opacity .2s; } }
+/* a touch more compact, so it has room to follow the pointer across the 195px cover */
+#pgrid .ps-book .ps-view.cta.cta { height: 32px; gap: 6px; padding: 0 3px 0 12px; font-size: 13px; }
+#pgrid .ps-book .ps-view.cta .sq { width: 24px; height: 24px; }

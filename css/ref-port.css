@@ -82,3 +82,23 @@ html main #closing .cl__faces { flex: none; }
   #courses .prog__help > :last-child { justify-content: center; width: 100%; }
 }
 @media (max-width: 760px) { #courses .prog__more { margin-top: 28px; } #courses .prog__help { margin-top: 28px; } #courses .prog__help-h { font-size: 23px; } }
+
+/* the Programmes banner framed like the Talk to us form (user 2026-11-16): the same thin orange rule with its corner ornaments
+   (assets/img/patterns/frame.svg as a border image, as css/v27.css .form::before), 12px inside the card's edge */
+#courses .prog__help { position: relative; }
+#courses .prog__help::before { content: ""; position: absolute; inset: 12px; border: 16px solid transparent; border-image: url(../assets/img/patterns/frame.svg) 16 stretch;
+  pointer-events: none; }
+@media (max-width: 900px) { #courses .prog__help::before { inset: 8px; } #courses .prog__help { padding: 30px; } }
+@media (max-width: 640px) { #courses .prog__help { padding: 30px 28px 28px; } }
+
+/* phones (with Anima's phone layer, css/mobile-fixes.css): the shelf already ends in "View all programmes" (it brings the other books in
+   place), so the desktop "See all programmes" under it is left out on phones rather than a second, near-identical button; the banner
+   follows "View all programmes" 28px below */
+@media (max-width: 760px) { #courses .prog__more { display: none; } #courses .prog__help { margin-top: 28px; } }
+/* on a phone the hours take their own line under the number (no separating dot), so neither breaks and both stay inside the frame */
+#courses .prog__help-hrs i { font-style: normal; }
+@media (max-width: 640px) { #courses .prog__help-hrs { display: block; } #courses .prog__help-hrs i { display: none; } }
+
+/* the banner's frame simplified (user 2026-11-16): one thin line in the frame's colour, no diamonds at the corners, 6px in from the
+   card's edge (from 12px plus the double rule), so there is more room inside it */
+#courses .prog__help::before, #courses .prog__help::before { inset: 6px; border: 1px solid #E9B48A; border-image: none; border-radius: 4px; }
