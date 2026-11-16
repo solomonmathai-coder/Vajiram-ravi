@@ -67,6 +67,9 @@
   const LIE_MS = 280, STAND_MS = 340, TIP_STAGGER_MS = 25, ARRIVE_AFTER_MS = 120, SLIDE_MS = 450, LEAVE_MS = 340;
   const FOIL = '#f6c77a';
 
+  // phones (760px and narrower): two planks at most until "View all programmes" is pressed (Anima 2026-11-16; css/mobile-fixes.css .ps-more)
+  const phone = matchMedia('(max-width: 760px)'), PHONE_CAP = 4;
+  let showAll = false;
   const rowsFor = n => Math.max(1, Math.ceil(n / PER_SHELF));
   const spot = (k, n) => {
     const row = Math.floor(k / PER_SHELF), inRow = Math.min(PER_SHELF, n - row * PER_SHELF);
@@ -214,6 +217,8 @@
   const live = grid.querySelector('.ps-sr');
   const planks = [...grid.querySelectorAll('.ps-plank')];
   const books = [...grid.querySelectorAll('.ps-book')];
+  grid.insertAdjacentHTML('beforeend', '<button type="button" class="ps-more" aria-controls="programme-shelf" hidden></button>');
+  const more = grid.querySelector('.ps-more');
 
   /* ---- Fitting the shelf to the room it has ---- */
   const measure = () => {
@@ -235,7 +240,8 @@
   const turned = PROGS.map(() => 0);
   const lastSpot = new Map();
   let stacking = [], timer = 0, shuffleTimer = 0;
-  const shownIn = f => PROGS.flatMap((p, i) => (f === 'All' || p.category === f ? [i] : []));
+  const inTab = f => PROGS.flatMap((p, i) => (f === 'All' || p.category === f ? [i] : []));
+  const shownIn = f => { const all = inTab(f); return phone.matches && !showAll && all.length > PHONE_CAP ? all.slice(0, PHONE_CAP) : all; };
   const later = (fn, ms) => { clearTimeout(timer); timer = setTimeout(fn, reduced ? 0 : ms); };
   const stopStacking = () => { stacking.forEach(a => a.cancel()); stacking = []; grid.querySelectorAll('[data-cover]').forEach(c => { c.style.zIndex = ''; }); };
 
@@ -277,6 +283,10 @@
       b.classList.toggle('is-out', picked === i);
     });
     live.textContent = filter === 'All' ? `Showing all ${shown.length} programmes` : `Showing ${shown.length} ${filter} programmes`;
+    const total = inTab(filter).length;
+    more.hidden = !(phone.matches && total > PHONE_CAP);
+    more.textContent = showAll ? 'View fewer programmes' : 'View all programmes';
+    more.setAttribute('aria-expanded', String(showAll));
   };
 
   /* ---- The open book ---- */
@@ -377,6 +387,13 @@
     }
   };
   window.__progShelf = choose;
+  more.addEventListener('click', () => {
+    stopStacking();
+    if (picked !== null) { const was = picked; open = false; picked = null; clearOpen(was); }
+    showAll = !showAll;
+    layout();
+    if (!showAll) grid.scrollIntoView({ block: 'nearest', behavior: reduced ? 'auto' : 'smooth' });
+  });
 
   /* ---- Events ---- */
   books.forEach((b, i) => {

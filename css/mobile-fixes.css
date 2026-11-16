@@ -1,0 +1,204 @@
+/* ============ Phone fixes (Anima, 2026-11-16), on top of css/mobile.css and loaded after it. Phones only (760px and narrower).
+   1. The WhatsApp button: a little smaller, and it steps aside while you scroll down (js/mobile-fixes.js), so it stops covering
+      arrows, cards and the FAQ's plus signs; it comes back when you scroll up, and stays away over the footer (which has its own link).
+   2. Hero: the previous/next arrows sit either side of the dots at the foot of the panel, clear of the headline.
+   3. Rank holders from AIR 4 on: the names and courses readable (13px and 11px, from 11.5px and 9px).
+   4. Programmes: two shelves (four books) and a "View all programmes" button for the rest (js/programme-shelf.js).
+   5. More free resources: the eight links two to a row, as smaller tiles.
+   6. Footer: each group of links opens on a tap (js/mobile-fixes.js), so the footer is short until you need it. ============ */
+
+/* the phone carousels' control bar (js/mobile-fixes.js) exists only on phones */
+.mpg, .ptabs__more { display: none; }
+
+/* the footer headings' tap button (js/mobile-fixes.js) reads as the plain heading on wider screens */
+.vf__fold { display: inline; padding: 0; border: 0; background: none; font: inherit; letter-spacing: inherit; text-transform: inherit; color: inherit; text-align: inherit; cursor: default; }
+
+@media (max-width: 760px) {
+
+  /* ---------- 1. WhatsApp ---------- */
+  .wa { height: 48px; right: max(14px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); }
+  .wa__ic { width: 48px; height: 48px; }
+  .wa__ic svg { width: 26px; height: 26px; }
+  .wa.wa--tuck { opacity: 0; transform: translateY(24px) scale(.9); pointer-events: none; }
+
+  /* ---------- 2. Hero arrows: beside the dots, at the foot of the panel ---------- */
+  .hx__nav { top: calc(100% - 36px); width: 36px; height: 36px; translate: -50% -50%; }
+  .hx__nav svg { width: 16px; height: 16px; }
+  .hx__nav--prev { left: calc(50% - 72px); }
+  .hx__nav--next { left: calc(50% + 72px); }
+
+  /* ---------- 2b. The banners under the hero stats (Daily current affairs, The Recitals…): the same arrows, beside their dots ---------- */
+  .tr__nav { display: grid; top: calc(100% + 26.5px); width: 36px; height: 36px; translate: -50% -50%; }
+  .tr__nav svg { width: 16px; height: 16px; }
+  .tr__nav--prev { left: calc(50% - 82px); right: auto; }
+  .tr__nav--next { left: calc(50% + 82px); right: auto; }
+  /* and their content centred, like the hero above them: the label, heading, line, button and picture */
+  .tr__copy { align-items: center; text-align: center; }
+  .tr__h, .tr__d { text-wrap: balance; }
+  .tr__pic { justify-content: center; }
+
+  /* ---------- 2c. Every carousel the same (user 2026-11-16): arrows either side of the dots, under the cards ----------
+     The sideways rows (programmes, Why, batches, resources, Life at V&R) get one bar (js/mobile-fixes.js .mpg) in place of the arrows
+     on their sides; the faculty ring and the Contact photos keep their own dots, with their arrows moved beside them. One button style
+     throughout, the hero's: a 36px cream circle with a white rim and an orange chevron. */
+  .mcar__btn, #batches .bnav, .lg__arw { display: none !important; }
+  .mpg { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 20px auto 0; }
+  .mpg[hidden] { display: none !important; }
+  .mpg__btn, .fr__btn, .cx__nav { display: grid; place-items: center; flex: none; width: 36px; height: 36px; padding: 0; border: 1px solid rgba(255, 255, 255, .8); border-radius: 50%;
+    background: rgba(255, 249, 241, .94); color: #C2410C; cursor: pointer; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+    box-shadow: 0 12px 24px -12px rgba(58, 20, 6, .6); transition: opacity .25s ease, scale 80ms ease; }
+  .mpg__btn svg, .fr__btn svg, .cx__nav svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+  .mpg--light .mpg__btn, .fr__btn { border-color: rgba(194, 65, 12, .18); }
+  .mpg__btn:active, .fr__btn:active, .cx__nav:active { scale: .94; }
+  .mpg__btn:disabled { opacity: .4; cursor: default; }
+  .mpg__btn:focus-visible { outline: 2px solid #C2410C; outline-offset: 3px; }
+  .mpg__dots { display: flex; align-items: center; gap: 8px; }
+  .mpg__dots button { position: relative; width: 8px; height: 8px; padding: 0; border: 0; border-radius: 999px; cursor: pointer; transition: width .3s cubic-bezier(.22, 1, .36, 1), background-color .3s ease; }
+  .mpg__dots button::after { content: ""; position: absolute; inset: -8px -4px; }
+  .mpg__dots button.is-on { width: 24px; }
+  .mpg--light .mpg__dots button { background: rgba(194, 65, 12, .25); }
+  .mpg--light .mpg__dots button.is-on { background: #C2410C; }
+  .mpg--dark .mpg__dots button { background: rgba(255, 255, 255, .45); }
+  .mpg--dark .mpg__dots button.is-on { background: #fff; }
+  .mpg__dots button:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+
+  /* Why Vajiram & Ravi: one reason at a time, the full width, no edge of the next one showing (the dots say there are more) */
+  #story:not(.cmp--run) .cmp__p { flex-basis: 100%; }
+  #story:not(.cmp--run) .cmp__track { gap: 40px; }
+  /* Upcoming batches the same way (user 2026-11-16: "the card needs to just move, the second card coming, simple"): one full ticket at a
+     time, no edge of its neighbours and no fade at the row's ends, so the last one sits where the first did */
+  #batches #price.cards { grid-auto-columns: 100%; column-gap: 40px; --gap: 40px; -webkit-mask: none; mask: none; }
+  /* its buttons hug their words: the 6px right padding was room for the arrow chip, which phones hide (css/mobile.css) */
+  #story .cmp__cta { padding-left: 22px; padding-right: 22px; }
+
+  /* faculty: the arrows beside the dots under the ring (the dots sit --fr-sp below the stage) */
+  .fr__arrow { top: calc(100% + var(--fr-sp, 28px) + 4px); opacity: 1; pointer-events: auto; }
+  .fr__arrow:has([aria-label^="Previous"]) { left: calc(50% - 76px) !important; }
+  .fr__arrow:has([aria-label^="Next"]) { left: calc(50% + 76px) !important; }
+
+  /* Contact photos: the dots centred at the foot of the picture, the arrows (hidden on touch screens until now) beside them */
+  .cx__dots { right: auto; left: 50%; translate: -50% 0; bottom: 19px; }
+  .cx__nav { top: calc(100% - 22px); translate: -50% -50%; opacity: 1; pointer-events: auto; }
+  .cx__nav--prev { left: calc(50% - 58px); right: auto; }
+  .cx__nav--next { left: calc(50% + 58px); right: auto; }
+  .cx__cap { left: 16px; right: 16px; bottom: 50px; max-width: none; text-align: center; }   /* the caption centred above the controls */
+
+  /* ---------- 3. Rank holders' names and courses ---------- */
+  .dr__name { font-size: 13px; letter-spacing: .03em; }
+  .dr__prog { font-size: 11px; line-height: 1.35; letter-spacing: .01em; text-transform: none; }
+
+  /* ---------- 4. Programmes: Kevin's shelves, two of them (four books) until "View all programmes" (js/programme-shelf.js) ----------
+     the button: the site's outlined pill, as "View all batches" */
+  .ps-more { display: inline-flex; align-items: center; justify-content: center; height: 44px; margin-top: 8px; padding: 0 22px; border: 1.5px solid rgba(194, 65, 12, .55);
+    border-radius: 999px; background: rgba(194, 65, 12, .06); color: var(--brand, #C2410C); font: 600 15px/1 var(--f); cursor: pointer; }
+  .ps-more[hidden] { display: none; }
+  .ps-more:active { scale: .97; }
+  .ps-more:focus-visible { outline: 2px solid var(--brand, #C2410C); outline-offset: 3px; }
+  /* the tabs (All, Foundation, Optional, Tests, Guidance) don't all fit: the bar runs off the right edge of the screen, the end fades,
+     and a small arrow (js/mobile-fixes.js .ptabs__more) says there is more; once scrolled, the start fades too */
+  #courses .ptabs { position: relative; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); }   /* edge to edge (user 2026-11-16: "make it full width") */
+  #courses .ptabs .seg { border-radius: 0; padding-left: 20px; padding-right: 20px; scroll-padding-inline: 20px; }   /* the first tab lines up with the page's margin */
+  #courses .ptabs.can-right .seg { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 72px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 72px), transparent); }
+  #courses .ptabs.can-left .seg { -webkit-mask-image: linear-gradient(90deg, transparent, #000 32px); mask-image: linear-gradient(90deg, transparent, #000 32px); }
+  #courses .ptabs.can-left.can-right .seg { -webkit-mask-image: linear-gradient(90deg, transparent, #000 32px, #000 calc(100% - 72px), transparent); mask-image: linear-gradient(90deg, transparent, #000 32px, #000 calc(100% - 72px), transparent); }
+  .ptabs__more { position: absolute; top: 50%; right: 12px; z-index: 2; display: grid; place-items: center; width: 32px; height: 32px; padding: 0; translate: 0 -50%;
+    border: 1px solid rgba(194, 65, 12, .18); border-radius: 50%; background: rgba(255, 249, 241, .96); color: #C2410C; cursor: pointer;
+    box-shadow: 0 8px 18px -10px rgba(58, 20, 6, .6); transition: opacity .25s ease; }
+  .ptabs__more svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+  #courses .ptabs:not(.can-right) .ptabs__more { opacity: 0; pointer-events: none; }
+  .ptabs__more:focus-visible { outline: 2px solid #C2410C; outline-offset: 2px; }
+
+  /* Programmes at least a screen tall (content centred): when it is shorter (a tab with two books), the toppers sheet behind it showed
+     while Programmes was still sliding up over the hero; a full screen covers the hero completely before the toppers rise. */
+  main .cover > #hero.hx + section#courses { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+  main .cover > #hero.hx + section#courses > .band__in { width: 100%; }
+
+  /* ---------- 5. More free resources: two to a row ---------- */
+  #resources .sm__more-list--bento { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  #resources .sm__mini { min-height: 60px; padding: 12px 34px 12px 14px; }
+  #resources .sm__mini-t { font-size: 15px; line-height: 1.25; }
+  #resources .sm__mini-go { right: 12px; width: 16px; height: 16px; margin-top: -8px; }
+
+  /* ---------- 6. Footer: the link groups open on a tap ---------- */
+  .vf__cols { grid-template-columns: 1fr; row-gap: 0; }
+  .vf__col { gap: 0; border-bottom: 1px solid rgba(194, 65, 12, .16); }
+  .vf__col:first-child { border-top: 1px solid rgba(194, 65, 12, .16); }
+  .vf__col.has-fold { align-items: stretch; }
+  .vf__col.has-fold > .vf__h { width: 100%; }
+  .vf__fold { display: flex; align-items: center; justify-content: space-between; gap: 12px; width: 100%; min-height: 52px; padding: 0; border: 0; background: none;
+    font: inherit; letter-spacing: inherit; text-transform: inherit; color: inherit; text-align: left; cursor: pointer; }
+  .vf__fold::after { content: ""; flex: none; width: 9px; height: 9px; margin-right: 4px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+    rotate: 45deg; translate: 0 -3px; transition: rotate .3s cubic-bezier(.22, 1, .36, 1), translate .3s cubic-bezier(.22, 1, .36, 1); }
+  .vf__col.is-open .vf__fold::after { rotate: -135deg; translate: 0 2px; }
+  .vf__fold:focus-visible { outline: 2px solid var(--vf-burnt, #C2410C); outline-offset: 2px; }
+  .vf__col.has-fold > ul { display: none; padding-bottom: 18px; }
+  .vf__col.has-fold.is-open > ul { display: flex; }
+}
+
+/* ---------- 7. Alignment and spacing pass (user 2026-11-16: "go through every section, check for padding, gap, alignment issues
+   especially texts") — phones only ---------- */
+@media (max-width: 760px) {
+  /* headings and paragraphs: no word left alone on the last line */
+  main h1, main h2, main h3 { text-wrap: balance; }
+  main p, main li { text-wrap: pretty; }
+
+  /* GS, Why Vajiram & Ravi and Talk to us opened left-aligned while every other section (and the GS book under its text) is centred:
+     their label, heading, line and button centred too; the cards and the form inside stay as they are */
+  #gs .gs__in, #story .cmp__hd, #contact .contact__l { text-align: center; }
+  #gs .gs__in .lbl, #story .cmp__hd .lbl, #contact .contact__l .lbl { justify-content: center; }
+  #gs .gs__p, #contact .contact__l .intro, #story .cmp__hd p { margin-left: auto; margin-right: auto; }
+
+  /* Why Vajiram & Ravi: 48px above and below, like every other section on phones (it kept the desktop's 72px) */
+  :root body main section#story:not(.cmp--run) { padding-top: 48px; padding-bottom: 48px; }
+
+  /* GS: the book first, the words under it (user 2026-11-16); the 40px under the book leaves room for its ribbon */
+  :root body #gs .gsbook { grid-row: 1; margin-top: 0; margin-bottom: 40px; }
+  :root body #gs .gs__in { grid-row: 2; }
+  /* GS as a card inset 20px from the screen's edges, like the hero, not a band across the full width (user 2026-11-16) */
+  :root body main section#gs { margin-left: 20px; margin-right: 20px; border-radius: 24px; padding-left: 20px; padding-right: 20px; }
+  /* its heading sized for the card, and free to wrap at any width: at 40px "General Studies decides" could run past the card's edge on
+     one line, pushing the lines off-centre */
+  #gs .gs__h { font-size: 34px; }
+  #gs .gs__h, #gs .gs__h span { white-space: normal; }
+
+  /* closing card: the faces no longer squeezed over "36/50" (three faces, kept at their size); the 210px band at the foot, made for two
+     topper photos that are no longer on the page, removed */
+  .cl__faces { flex: none; }
+  .cl__faces img:nth-child(n+4) { display: none; }
+  #closing .cl__card { min-height: 0; padding-bottom: 48px; }
+  .cl__call { text-wrap: balance; }
+
+  /* phone numbers never break at their hyphens ("080-6220-" / "6330") */
+  a[href^="tel:"] { white-space: nowrap; }
+}
+@media (max-width: 760px) and (prefers-reduced-motion: reduce) { .vf__fold::after { transition: none; } }
+
+/* the hero paragraph: the full version on wider screens, a two-line one on phones (index.html .hx__lead-full / -short) */
+.hx__lead-short { display: none; }
+
+/* ---------- 8. Hero on phones (user 2026-11-16, "show the content separately so the background running section gets more visibility";
+   then "keep the content on a dark surface, sitting below the images, not covering; the stats stay on the orange"): one card, the full
+   width under the floating nav. On top the toppers' photos, clear of any wash, with the rank card on them and the arrows and dots at
+   their foot; the photo runs down into the panel's own dark brown, and on that the results pill, the headline, the line and the two
+   buttons. Under the card, on the orange, the four points as before. ---------- */
+@media (max-width: 760px) {
+  /* the card starts under the floating nav (76px): the toppers' heads sit at the very top of their photos, and the nav covered them */
+  #hero.hx { --ph: clamp(380px, 56svh, 520px); --card-r: 24px; --card-bg: #2b1206; padding: 76px 20px 0; }   /* 20px at the sides, like every section */
+  #hero .hx__panel { height: auto; min-height: 0; display: block; overflow: clip; border-radius: var(--card-r);
+    background: linear-gradient(180deg, var(--card-bg), #1f0d04); box-shadow: 0 30px 60px -34px rgba(60, 15, 0, .7); }
+  #hero .hx__slides { position: relative; inset: auto; height: var(--ph); overflow: hidden; }
+  #hero .hx__slide img { height: 100%; object-position: 74% 12%; -webkit-mask: none; mask: none; }
+  #hero .hx__wash, #hero .hx__foot { display: none; }
+  /* the photo's foot fades into the dark surface the words sit on (the dots and arrows sit in that shade) */
+  #hero .hx__slides::after { content: ""; position: absolute; inset: auto 0 0; z-index: 1; height: 150px; pointer-events: none;
+    background: linear-gradient(0deg, var(--card-bg), rgb(43 18 6 / .55) 45%, transparent); }
+  #hero .hx__mark { top: 16px; left: 16px; }
+  #hero .hx__copy { height: auto; padding: 8px 16px 28px; }
+  #hero .hx__h { font-size: 29px; }   /* three lines inside the card */
+  /* dots and arrows at the photo's foot, 30px up */
+  #hero .hx__dots { top: calc(var(--ph) - 30px - 14px); bottom: auto; background: none; }
+  #hero .hx__nav { top: calc(var(--ph) - 30px); }
+  #hero .hx__stats { padding-left: 8px; padding-right: 8px; }
+  .hx__lead-full { display: none; }
+  .hx__lead-short { display: inline; }
+}
