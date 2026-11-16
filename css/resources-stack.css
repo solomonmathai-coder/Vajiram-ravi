@@ -117,3 +117,16 @@
 
 /* the pictures a little larger (user 2026-11-16): up to 88% of the panel's width (520px at most, from 78% / 440px) and 90% of its height */
 .rk__media img { width: min(88%, 520px); max-height: 90%; }
+
+/* the inner line runs round the whole card (user 2026-11-16, "the golden line should cover the whole card"), not only the picture panel:
+   one fine gold line 8px inside the card's edge, across the white half and the coloured half alike, rounded with the card's corners */
+.rk__media { outline: 0; }
+.rk__card::after { content: ""; position: absolute; inset: 8px; z-index: 6; border: 1px solid rgba(201, 143, 51, .55); border-radius: 7px; pointer-events: none; }   /* a layer over both halves, so the picture panel cannot cover it */
+@media (max-width: 700px) { .rk__card::after { border-radius: 5px; } }
+
+/* the cards a little shorter (user 2026-11-16): 440px at most, from 520px (and less on short screens, as before); phones unchanged */
+@media (min-width: 701px) {
+  .rk__card { --rk-h: max(400px, min(440px, calc(100vh - var(--rk-top) - 180px))); height: var(--rk-h); min-height: 0; }   /* one height for all six: the pictures fit inside it rather than setting it */
+  .rk__media { min-height: 0; }
+  .rk__media img { max-height: calc(var(--rk-h) - 88px); }   /* the panel's height less its padding and a little room for the tilt */
+}

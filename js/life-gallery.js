@@ -51,9 +51,30 @@
     const all = [...track.children].filter(s => !s.hidden); if (!all.length) return;
     const half = track.clientWidth / 2, x0 = all[0].offsetLeft, pad = parseFloat(getComputedStyle(track).paddingLeft) || 0, sl = track.scrollLeft;
     const pos = all.map(s => s.offsetLeft - x0 + pad + s.offsetWidth / 2 - sl);   // read every position first, then draw
+    const wid = all.map(s => s.offsetWidth), G = parseFloat(getComputedStyle(track).columnGap) || 0;
+    // Even gaps (user 2026-11-16, "make the gap consistent"): a turned card's near edge grows and its far edge shrinks, and a wide video
+    // card swings out further than a photo, so with the cards' centres evenly laid out the gaps between what is seen came out uneven.
+    // So each card's drawn left and right edges are worked out (the same turn, depth and viewing distance as drawn), the cards are laid
+    // edge to edge with the row's gap G between them, and the whole run is slid so the point at the middle of the row stays where it was
+    // (this follows the scroll smoothly). Each card is then moved sideways by the difference. Done twice, as the turn depends on where
+    // a card ends up.
+    const T = x => Math.max(-1.6, Math.min(1.6, (x - half) / half));
+    const edges = (w, t) => { const a = -t * ANG * Math.PI / 180, z = t * t * NEAR, e = x => x * Math.cos(a) * PERSP / (PERSP - (z - x * Math.sin(a)));
+      return [e(-w / 2), e(w / 2)]; };
+    let at = pos.slice(), ts = [];
+    for (let pass = 0; pass < 2; pass++) {
+      ts = at.map(T);
+      const ed = ts.map((t, k) => edges(wid[k], t)), u = [0];
+      for (let k = 1; k < all.length; k++) u[k] = u[k - 1] + ed[k - 1][1] + G - ed[k][0];
+      let k = pos.findIndex((p, i) => i < pos.length - 1 && p <= half && pos[i + 1] > half);
+      if (k < 0) k = pos[0] > half ? 0 : pos.length - 2;
+      const f = pos.length > 1 ? (half - pos[k]) / (pos[k + 1] - pos[k]) : 0;
+      const off = half - (u[k] + f * ((u[k + 1] ?? u[k]) - u[k]));
+      at = u.map(v => v + off);
+    }
     all.forEach((s, k) => {
-      const t = Math.max(-1.6, Math.min(1.6, (pos[k] - half) / half));
-      s.style.transform = `perspective(${PERSP}px) translateZ(${(t * t * NEAR).toFixed(1)}px) rotateY(${(-t * ANG).toFixed(2)}deg)`;
+      const t = ts[k];
+      s.style.transform = `translateX(${(at[k] - pos[k]).toFixed(1)}px) perspective(${PERSP}px) translateZ(${(t * t * NEAR).toFixed(1)}px) rotateY(${(-t * ANG).toFixed(2)}deg)`;
     });
   }
   track.addEventListener('scroll', () => { if (!cf) cf = requestAnimationFrame(curve); }, { passive: true });

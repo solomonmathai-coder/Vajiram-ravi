@@ -382,3 +382,8 @@
 /* the running carousel keeps to the AIR 2 crest: the new silver shield, no wreath */
 .dr { --dh: calc(var(--dw) * 1.24089); }
 .dr__gem { background-image: url(../assets/img/toppers/figma/shield2-silver.svg); }
+
+/* the reel's heading at 18px (user 2026-11-16, from 15px); phones 14px; the lines either side a little longer */
+.dr__h { font-size: 18px; letter-spacing: .14em; }
+.dr__h::before, .dr__h::after { width: min(170px, 16vw); }
+@media (max-width: 640px) { .dr__h { font-size: 14px; letter-spacing: .1em; } .dr__h::before, .dr__h::after { width: 28px; } }

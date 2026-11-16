@@ -2745,3 +2745,7 @@ main .cover > #toppers { z-index: 3; margin-top: 0; }
    hold its hover fill and lotus; keyboard focus still swaps it for the focus ring. */
 #resources .sm__mini { outline: 1px solid rgba(255, 255, 255, .19); outline-offset: -8px; }
 #resources .sm__mini:focus-visible { outline: 2px solid var(--tile, #3F5B87); outline-offset: 3px; }
+
+/* the page casts a shadow onto the footer as it slides up off it (user 2026-11-16): a soft, warm shadow under the page's bottom edge
+   (below "Ready to start your UPSC preparation"), seen only while the footer is being uncovered. Pulled in at the sides so only the foot shows. */
+html.foot-curtain main { box-shadow: 0 26px 44px -18px rgba(70, 25, 5, .38), 0 8px 16px -8px rgba(70, 25, 5, .22); }
