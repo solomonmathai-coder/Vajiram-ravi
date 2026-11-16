@@ -90,7 +90,7 @@
 /* "New Delhi centre" as a badge (user 2026-11-16), the footer news tag's (css/footer-v6.css .vf__tag): an outlined pill, a fine orange
    ring, small bold capitals spaced out in deep rust */
 .cx__k { display: inline-block; padding: 2px 9px; border: 1px solid rgba(204, 85, 0, .45); border-radius: 999px; color: #9A3412;
-  font: 700 10.5px/1.4 var(--f, "Mukta"), sans-serif; letter-spacing: .1em; text-transform: uppercase; }
+  font: 700 10.5px/1.4 var(--f, "IBM Plex Sans"), sans-serif; letter-spacing: .1em; text-transform: uppercase; }
 .cx__addr { margin-top: 12px; }
 
 /* smaller corners (user 2026-11-16): 8px on the centre's card, the map and the photos, from 16px (14px on phones) */

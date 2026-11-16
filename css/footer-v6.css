@@ -13,7 +13,7 @@
    - The legal bar over a hairline. It stays parked under the page, which slides up off it (js/footer-curtain.js).
    ===================================================================================================================================== */
 .vf { --vf-paper: #FFF8EC; --vf-text: #6E655C; --vf-ink: #1A1714; --vf-burnt: #CC5500; --vf-rule: rgba(26, 23, 20, .12);
-  position: relative; background: var(--vf-paper); color: var(--vf-text); font-family: var(--f, "Mukta", system-ui, sans-serif); }
+  position: relative; background: var(--vf-paper); color: var(--vf-text); font-family: var(--f, "IBM Plex Sans", system-ui, sans-serif); }
 /* the gold frame (user 2026-11-16): version 8's double gold rule with a diamond on each corner (css/v49.css .foot__frame, its reveal in
    js/page-motion.js), here on the cream; the content keeps clear of the inner rule (30px in) */
 .vf { isolation: isolate; }
@@ -36,9 +36,9 @@ html.foot-curtain footer.vf { position: sticky; bottom: var(--foot-off, 0px); z-
 .vf__top { display: grid; grid-template-columns: minmax(0, 2.85fr) minmax(0, 1.55fr); align-items: start; gap: 40px 56px; width: 100%; }
 .vf__cols { display: grid; grid-template-columns: .8fr 1.15fr 1.15fr 1fr; align-items: start; column-gap: 32px; row-gap: 40px; width: 100%; }
 .vf__col { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; min-width: 0; }
-.vf__h { margin: 0; font: 600 16px/22px "Mukta", var(--f), sans-serif; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; color: var(--vf-ink); }
+.vf__h { margin: 0; font: 600 16px/22px "IBM Plex Sans", var(--f), sans-serif; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; color: var(--vf-ink); }
 .vf__col ul { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; margin: 0; padding: 0; list-style: none; }
-.vf__col a, .vf__legal a { font: 500 16px/22px var(--f, "Mukta"), sans-serif; color: var(--vf-text); text-decoration: none; text-wrap: pretty;
+.vf__col a, .vf__legal a { font: 500 16px/22px var(--f, "IBM Plex Sans"), sans-serif; color: var(--vf-text); text-decoration: none; text-wrap: pretty;
   background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; -webkit-box-decoration-break: clone; box-decoration-break: clone;
   transition: color .2s ease, background-size .25s ease; }
 .vf__col a:hover, .vf__col a:focus-visible, .vf__legal a:hover, .vf__legal a:focus-visible { color: var(--vf-burnt); background-size: 100% 1px; }
@@ -52,15 +52,15 @@ html.foot-curtain footer.vf { position: sticky; bottom: var(--foot-off, 0px); z-
 .vf__news::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: linear-gradient(180deg, #F08A3C, #C2410C); }
 .vf__news-h { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 12px; white-space: normal; }
 .vf__live { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; background: #FFF1DE; color: #9A3412;
-  font: 700 11px/1.2 var(--f, "Mukta"), sans-serif; letter-spacing: .08em; }
+  font: 700 11px/1.2 var(--f, "IBM Plex Sans"), sans-serif; letter-spacing: .08em; }
 .vf__live i { width: 6px; height: 6px; border-radius: 50%; background: #E8590C; animation: vfPulse 1.8s ease-in-out infinite; }
 @keyframes vfPulse { 50% { opacity: .35; scale: .8; } }
 .vf__news-list { margin: 14px 0 0; padding: 0; list-style: none; }
 .vf__news-list li + li { border-top: 1px solid var(--vf-rule); }
 .vf__news-list a { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 16px; row-gap: 6px; padding: 14px 0; color: var(--vf-ink); text-decoration: none; }
 .vf__tag { grid-column: 1; justify-self: start; padding: 2px 9px; border: 1px solid rgba(204, 85, 0, .45); border-radius: 999px; color: #9A3412;
-  font: 700 10.5px/1.4 var(--f, "Mukta"), sans-serif; letter-spacing: .1em; text-transform: uppercase; }
-.vf__nt { grid-column: 1; font: 500 16px/1.35 var(--f, "Mukta"), sans-serif; transition: color .2s ease; text-wrap: pretty; }
+  font: 700 10.5px/1.4 var(--f, "IBM Plex Sans"), sans-serif; letter-spacing: .1em; text-transform: uppercase; }
+.vf__nt { grid-column: 1; font: 500 16px/1.35 var(--f, "IBM Plex Sans"), sans-serif; transition: color .2s ease; text-wrap: pretty; }
 .vf__arw { grid-column: 2; grid-row: 1 / span 2; width: 16px; height: 16px; fill: none; stroke: #E8590C; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
   transition: translate .3s cubic-bezier(.22, 1, .36, 1); }
 .vf__news-list a:hover .vf__nt, .vf__news-list a:focus-visible .vf__nt { color: var(--vf-burnt); }
@@ -69,7 +69,7 @@ html.foot-curtain footer.vf { position: sticky; bottom: var(--foot-off, 0px); z-
 /* the name, pressed into the paper */
 .vf__word { width: 100%; user-select: none; }
 .vf__word svg { display: block; width: 100%; height: auto; overflow: visible; }
-.vf__word text { font: 700 224px "Mukta", var(--f), sans-serif; letter-spacing: -.03em; fill: #F6EAD8; }
+.vf__word text { font: 700 224px "IBM Plex Sans", var(--f), sans-serif; letter-spacing: -.03em; fill: #F6EAD8; }
 
 /* the legal bar */
 .vf__legal { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; width: 100%; padding-top: 24px; border-top: 1px solid var(--vf-rule);

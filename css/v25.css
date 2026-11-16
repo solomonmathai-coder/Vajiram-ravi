@@ -563,9 +563,9 @@ ul, ol { list-style: none; }
    Artwork: assets/img/v22 (original SVGs). No maps, religious symbols or emblem.
    ========================================================================== */
 :root {
-  --f: "Mukta", "Nirmala UI", "Helvetica Neue", Arial, sans-serif;
+  --f: "IBM Plex Sans", "Nirmala UI", "Helvetica Neue", Arial, sans-serif;
   --f-d: "Eczar", Georgia, serif;
-  --f-m: "Mukta", "Nirmala UI", Arial, sans-serif;
+  --f-m: "IBM Plex Sans", "Nirmala UI", Arial, sans-serif;
   --ivory: #FFF9F1;
   --marigold: #FEAA1C;
 }

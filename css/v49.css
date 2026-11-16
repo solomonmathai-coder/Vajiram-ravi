@@ -751,7 +751,7 @@ html.foot-curtain footer.foot { position: sticky; bottom: var(--foot-off, 0px); 
 .lang__thumb { position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc(50% - 4px); border-radius: 999px; background: var(--brand); transition: transform .45s cubic-bezier(.34, 1.4, .5, 1); }
 .lang[data-cur="hi"] .lang__thumb { transform: translateX(100%); }
 .lang__b { position: relative; z-index: 1; min-width: 44px; height: 100%; padding: 0 12px; border-radius: 999px; font: 700 14px/1 var(--f); letter-spacing: .04em; color: var(--ink); transition: color .25s var(--ease), transform .25s var(--ease); }
-.lang__b[lang="hi"] { font: 600 16px/1 "Mukta", var(--f); letter-spacing: 0; }
+.lang__b[lang="hi"] { font: 600 16px/1 "IBM Plex Sans", var(--f); letter-spacing: 0; }
 .lang__b[aria-pressed="true"] { color: #fff; }
 .lang__b:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
 .nav--hero .lang { background: transparent; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .55); }
@@ -770,7 +770,7 @@ html.foot-curtain footer.foot { position: sticky; bottom: var(--foot-off, 0px); 
 /* label swap when the language changes */
 .nav__a.is-sw, .drawer a.is-sw, .talk .btn__label.is-sw { animation: langSw .45s var(--ease); }
 @keyframes langSw { from { opacity: 0; transform: translateY(6px); } }
-html[lang="hi"] .nav__a, html[lang="hi"] .drawer a, html[lang="hi"] .talk .btn__t { font-family: "Mukta", var(--f); }
+html[lang="hi"] .nav__a, html[lang="hi"] .drawer a, html[lang="hi"] .talk .btn__t { font-family: "IBM Plex Sans", var(--f); }
 @media (max-width: 1100px) { .nav__end { margin-left: 10px; } .nav__end .talk { margin-left: 0; } }
 @media (max-width: 480px) { .nav__end { gap: 6px; margin-left: 6px; } .lang__b { min-width: 32px; padding: 0 6px; font-size: 12.5px; } .lang__b[lang="hi"] { font-size: 14.5px; } .nav .nav__logo, .nav--hero .nav__logo { margin-right: 8px; } .nav--hero .nav__logo .lg, .nav__logo .lg { height: 34px; } }
 @media (prefers-reduced-motion: reduce) { .lang, .lang__thumb, .lang__b { transition: none; animation: none; } .nav__a.is-sw, .drawer a.is-sw, .talk .btn__label.is-sw { animation: none; } }
@@ -2644,7 +2644,7 @@ footer.foot .foot__bar .socials { display: flex; align-items: center; gap: 10px;
 }
 footer.foot .foot__engrave { position: relative; z-index: 1; max-width: 1160px; margin: 6px auto 0; user-select: none; }   /* the footer has to fit the screen (it is uncovered like a curtain) */
 footer.foot .foot__engrave svg { display: block; width: 100%; height: auto; overflow: visible; }
-footer.foot .foot__engrave text { font: 700 224px/1 "Mukta", var(--f); letter-spacing: -.03em; fill: #FFF6EC; }   /* white (user 2026-11-13), the filter still carves it in */
+footer.foot .foot__engrave text { font: 700 224px/1 "IBM Plex Sans", var(--f); letter-spacing: -.03em; fill: #FFF6EC; }   /* white (user 2026-11-13), the filter still carves it in */
 /* The j's descender used to cross the hairline above the copyright row: the wordmark's SVG is taller now (viewBox 1280 x 248, so the j sits
    inside it with room under it), and the gaps above the name and under the copyright row give that height back so the footer still fits
    the screen (user 2026-11-13). */
@@ -2749,3 +2749,7 @@ main .cover > #toppers { z-index: 3; margin-top: 0; }
 /* the page casts a shadow onto the footer as it slides up off it (user 2026-11-16): a soft, warm shadow under the page's bottom edge
    (below "Ready to start your UPSC preparation"), seen only while the footer is being uncovered. Pulled in at the sides so only the foot shows. */
 html.foot-curtain main { box-shadow: 0 26px 44px -18px rgba(70, 25, 5, .38), 0 8px 16px -8px rgba(70, 25, 5, .22); }
+
+/* body text in IBM Plex Sans instead of Mukta (user 2026-11-16). Set here as well as in css/v25.css, because v25 comes in through the
+   unversioned @import chain and a browser may keep its old copy; this file is versioned in index.html. Headings stay Newsreader. */
+:root { --f: "IBM Plex Sans", "Nirmala UI", "Helvetica Neue", Arial, sans-serif; --f-m: "IBM Plex Sans", "Nirmala UI", Arial, sans-serif; }

@@ -26,7 +26,7 @@
 .fr__scrim { position: absolute; inset: auto 0 0; height: 200px; background: linear-gradient(180deg, rgb(13 10 8 / 0), rgb(13 10 8 / .85)); }
 .fr__ft { position: absolute; left: 20px; right: 20px; bottom: 20px; display: flex; align-items: flex-start; text-align: left; }
 .fr__tx { display: flex; flex: 1 1 auto; min-width: 0; flex-direction: column; overflow-wrap: break-word; }
-.fr__n { font: 600 18px/25px "Mukta", sans-serif; color: #fff; }
+.fr__n { font: 600 18px/25px "IBM Plex Sans", sans-serif; color: #fff; }
 .fr__s { font: 500 14px/23px "IBM Plex Sans", sans-serif; color: rgb(255 255 255 / .78); }
 .fr__li { display: flex; flex: none; width: 44px; height: 44px; padding-top: 2.5px; align-items: flex-start; justify-content: flex-end; }
 .fr__li img { display: block; width: 28px; height: 28px; }
@@ -37,7 +37,7 @@
 .fr__seal path { fill: currentColor; stroke: currentColor; stroke-width: 1.2; stroke-linejoin: round; }
 .fr__seal circle { fill: none; stroke: #fff; stroke-opacity: .7; stroke-width: .8; }
 .fr__seal-t { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; }
-.fr__seal-t b { font: 700 18px/18px "Mukta", sans-serif; letter-spacing: -.02em; }
+.fr__seal-t b { font: 700 18px/18px "IBM Plex Sans", sans-serif; letter-spacing: -.02em; }
 .fr__seal-t small { margin-top: 1px; font: 700 6.5px/8px "IBM Plex Sans", sans-serif; letter-spacing: .16em; text-transform: uppercase; }
 
 /* The arrows, level with the front card, just clear of the ring's visible ends. */
