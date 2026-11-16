@@ -88,7 +88,36 @@
   pager({ row: q('#story .cmp__track'), items: () => [...document.querySelectorAll('#story .cmp__track > .cmp__p')], label: 'reason', tone: 'dark', after: after(q('#story .cmp__track'), '.mcar') });
   pager({ row: q('#price'), items: () => [...document.querySelectorAll('#price > *')], label: 'batch', tone: 'light', after: after(q('#price'), '.brow') });
   pager({ row: q('#resources .rk'), items: () => [...document.querySelectorAll('#resources .rk > .rk__card')], label: 'resource', tone: 'light', after: after(q('#resources .rk'), '.mcar') });
-  pager({ row: q('#lifeTrack'), items: () => [...document.querySelectorAll('#lifeTrack > li')], label: 'photo', tone: 'dark', after: after(q('#lifeTrack'), '.lg__rail'), loop: 'is-copy' });
+  // Free resources as Kevin rebuilt it (folders in a sideways row, 2026-11-16)
+  pager({ row: q('#resources .sm__grid--res'), items: () => [...document.querySelectorAll('#resources .sm__grid--res > .sm__card')], label: 'resource', tone: 'light', after: after(q('#resources .sm__grid--res'), '.mcar') });
+
+  /* Life at Vajiram & Ravi as Kevin rebuilt it (a spotlight row that moves by itself rather than scrolling, js/life-gallery.js): the same
+     bar, driven through the gallery's own controls. The arrows press its previous / next buttons (hidden on phones), a dot clicks its
+     card (a click on a side card brings it to the middle), and the lit dot is the card in the middle (.is-on). */
+  const lg = document.getElementById('lifeGal'), lgTrack = lg && lg.querySelector('.lg__track');
+  if (lg && lgTrack && lg.querySelector('.lg__prev')) {
+    const bar = document.createElement('div');
+    bar.className = 'mpg mpg--dark'; bar.setAttribute('role', 'group'); bar.setAttribute('aria-label', 'Choose photo');
+    bar.innerHTML = `<button type="button" class="mpg__btn mpg__btn--prev" aria-label="Previous photo">${CHEV('M15 6L9 12L15 18')}</button>` +
+      `<span class="mpg__dots"></span><button type="button" class="mpg__btn mpg__btn--next" aria-label="Next photo">${CHEV('M9 6L15 12L9 18')}</button>`;
+    (lg.querySelector('.lg__rail') || lgTrack).insertAdjacentElement('afterend', bar);
+    const dotsBox = bar.querySelector('.mpg__dots');
+    const cards = () => [...lgTrack.querySelectorAll('.lg__slide')].filter(c => !c.hidden && getComputedStyle(c).display !== 'none');
+    let count = -1;
+    const sync = () => {
+      const cs = cards();
+      if (cs.length !== count) { count = cs.length; dotsBox.innerHTML = cs.map((_, k) => `<button type="button" aria-label="Photo ${k + 1} of ${count}"></button>`).join(''); }
+      const k = cs.findIndex(c => c.classList.contains('is-on'));
+      [...dotsBox.children].forEach((d, j) => { d.classList.toggle('is-on', j === k); if (j === k) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current'); });
+      bar.hidden = count < 2;
+    };
+    bar.querySelector('.mpg__btn--prev').addEventListener('click', () => lg.querySelector('.lg__prev').click());
+    bar.querySelector('.mpg__btn--next').addEventListener('click', () => lg.querySelector('.lg__next').click());
+    dotsBox.addEventListener('click', e => { const d = e.target.closest('button'); if (!d) return; const c = cards()[[...dotsBox.children].indexOf(d)]; if (c) c.click(); });
+    let raf = 0;
+    new MutationObserver(() => { if (!raf) raf = requestAnimationFrame(() => { raf = 0; sync(); }); }).observe(lgTrack, { attributes: true, subtree: true, attributeFilter: ['class', 'hidden'] });
+    sync();
+  }
 
   /* ---- Programme tabs on phones: they don't all fit, so the bar runs off the edge with a fade and an arrow (css/mobile-fixes.css);
      the arrow slides the bar on, and a chosen tab near an edge is brought fully into view ---- */

@@ -161,11 +161,10 @@
   #gs .gs__h { font-size: 34px; }
   #gs .gs__h, #gs .gs__h span { white-space: normal; }
 
-  /* closing card: the faces no longer squeezed over "36/50" (three faces, kept at their size); the 210px band at the foot, made for two
-     topper photos that are no longer on the page, removed */
+  /* closing card: the faces no longer squeezed over "36/50" (three faces, kept at their size). Its 210px band at the foot stays: it holds
+     Kevin's two topper photos (AIR 1, AIR 2), back in his 5f783b3 */
   .cl__faces { flex: none; }
   .cl__faces img:nth-child(n+4) { display: none; }
-  #closing .cl__card { min-height: 0; padding-bottom: 48px; }
   .cl__call { text-wrap: balance; }
 
   /* phone numbers never break at their hyphens ("080-6220-" / "6330") */
