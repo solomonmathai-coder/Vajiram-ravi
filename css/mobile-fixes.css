@@ -88,9 +88,11 @@
   .dr__prog { font-size: 11px; line-height: 1.35; letter-spacing: .01em; text-transform: none; }
 
   /* ---------- 4. Programmes: Kevin's shelves, two of them (four books) until "View all programmes" (js/programme-shelf.js) ----------
-     the button: the site's outlined pill, as "View all batches" */
-  .ps-more { display: inline-flex; align-items: center; justify-content: center; height: 44px; margin-top: 8px; padding: 0 22px; border: 1.5px solid rgba(194, 65, 12, .55);
-    border-radius: 999px; background: rgba(194, 65, 12, .06); color: var(--brand, #C2410C); font: 600 15px/1 var(--f); cursor: pointer; }
+     the button: the desktop "See all programmes" (user 2026-11-16, css/v49.css .cta.cta.bt--ink): the dark ink pill, 48px tall, white
+     bold type and its soft shadow, without the orange arrow circle */
+  .ps-more { display: inline-flex; align-items: center; justify-content: center; height: 48px; margin-top: 8px; padding: 0 24px; border: 0;
+    border-radius: 999px; background: #161412; color: #fff; font: 700 18px/1 var(--f); letter-spacing: .005em; cursor: pointer;
+    box-shadow: 0 12px 24px -14px rgba(22, 20, 18, .55); }
   .ps-more[hidden] { display: none; }
   .ps-more:active { scale: .97; }
   .ps-more:focus-visible { outline: 2px solid var(--brand, #C2410C); outline-offset: 3px; }
@@ -200,4 +202,88 @@
   #hero .hx__stats { padding-left: 8px; padding-right: 8px; }
   .hx__lead-full { display: none; }
   .hx__lead-short { display: inline; }
+}
+
+/* ---------- 2d. Carousel arrows (user 2026-11-16: "the arrow is too small and should be on the right side"): on phones the arrows are
+   44px (the size a thumb needs) with a 20px chevron, and the pair sits together at the right of each control bar, the dots on the left.
+   The faculty ring and the Contact photos, whose dots stay centred, have their pair at the right edge too. ---------- */
+@media (max-width: 760px) {
+  .mpg__btn, .fr__btn, .cx__nav { width: 44px; height: 44px; }
+  .mpg__btn svg, .fr__btn svg, .cx__nav svg { width: 20px; height: 20px; }
+  .mpg { justify-content: flex-start; gap: 10px; width: 100%; box-sizing: border-box; }
+  .mpg__dots { order: -1; margin-right: auto; }
+  .fr__arrow:has([aria-label^="Previous"]) { left: calc(100% - 76px) !important; }
+  .fr__arrow:has([aria-label^="Next"]) { left: calc(100% - 24px) !important; }
+  .fr__dots { align-self: flex-start; }   /* the educators' dots on the left, as the other bars' (user 2026-11-16) */
+  .cx__nav { top: calc(100% - 30px); }
+  .cx__nav--prev { left: calc(100% - 82px); }
+  .cx__nav--next { left: calc(100% - 30px); }
+  .cx__dots { left: 20px; translate: none; bottom: 24px; }
+  #lifeGal .mpg { padding: 0 21px; }   /* its row runs edge to edge; the bar keeps the page's side margin */
+  #lifeGal .mpg__dots { display: none; }   /* no dots under the gallery (user 2026-11-16); its two arrows centred under the pictures */
+  #lifeGal .mpg { justify-content: center; }
+}
+
+/* ---------- 2e. The closing call to action's two buttons, "Find your course" and "Talk to a counsellor" (user 2026-11-16: "make the
+   buttons the same width"): one grid whose columns (side by side) or rows (stacked, on phones) all take the wider button's width, each
+   label centred ---------- */
+.cl__btns { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; justify-content: center; width: max-content; max-width: 100%; margin-left: auto; margin-right: auto; }
+.cl__btns > .bt { justify-content: center; }
+@media (max-width: 760px) { .cl__btns { grid-auto-flow: row; } }
+
+/* ---------- 2f. Upcoming batches on phones: "Enroll now" fills the ticket's stub from side to side (user 2026-11-16: "fill the button in
+   the next batch cards"), as on desktop, instead of hugging its words (css/mobile.css) ---------- */
+@media (max-width: 760px) {
+  #batches .inv .inv__reg.cta { width: 100%; align-self: center; margin-left: 0; margin-right: 0; box-sizing: border-box; }   /* centred top to bottom in the stub, 17px each side of it, as on desktop */
+}
+
+/* ---------- 2g. Programme tabs on phones: no arrow at the bar's end (user 2026-11-16: "remove the arrow from the tab"); the bar still
+   scrolls sideways, and its faded end still says there is more ---------- */
+#courses .ptabs__more { display: none !important; }
+
+/* ---------- 2i. The General Studies book on phones (user 2026-11-16: "use a scaled down version of the book from the desktop"): the
+   desktop book exactly (292 x 390, 41 thick, its type and figures as laid out there) shrunk as a whole to 74%, about 216px wide, instead
+   of a smaller box (210 x 280, css/mobile.css) with the desktop type crammed into it. Its gap below is set in the book's own pixels
+   (54 x .74 = 40px, as before) ---------- */
+@media (max-width: 760px) {
+  :root body #gs .gsbook { --w: 292px; --h: 390px; --t: 41px; zoom: .74; margin-bottom: 54px; }
+}
+
+/* ---------- 2j. GS on phones: the book between the heading and the words under it (user 2026-11-16: "the position of the book should be
+   in between the heading and the body copy"). The block of words (.gs__in) gives its children to the section's one-column grid, so the
+   order can be: label, heading, book, paragraph, button. Gaps: 28px heading to book, 40px book to paragraph (room for its ribbon);
+   the book's own margins are in its scaled pixels (x .74) ---------- */
+@media (max-width: 760px) {
+  :root body main section#gs { row-gap: 0; }   /* the grid's 40px row gap was for book vs. words; now each item keeps its own spacing */
+  :root body #gs .gs__in { display: contents; }
+  :root body #gs .gs__in > .lbl { grid-row: 1; }
+  :root body #gs .gs__h { grid-row: 2; }
+  :root body #gs .gsbook { grid-row: 3; margin-top: 38px; margin-bottom: 54px; }
+  :root body #gs .gs__p { grid-row: 4; margin-top: 0; }
+  :root body #gs .gs__in > .rv-btn { grid-row: 5; }
+}
+
+/* ---------- 2k. The banners under the hero stats on phones (user 2026-11-16: "update the buttons and the carousel indicator in the
+   banner"): as every other carousel now, the dots on the left (8px, the current one 24px, still filling with white as the banner
+   plays) and the two 44px arrows together on the right, level with them ---------- */
+@media (max-width: 760px) {
+  .tr__dots { justify-content: flex-start; gap: 8px; }
+  .tr__dots button { width: 8px; height: 8px; }
+  .tr__dots button[aria-current="true"] { width: 24px; }
+  .tr__nav { width: 44px; height: 44px; }
+  .tr__nav svg { width: 20px; height: 20px; }
+  .tr__nav--prev { left: calc(100% - 76px); }
+  .tr__nav--next { left: calc(100% - 22px); }
+}
+
+/* ---------- 2m. Programme tabs on phones, as tabs usually are on a phone (user 2026-11-16: "a single [row] ... out to the very end of the
+   frame of the mobile screen"): one row that scrolls sideways, the cream strip running to both edges of the screen, the first tab on
+   the page's margin, the others running on off the right edge (no fade, no arrow). The strip reaches 24px past each edge, and the
+   section clips it there, so it always ends exactly at the screen's edges, even while the section's content is scaled a little as it
+   scrolls ---------- */
+@media (max-width: 760px) {
+  #courses .ptabs { margin-left: 0; margin-right: calc(50% - 50vw - 24px); }   /* the left end on the page's margin, rounded; only the right runs off the screen (user 2026-11-16) */
+  #courses .ptabs .seg { flex-wrap: nowrap; justify-content: flex-start; overflow-x: auto; border-radius: 14px 0 0 14px; padding-left: 4px; padding-right: 44px;
+    scroll-padding-inline: 4px 44px; }
+  #courses .ptabs .seg, #courses .ptabs.can-left .seg, #courses .ptabs.can-right .seg, #courses .ptabs.can-left.can-right .seg { -webkit-mask-image: none; mask-image: none; }
 }

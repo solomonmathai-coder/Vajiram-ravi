@@ -64,6 +64,8 @@ html main #closing .cl__faces { flex: none; }
    reference build (user 2026-11-16): the button 40px under the planks; the banner 56px under it, 1040px at most, a white card with a
    sand edge, the headset in an orange disc, the question in the title face, the counsellors' number, and "Get expert guidance" ---------- */
 #courses .prog__more { display: flex; justify-content: center; margin: 40px 0 0; }
+/* the button without its arrow circle, as the phones' "View all programmes" (user 2026-11-16): even padding either side of the words */
+#courses .prog__more .cta.cta.bt--ink { padding: 0 26px; }
 #courses .prog__help { display: flex; align-items: center; gap: 28px; box-sizing: border-box; width: 100%; max-width: 1040px; margin: 56px auto 0; padding: 28px 32px 28px 28px;
   border: 1px solid #EADBC4; border-radius: 8px; background: rgb(255 255 255 / .85); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
   box-shadow: 0 10px 22px rgb(77 31 8 / .12); text-align: left; }
@@ -94,7 +96,7 @@ html main #closing .cl__faces { flex: none; }
 /* phones (with Anima's phone layer, css/mobile-fixes.css): the shelf already ends in "View all programmes" (it brings the other books in
    place), so the desktop "See all programmes" under it is left out on phones rather than a second, near-identical button; the banner
    follows "View all programmes" 28px below */
-@media (max-width: 760px) { #courses .prog__more { display: none; } #courses .prog__help { margin-top: 28px; } }
+@media (max-width: 760px) { #courses .prog__help { margin-top: 28px; } }   /* (phones show "View all programmes" too now, user 2026-11-16: the one button, the shelf's own toggle gone) */
 /* on a phone the hours take their own line under the number (no separating dot), so neither breaks and both stay inside the frame */
 #courses .prog__help-hrs i { font-style: normal; }
 @media (max-width: 640px) { #courses .prog__help-hrs { display: block; } #courses .prog__help-hrs i { display: none; } }

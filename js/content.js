@@ -497,7 +497,9 @@
   const placeInd = instant => {
     const sel = tbtns.find(b => b.getAttribute('aria-selected') === 'true'); if (!sel) return;
     if (instant) ind.style.transition = 'none';
-    ind.style.transform = `translateX(${sel.offsetLeft}px)`; ind.style.width = sel.offsetWidth + 'px';
+    // across, and down to the chosen tab's row when the tabs wrap (phones, user 2026-11-16; 0 on one row); as tall as the tab
+    const dy = sel.offsetTop - tbtns[0].offsetTop;
+    ind.style.transform = `translate(${sel.offsetLeft}px, ${dy}px)`; ind.style.width = sel.offsetWidth + 'px'; ind.style.height = sel.offsetHeight + 'px';
     if (instant) { void ind.offsetWidth; ind.style.transition = ''; }
   };
   placeInd(true); tbar.classList.add('has-ind');

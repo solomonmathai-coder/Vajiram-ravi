@@ -70,7 +70,7 @@
   const FOIL = '#f6c77a';
 
   // phones (760px and narrower): two planks at most until "View all programmes" is pressed (Anima 2026-11-16; css/mobile-fixes.css .ps-more)
-  const phone = matchMedia('(max-width: 760px)'), PHONE_CAP = 4;
+  const phone = matchMedia('(max-width: 760px)'), PHONE_CAP = 8;   // eight books (four planks) at once on phones (user 2026-11-16)
   let showAll = false;
   const rowsFor = n => Math.max(1, Math.ceil(n / PER_SHELF));
   const spot = (k, n) => {
@@ -287,8 +287,8 @@
     });
     live.textContent = filter === 'All' ? `Showing all ${shown.length} programmes` : `Showing ${shown.length} ${filter} programmes`;
     const total = inTab(filter).length;
-    more.hidden = !(phone.matches && total > PHONE_CAP);
-    more.textContent = showAll ? 'View fewer programmes' : 'View all programmes';
+    more.hidden = true;   // no toggle on phones (user 2026-11-16): one button, "View all programmes" (index.html .prog__more), as on desktop
+    more.textContent = showAll ? 'See fewer programmes' : 'See all programmes';   // the desktop button's wording (user 2026-11-16)
     more.setAttribute('aria-expanded', String(showAll));
   };
 
