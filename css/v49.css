@@ -2705,3 +2705,9 @@ html .inv--ticket .inv__reg.cta:active { translate: var(--mx, 0px) calc(var(--my
    nav's right end past the edge). "clip" on both, not "hidden": hidden would make <body> a scroll container and stop the sticky footer
    and the pinned scenes; clip cuts the overflow without one. */
 html, body { overflow-x: clip; }
+
+/* The nav's distance from the top of the screen (user 2026-11-16, "fix the spacing at the top"): 20px (14px on phones), close to the 16px
+   between it and the hero, instead of a fixed 48px (36px on phones) that left three times as much room above the nav as under it. The hero
+   follows it (js/hero-v6.js keeps the panel 16px under the nav). Scrolled, it still tucks up to 16px / 12px (.nav.scrolled). */
+header.nav { top: 20px; }
+@media (max-width: 640px) { header.nav { top: 14px; } }
