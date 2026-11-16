@@ -62,23 +62,10 @@
     };
   });
 
-  // The seal's serrated edge: 24 teeth round a 29px circle.
-  const SEAL_EDGE = (() => {
-    const teeth = 24, pts = [];
-    for (let i = 0; i < teeth * 2; i++) {
-      const r = i % 2 ? 27.4 : 29, a = (i / (teeth * 2)) * Math.PI * 2 - Math.PI / 2;
-      pts.push(`${(29 + r * Math.cos(a)).toFixed(2)},${(29 + r * Math.sin(a)).toFixed(2)}`);
-    }
-    return `M${pts.join('L')}Z`;
-  })();
-  const yearsOf = e => (e && e.match(/^(\d+\+?)\s*years?\b/i) || [])[1] || null;
 
   // What is drawn over each card's portrait (bending with it, so it is repeated on every strip).
-  const face = ed => {
-    const years = yearsOf(ed.experience);
-    const seal = years ? `<span class="fr__seal"><svg viewBox="0 0 58 58" width="58" height="58"><path d="${SEAL_EDGE}"/><circle cx="29" cy="29" r="22.5"/></svg><span class="fr__seal-t"><b>${esc(years)}</b><small>Yrs exp</small></span></span>` : '';
-    return `${seal}<span class="fr__scrim"></span><span class="fr__ft"><span class="fr__tx"><span class="fr__n">${esc(ed.name)}</span><span class="fr__s">${esc(ed.focus)}</span></span><span class="fr__li"><img src="assets/img/icons/linkedin.svg" alt="" width="28" height="28" draggable="false"></span></span>`;
-  };
+  // Only the name and the subject (user 2026-11-16, after the reference build): no years seal, no LinkedIn mark.
+  const face = ed => `<span class="fr__scrim"></span><span class="fr__ft"><span class="fr__tx"><span class="fr__n">${esc(ed.name)}</span><span class="fr__s">${esc(ed.focus)}</span></span></span>`;
 
   // The slide's content for assistive technology: the card itself is only the picture.
   const slideText = ed => `<h3>${esc(ed.name)}</h3><p>${esc([ed.focus, ed.qualifications, ed.experience, ed.introduction].filter(Boolean).join('. '))}</p>`;

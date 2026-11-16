@@ -198,3 +198,10 @@
   .ps-emblem__ring, .ps-book:hover .ps-emblem__draw > * { animation: none; }
   .ps-glint, .ps-shine { display: none; }
 }
+
+/* The covers as on the reference build (user 2026-11-16, "copy the book covers"): no "Vajiram & Ravi" line on the shelf, the name in
+   the title face at 20px, a 66px emblem, and the category in small spaced capitals at the foot (no course count). */
+.ps-face__name { margin-top: 4px; font: 500 20px/1.1 Newsreader, Georgia, serif; }
+.ps-front--lg .ps-face__name { margin-top: 20px; font: 500 36px/1.08 Newsreader, Georgia, serif; }
+.ps-face__foot { margin-top: 10px; font: 600 10px/13px "IBM Plex Sans", sans-serif; letter-spacing: .18em; text-transform: uppercase; }
+.ps-front--lg .ps-face__foot { font-size: 12px; line-height: 16px; }

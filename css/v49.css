@@ -2753,3 +2753,80 @@ html.foot-curtain main { box-shadow: 0 26px 44px -18px rgba(70, 25, 5, .38), 0 8
 /* body text in IBM Plex Sans instead of Mukta (user 2026-11-16). Set here as well as in css/v25.css, because v25 comes in through the
    unversioned @import chain and a browser may keep its old copy; this file is versioned in index.html. Headings stay Newsreader. */
 :root { --f: "IBM Plex Sans", "Nirmala UI", "Helvetica Neue", Arial, sans-serif; --f-m: "IBM Plex Sans", "Nirmala UI", Arial, sans-serif; }
+
+/* "Talk to a counsellor" on the closing card without its arrow circle (user 2026-11-16): the words alone, centred, with even padding */
+.cl__btns .bt.bt--plain { justify-content: center; padding-left: 26px; padding-right: 26px; }
+
+/* ---- the joined nav, and how it answers the scroll (user 2026-11-16, after untillabs.com) -------------------------------------------
+   One white bar instead of a pill and a separate "Let's talk" button: the logo on the left, the links in the middle, "Let's talk"
+   inside the bar on the right. Scrolling down draws it in to a compact pill in the middle of the screen, the links folding away and
+   the menu button taking their place; scrolling up, the pointer over it or keyboard focus in it open it out to the page's text width
+   again (.nav--wide, set by js/page-motion.js, user 2026-11-16: "not limited by section, connected to the scroll"). It no longer slides away while scrolling down. Width and
+   fades only, eased; phones keep their own full-width bar (css/mobile.css). ---- */
+@media (min-width: 761px) {
+  header.nav { pointer-events: auto; box-sizing: border-box; height: 52px; margin: 0 auto;   /* the whole bar answers the pointer */
+    max-width: calc(100vw - 160px); padding: 6px; border-radius: 999px; background: #fff;
+    box-shadow: 0 0 0 1px rgba(38, 38, 38, .06), 0 10px 30px -10px rgba(38, 38, 38, .22);
+    transition: max-width .65s cubic-bezier(.65, 0, .35, 1), top .3s var(--ease, ease); }
+  header.nav .nav__pill, header.nav.nav--hero .nav__pill { position: static; flex: 1 1 auto;   /* static: the links centre on the whole bar */
+    min-width: 0; max-width: none; height: 100%; padding: 0 0 0 8px;
+    background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; box-shadow: none; }
+  /* the links sit centred over the bar in both states, so they never push the logo or "Let's talk" while the bar changes width; they
+     fade in once the bar has opened, and out at once as it draws in */
+  header.nav .nav__links { position: absolute; left: 50%; top: 50%; translate: -50% -50%; margin: 0; transition: opacity .3s ease .45s, visibility 0s linear .45s; }
+  header.nav .nav__burger { margin-left: auto; }   /* the menu button, where shown, beside "Let's talk" at the right */
+  header.nav .nav__links .mega { left: 50%; right: auto; translate: -50% 0; }   /* the menus open centred under the bar (they now hang from the centred links) */
+  header.nav .nav__end { margin-left: 8px; }
+  header.nav .cta.cta.cta.cta.talk { height: 40px; padding-right: 4px; }
+  header.nav .cta.cta.cta.cta.talk .sq { width: 32px; height: 32px; }
+  /* past the hero: a compact pill */
+  header.nav:not(.nav--wide):not(:hover):not(:has(:focus-visible)) { max-width: 460px; }
+  header.nav:not(.nav--wide):not(:hover):not(:has(:focus-visible)) .nav__links { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .15s ease, visibility 0s linear .15s; }
+  header.nav:not(.nav--wide):not(:hover):not(:has(:focus-visible)) .nav__burger { display: block; margin-left: auto; }
+  /* it stays on screen while scrolling down */
+  .nav.is-hidden { translate: none; opacity: 1; }
+  .nav.is-hidden > * { pointer-events: auto; }
+}
+@media (min-width: 761px) and (prefers-reduced-motion: reduce) { header.nav, header.nav .nav__links { transition: none; } }
+
+/* no menu button on desktop where the links fit in the bar (user 2026-11-16, "remove this in the web"): the compact pill is just the
+   logo and "Let's talk", and drawn in to fit them; scrolling up or the pointer over it brings the links back. Narrower desktops
+   (761-1360px), where the links never fit, keep the button: it is their only way to the menu. */
+@media (min-width: 1361px) {
+  header.nav .nav__burger, header.nav:not(.nav--wide):not(:hover):not(:has(:focus-visible)) .nav__burger { display: none; }
+  header.nav:not(.nav--wide):not(:hover):not(:has(:focus-visible)) { max-width: 380px; }
+}
+
+/* a squarer, taller nav (user 2026-11-16): 14px corners instead of a full pill and 64px tall (from 52px) on desktop, the links' hover
+   shapes and "Let's talk" squared to match; on phones the same corners, 52px tall */
+@media (min-width: 761px) {
+  header.nav { height: 64px; padding: 8px; border-radius: 14px; }
+  header.nav .nav__a { height: 44px; border-radius: 9px; }
+  header.nav .cta.cta.cta.cta.talk { height: 48px; border-radius: 10px; padding-right: 5px; }
+  header.nav .cta.cta.cta.cta.talk .sq { width: 38px; height: 38px; border-radius: 8px; }
+  header.nav .cta.cta.cta.cta.talk::before { border-radius: inherit; }
+  header.nav .nav__pill { padding-left: 10px; }
+}
+@media (max-width: 760px) {
+  header.nav .nav__pill, header.nav.nav--hero .nav__pill { height: 52px; border-radius: 14px; }
+}
+
+/* scrolling down: the bar draws in, then slides up out of view; scrolling up: it slides back in, still drawn in, then opens out
+   (user 2026-11-16). One move after the other: each state carries its own timing, the second move waiting for the first.
+   (.nav--up and .nav--wide come from js/page-motion.js; keyboard focus in the bar always brings it back.) */
+@media (min-width: 761px) {
+  header.nav { translate: 0 0; }
+  header.nav.nav--up { translate: 0 calc(-100% - 36px);
+    transition: max-width .45s cubic-bezier(.65, 0, .35, 1), translate .4s cubic-bezier(.55, 0, .7, .2) .4s, top .3s var(--ease, ease); }
+  header.nav.nav--wide { translate: 0 0;
+    transition: translate .4s cubic-bezier(.2, .7, .3, 1), max-width .55s cubic-bezier(.65, 0, .35, 1) .38s, top .3s var(--ease, ease); }
+  header.nav.nav--wide .nav__links { transition: opacity .3s ease .8s, visibility 0s linear .8s; }
+  header.nav.nav--up:has(:focus-visible) { translate: 0 0; transition: translate .3s ease; }
+}
+@media (min-width: 761px) and (prefers-reduced-motion: reduce) { header.nav.nav--up, header.nav.nav--wide, header.nav.nav--wide .nav__links { transition: none; } }
+
+/* "Let's talk" in the nav as the reference build's (user 2026-11-16, "use this type cta for the nav"): a full pill in the orange
+   gradient, the words in bold white and a white disc at its end with the orange arrow, which slides through on hover */
+header.nav .cta.cta.cta.cta.talk { height: 48px; gap: 10px; padding: 0 6px 0 20px; border-radius: 999px; font-size: 15px; font-weight: 700; }
+header.nav .cta.cta.cta.cta.talk .sq { width: 36px; height: 36px; border-radius: 50%; }
+header.nav .cta.cta.cta.cta.talk .sq svg { width: 15px; height: 15px; }

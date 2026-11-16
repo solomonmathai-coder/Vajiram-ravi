@@ -1,0 +1,84 @@
+/* Sections brought over from the reference build (vajiram-ravi.abhishek-ps.workers.dev, user 2026-11-16: "copy some of the design
+   from it and apply it here"). Loaded last. */
+
+/* ---------- Our flagship programme: not full width any more but a rounded card inset to the page's side margins, 90px of room
+   above and below its content, the heading at 56px in two lines and the book a little smaller (292 x 390), as on the reference ---------- */
+:root body main section#gs.gs { margin-inline: var(--px); --gs-left: clamp(24px, 4.6vw, 72px); border-radius: 16px; overflow: clip; isolation: isolate;
+  padding-top: 90px; padding-bottom: 90px; }
+@media (min-width: 1001px) {
+  #gs .gs__h { font-size: min(56px, 4.1vw); }
+  #gs .gsbook { --w: 292px; --h: 390px; --t: 41px; }
+}
+@media (max-width: 760px) {
+  :root body main section#gs.gs { padding-top: 48px; padding-bottom: 48px; border-radius: 14px; }
+}
+
+/* ---------- Free resources: the manila folders (css/resources-folders.css). v49.css still holds an older orange-card theme for
+   #resources .sm__card--res, stronger than the folder rules; it is switched off for the folders here so they read as on the reference. ---------- */
+#resources .sm__card--res.rf:nth-child(n) { min-height: 0; padding: 30px 0 0; background: none; box-shadow: none; color: inherit; }
+#resources .sm__card--res.rf:nth-child(n)::before, #resources .sm__card--res.rf:nth-child(n)::after { content: none; }
+#resources .sm__card--res.rf:nth-child(n) .sm__t { color: #2A2016; }
+#resources .sm__card--res.rf:nth-child(n) .sm__d { max-width: none; color: #5A4632; }
+@media (hover: hover) and (pointer: fine) {
+  #resources .sm__card--res.rf:nth-child(n):hover { box-shadow: none; }
+  #resources .sm__card--res.rf:nth-child(n):hover .sm__t { color: var(--ink); }
+  #resources .sm__card--res.rf:nth-child(n):hover .sm__d { color: #5A4A3C; }
+}
+
+/* ---------- Ready to start your UPSC preparation?: the AIR 1 and AIR 2 cut-outs back at the card's sides (index.html .cl__tp; their
+   styles are in v49.css), with the reference's card size: 480px tall, the copy above them; on tablets and phones the card grows a band
+   at its foot for the two pictures ---------- */
+.cl__copy { position: relative; z-index: 1; }
+html main #closing .cl__card { min-height: 480px; padding-top: 56px; padding-bottom: 48px; }
+@media (max-width: 1100px) { html main #closing .cl__card { min-height: 0; padding-bottom: 196px; } html main #closing .cl__tp { width: clamp(170px, 20vw, 210px); } }
+@media (max-width: 640px) { html main #closing .cl__card { padding-top: 40px; padding-bottom: 176px; } html main #closing .cl__tp { width: min(40vw, 164px); } }
+html main #closing .cl__faces { flex: none; }
+@media (max-width: 420px) { html main #closing .cl__faces img:nth-child(5) { display: none; } html main #closing .cl__faces img + img { margin-left: -12px; } }
+
+/* phones: the folders are narrower than on the reference (a carousel, 82% wide), so the resource's photo is kept inside its folder */
+@media (max-width: 760px) {
+  #resources .rmk--photo .rmk__obj { min-width: 0; max-width: calc(100% - 36px); }
+  #resources .rmk--photo .rmk__obj img { width: auto; height: auto; max-width: 100%; max-height: 172px; }
+  /* no shrink in the rise-in: the row snaps while the folders come in, and a shrunk first folder left it 5px off its start */
+  #resources .sm__grid--res.rise > .rf { scale: none; }
+}
+
+/* the folder's button: the site's white pill with the orange disc (.bt--white, made a .cta by js/page-motion.js); its own class, not
+   .sm__act, which v49.css still dresses as an underlined text link with a disc of its own (that broke the pill, user 2026-11-16).
+   Hovering anywhere on the folder plays the button's hover: the words roll up and the arrow slides through. */
+#resources .rf .rf__cta { align-self: flex-start; box-shadow: none; }
+@media (hover: hover) and (pointer: fine) {
+  #resources .rf:hover .rf__cta::before { opacity: 1; }
+  #resources .rf:hover .rf__cta .btn__t { transform: translateY(-115%); }
+  #resources .rf:hover .rf__cta .btn__t + .btn__t { transform: translateY(0); }
+  #resources .rf:hover .rf__cta .sq svg { transform: translateX(220%); }
+  #resources .rf:hover .rf__cta .sq svg + svg { transform: translateX(0); }
+}
+
+/* the form (#contact) follows the flagship card now (user 2026-11-16): the card is inset on the cream page and the form is a full-width
+   orange band, so the page's 72px (48px on phones) is kept between them instead of the card sitting on the band */
+:root body main section#gs.gs:has(+ #contact) { margin-bottom: 72px; }
+@media (max-width: 760px) { :root body main section#gs.gs:has(+ #contact) { margin-bottom: 48px; } }
+
+/* ---------- Programmes: "See all programmes" under the shelf and a banner for anyone unsure which programme to take, as on the
+   reference build (user 2026-11-16): the button 40px under the planks; the banner 56px under it, 1040px at most, a white card with a
+   sand edge, the headset in an orange disc, the question in the title face, the counsellors' number, and "Get expert guidance" ---------- */
+#courses .prog__more { display: flex; justify-content: center; margin: 40px 0 0; }
+#courses .prog__help { display: flex; align-items: center; gap: 28px; box-sizing: border-box; width: 100%; max-width: 1040px; margin: 56px auto 0; padding: 28px 32px 28px 28px;
+  border: 1px solid #EADBC4; border-radius: 8px; background: rgb(255 255 255 / .85); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  box-shadow: 0 10px 22px rgb(77 31 8 / .12); text-align: left; }
+#courses .prog__help-ic { flex: none; display: flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 50%; background: #CC5500; color: #fff; }
+#courses .prog__help-tx { display: flex; flex: 1 1 auto; min-width: 0; flex-direction: column; gap: 4px; }
+#courses .prog__help-h { margin: 0; font: 500 26px/1.2 Newsreader, Georgia, serif; letter-spacing: -.01em; color: var(--ink, #1E1A17); }
+#courses .prog__help-p { margin: 0; font: 400 16.5px/1.55 var(--f); letter-spacing: -.01em; color: var(--body, #4A4A4A); }
+#courses .prog__help-p a { font-weight: 600; white-space: nowrap; color: #CC5500; text-decoration: underline; text-decoration-color: rgb(204 85 0 / .3); text-underline-offset: 4px;
+  transition: text-decoration-color .2s ease; }
+#courses .prog__help-p a:hover { text-decoration-color: #CC5500; }
+#courses .prog__help-p span { white-space: nowrap; }
+#courses .prog__help-cta { flex: none; }
+@media (max-width: 900px) { #courses .prog__help { flex-wrap: wrap; gap: 18px 20px; padding: 24px; } }
+@media (max-width: 640px) {
+  #courses .prog__help { flex-direction: column; align-items: flex-start; }
+  #courses .prog__help > :last-child { justify-content: center; width: 100%; }
+}
+@media (max-width: 760px) { #courses .prog__more { margin-top: 28px; } #courses .prog__help { margin-top: 28px; } #courses .prog__help-h { font-size: 23px; } }

@@ -76,6 +76,27 @@
   stick(); f();
 })();
 
+/* the joined nav (user 2026-11-16, after untillabs.com; css/v49.css): it follows the scroll, wherever the page is. Scrolling down draws
+   it in to a compact pill and then slides it up out of view; scrolling up brings it back down, still compact, and then opens it out
+   (.nav--wide / .nav--up; user 2026-11-16), as does the pointer over it or keyboard focus in it (CSS);
+   near the top of the page it is always open. A few pixels of movement either way are ignored, so a trackpad's jitter or the end of a
+   smooth scroll does not make it flicker. */
+(() => {
+  const nav = document.getElementById('nav'); if (!nav) return;
+  let last = scrollY, tick = false;
+  const f = () => {
+    tick = false;
+    const y = scrollY, d = y - last;
+    // down: shrink, then slide up out of view (.nav--up); up: slide back in, still small, then open out (css/v49.css times the two)
+    if (y < 80) { nav.classList.add('nav--wide'); nav.classList.remove('nav--up'); }
+    else if (d > 6) { nav.classList.remove('nav--wide'); nav.classList.add('nav--up'); }
+    else if (d < -6) { nav.classList.add('nav--wide'); nav.classList.remove('nav--up'); }
+    if (Math.abs(d) > 6 || y < 80) last = y;
+  };
+  addEventListener('scroll', () => { if (!tick) { tick = true; requestAnimationFrame(f); } }, { passive: true });
+  nav.classList.toggle('nav--wide', scrollY < 80);
+})();
+
 /* nav: transparent while the hero is in view */
 (() => {
   const nav = document.getElementById('nav'), hero = document.getElementById('dlPin'); if (!nav || !hero) return;

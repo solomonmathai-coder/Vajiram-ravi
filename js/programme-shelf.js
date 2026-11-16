@@ -49,11 +49,11 @@
   const PROGS = window.__progs.map((p, i) => ({ name: p.t, category: p.tab, count: p.n, line: p.d, prog: p.prog, cover: p.cover || COVERS[i % COVERS.length] }));
 
   /* ---- Measurements (px): version 6's, made to hold this page's twelve programmes. Books a little smaller than
-     version 6's (172 × 228, the same proportions), 30px apart. How many stand on a plank follows the room there is
+     the reference build's 195 × 230 (user 2026-11-16, "copy the book covers"), 30px apart. How many stand on a plank follows the room there is
      (the page is responsive): six on a wide screen (two planks, as version 6), four on a tablet, three, or two on a
      phone; the stage is just wide enough for them (and scaled down only if even that does not fit). The open book
      keeps version 6's size; on a screen too narrow for its spread the stage is scaled while it is open. ---- */
-  const BOOK = { w: 172, h: 228 }, GAP = 30, ROW_H = 310, BOOK_TOP = 30, SIDE = 20;
+  const BOOK = { w: 195, h: 230 }, GAP = 30, ROW_H = 310, BOOK_TOP = 30, SIDE = 20;
   const PLANK_TOP = BOOK_TOP + BOOK.h - 8, PAGE = { w: 380, h: 504 }, OPEN_H = Math.max(2 * ROW_H, 704);
   /** The room the open spread needs across: its two pages and the close button. */
   const SPREAD_W = 2 * PAGE.w + 80;
@@ -173,11 +173,11 @@
       <span class="ps-light" aria-hidden="true"></span>
       <span class="ps-frame" aria-hidden="true" style="${frame}"><span></span></span>
       <span class="ps-face" style="${frame}">
-        <span class="ps-face__brand" aria-hidden="true">Vajiram &amp; Ravi</span>
+        ${large ? '<span class="ps-face__brand" aria-hidden="true">Vajiram &amp; Ravi</span>' : ''}
         <span class="ps-face__name">${esc(p.name)}</span>
         <span class="ps-face__rule" aria-hidden="true"><i></i><b></b><i></i></span>
-        <span class="ps-face__em" aria-hidden="true">${emblem(p.cover.emblem, large ? 128 : 58)}</span>
-        <span class="ps-face__foot"><span class="ps-face__cat">${esc(p.category)}${p.count ? ` &middot; ${p.count} courses` : ''}</span><span class="ps-face__open" aria-hidden="true">Open the book</span></span>
+        <span class="ps-face__em" aria-hidden="true">${emblem(p.cover.emblem, large ? 128 : 66)}</span>
+        <span class="ps-face__foot"><span class="ps-face__cat">${esc(p.category)}</span><span class="ps-face__open" aria-hidden="true">Open the book</span></span>
       </span>
       <span class="ps-glint" aria-hidden="true" style="animation-delay:${-glintOffset(p.name)}s"></span>
       <span class="ps-shine" aria-hidden="true"></span>

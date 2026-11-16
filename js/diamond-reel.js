@@ -8,7 +8,8 @@
      (about 34px a second) whatever the number, and it can be dragged (the loop, below). When they all fit, they stand still, centred.
      It stops while the mouse is over it, while it is off screen and while the tab is hidden. With prefers-reduced-motion it never
      drifts (it scrolls by hand).
-   - Every card shows one placeholder portrait for now (user 2026-11-13). */
+   - 2025 (written in index.html) has each rank holder's portrait, ranks 4 to 18, as on the reference build (user 2026-11-16); the
+     other years, built here, still show one placeholder portrait. */
 (() => {
   const dr = document.querySelector('#toppers .dr'); if (!dr) return;
   const track = dr.querySelector('.dr__track'), view = dr.querySelector('.dr__view'), head = document.getElementById('drHead');
@@ -41,7 +42,7 @@
   const render = y => {
     const list = ((data && data.ARCHIVE[y]) || []).slice().sort((a, b) => a.rank - b.rank).filter(t => y !== 2025 || t.rank > 3);
     track.innerHTML = list.map(t => card(y, t)).join('');
-    head.textContent = y === 2025 ? '36 rank holders, CSE 2025' : `Rank holders, CSE ${y}`;
+    head.textContent = y === 2025 ? 'Ranks 4 to 18, CSE 2025' : `Rank holders, CSE ${y}`;
     dr.setAttribute('aria-label', y === 2025 ? 'More UPSC CSE 2025 rank holders' : `UPSC CSE ${y} rank holders`);
   };
 

@@ -1,10 +1,9 @@
-/* Life at Vajiram & Ravi: photos and videos, its own section after Free resources, laid out after rox.com's customer stories, on
-   the Why section's orange ground and grain (css/story.css #story.cmp) in the site's title face. The heading and a sub-headline on
-   the left; under them a row of large media cards that starts
-   in line with the heading and runs off the right edge (and off the left once moved along), each card with a caption line beneath:
-   a name on the left, a grey detail on the right. The row scrolls natively (swipe, trackpad) and snaps to a card; js/life-gallery.js
-   drives the arrows, moves it along by itself and plays the videos in view. */
-.lgal { --cw: clamp(260px, 31vw, 585px); --ch: calc(var(--cw) * 550 / 585); --gap: clamp(14px, 2vw, 38px); position: relative; isolation: isolate; overflow: hidden;
+/* Life at Vajiram & Ravi: photos and videos, its own section between Contact us and the FAQ, on the Why section's orange ground and grain in the
+   site's title face. The heading and the All / Images / Videos tabs are centred; under them a spotlight row (user 2026-11-16, after
+   paraform.com's recruiters row, without its outline): one picture in the middle, large and in full colour, with its caption laid over
+   its foot; the others either side smaller, vertically centred on it and dimmed. Every few seconds the next one moves into the middle;
+   the arrows, a click on a side picture, a swipe or the arrow keys move it too. js/life-gallery.js places the cards. */
+.lgal { --aw: 400px; --ah: 500px; --sw: 270px; --sh: 340px; --gap: 28px; position: relative; isolation: isolate; overflow: hidden;
   padding: var(--sec-y, 96px) 0; color: #fff; background:
   radial-gradient(48% 60% at 85% 20%, rgba(255, 170, 90, .45), transparent 70%),
   radial-gradient(45% 55% at 8% 100%, rgba(150, 40, 8, .5), transparent 70%),
@@ -15,9 +14,9 @@
 .lg__h { margin: 0; font: 400 clamp(40px, 4.2vw, 64px)/1.02 var(--f-title, Georgia), serif; letter-spacing: -.02em; color: #fff; text-align: center; }
 .lg__sub { max-width: 520px; margin: 12px auto 0; font: 400 var(--body-fs, 17px)/var(--body-lh, 1.6) var(--f); color: rgba(255, 255, 255, .9); text-wrap: pretty; }
 
-/* All / Images / Videos: the Programmes tabs (css/v49.css #courses .ptabs .seg, as finally set): a sand bar, the labels in ink and
-   one brand pill (.lg__ind) that springs along under them to the chosen tab */
-.lg__tabs { position: relative; isolation: isolate; display: flex; width: max-content; max-width: 100%; margin: 24px auto 0; padding: 4px; box-sizing: border-box;
+/* All / Images / Videos, under the pictures (user 2026-11-16): a sand bar, the labels in ink and one brand pill (.lg__ind) that springs
+   along under them to the chosen tab */
+.lg__tabs { position: relative; isolation: isolate; display: flex; width: max-content; max-width: 100%; margin: 40px auto 0; padding: 4px; box-sizing: border-box;
   border-radius: 14px; background: #F9F0E4; }
 .lg__tab { flex: none; display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px; border: 0; border-radius: 10px; background: transparent; cursor: pointer;
   font: 600 15px/1 var(--f); color: var(--ink, #1D1712); white-space: nowrap;
@@ -31,99 +30,96 @@
 @supports (transition-timing-function: linear(0, 1)) { .lg__ind { transition: transform .57s var(--spring-pill, cubic-bezier(.7, 0, .2, 1)), width .57s var(--spring-pill, cubic-bezier(.7, 0, .2, 1)); } }
 .lg__ind.is-instant { transition: none; }
 
-/* the row fades out and back in when the filter changes */
-.lg__track { transition: opacity .2s ease; }
+/* ---------- the spotlight row ---------- */
+.lg__rail { position: relative; margin-top: clamp(32px, 4vw, 52px); }
+.lg__track { position: relative; height: var(--ah); margin: 0; padding: 0; list-style: none; touch-action: pan-y; user-select: none; -webkit-user-select: none;
+  transition: opacity .2s ease; }
 .lg__track.is-sw { opacity: 0; }
 .lg__slide[hidden] { display: none; }
+/* every card is the middle card's size and sits on the row's centre line; js/life-gallery.js moves it sideways (--x) and scales the side
+   ones down (--s, the side size over the middle size). Only transform and opacity change from step to step, so the browser animates
+   them on the graphics card without laying the page out again or re-cropping the pictures: the move stays smooth. */
+.lg__slide { position: absolute; left: 50%; top: 50%; width: var(--aw); height: var(--ah); margin: 0; cursor: pointer;
+  transform: translate(calc(-50% + var(--x, 0px)), -50%) scale(var(--s, 1)); will-change: transform;
+  transition: transform .85s cubic-bezier(.45, 0, .2, 1); }
+.lg__slide.is-on { cursor: default; z-index: 2; }
+.lg__slide.is-jump { transition: none; }   /* a card wrapping round, off screen, takes no time */
+.lg__media { position: relative; width: 100%; height: 100%; margin: 0; overflow: hidden; border-radius: 14px; background: #6b2a0c;
+  box-shadow: 0 30px 50px -30px rgba(50, 12, 0, .7); transform: translateZ(0); }
+.lg__media img, .lg__media video { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* the side cards dimmed; the middle one clear, with a shade along its foot for the caption: two layers that only fade, so both change
+   smoothly with the move */
+.lg__media::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: rgba(26, 8, 2, .52); opacity: 1; transition: opacity .85s cubic-bezier(.45, 0, .2, 1); }
+.lg__media::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0;
+  background: linear-gradient(to top, rgba(20, 6, 0, .72), rgba(20, 6, 0, .2) 38%, transparent 60%); transition: opacity .85s cubic-bezier(.45, 0, .2, 1); }
+.lg__slide.is-on .lg__media::after { opacity: 0; }
+.lg__slide.is-on .lg__media::before { opacity: 1; }
+@media (hover: hover) and (pointer: fine) { .lg__slide:not(.is-on):hover .lg__media::after { opacity: .7; } }
 
-/* the arrows: the site's round cream arrow buttons (css/trending.css .tr__nav, css/v49.css .cm__navb), at either side of the row,
-   level with the middle of the pictures; they show only while the pointer is over the row or one of them has keyboard focus, and
-   touch screens (no hover) swipe instead */
-.lg__rail { position: relative; }
-.lg__arw { position: absolute; top: calc(var(--ch) / 2 - 23px); z-index: 4; display: grid; place-items: center; width: 46px; height: 46px; padding: 0;
+/* a video card says so, top left */
+.lg__badge { position: absolute; top: 14px; left: 14px; z-index: 2; display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px 6px 8px; border-radius: 999px;
+  background: rgba(60, 15, 0, .55); backdrop-filter: blur(6px); font: 600 12px/1 var(--f); letter-spacing: .02em; color: #fff; }
+.lg__badge svg { fill: currentColor; }
+
+/* the caption, on the middle card only: the name in the title face over the detail, at the card's foot */
+.lg__cap { position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; display: flex; flex-direction: column; gap: 4px; margin: 0; padding: 22px 24px; text-align: left;
+  opacity: 0; translate: 0 8px; transition: opacity .25s ease, translate .25s ease; pointer-events: none; }
+.lg__slide.is-on .lg__cap { opacity: 1; translate: 0 0; transition: opacity .5s ease .45s, translate .6s cubic-bezier(.22, 1, .36, 1) .45s; }
+.lg__cap b { font: 400 28px/1.1 var(--f-title, Georgia), serif; letter-spacing: -.01em; color: #fff; }
+.lg__cap span { font: 400 15px/1.35 var(--f); color: rgba(255, 255, 255, .82); }
+
+/* the arrows: the site's round cream arrow buttons, at either side of the row, level with the middle of the pictures; shown while the
+   pointer is over the row or one has keyboard focus; on touch screens always */
+.lg__arw { position: absolute; top: 50%; z-index: 4; display: grid; place-items: center; width: 46px; height: 46px; padding: 0; translate: 0 -50%;
   border: 1px solid rgba(255, 255, 255, .8); border-radius: 50%;
   background: rgba(255, 249, 241, .92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); color: #C2410C; cursor: pointer;
-  box-shadow: 0 12px 24px -12px rgba(58, 20, 6, .6);
-  opacity: 0; pointer-events: none; transition: opacity .3s ease, translate .35s cubic-bezier(.22, 1, .36, 1), background-color .2s, scale .2s; }
-.lg__prev { left: max(12px, calc(var(--px) - 23px)); translate: 8px 0; }
-.lg__next { right: max(12px, calc(var(--px) - 23px)); translate: -8px 0; }
+  box-shadow: 0 12px 24px -12px rgba(58, 20, 6, .6); transition: opacity .3s ease, background-color .2s, scale .2s; }
+.lg__prev { left: max(12px, calc(var(--px) - 23px)); }
+.lg__next { right: max(12px, calc(var(--px) - 23px)); }
 .lg__arw svg { fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
-.lg__arw:focus-visible { opacity: 1; pointer-events: auto; translate: 0 0; outline: 2px solid #fff; outline-offset: 3px; }
+.lg__arw:focus-visible { opacity: 1; outline: 2px solid #fff; outline-offset: 3px; }
 @media (hover: hover) and (pointer: fine) {
-  .lg__rail:hover .lg__arw { opacity: 1; pointer-events: auto; translate: 0 0; }
+  .lg__arw { opacity: 0; pointer-events: none; }
+  .lg__rail:hover .lg__arw, .lg__arw:focus-visible { opacity: 1; pointer-events: auto; }
   .lg__arw:hover { background: #fff; scale: 1.06; }
 }
 .lg__arw:active { scale: .94; }
 
-/* the row */
-.lg__track { display: flex; gap: var(--gap); margin: clamp(32px, 4vw, 52px) 0 0; padding: 0 var(--px); list-style: none;
-  overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--px); overscroll-behavior-x: contain; scrollbar-width: none; }
-.lg__track::-webkit-scrollbar { display: none; }
-.lg__slide { flex: 0 0 var(--cw); min-width: 0; scroll-snap-align: start;
-  opacity: 0; translate: 0 24px; transition: opacity .7s ease var(--td, 0s), translate .9s cubic-bezier(.22, .8, .24, 1) var(--td, 0s); }
-.lgal.is-in .lg__slide { opacity: 1; translate: 0 0; }
+/* entrance: the row fades up once in view */
+.lg__rail { opacity: 0; translate: 0 24px; transition: opacity .7s ease, translate .9s cubic-bezier(.22, .8, .24, 1); }
+.lgal.is-in .lg__rail { opacity: 1; translate: 0 0; }
 
-/* every card is the same height; a video card is 16:9, so wider than a photo */
-.lg__slide--vid { flex-basis: calc(var(--ch) * 16 / 9); }
-.lg__media { position: relative; margin: 0; height: var(--ch); overflow: hidden; border-radius: 8px; background: #6b2a0c;
-  box-shadow: 0 30px 50px -28px rgba(50, 12, 0, .75); }
-.lg__media img, .lg__media video { display: block; width: 100%; height: 100%; object-fit: cover; filter: brightness(.92);
-  transition: transform 1.1s cubic-bezier(.22, .8, .24, 1), filter .5s ease; }
-@media (hover: hover) and (pointer: fine) {
-  .lg__slide:hover .lg__media img, .lg__slide:hover .lg__media video { transform: scale(1.03); filter: brightness(1); }
-}
-/* a video card says so, top left */
-.lg__badge { position: absolute; top: 14px; left: 14px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px 6px 8px; border-radius: 999px;
-  background: rgba(60, 15, 0, .55); backdrop-filter: blur(6px); font: 600 12px/1 var(--f); letter-spacing: .02em; color: #fff; }
-.lg__badge svg { fill: currentColor; }
-
-/* the caption line */
-.lg__cap { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin: 18px 0 0; text-align: left; }
-.lg__cap b { flex: none; font: 600 16px/1.3 var(--f); color: #fff; white-space: nowrap; }
-.lg__cap span { min-width: 0; font: 400 14px/1.35 var(--f); color: rgba(255, 255, 255, .78); text-align: right; }
-/* on a narrow card the detail goes under the name */
-.lg__slide { container-type: inline-size; }
-@container (max-width: 440px) {
-  .lg__cap { flex-direction: column; gap: 4px; }
-  .lg__cap span { text-align: left; }
-}
-
-/* ---------- phones and small tablets ---------- */
+/* ---------- narrower screens ---------- */
+@media (max-width: 1100px) { .lgal { --aw: 360px; --ah: 450px; --sw: 240px; --sh: 300px; --gap: 22px; } }
 @media (max-width: 760px) {
-  .lgal { --cw: 72vw; --gap: 14px; }
-  .lg__slide--vid { flex-basis: min(calc(var(--ch) * 16 / 9), calc(100vw - 2 * var(--px))); }
+  .lgal { --aw: 72vw; --ah: 90vw; --sw: 46vw; --sh: 58vw; --gap: 10px; }
   .lg__h { font-size: 38px; }
   .lg__tab { padding: 0 12px; font-size: 14px; }
-  .lg__cap { margin-top: 14px; }
+  .lg__tabs { margin-top: 24px; }
+  .lg__cap { padding: 16px 18px; }
+  .lg__cap b { font-size: 22px; }
+  .lg__cap span { font-size: 13.5px; }
+  .lg__arw { width: 40px; height: 40px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .lg__slide, .lg__media img, .lg__media video, .lg__ind, .lg__tab, .lg__track { transition: none; }
-  .lg__track { scroll-behavior: auto; }
+  .lg__slide, .lg__cap, .lg__media::after, .lg__media::before, .lg__ind, .lg__tab, .lg__track, .lg__rail { transition: none; }
+  .lg__rail { opacity: 1; translate: none; }
 }
 
-/* ---------- the curved row (user 2026-11-16, "a curved image gallery just like the reference"): narrower cards of one size, portrait,
-   close together, a card centred in the row; js/life-gallery.js turns each card towards the middle and brings it closer the further it
-   is from the middle, so the row reads as the inside of a cylinder: the middle card smallest, the ones at the screen's edges larger and
-   angled in. The row keeps room above and below (--cpad) so the nearer cards are not clipped by its scroll box. ---------- */
-.lgal { --cw: clamp(220px, 21vw, 380px); --ch: calc(var(--cw) * 1.18); --gap: clamp(10px, 1.1vw, 18px); --cpad: 64px; }
-.lg__track { margin-top: calc(clamp(32px, 4vw, 52px) - var(--cpad)); margin-bottom: calc(var(--cpad) * -1); padding-block: var(--cpad); }
-.lg__slide { scroll-snap-align: center; transform-origin: 50% calc(var(--ch) / 2); will-change: transform; }
-.lg__slide--vid { flex-basis: var(--cw); }   /* a video card too is one card wide (its picture is cropped to fit), so the curve stays even */
-.lg__media { border-radius: 10px; }
-.lg__arw { top: calc(var(--cpad) + var(--ch) / 2 - 23px); }
-/* captions: the name over the detail, as the cards are narrow */
-.lg__cap { flex-direction: column; gap: 4px; margin-top: 14px; }
-.lg__cap span { text-align: left; }
-.lg__cap b { white-space: normal; }
-@media (max-width: 760px) {
-  .lgal { --cw: 56vw; --gap: 10px; --cpad: 44px; }
-  .lg__slide--vid { flex-basis: var(--cw); }
-}
-/* the row glides on without stopping (js/life-gallery.js, user 2026-11-16), so it no longer snaps to a card: a snap would pull against
-   the glide. The arrows still bring a card to the middle. */
-.lg__track { scroll-snap-type: none; }
-/* video cards wide again (user 2026-11-16, "the video card should have more width"): the full 16:9 of the card height, so the clip
-   is not cropped, on phones no wider than the screen's text column */
-.lg__slide--vid { flex-basis: calc(var(--ch) * 16 / 9); }
-@media (max-width: 760px) { .lg__slide--vid { flex-basis: min(calc(var(--ch) * 16 / 9), calc(100vw - 2 * var(--px, 20px))); } }
+/* the side pictures faded further back (user 2026-11-16, "reduce the opacity of the images in the background"): at 40% opacity, so
+   the orange ground shows through and the middle picture carries the row; they come up a little under the pointer, and to full as
+   they reach the middle. Opacity, like the move, animates smoothly. */
+.lg__media { transition: opacity .85s cubic-bezier(.45, 0, .2, 1); }
+.lg__slide:not(.is-on) .lg__media { opacity: .4; }
+.lg__media::after { background: rgba(26, 8, 2, .35); }
+@media (hover: hover) and (pointer: fine) { .lg__slide:not(.is-on):hover .lg__media { opacity: .6; } .lg__slide:not(.is-on):hover .lg__media::after { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .lg__media { transition: none; } }
+
+/* landscape and portrait cards (user 2026-11-16, "videos in both landscape and portrait view"): a portrait card is --aw x --ah as before,
+   a landscape card --lw x --lh; both sit on the row's centre line, and the side cards are scaled down by the same factor (--sw / --aw),
+   so a landscape card stays landscape at the side. js/life-gallery.js spaces each card by its own width. */
+.lgal { --lw: 640px; --lh: 400px; }
+.lg__slide--land { width: var(--lw); height: var(--lh); }
+@media (max-width: 1100px) { .lgal { --lw: 560px; --lh: 350px; } }
+@media (max-width: 760px) { .lgal { --lw: 84vw; --lh: 52vw; } }

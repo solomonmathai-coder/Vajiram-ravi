@@ -21,10 +21,10 @@
    content leans or curves (toppers, testimonials, the gallery) the figure is set for desktop widths. */
 :root body #faculty .fr { margin-top: 32px; }                           /* 60 -> 68 (to the tall end cards) */
 :root body #batches .brow { margin-top: 68px; }                         /* 99 -> 68 at rest (from "View all batches" to the tickets once they have flipped in; this margin merges with the heading block's own, and the row starts 16px up) */
-:root body #resources .rk { margin-top: 68px; }                         /* 44 -> 68 */
-:root body #visit .cx { margin-top: 68px; }                             /* 44 -> 68 (from the intro line to the card, map and photos) */
+:root body #resources .sm__grid--res { margin-top: 68px; }             /* to the folders (measured to the top of the folder backs) */
+:root body #visit .cx { margin-top: 68px; }   /* from the heading (no intro line now) */
+:root body #lifeGal .lg__rail { margin-top: 68px; }                     /* heading -> the middle picture (the tallest, so the top of the row); the tabs are under the row now */                             /* 44 -> 68 (from the intro line to the card, map and photos) */
 @media (min-width: 761px) {
   :root body #toppers .pd__row { margin-top: 44px; }                    /* 80 -> 68 (to AIR 1's head over the crest) */
   :root body #stories .pst__track { margin-top: -17px; }                /* 85 -> 68 (to the highest tilted card) */
-  :root body #lifeGal .lg__track { margin-top: calc(68px + 40px - var(--cpad)); }   /* 68 on average to the highest card: the curve lifts the edge cards by a varying amount as the row glides (about 56-80) */
 }

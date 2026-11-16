@@ -98,3 +98,10 @@
 /* a little less room under the heading (user 2026-11-16): the ring starts 24px below it, from 56px, so the centre card sits about 88px
    under the heading (from 120px) and the tall end cards about 60px (from 92px) */
 .fr { margin-top: 24px; }
+
+/* The front card shows only the name and the subject, as on the reference build (user 2026-11-16): the name in the title face, the
+   subject in warm sand under it, 16px in from the card's foot. */
+.fr__ft { left: 16px; right: 16px; bottom: 16px; }
+.fr__tx { gap: 2px; }
+.fr__n { font: 500 22px/1.15 Newsreader, Georgia, serif; letter-spacing: -.01em; color: #fff; }
+.fr__s { font: 600 13px/1.3 "IBM Plex Sans", sans-serif; letter-spacing: .02em; color: #FFD9A8; }

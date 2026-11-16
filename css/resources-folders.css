@@ -1,0 +1,310 @@
+/* ============ Free resources (#resources): each card is a manila file folder from the editorial desk
+   (components/sections/Resources/Resources.jsx .rf, the resources themselves ResourceMock.jsx .rmk).
+   Back to front: the folder's back with a coloured index tab (.rf__back, .rf__tab), the resource sticking out of it (.rmk), and the
+   front flap with the copy and a rubber "Free" stamp (.rf__front, .rf__stamp). The kin of the toppers' magazine, the batches' tickets
+   and the students' postcards. Motion: as the cards rise in, each resource slides up out of its folder (.rise, staggered by --i); on
+   hover it slides further out and tilts, the tab lifts and the stamp presses. The orange hover ground of the old cards is off here. ============ */
+
+/* the card: no surface of its own, the folder parts draw it. Each folder lies a little askew, as if put down by hand. */
+#resources .rf { display: flex; flex-direction: column; align-items: stretch; gap: 0; min-height: 0; padding: 30px 0 0; background: none; box-shadow: none; border-radius: 0; overflow: visible;
+  --tab: #C64613; --tab-x: 16px; --tilt: -.5deg;
+  --k-in: #D3B07A; --k-in-2: #E0C18E;          /* the inside of the back, in the folder's own shade */
+  --k: #EDD3A4; --k-2: #E3C38E; --k-edge: rgba(110, 66, 18, .28);   /* the front */
+  rotate: var(--tilt); transition: rotate .5s var(--ease); }
+#resources .rf:nth-child(2) { --tab: #9D485B; --tab-x: calc(50% - 62px); --tilt: .45deg; }
+#resources .rf:nth-child(3) { --tab: #B47A20; --tab-x: calc(100% - 140px); --tilt: -.3deg; }
+#resources .rf:nth-child(4) { --tab: #326F66; --tab-x: calc(100% - 140px); --tilt: .5deg; }
+#resources .rf:nth-child(5) { --tab: #3F5B87; --tab-x: 16px; --tilt: -.45deg; }
+#resources .rf:nth-child(6) { --tab: #E57512; --tab-x: calc(50% - 62px); --tilt: .3deg; }
+#resources .rf::before { content: none; }
+
+/* the back: the inside of the folder (shaded where the front overhangs it), with the paper grain, and the stack of sheets filed in it */
+#resources .rf__back { position: absolute; inset: 30px 0 0; z-index: 0; border-radius: 3px 5px 6px 6px;
+  background: linear-gradient(180deg, var(--k-in-2), var(--k-in) 70%);
+  box-shadow: inset 0 1px 0 rgba(255, 245, 225, .55), inset 0 0 0 1px var(--k-edge), 0 1px 2px rgba(60, 30, 5, .18); }
+#resources .rf__back::after { content: ""; position: absolute; left: 10px; right: 12px; top: 58px; height: 70px; border-radius: 1px; background: #F8F3E8;
+  box-shadow: 3px -4px 0 -1px #F4EEE2, -4px -8px 0 -2px #FAF6EE, 0 0 0 1px rgba(60, 40, 10, .08), 3px -4px 0 0 rgba(60, 40, 10, .07), -4px -8px 0 -1px rgba(60, 40, 10, .07); }
+
+/* paper grain on the back and the front, soft-light like the rest of the site's grain */
+#resources .rf__back::before, #resources .rf__front::before { content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: url(../assets/img/patterns/grain.png) 0 0 / 200px repeat; mix-blend-mode: soft-light; opacity: .45; }
+#resources .rf__front > :not(.rf__stamp) { position: relative; }
+
+/* the index tab: cut from the back (angled sides), carrying a white label with a coloured edge, written by hand */
+#resources .rf__tab { position: absolute; left: var(--tab-x); bottom: 100%; display: block; box-sizing: border-box; width: 124px; height: 31px; padding: 6px 12px 0;
+  background: linear-gradient(180deg, #E8CC99, var(--k-in-2)); clip-path: polygon(9px 0, calc(100% - 9px) 0, 100% 100%, 0 100%);
+  transition: translate .4s var(--ease); }
+#resources .rf__tab::before { content: ""; position: absolute; inset: 6px 13px 3px; border-radius: 1px; background: #FFFDF6; box-shadow: inset 0 3px 0 var(--tab), 0 0 0 .5px rgba(60, 40, 10, .2); }
+#resources .rf__tab { color: #23305C; font: 600 18px/26px Caveat, cursive; text-align: center; letter-spacing: .01em; text-transform: none; }
+#resources .rf__tab { isolation: isolate; }
+#resources .rf__tab::before { z-index: -1; }
+
+/* the resource, sticking out of the folder: its lower part is hidden behind the front flap */
+#resources .rmk { flex: none; position: relative; z-index: 1; display: flex; justify-content: center; align-items: flex-start; height: 112px; padding-top: 18px; margin: 0; }
+#resources .rmk__obj { position: relative; transition: transform .55s var(--ease), opacity .6s var(--ease), translate .8s var(--ease); }
+#resources .rmk i, #resources .rmk span, #resources .rmk b { display: block; font-style: normal; }
+
+/* the front flap: manila card with the grain, a pressed top edge, the shadow it throws up onto what is filed behind it, and the two
+   score lines folders have along the bottom */
+#resources .rf__front { flex: 1; position: relative; z-index: 2; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; min-height: 190px; box-sizing: border-box;
+  padding: 26px 26px 34px; border-radius: 2px 2px 6px 6px;
+  background: linear-gradient(178deg, #F3DCAF, var(--k) 30%, var(--k-2));
+  box-shadow: inset 0 1px 0 rgba(255, 250, 235, .9), inset 0 2px 0 rgba(110, 66, 18, .12), inset 0 0 0 1px var(--k-edge),
+    0 -8px 12px -8px rgba(60, 30, 5, .45), 0 2px 3px rgba(60, 30, 5, .18), 0 24px 34px -22px rgba(60, 30, 5, .5);
+  transition: box-shadow .45s var(--ease); }
+#resources .rf__front::after { content: ""; position: absolute; left: 1px; right: 1px; bottom: 12px; height: 5px; pointer-events: none;
+  border-top: 1px solid rgba(110, 66, 18, .2); border-bottom: 1px solid rgba(110, 66, 18, .2); box-shadow: 0 1px 0 rgba(255, 250, 235, .6), inset 0 1px 0 rgba(255, 250, 235, .6); }
+#resources .rf .sm__t { margin: 0; color: #2A2016; }
+#resources .rf .sm__d { color: #5a4632; }
+#resources .rf .sm__act { margin-top: auto; --btn-fg: var(--ink); --btn-fg-hover: var(--ink); }   /* the white pill (onDark primary), as the GS button */
+#resources .rf > .rf__front > a.sm__act.tlink { color: var(--brand); }
+#resources .rf .sm__stages li { border-color: rgba(110, 66, 18, .3); background: rgba(255, 252, 240, .5); color: #6E4413; }
+
+/* the rubber stamp: uneven ink (the grain knocks it back in places), slightly blurred edge, pressed in at an angle */
+#resources .rf__stamp { position: absolute; top: 20px; right: 20px; display: block; padding: 5px 9px 4px; border: 2px solid currentColor; border-radius: 4px;
+  outline: 1px solid currentColor; outline-offset: 2px; color: #B3261E; opacity: .72; mix-blend-mode: multiply; rotate: -10deg; filter: blur(.25px);
+  -webkit-mask: linear-gradient(115deg, #000 55%, rgba(0, 0, 0, .6)); mask: linear-gradient(115deg, #000 55%, rgba(0, 0, 0, .6));
+  font: 800 12px/1 var(--f); letter-spacing: .2em; text-transform: uppercase; transition: scale .3s var(--ease), opacity .3s var(--ease); }
+
+/* shared: a sheet of paper and its lines */
+#resources .rmk__sheet { position: relative; box-sizing: border-box; display: flex; flex-direction: column; gap: 5px; padding: 10px; border-radius: 3px; background: #fff;
+  box-shadow: 0 12px 24px -12px rgba(77, 31, 8, .4), 0 0 0 1px rgba(29, 23, 18, .06); }
+#resources .rmk__col { flex: 1; display: flex; flex-direction: column; gap: 4px; }
+#resources .rmk__ln { height: 3px; border-radius: 2px; background: rgba(29, 23, 18, .16); }
+#resources .rmk__col .rmk__ln:last-child, #resources .rmk__ln--s { width: 64%; }
+
+/* 1 · Current Affairs: a newspaper page over another */
+#resources .rmk__news .rmk__sheet { width: 156px; height: 134px; rotate: -3deg; }
+#resources .rmk__news .rmk__sheet--back { position: absolute; inset: 0; rotate: 5deg; background: #F6ECE1; }
+#resources .rmk__mast { font: 600 13px/1 var(--f-d); color: var(--ink); text-align: center; letter-spacing: -.01em; }
+#resources .rmk__rule { height: 2px; border-block: 1px solid rgba(29, 23, 18, .55); }
+#resources .rmk__hl { height: 6px; border-radius: 1px; background: rgba(29, 23, 18, .78); }
+#resources .rmk__hl--s { width: 58%; }
+#resources .rmk__cols { display: flex; gap: 7px; margin-top: 2px; }
+#resources .rmk__pic { flex: none; width: 48px; height: 38px; border-radius: 2px; background: linear-gradient(149deg, #e57512 14.3%, #ae3b0f 85.7%); }
+
+/* 2 · The Recitals: the magazine cover, last month's behind it, a PDF tag */
+#resources .rmk__cover { position: relative; box-sizing: border-box; display: flex; flex-direction: column; gap: 4px; width: 102px; height: 138px; padding: 11px 10px; border-radius: 3px;
+  background: radial-gradient(circle at 50% 72%, rgba(255, 214, 160, .35) 0 22px, transparent 23px), linear-gradient(160deg, #e57512, #ae3b0f); color: #fff; rotate: -4deg;
+  box-shadow: 0 14px 26px -12px rgba(120, 40, 10, .55); }
+#resources .rmk__cover--back { position: absolute; inset: 0; translate: 22px 4px; rotate: 7deg; background: linear-gradient(160deg, #B5596D, #7A3243); }
+#resources .rmk__kick { font: 700 7.5px/1 var(--f); letter-spacing: .18em; text-transform: uppercase; opacity: .85; }
+#resources .rmk__mt { font: 600 16px/1.02 var(--f-d); }
+#resources .rmk__seal { width: 34px; height: 34px; margin: auto auto 8px; border-radius: 50%; border: 1.5px solid rgba(255, 255, 255, .75); box-shadow: inset 0 0 0 5px rgba(255, 255, 255, .14); }
+#resources .rmk__ln--w { background: rgba(255, 255, 255, .55); }
+#resources .rmk__badge { position: absolute; right: -30px; bottom: 12px; padding: 5px 8px; border-radius: 4px; background: #fff; color: var(--brand); rotate: 6deg;
+  font: 800 10px/1 var(--f); letter-spacing: .08em; box-shadow: 0 6px 14px -6px rgba(77, 31, 8, .45); }
+
+/* 3 · Previous Year Papers: three question papers fanned, an answer-key stamp */
+#resources .rmk__pyq .rmk__sheet { width: 122px; height: 138px; }
+#resources .rmk__pyq .rmk__sheet--b2 { position: absolute; inset: 0; translate: -16px 4px; rotate: -11deg; background: #F3E7DA; }
+#resources .rmk__pyq .rmk__sheet--b1 { position: absolute; inset: 0; translate: -8px 2px; rotate: -5deg; background: #FAF3EB; }
+#resources .rmk__qh { margin-bottom: 3px; font: 800 8.5px/1 var(--f); letter-spacing: .14em; text-transform: uppercase; color: var(--brand); }
+#resources .rmk__q { display: flex; gap: 5px; }
+#resources .rmk__q > span { font: 700 8px/1 var(--f); color: var(--ink); }
+#resources .rmk__stamp { position: absolute; right: -22px; bottom: 16px; padding: 4px 6px; border: 2px solid #326F66; border-radius: 3px; background: rgba(255, 255, 255, .92); color: #326F66;
+  font: 800 8px/1 var(--f); letter-spacing: .12em; text-transform: uppercase; rotate: -12deg; }
+
+/* 4 · Syllabus & Exam Pattern: the three stages as rising steps, a flag on the last */
+#resources .rmk__steps { display: flex; align-items: flex-end; gap: 12px; padding-top: 26px; }
+#resources .rmk__step { display: flex; flex-direction: column; align-items: center; gap: 7px; }
+#resources .rmk__bar { width: 46px; height: calc(30px + var(--s) * 30px); border-radius: 4px 4px 2px 2px; background: linear-gradient(180deg, #e57512, #ae3b0f); opacity: calc(.5 + var(--s) * .25);
+  box-shadow: 0 10px 18px -10px rgba(120, 40, 10, .6); }
+#resources .rmk__step b { font: 600 10.5px/1 var(--f); color: var(--ink); }
+#resources .rmk__flag { position: absolute; right: 22px; top: 0; width: 2px; height: 24px; background: var(--ink); }
+#resources .rmk__flag::after { content: ""; position: absolute; left: 2px; top: 0; width: 15px; height: 11px; background: #326F66; clip-path: polygon(0 0, 100% 50%, 0 100%); }
+
+/* 5 · GS Postal Books: a stack of four books */
+#resources .rmk__books { display: flex; flex-direction: column; gap: 2px; }
+#resources .rmk__book { position: relative; box-sizing: border-box; display: flex; align-items: center; height: 25px; padding: 0 12px; border-radius: 2px 5px 5px 2px; color: #fff;
+  font: 600 10.5px/1 var(--f-d); translate: calc((var(--b) - 1.5) * 7px) 0; box-shadow: inset 7px 0 0 rgba(0, 0, 0, .14), 0 5px 9px -5px rgba(77, 31, 8, .5); }
+#resources .rmk__book > span { position: absolute; right: 5px; top: 4px; bottom: 4px; width: 12px; border-radius: 1px; background: repeating-linear-gradient(#fff 0 1px, #EADBC4 1px 2px); }
+#resources .rmk__book:nth-child(1) { width: 140px; background: #C64613; }
+#resources .rmk__book:nth-child(2) { width: 154px; background: #326F66; }
+#resources .rmk__book:nth-child(3) { width: 132px; background: #3F5B87; }
+#resources .rmk__book:nth-child(4) { width: 160px; background: #B47A20; }
+
+/* 6 · UPSC Calendar 2027: a calendar page with the stage dates marked */
+#resources .rmk__cal { width: 168px; border-radius: 5px; background: #fff; overflow: hidden; rotate: -2deg; box-shadow: 0 14px 26px -12px rgba(77, 31, 8, .4), 0 0 0 1px rgba(29, 23, 18, .06); }
+#resources .rmk__calhd { display: flex; align-items: center; justify-content: space-between; padding: 8px 10px; background: linear-gradient(149deg, #e57512 14.3%, #ae3b0f 85.7%); color: #fff;
+  font: 700 10px/1 var(--f); letter-spacing: .1em; }
+#resources .rmk__calhd span { width: 7px; height: 7px; border-radius: 50%; background: rgba(255, 255, 255, .85); }
+#resources .rmk__grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; padding: 10px; }
+#resources .rmk__day { aspect-ratio: 1; border-radius: 2px; background: rgba(29, 23, 18, .07); }
+#resources .rmk__day--a { background: #B47A20; }
+#resources .rmk__day--b { background: #C64613; }
+#resources .rmk__day--c { background: #326F66; }
+#resources .rmk__day--d { background: #3F5B87; }
+
+/* motion: each resource slides up out of its folder as the cards rise; further out on hover */
+#resources .sm__grid.rise .rmk__obj { opacity: 0; translate: 0 64px; transition-delay: calc(var(--i, 0) * 80ms + 300ms); }
+#resources .sm__grid.rise.in .rmk__obj { opacity: 1; translate: 0 0; }
+@media (hover: hover) and (pointer: fine) {
+  #resources .rf:hover { box-shadow: none; rotate: 0deg; }
+  #resources .rf:hover .rmk__obj { transform: translateY(-22px) rotate(-3deg); transition-delay: 0s; }
+  #resources .rf:hover .rf__tab { translate: 0 -3px; }
+  #resources .rf:hover .rf__stamp { scale: 1.08; opacity: .95; }
+  #resources .rf:hover .rf__front { box-shadow: inset 0 1px 0 rgba(255, 255, 255, .75), 0 -12px 20px -16px rgba(77, 31, 8, .55), 0 30px 44px -22px rgba(77, 31, 8, .55), 0 0 0 1px rgba(120, 70, 20, .14); }
+  /* keep the folder's own colours (the old cards turned white on an orange ground) */
+  #resources .rf:hover .sm__t { color: var(--ink); }
+  #resources .rf:hover .sm__d { color: #5a4a3c; }
+  #resources .rf:hover .sm__act { --btn-fg: var(--ink); --btn-fg-hover: var(--ink); }
+  #resources .rf:hover > .rf__front > a.sm__act.tlink { color: var(--brand); }
+  #resources .rf:hover .sm__stages li { border-color: rgba(120, 70, 20, .3); color: #7a4a14; }
+}
+@media (max-width: 640px) { #resources .rf__front { min-height: 0; padding: 22px 20px; } }
+@media (prefers-reduced-motion: reduce) {
+  #resources .rf, #resources .rmk__obj, #resources .rf__tab, #resources .rf__stamp, #resources .rf__front { transition: none; }
+  #resources .sm__grid.rise .rmk__obj { opacity: 1; translate: none; }
+}
+
+/* all six folders the same size (user 2026-11-13): three to a row, equal rows; no wide cards, no larger titles on 1 and 6 */
+#resources .sm__grid--res { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: 1fr; }
+#resources .sm__grid--res > .rf { grid-column: auto; }
+#resources .sm__grid--res > .rf .sm__t { font-size: 22px; line-height: 1.2; }
+#resources .sm__grid--res > .rf .sm__d { font-size: 14.5px; max-width: none; }
+@media (max-width: 1000px) { #resources .sm__grid--res { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { #resources .sm__grid--res { grid-template-columns: 1fr; grid-auto-rows: auto; } }
+
+/* user 2026-11-16: calmer folder colour, and every index tab in the same place (top left) */
+#resources .rf, #resources .rf:nth-child(n) { --tab-x: 16px; }
+#resources .rf { --k-in: #E3CDA6; --k-in-2: #ECDABA; --k: #F5E8CE; --k-2: #EFDFC0; --k-edge: rgba(110, 66, 18, .2); }
+#resources .rf__front { background: linear-gradient(178deg, #F9EFDA, var(--k) 30%, var(--k-2)); }
+#resources .rf__tab { background: linear-gradient(180deg, #F0E0C2, var(--k-in-2)); }
+
+/* Syllabus & Exam Pattern: a ring-bound notebook with a ticked checklist and a pencil (replaces the bar chart) */
+#resources .rmk__nb { width: 128px; height: 134px; rotate: -2deg; }
+#resources .rmk__nbpage { position: relative; box-sizing: border-box; display: flex; flex-direction: column; gap: 7px; width: 128px; height: 134px; padding: 22px 12px 10px 14px;
+  border-radius: 3px 5px 5px 3px; background: #FFFDF6; box-shadow: 0 14px 26px -12px rgba(77, 31, 8, .4), 0 0 0 1px rgba(29, 23, 18, .07);
+  background-image: repeating-linear-gradient(transparent 0 15px, rgba(63, 91, 135, .12) 15px 16px); background-position: 0 28px; }
+#resources .rmk__nbpage--back { position: absolute; inset: 0; rotate: 5deg; background: #F3E7DA; box-shadow: none; }
+#resources .rmk__rings { position: absolute; left: 0; right: 0; top: -5px; display: flex; justify-content: space-evenly; }
+#resources .rmk__rings i { width: 6px; height: 14px; border-radius: 3px; background: linear-gradient(90deg, #8d8478, #d8d1c6 50%, #8d8478); }
+#resources .rmk__nbt { font: 600 13px/1 var(--f-d); color: var(--ink); }
+#resources .rmk__chk { display: flex; align-items: center; gap: 7px; }
+#resources .rmk__chk > span { position: relative; flex: none; width: 10px; height: 10px; border-radius: 2px; border: 1.5px solid rgba(29, 23, 18, .4); background: #fff; }
+#resources .rmk__chk--on > span { border-color: #326F66; }
+#resources .rmk__chk--on > span::after { content: ""; position: absolute; left: 2px; top: -1px; width: 3px; height: 7px; border: solid #326F66; border-width: 0 2px 2px 0; rotate: 40deg; }
+#resources .rmk__chk .rmk__ln { flex: 1; width: auto; }
+#resources .rmk__pencil { position: absolute; right: -26px; bottom: 18px; width: 70px; height: 7px; rotate: -24deg; border-radius: 1px 3px 3px 1px;
+  background: linear-gradient(#F2B63C, #E0A02A); box-shadow: 0 2px 3px rgba(60, 30, 5, .25); }
+#resources .rmk__pencil::before { content: ""; position: absolute; left: -9px; top: 0; width: 9px; height: 7px; background: linear-gradient(90deg, #3a2f26 0 30%, #E9CFA0 30%); clip-path: polygon(0 50%, 100% 0, 100% 100%); }
+
+/* Infographics: a poster. Prelims Quick Revision: a fan of flash-cards */
+#resources .rmk__poster { width: 118px; height: 138px; rotate: 2deg; }
+#resources .rmk__poster .rmk__sheet--back { position: absolute; inset: 0; rotate: -6deg; background: #F3E7DA; }
+#resources .rmk__pbody { position: relative; box-sizing: border-box; display: flex; flex-direction: column; gap: 8px; width: 100%; height: 100%; padding: 0 0 8px; border-radius: 3px; overflow: hidden;
+  background: #fff; box-shadow: 0 14px 26px -12px rgba(77, 31, 8, .4), 0 0 0 1px rgba(29, 23, 18, .07); }
+#resources .rmk__pt { padding: 9px 10px; background: linear-gradient(149deg, #e57512 14.3%, #ae3b0f 85.7%); color: #fff; font: 600 12px/1 var(--f-d); }
+#resources .rmk__prow { display: flex; align-items: center; gap: 8px; padding: 0 10px; }
+#resources .rmk__dot { flex: none; width: 22px; height: 22px; border-radius: 50%; }
+#resources .rmk__dot--0 { background: #326F66; } #resources .rmk__dot--1 { background: #3F5B87; } #resources .rmk__dot--2 { background: #B47A20; }
+#resources .rmk__pfoot { margin: auto 10px 0; height: 5px; border-radius: 3px; background: rgba(29, 23, 18, .14); }
+#resources .rmk__fc { width: 118px; height: 132px; }
+#resources .rmk__card { position: relative; box-sizing: border-box; display: flex; flex-direction: column; gap: 5px; width: 118px; height: 132px; padding: 11px 10px; border-radius: 4px; background: #FFFDF6;
+  box-shadow: 0 14px 26px -12px rgba(77, 31, 8, .4), 0 0 0 1px rgba(29, 23, 18, .08); }
+#resources .rmk__card--b1, #resources .rmk__card--b2 { position: absolute; inset: 0; }
+#resources .rmk__card--b1 { rotate: -6deg; background: #F5EBDD; }
+#resources .rmk__card--b2 { rotate: 7deg; background: #E9F0EE; }
+#resources .rmk__fck { font: 700 7.5px/1 var(--f); letter-spacing: .16em; text-transform: uppercase; color: var(--brand); }
+#resources .rmk__fct { font: 600 15px/1.1 var(--f-d); color: var(--ink); }
+#resources .rmk__fcn { margin-top: auto; align-self: flex-start; padding: 3px 6px; border-radius: 999px; background: #326F66; color: #fff; font: 600 8.5px/1 var(--f); }
+
+/* Kurukshetra Magazine: the same cover in green, a touch smaller title */
+#resources .rmk__mag[style*="--mag"] .rmk__cover:not(.rmk__cover--back) { background: radial-gradient(circle at 50% 72%, rgba(255, 255, 255, .22) 0 22px, transparent 23px), var(--mag); }
+#resources .rmk__mag[style*="--mag"] .rmk__cover--back { background: linear-gradient(160deg, #E0A23C, #B47A20); }
+#resources .rmk__mag[style*="--mag"] .rmk__mt { font-size: 13.5px; }
+
+/* The Recitals: a drawn cover after the real one (white page, title, a wheel of photo wedges, an orange band) */
+#resources .rmk__rc { gap: 0; padding: 0; overflow: hidden; align-items: center; background: #fff; color: var(--ink); box-shadow: 0 14px 26px -12px rgba(60, 30, 5, .55), 0 0 0 1px rgba(29, 23, 18, .08); }
+#resources .rmk__rcbrand { align-self: stretch; padding: 4px 0; background: linear-gradient(149deg, #e57512, #ae3b0f); color: #fff; font: 700 6.5px/1 var(--f); letter-spacing: .1em; text-align: center; text-transform: uppercase; }
+#resources .rmk__rct { margin-top: 5px; font: 700 17px/.9 var(--f-d); letter-spacing: -.02em; text-align: center; color: #1D2F6B; }
+#resources .rmk__rct i { display: block; font: italic 500 9px/1 var(--f-d); color: var(--brand); }
+#resources .rmk__wheel { position: relative; width: 66px; height: 66px; margin-top: 5px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(29, 23, 18, .15);
+  background: conic-gradient(#3F5B87 0 14%, #E0A23C 0 28%, #B5596D 0 42%, #326F66 0 56%, #e57512 0 70%, #6E7FB0 0 84%, #C64613 0 100%); }
+#resources .rmk__hub { position: absolute; inset: 22px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 2px #E0A23C; }
+#resources .rmk__band { align-self: stretch; margin-top: auto; display: flex; justify-content: space-between; align-items: center; padding: 5px 7px; background: #1D2F6B; color: #fff; }
+#resources .rmk__band b { font: 700 7px/1 var(--f); text-transform: uppercase; letter-spacing: .04em; }
+#resources .rmk__band i { font: 600 6.5px/1 var(--f); color: #FFD9A0; }
+
+/* hover smoothness (user 2026-11-16): the entrance stagger delay used to stay on the resource, so it lifted at once but
+   dropped back only after 300ms+ (a jerk). Now the delay applies to the entrance (opacity, translate) only; the lift and the
+   drop-back share one soft ease-in-out with no delay, and the folder, stamp and tab ease the same way. */
+#resources .rmk__obj { transition: transform .6s cubic-bezier(.33, 0, .2, 1), opacity .6s var(--ease), translate .8s var(--ease); will-change: transform; }
+#resources .sm__grid.rise .rmk__obj { transition-delay: 0s, calc(var(--i, 0) * 80ms + 300ms), calc(var(--i, 0) * 80ms + 300ms); }
+#resources .sm__grid.rise.in .rmk__obj { transition-delay: 0s, calc(var(--i, 0) * 80ms + 300ms), calc(var(--i, 0) * 80ms + 300ms); }
+/* the folder card itself (user 2026-11-16: its hover jumped). This rule used to be `transition: rotate` alone, which replaced the
+   card's own transitions (v49.css: .sm__card, .sm__grid.rise > .sm__card), so the hover lift and scale (transform) and the
+   shadow snapped. Every property that moves on the card is listed here: the entrance (opacity, translate, scale) keeps its
+   stagger delay, the hover (transform, box-shadow, rotate) has none and eases in and out on the same soft curve. */
+#resources .rf { transition: opacity .7s var(--ease), translate .9s var(--ease), scale .9s var(--ease),
+    transform .6s cubic-bezier(.33, 0, .2, 1), box-shadow .6s cubic-bezier(.33, 0, .2, 1), rotate .6s cubic-bezier(.33, 0, .2, 1);
+  transition-delay: calc(var(--i, 0) * 90ms), calc(var(--i, 0) * 90ms), calc(var(--i, 0) * 90ms), 0s, 0s, 0s; will-change: transform; }
+@media (prefers-reduced-motion: reduce) { #resources .rf { transition: none; will-change: auto; } }
+#resources .rf__front { transition: box-shadow .6s cubic-bezier(.33, 0, .2, 1); }
+#resources .rf__stamp { transition: scale .5s cubic-bezier(.33, 0, .2, 1), opacity .5s ease; }
+@media (hover: hover) and (pointer: fine) {
+  #resources .rf:hover .rmk__obj { transform: translateY(-18px) rotate(-2deg); transition-delay: 0s; }
+}
+
+/* the lift and float of the resource are driven by resource-float.js (one eased value per card), so CSS no longer transitions or
+   sets its transform; the folder's tilt, shadow, tab and stamp keep their soft CSS eases */
+#resources .rmk__obj { transition: opacity .6s var(--ease), translate .8s var(--ease); }
+@media (hover: hover) and (pointer: fine) { #resources .rf:hover .rmk__obj { transform: none; } }
+
+/* user 2026-11-16: no resting tilt on the folders (the Infographics card looked crooked), and the resources sit left, in line with the card's text */
+#resources .rf, #resources .rf:nth-child(n) { --tilt: 0deg; }
+#resources .rmk { justify-content: flex-start; padding-left: 26px; }
+#resources .rmk__poster, #resources .rmk__cal, #resources .rmk__news .rmk__sheet, #resources .rmk__nb { rotate: 0deg; }
+
+/* The Daily Brief keeps its slight left tilt and the sheet behind it (user 2026-11-16) */
+#resources .rmk__news .rmk__sheet { rotate: -3deg; }
+#resources .rmk__news .rmk__sheet--back { rotate: 5deg; }
+
+/* card titles semibold (user 2026-11-16) */
+#resources .rf .sm__t { font-weight: 600; }
+
+/* link buttons sit a little lower on every card, all on the same line (the card's last row, pushed down by margin-top: auto) */
+#resources .rf__front { padding-bottom: 26px; }
+#resources .rf .sm__act { margin-top: auto; align-self: flex-start; --btn-shadow: 0 0 0 0 transparent; --btn-shadow-hover: 0 0 0 0 transparent; }   /* no shadow on the CTA (user 2026-11-16) */
+
+/* the whole folder is clickable (resource-links.js) */
+#resources .rf { cursor: pointer; }
+
+/* Same content hierarchy as the batch tickets (user 2026-11-16): a small uppercase tag in the folder's colour, the serif title
+   (600, 22px), the description (14.5px), then the action under a dashed tear line, as the ticket's stub. */
+#resources .rf .rf__tag { margin: 0; color: var(--tab); font: 700 12px/1.2 var(--f); text-transform: uppercase; letter-spacing: .06em; }
+#resources .rf .sm__t { margin: -2px 0 0; font: 600 22px/1.2 var(--f-d); letter-spacing: -.015em; }
+#resources .rf .sm__d { margin: 0; font-size: 14.5px; line-height: 1.5; }
+#resources .rf .rf__stub { align-self: stretch; margin-top: auto; padding-top: 18px; border-top: 1.5px dashed #C9A98C; }
+#resources .rf .rf__stub::before { content: none; }
+#resources .rf .sm__act { margin-top: 0; }
+
+/* Illustrated cutouts (user 2026-11-16, after the reference site's Free resources): the resource as a picture, standing out of the
+   folder with its lower part behind the front flap. The slot is taller (150px) for every card so the folders stay level. */
+#resources .rmk { height: 150px; }
+#resources .rmk--photo { padding-top: 0; }
+#resources .rmk--photo .rmk__obj img { display: block; width: auto; height: 172px; max-width: none; filter: drop-shadow(0 10px 14px rgba(60, 30, 5, .28)); pointer-events: none; user-select: none; }
+
+/* Lower in the folder (user 2026-11-16): the resource and the white sheets filed behind it sit 24px lower, so they read as tucked
+   inside the folder rather than standing on it. The sheets' height shrinks by the same 24px so their foot stays at the flap. */
+#resources .rmk--photo .rmk__obj { margin-top: 24px; }
+#resources .rf__back::after { top: 106px; height: 46px; }   /* foot at the front flap (back top 30px + 106 + 46 = the flap at 182px) */
+
+/* Hovering anywhere on the folder plays the CTA's own hover (user 2026-11-16): the same states as `.btn:hover` (buttons.css): the
+   fill, the label roll, the arrow swap and the disc. The whole card is the link (resource-links.js), so the button answers it. */
+@media (hover: hover) and (pointer: fine) {
+  #resources .rf:hover .sm__act { color: var(--btn-fg-hover); box-shadow: var(--btn-edge-hover), var(--btn-shadow-hover); }
+  #resources .rf:hover .sm__act::before { opacity: 1; }
+  #resources .rf:hover .sm__act .btn__t { transform: translateY(-115%); }
+  #resources .rf:hover .sm__act .btn__t + .btn__t { transform: translateY(0); }
+  #resources .rf:hover .sm__act .btn__t:only-child { transform: none; }
+  #resources .rf:hover .sm__act .btn__disc { transform: scale(1.06); }
+  #resources .rf:hover .sm__act .btn__disc svg { transform: translateX(220%); }
+  #resources .rf:hover .sm__act .btn__disc svg + svg { transform: translateX(0); }
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: reduce) {
+  #resources .rf:hover .sm__act .btn__t, #resources .rf:hover .sm__act .btn__disc, #resources .rf:hover .sm__act .btn__disc svg { transform: none; }
+  #resources .rf:hover .sm__act .btn__t + .btn__t { transform: translateY(115%); }
+  #resources .rf:hover .sm__act .btn__disc svg + svg { transform: translateX(-220%); }
+}

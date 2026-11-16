@@ -98,11 +98,14 @@
     if (nav && !nav.classList.contains('is-hidden')) {
       const r = nav.getBoundingClientRect();
       // the foot of what shows of the nav (its pills), measured as if the page were at the top
-      const foot = Math.max(...[...nav.children].filter(el => el.offsetParent !== null).map(el => el.getBoundingClientRect().bottom)) - r.top + nav.offsetTop;
+      // (the bar itself counts too: it is the white bar now, taller than the parts inside it)
+      const foot = Math.max(r.bottom, ...[...nav.children].filter(el => el.offsetParent !== null).map(el => el.getBoundingClientRect().bottom)) - r.top + nav.offsetTop;
       hero.style.setProperty('--hx-top', Math.round(foot + 16) + 'px');
-      // and its sides line up with the nav's ends
-      hero.style.setProperty('--hx-side', Math.round(r.left) + 'px');
-      hero.style.setProperty('--hx-side-r', Math.round(innerWidth - r.right) + 'px');
+      // and its sides line up with the nav's full span: its fixed left and right edges, not the bar as drawn, which draws in to a
+      // compact pill once the page is scrolled (css/v49.css .nav--wide; user 2026-11-16, the hero followed the pill's width)
+      const cs = getComputedStyle(nav), L = parseFloat(cs.left), R = parseFloat(cs.right);
+      hero.style.setProperty('--hx-side', Math.round(isNaN(L) ? r.left : L) + 'px');
+      hero.style.setProperty('--hx-side-r', Math.round(isNaN(R) ? innerWidth - r.right : R) + 'px');
     }
     hero.style.setProperty('--hx-stick', Math.min(0, innerHeight - hero.offsetHeight) + 'px');
   };

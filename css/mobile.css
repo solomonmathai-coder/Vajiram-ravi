@@ -69,16 +69,14 @@
   #story:not(.cmp--run) .cmp__track::-webkit-scrollbar { display: none; }
   #story:not(.cmp--run) .cmp__p { flex: 0 0 82%; min-width: 0; scroll-snap-align: start; }
 
-  /* ---------- Free resources: the six cards as a carousel instead of a stack ---------- */
-  #resources .rk { display: flex; flex-direction: row; gap: 12px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory;
+  /* ---------- Free resources: the six folders as a carousel instead of a stack ---------- */
+  #resources .sm__grid--res { display: flex; gap: 12px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; grid-auto-rows: auto;
     margin-left: calc(var(--px, 20px) * -1); margin-right: calc(var(--px, 20px) * -1); padding: 4px var(--px, 20px) 24px; scroll-padding-inline: var(--px, 20px); scrollbar-width: none; }
-  #resources .rk::-webkit-scrollbar { display: none; }
-  #resources .rk__card { flex: 0 0 82%; min-width: 0; scroll-snap-align: start; position: relative; top: auto; height: auto; }
-  #resources .rk__card::after { inset: 6px; }
-  #resources .rk__media { min-height: 200px; padding: 22px; }
+  #resources .sm__grid--res::-webkit-scrollbar { display: none; }
+  #resources .sm__grid--res > .rf { flex: 0 0 82%; min-width: 0; scroll-snap-align: start; rotate: none; }
 
   /* ---------- Life at Vajiram & Ravi: its own arrows shown on phones too, centred on the pictures ---------- */
-  .lg__arw { opacity: 1; pointer-events: auto; translate: 0 0; width: 40px; height: 40px; }
+  .lg__arw { opacity: 1; pointer-events: auto; width: 40px; height: 40px; }
   .lg__prev { left: 8px; } .lg__next { right: 8px; }
   @media (hover: hover) and (pointer: fine) { .lg__arw { opacity: 0; } .lg__rail:hover .lg__arw { opacity: 1; } }
 
@@ -96,8 +94,8 @@
   :root body #faculty .fr { margin-top: -7px; }                                     /* heading -> end cards: 67 -> 28 */
   :root body #batches .bhead { margin-bottom: 0; }
   :root body #batches .brow { margin-top: 28px; }                                   /* "View all batches" -> tickets: 68 -> 28 */
-  :root body #resources .rk { margin-top: 24px; }                                   /* heading -> first card: 72 -> 28 */
-  :root body #lifeGal .lg__track { margin-top: 40px; }                              /* tabs -> highest picture: about 28 (the curve varies it a little as the row glides) */
+  :root body #resources .sm__grid--res { margin-top: 24px; }                       /* heading -> first folder */
+  :root body #lifeGal .lg__rail { margin-top: 28px; }                               /* heading -> the middle picture (the tabs are under the row now) */
   :root body #faq .qas { margin-top: 28px; }                                        /* button -> questions: 64 -> 28 */
   :root body #visit .cx { margin-top: 28px; }                                       /* intro -> card: 68 -> 28 */
   :root body main #contact .contact__l { margin-bottom: 0; }

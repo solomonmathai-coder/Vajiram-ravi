@@ -7,7 +7,7 @@
   const phone = matchMedia('(max-width: 760px)');
   const rows = [
     { row: document.querySelector('#story .cmp__track'), label: 'reason' },
-    { row: document.querySelector('#resources .rk'), label: 'resource' }
+    { row: document.querySelector('#resources .sm__grid--res'), label: 'resource' }
   ].filter(r => r.row);
 
   rows.forEach(({ row, label }) => {
@@ -30,7 +30,7 @@
     // centre the arrows on the cards' picture (the first image in a card), else on the cards
     const centre = () => {
       const c = row.children[0]; if (!c) return;
-      const pic = c.querySelector('figure, .rk__media, img');
+      const pic = c.querySelector('figure, .rmk, img');
       const box = (pic || c).getBoundingClientRect(), w = wrap.getBoundingClientRect();
       wrap.style.setProperty('--mcar-y', (box.top - w.top + box.height / 2) + 'px');
     };

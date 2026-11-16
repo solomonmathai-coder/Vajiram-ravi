@@ -105,3 +105,10 @@
   document.addEventListener('visibilitychange', start);
   start();
 })();
+
+/* performance (user 2026-11-16, as on the reference build): the toppers section's looping animations (the beams, sparks, laurel shine and
+   stars) rest while it is off screen: #toppers gets .pd--off, which css/podium.css uses to pause them. */
+(() => {
+  const pd = document.getElementById('toppers'); if (!pd || !('IntersectionObserver' in window)) return;
+  new IntersectionObserver(es => pd.classList.toggle('pd--off', !es[0].isIntersecting), { rootMargin: '100px 0px' }).observe(pd);
+})();

@@ -10,30 +10,32 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Anek+Devanagari:wght@500&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300&family=League+Spartan:wght@600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Tiro+Devanagari+Hindi:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/v49.css?v=321">
+<link rel="stylesheet" href="css/v49.css?v=334">
 <link rel="stylesheet" href="css/contact-compact.css?v=10">
 <link rel="stylesheet" href="css/trending.css?v=7">
 <link rel="stylesheet" href="css/story.css?v=19">
-<link rel="stylesheet" href="css/life-gallery.css?v=24">
+<link rel="stylesheet" href="css/life-gallery.css?v=29">
 <link rel="stylesheet" href="css/intro.css?v=5">
-<link rel="stylesheet" href="css/podium.css?v=98">
-<link rel="stylesheet" href="css/batches-row.css?v=9">
+<link rel="stylesheet" href="css/podium.css?v=100">
+<link rel="stylesheet" href="css/batches-row.css?v=11">
 <link rel="stylesheet" href="css/resources-stack.css?v=27">
 <link rel="stylesheet" href="css/cta-shine.css?v=2">
 <link rel="stylesheet" href="css/footer-v6.css?v=5">
 <script>document.documentElement.classList.add('js')</script>
-  <link rel="stylesheet" href="css/faculty-ring.css?v=9">
-  <link rel="stylesheet" href="css/programme-shelf.css?v=4">
+  <link rel="stylesheet" href="css/faculty-ring.css?v=10">
+  <link rel="stylesheet" href="css/programme-shelf.css?v=5">
 <link rel="stylesheet" href="css/hero-v6.css?v=31">
-<link rel="stylesheet" href="css/spacing.css?v=7">
-<link rel="stylesheet" href="css/mobile.css?v=6">
+<link rel="stylesheet" href="css/spacing.css?v=10">
+<link rel="stylesheet" href="css/mobile.css?v=9">
+<link rel="stylesheet" href="css/resources-folders.css?v=1">
+<link rel="stylesheet" href="css/ref-port.css?v=8">
 </head>
 <body>
 <!-- brand intro: Vajiram & Ravi reveal on orange, plays on every load -->
 <script src="js/intro.js?v=3"></script>
 
 <!-- ============ floating navigation ============ -->
-<header class="nav" id="nav">
+<header class="nav nav--wide" id="nav">
   <div class="nav__pill">
     <a class="nav__logo" href="#top" aria-label="Vajiram &amp; Ravi home"><img class="lg lg--d" src="assets/img/brand/logo.png" alt="Vajiram &amp; Ravi, Institute for IAS Examination" width="966" height="227"><img class="lg lg--l" src="assets/img/brand/logo-light.png" alt="" width="966" height="227"></a>
     <nav class="nav__links" aria-label="Main">
@@ -53,7 +55,7 @@
     <button class="nav__burger" id="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="drawer"><span></span><span></span></button>
   </div>
   <div class="nav__end">
-    <a class="talk" href="#contact">Let's talk<span class="sq sq--34 sq--brand"><img src="assets/img/icons/arrow-white.svg" alt="" width="16" height="16"></span></a>
+    <a class="talk" href="#contact">Let's talk<span class="sq"></span></a>
   </div>
 </header>
 <div class="drawer" id="drawer" hidden>
@@ -157,6 +159,17 @@
     <div class="lbl rv" style="--d:.05s"><span class="lbl__t">Programmes</span><i></i><span class="lbl__orn" aria-hidden="true"></span></div>
     <h2 id="crsH" class="h2 h2--sec h2--full rv" style="--d:.12s">Programmes for every stage of UPSC.</h2>
     <div class="pgrid" id="pgrid"></div>
+    <!-- under the shelf, as on the reference build (user 2026-11-16): "See all programmes" (opens the list of every course, js/content.js
+         [data-cat]) and a banner offering a counsellor's help (css/ref-port.css .prog__help; the headset is Iconoir's headset-help) -->
+    <p class="prog__more rv" style="--d:.05s"><a class="bt bt--ink" href="#courses" data-cat="-1">See all programmes<span class="sq"></span></a></p>
+    <aside class="prog__help rv" style="--d:.1s" aria-labelledby="progHelpH">
+      <span class="prog__help-ic" aria-hidden="true"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11.4998L3.51493 11.6211C2.62459 11.8437 2 12.6436 2 13.5614V15.4382C2 16.356 2.62459 17.1559 3.51493 17.3785L5.25448 17.8134C5.63317 17.9081 6 17.6217 6 17.2313V11.7683C6 11.3779 5.63317 11.0915 5.25448 11.1862L4 11.4998ZM4 11.4998V11C4 6.58172 7.58172 3 12 3C16.4183 3 20 6.58172 20 11V11.4998M20 11.4998L20.4851 11.6211C21.3754 11.8437 22 12.6436 22 13.5614V15.4382C22 16.356 21.3754 17.1559 20.4851 17.3785L20 17.4998M20 11.4998L18.7455 11.1862C18.3668 11.0915 18 11.3779 18 11.7683V17.2313C18 17.6217 18.3668 17.9081 18.7455 17.8134L20 17.4998M15 20.5H18C19.1046 20.5 20 19.6046 20 18.5V18V17.4998M15 20.5C15 19.6716 14.3284 19 13.5 19H10.5C9.67157 19 9 19.6716 9 20.5C9 21.3284 9.67157 22 10.5 22H13.5C14.3284 22 15 21.3284 15 20.5Z"/></svg></span>
+      <div class="prog__help-tx">
+        <h3 id="progHelpH" class="prog__help-h">Not sure which programme is right for you?</h3>
+        <p class="prog__help-p">Speak with our academic counsellors. <a href="tel:+918062206330">080-6220-6330</a><span> · Mon – Sat, 9 AM – 7 PM</span></p>
+      </div>
+      <a class="bt bt--brand prog__help-cta" href="#contact">Get expert guidance<span class="sq"></span></a>
+    </aside>
   </div>
   <span class="crs__shade" aria-hidden="true"></span><!-- darkens as the toppers slide over Programmes (css/v49.css, js/page-motion.js) -->
 </section>
@@ -225,21 +238,21 @@
   </svg>
   <ol class="pd__row rv" style="--d:.1s" aria-label="Ranks 1 to 3, UPSC CSE 2025">
     <li class="pd__col pd__col--1">
-      <div class="pd__fig"><span class="pd__gem pd__gem--gold" aria-hidden="true"><span class="pd__laurel"></span><img class="pd__shield" src="assets/img/toppers/figma/shield2-gold.svg" alt="" width="495" height="614"></span><span class="pd__pic"><img class="pd__img" src="assets/img/toppers/portrait/2025-crest/01-anuj-agnihotri.png" alt="" width="768" height="1068" loading="lazy" decoding="async"></span></div>
+      <div class="pd__fig"><span class="pd__gem pd__gem--gold" aria-hidden="true"><span class="pd__laurel"></span><img class="pd__shield" src="assets/img/toppers/figma/shield2-gold.svg" alt="" width="495" height="614"></span><span class="pd__pic"><img class="pd__img" src="assets/img/toppers/portrait/2025-crest/01-anuj-agnihotri.webp" alt="" width="768" height="1068" loading="lazy" decoding="async"></span></div>
       <div class="pd__lbl">
         <b class="pd__n" aria-hidden="true"><small>AIR</small> 1</b>
         <h3 class="pd__name">Anuj Agnihotri<span class="pd__vh">, All India Rank 1</span></h3>
       </div>
     </li>
     <li class="pd__col pd__col--2">
-      <div class="pd__fig"><span class="pd__gem pd__gem--silver" aria-hidden="true"><span class="pd__laurel"></span><img class="pd__shield" src="assets/img/toppers/figma/shield2-silver.svg" alt="" width="495" height="614"></span><span class="pd__pic"><img class="pd__img" src="assets/img/toppers/portrait/2025-crest/02-rajeshwari-suve-m.png" alt="" width="768" height="1068" loading="lazy" decoding="async"></span></div>
+      <div class="pd__fig"><span class="pd__gem pd__gem--silver" aria-hidden="true"><span class="pd__laurel"></span><img class="pd__shield" src="assets/img/toppers/figma/shield2-silver.svg" alt="" width="495" height="614"></span><span class="pd__pic"><img class="pd__img" src="assets/img/toppers/portrait/2025-crest/02-rajeshwari-suve-m.webp" alt="" width="768" height="1068" loading="lazy" decoding="async"></span></div>
       <div class="pd__lbl">
         <b class="pd__n" aria-hidden="true"><small>AIR</small> 2</b>
         <h3 class="pd__name">Rajeshwari Suve M<span class="pd__vh">, All India Rank 2</span></h3>
       </div>
     </li>
     <li class="pd__col pd__col--3">
-      <div class="pd__fig"><span class="pd__gem pd__gem--bronze" aria-hidden="true"><span class="pd__laurel"></span><img class="pd__shield" src="assets/img/toppers/figma/shield2-bronze.svg" alt="" width="495" height="614"></span><span class="pd__pic"><img class="pd__img" src="assets/img/toppers/portrait/2025-crest/03-akansh-dhull.png" alt="" width="768" height="1068" loading="lazy" decoding="async"></span></div>
+      <div class="pd__fig"><span class="pd__gem pd__gem--bronze" aria-hidden="true"><span class="pd__laurel"></span><img class="pd__shield" src="assets/img/toppers/figma/shield2-bronze.svg" alt="" width="495" height="614"></span><span class="pd__pic"><img class="pd__img" src="assets/img/toppers/portrait/2025-crest/03-akansh-dhull.webp" alt="" width="768" height="1068" loading="lazy" decoding="async"></span></div>
       <div class="pd__lbl">
         <b class="pd__n" aria-hidden="true"><small>AIR</small> 3</b>
         <h3 class="pd__name">Akansh Dhull<span class="pd__vh">, All India Rank 3</span></h3>
@@ -253,7 +266,7 @@
        assets/img/toppers/portrait/placeholder-man.png); the rank holders' own, framed alike, are in assets/img/toppers/portrait/2025-diamond.
        css/podium.css .dr, js/diamond-reel.js -->
   <div class="dr" role="region" aria-label="More UPSC CSE 2025 rank holders">
-    <p class="dr__h rv" style="--d:.05s"><span id="drHead">36 rank holders, CSE 2025</span></p>
+    <p class="dr__h rv" style="--d:.05s"><span id="drHead">Ranks 4 to 18, CSE 2025</span></p>
     <!-- the year (user 2026-11-13): 2025 back to 2016; js/diamond-reel.js swaps the diamonds to that year's rank holders. The five latest
          show; "View all" at the end of the bar brings in the older years (user 2026-11-15) -->
     <!-- the year bar is hidden (user 2026-11-16, "remove this"): the reel stays on CSE 2025. Kept in the page, hidden, as js/diamond-reel.js
@@ -275,204 +288,20 @@
     </div>
     <div class="dr__view rv" style="--d:.12s" id="drList" aria-labelledby="drHead">
       <ul class="dr__track">
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 4</p>
-          <h4 class="dr__name">Raghav Jhunjhunwala<span class="pd__vh">, All India Rank 4</span></h4>
-          <p class="dr__prog">Interview Guidance Programme</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 5</p>
-          <h4 class="dr__name">Ishan Bhatnagar<span class="pd__vh">, All India Rank 5</span></h4>
-          <p class="dr__prog">Sociology Optional Crash Course&nbsp;&middot; Sociology Enrichment Course +2 more</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 6</p>
-          <h4 class="dr__name">Zinnia Aurora<span class="pd__vh">, All India Rank 6</span></h4>
-          <p class="dr__prog">GS Ethics Module&nbsp;&middot; Interview Guidance Programme +1 more</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 7</p>
-          <h4 class="dr__name">A R Rajah Mohaideen<span class="pd__vh">, All India Rank 7</span></h4>
-          <p class="dr__prog">Interview Guidance Programme</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 8</p>
-          <h4 class="dr__name">Pakshal Secretry<span class="pd__vh">, All India Rank 8</span></h4>
-          <p class="dr__prog">Mains Camp&nbsp;&middot; Interview Guidance Programme</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 9</p>
-          <h4 class="dr__name">Astha Jain<span class="pd__vh">, All India Rank 9</span></h4>
-          <p class="dr__prog">Interview Guidance Programme</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 10</p>
-          <h4 class="dr__name">Ujjwal Priyank<span class="pd__vh">, All India Rank 10</span></h4>
-          <p class="dr__prog">Interview Guidance Programme</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 11</p>
-          <h4 class="dr__name">Yashaswi Raj Vardhan<span class="pd__vh">, All India Rank 11</span></h4>
-          <p class="dr__prog">Interview Guidance Programme</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 12</p>
-          <h4 class="dr__name">Akshit Bhardwaj<span class="pd__vh">, All India Rank 12</span></h4>
-          <p class="dr__prog">Prelims CAMP&nbsp;&middot; General Studies +1 more</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 13</p>
-          <h4 class="dr__name">Ananya Sharma<span class="pd__vh">, All India Rank 13</span></h4>
-          <p class="dr__prog">Interview Guidance Programme</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 14</p>
-          <h4 class="dr__name">Surabhi Yadav<span class="pd__vh">, All India Rank 14</span></h4>
-          <p class="dr__prog">Ethics Answer Writing Prog.&nbsp;&middot; Interview Guidance Programme</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 15</p>
-          <h4 class="dr__name">Simrandeep Kaur<span class="pd__vh">, All India Rank 15</span></h4>
-          <p class="dr__prog">Interview Guidance Programme</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 16</p>
-          <h4 class="dr__name">Monika Srivastava<span class="pd__vh">, All India Rank 16</span></h4>
-          <p class="dr__prog">GS Ethics Module&nbsp;&middot; Sure Shot Mains - FLT-A2 +2 more</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 18</p>
-          <h4 class="dr__name">Sruthii R<span class="pd__vh">, All India Rank 18</span></h4>
-          <p class="dr__prog">General Studies&nbsp;&middot; Sociology Optional</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 19</p>
-          <h4 class="dr__name">Nisar Dishant Amrutlal<span class="pd__vh">, All India Rank 19</span></h4>
-          <p class="dr__prog">Interview Guidance Programme</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 21</p>
-          <h4 class="dr__name">Shubham Singh<span class="pd__vh">, All India Rank 21</span></h4>
-          <p class="dr__prog">Ethics Answer Writing Program&nbsp;&middot; Ethics Module Course</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 22</p>
-          <h4 class="dr__name">Geetika Arora<span class="pd__vh">, All India Rank 22</span></h4>
-          <p class="dr__prog">General Studies</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 23</p>
-          <h4 class="dr__name">Jeenu Sri Jaswanth Chandra<span class="pd__vh">, All India Rank 23</span></h4>
-          <p class="dr__prog">Interview Guidance Programme</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 25</p>
-          <h4 class="dr__name">Bhavika Chopra<span class="pd__vh">, All India Rank 25</span></h4>
-          <p class="dr__prog">Interview Guidance Programme</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 27</p>
-          <h4 class="dr__name">Vikas<span class="pd__vh">, All India Rank 27</span></h4>
-          <p class="dr__prog">IGS Ethics Module&nbsp;&middot; Interview Guidance Programme +4 more</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 31</p>
-          <h4 class="dr__name">Aryan Yadav<span class="pd__vh">, All India Rank 31</span></h4>
-          <p class="dr__prog">PowerUp Prelims Test Series 2024: Offline&nbsp;&middot; Online</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 33</p>
-          <h4 class="dr__name">Mayank Purohit<span class="pd__vh">, All India Rank 33</span></h4>
-          <p class="dr__prog">Ethics Answer Writing Programme</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 34</p>
-          <h4 class="dr__name">Nancy Singh<span class="pd__vh">, All India Rank 34</span></h4>
-          <p class="dr__prog">Interview Guidance Programme</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 35</p>
-          <h4 class="dr__name">Vaibhavi Agrawal<span class="pd__vh">, All India Rank 35</span></h4>
-          <p class="dr__prog">PowerUp Prelims Test Series 2024&nbsp;&middot; GS Ethics Module +6 more</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 36</p>
-          <h4 class="dr__name">Deepali Mahto<span class="pd__vh">, All India Rank 36</span></h4>
-          <p class="dr__prog">Interview Guidance Programme</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 37</p>
-          <h4 class="dr__name">Sakshi Jain<span class="pd__vh">, All India Rank 37</span></h4>
-          <p class="dr__prog">Interview Guidance Programme</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 38</p>
-          <h4 class="dr__name">Deepanshu Jindal<span class="pd__vh">, All India Rank 38</span></h4>
-          <p class="dr__prog">Interview Guidance Programme&nbsp;&middot; Ethics Answer Writing Programme</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 40</p>
-          <h4 class="dr__name">Diksha Rai<span class="pd__vh">, All India Rank 40</span></h4>
-          <p class="dr__prog">Interview Guidance Programme</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 41</p>
-          <h4 class="dr__name">Sudipa Dutta<span class="pd__vh">, All India Rank 41</span></h4>
-          <p class="dr__prog">Interview Guidance Programme</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 43</p>
-          <h4 class="dr__name">Rupal Jaiswal<span class="pd__vh">, All India Rank 43</span></h4>
-          <p class="dr__prog">Interview Guidance Programme</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 44</p>
-          <h4 class="dr__name">Deeksha Chourasiya<span class="pd__vh">, All India Rank 44</span></h4>
-          <p class="dr__prog">Essay Module&nbsp;&middot; History Enrichment Course +2 more</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 46</p>
-          <h4 class="dr__name">Shambhavi Tiwari<span class="pd__vh">, All India Rank 46</span></h4>
-          <p class="dr__prog">Interview Guidance Programme</p>
-        </li>
-        <li class="dr__item">
-          <div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/placeholder-man.png" alt="" width="360" height="360" loading="lazy" decoding="async"></span></div>
-          <p class="dr__n" aria-hidden="true"><small>AIR</small> 48</p>
-          <h4 class="dr__name">Aniket Ranjan<span class="pd__vh">, All India Rank 48</span></h4>
-          <p class="dr__prog">Ethics Module Course&nbsp;&middot; Ethics Answer Writing Programme</p>
-        </li>
+        <li class="dr__item"><div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/2025/04-raghav-jhunjhunwala.webp" alt="Raghav Jhunjhunwala" width="360" height="360" loading="lazy" decoding="async"></span></div><p class="dr__n" aria-hidden="true"><small>AIR</small> 4</p><h4 class="dr__name">Raghav Jhunjhunwala<span class="pd__vh">, All India Rank 4</span></h4><p class="dr__prog">Interview Guidance Programme</p></li>
+        <li class="dr__item"><div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/2025/05-ishan-bhatnagar.webp" alt="Ishan Bhatnagar" width="360" height="360" loading="lazy" decoding="async"></span></div><p class="dr__n" aria-hidden="true"><small>AIR</small> 5</p><h4 class="dr__name">Ishan Bhatnagar<span class="pd__vh">, All India Rank 5</span></h4><p class="dr__prog">Sociology Optional Crash Course · Sociology Enrichment Course +2 more</p></li>
+        <li class="dr__item"><div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/2025/06-zinnia-aurora.webp" alt="Zinnia Aurora" width="360" height="360" loading="lazy" decoding="async"></span></div><p class="dr__n" aria-hidden="true"><small>AIR</small> 6</p><h4 class="dr__name">Zinnia Aurora<span class="pd__vh">, All India Rank 6</span></h4><p class="dr__prog">GS Ethics Module · Interview Guidance Programme +1 more</p></li>
+        <li class="dr__item"><div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/2025/07-a-r-rajah-mohaideen.webp" alt="A R Rajah Mohaideen" width="360" height="360" loading="lazy" decoding="async"></span></div><p class="dr__n" aria-hidden="true"><small>AIR</small> 7</p><h4 class="dr__name">A R Rajah Mohaideen<span class="pd__vh">, All India Rank 7</span></h4><p class="dr__prog">Interview Guidance Programme</p></li>
+        <li class="dr__item"><div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/2025/08-pakshal-secretry.webp" alt="Pakshal Secretry" width="360" height="360" loading="lazy" decoding="async"></span></div><p class="dr__n" aria-hidden="true"><small>AIR</small> 8</p><h4 class="dr__name">Pakshal Secretry<span class="pd__vh">, All India Rank 8</span></h4><p class="dr__prog">Mains Camp · Interview Guidance Programme</p></li>
+        <li class="dr__item"><div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/2025/09-astha-jain.webp" alt="Astha Jain" width="360" height="360" loading="lazy" decoding="async"></span></div><p class="dr__n" aria-hidden="true"><small>AIR</small> 9</p><h4 class="dr__name">Astha Jain<span class="pd__vh">, All India Rank 9</span></h4><p class="dr__prog">Interview Guidance Programme</p></li>
+        <li class="dr__item"><div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/2025/10-ujjwal-priyank.webp" alt="Ujjwal Priyank" width="360" height="360" loading="lazy" decoding="async"></span></div><p class="dr__n" aria-hidden="true"><small>AIR</small> 10</p><h4 class="dr__name">Ujjwal Priyank<span class="pd__vh">, All India Rank 10</span></h4><p class="dr__prog">Interview Guidance Programme</p></li>
+        <li class="dr__item"><div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/2025-diamond/11-yashaswi-raj-vardhan.webp" alt="Yashaswi Raj Vardhan" width="360" height="360" loading="lazy" decoding="async"></span></div><p class="dr__n" aria-hidden="true"><small>AIR</small> 11</p><h4 class="dr__name">Yashaswi Raj Vardhan<span class="pd__vh">, All India Rank 11</span></h4><p class="dr__prog">Interview Guidance Programme</p></li>
+        <li class="dr__item"><div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/2025-diamond/12-akshit-bhardwaj.webp" alt="Akshit Bhardwaj" width="360" height="360" loading="lazy" decoding="async"></span></div><p class="dr__n" aria-hidden="true"><small>AIR</small> 12</p><h4 class="dr__name">Akshit Bhardwaj<span class="pd__vh">, All India Rank 12</span></h4><p class="dr__prog">Prelims CAMP · General Studies +1 more</p></li>
+        <li class="dr__item"><div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/2025-diamond/13-ananya-sharma.webp" alt="Ananya Sharma" width="360" height="360" loading="lazy" decoding="async"></span></div><p class="dr__n" aria-hidden="true"><small>AIR</small> 13</p><h4 class="dr__name">Ananya Sharma<span class="pd__vh">, All India Rank 13</span></h4><p class="dr__prog">Interview Guidance Programme</p></li>
+        <li class="dr__item"><div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/2025-diamond/14-surabhi-yadav.webp" alt="Surabhi Yadav" width="360" height="360" loading="lazy" decoding="async"></span></div><p class="dr__n" aria-hidden="true"><small>AIR</small> 14</p><h4 class="dr__name">Surabhi Yadav<span class="pd__vh">, All India Rank 14</span></h4><p class="dr__prog">Ethics Answer Writing Prog. · Interview Guidance Programme</p></li>
+        <li class="dr__item"><div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/2025-diamond/15-simrandeep-kaur.webp" alt="Simrandeep Kaur" width="360" height="360" loading="lazy" decoding="async"></span></div><p class="dr__n" aria-hidden="true"><small>AIR</small> 15</p><h4 class="dr__name">Simrandeep Kaur<span class="pd__vh">, All India Rank 15</span></h4><p class="dr__prog">Interview Guidance Programme</p></li>
+        <li class="dr__item"><div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/2025-diamond/16-monika-srivastava.webp" alt="Monika Srivastava" width="360" height="360" loading="lazy" decoding="async"></span></div><p class="dr__n" aria-hidden="true"><small>AIR</small> 16</p><h4 class="dr__name">Monika Srivastava<span class="pd__vh">, All India Rank 16</span></h4><p class="dr__prog">GS Ethics Module · Sure Shot Mains - FLT-A2 +2 more</p></li>
+        <li class="dr__item"><div class="dr__fig"><span class="dr__gem" aria-hidden="true"><i></i></span><span class="dr__pic"><img src="assets/img/toppers/portrait/2025-diamond/18-sruthii-r.webp" alt="Sruthii R" width="360" height="360" loading="lazy" decoding="async"></span></div><p class="dr__n" aria-hidden="true"><small>AIR</small> 18</p><h4 class="dr__name">Sruthii R<span class="pd__vh">, All India Rank 18</span></h4><p class="dr__prog">General Studies · Sociology Optional</p></li>
       </ul>
     </div>
     <!-- every selection, on the institute's results page (user 2026-11-16, "a cta to view all the toppers"): the site's white button with
@@ -489,6 +318,113 @@
   <div class="lbl"><span class="lbl__t">Success stories</span><i></i><span class="lbl__orn" aria-hidden="true"></span></div>
   <h2 id="stH" class="h2 h2--sec"><span class="st-line" style="--i:1"><span>Hear it from our students</span></span></h2>
   <div class="ilgrid" id="tcar"></div>
+</section>
+
+<!-- ============ FACULTY ============ -->
+<section class="band dots band--fac" id="faculty" aria-labelledby="facH">
+  <div class="lbl rv" style="--d:.05s"><span class="lbl__t">Faculty</span><i></i><span class="lbl__orn" aria-hidden="true"></span></div>
+  <h2 id="facH" class="h2 h2--sec rv" style="--d:.12s">Taught by subject specialists.</h2>
+  <!-- The educators on a ring of bent portrait cards: version 6's carousel (js/faculty-ring.js, css/faculty-ring.css). -->
+  <div class="fr" id="facRing"></div>
+</section>
+
+<!-- ============ WHY VAJIRAM & RAVI: a pinned photographic scene (after vajiram-ravi-homepage.vercel.app #campus), carrying the six reasons.
+     The gate photograph grows out of the full-bleed facade, "Why choose us?" splits apart, the card settles bottom-left and six chapters
+     swing in on the scroll. css/story.css, js/story.js (id stays "story": the older #why rules in v25/v49.css would restyle it). Without the
+     pinned stage (narrow, short or reduced motion) it is a stacked list. ============ -->
+<div class="cmp__pin"><!-- holds the scene and the scroll spacer js/story.js adds after it, so the sticky section lets go when its run ends -->
+<section class="cmp" id="story" aria-labelledby="storyH">
+  <div class="cmp__stage">
+    <div class="cmp__card" aria-hidden="true"><img src="assets/img/photos/why-1-track-record.webp" alt="" width="1536" height="1024" decoding="async" style="object-position:50% 55%"></div>
+    <p class="cmp__big" aria-hidden="true"><span class="cmp__l">Why choose</span><span class="cmp__r">us?</span></p>
+    <div class="cmp__ov">
+      <header class="cmp__hd">
+        <div class="lbl rv" style="--d:.05s"><span class="lbl__t">Your UPSC partner &middot; Since 1976</span><i></i><span class="lbl__orn" aria-hidden="true"></span></div>
+        <h2 id="storyH" class="cmp__h2 rv" style="--d:.12s"><span class="cmp__en">Why Vajiram &amp; Ravi?</span> <span class="cmp__h">Fifty years of teaching <em>the civil services examination</em>, built around what the UPSC actually asks.</span></h2>
+      </header>
+      <div class="cmp__track">
+        <article class="cmp__p" aria-labelledby="storyT0">
+          <figure class="cmp__ph"><img src="assets/img/photos/why-1-track-record.webp" alt="The Vajiram &amp; Ravi building, seen from its front gate" width="1536" height="1024" loading="lazy" decoding="async" style="object-position:50% 55%"></figure>
+          <div class="cmp__tx">
+            <p class="cmp__no" aria-hidden="true">01<small>/06</small></p>
+            <p class="cmp__lab">AIR 1 &middot; every result since 2016</p>
+            <h3 class="cmp__t" id="storyT0"><span>A proven track record</span><i aria-hidden="true"></i></h3>
+            <p class="cmp__d">AIR 1 in every UPSC result since 2016, and all ten of the top ten ranks in CSE 2025 prepared with us. Founded in 1976 by Prof. P.&nbsp;Velayutham.</p>
+            <a class="bt bt--ink cmp__cta" href="#toppers">Meet the toppers<span class="sq"></span></a>
+          </div>
+        </article>
+        <article class="cmp__p" aria-labelledby="storyT1">
+          <figure class="cmp__ph"><img src="assets/img/photos/why-2-faculty.webp" alt="A Vajiram &amp; Ravi professor teaching a General Studies class" width="1536" height="1024" loading="lazy" decoding="async" style="object-position:50% 30%"></figure>
+          <div class="cmp__tx">
+            <p class="cmp__no" aria-hidden="true">02<small>/06</small></p>
+            <p class="cmp__lab">The teaching</p>
+            <h3 class="cmp__t" id="storyT1"><span>Expert faculty</span><i aria-hidden="true"></i></h3>
+            <p class="cmp__d">Expert faculty for every GS paper, the optionals and the essay: an academic tradition shaped by educators and subject specialists.</p>
+            <a class="bt bt--ink cmp__cta" href="#faculty">Meet our educators<span class="sq"></span></a>
+          </div>
+        </article>
+        <article class="cmp__p" aria-labelledby="storyT2">
+          <figure class="cmp__ph"><img src="assets/img/photos/why-3-guidance.webp" alt="A mentor going through a study plan with an aspirant" width="1536" height="1024" loading="lazy" decoding="async" style="object-position:45% 40%"></figure>
+          <div class="cmp__tx">
+            <p class="cmp__no" aria-hidden="true">03<small>/06</small></p>
+            <p class="cmp__lab">Your plan</p>
+            <h3 class="cmp__t" id="storyT2"><span>Personal guidance</span><i aria-hidden="true"></i></h3>
+            <p class="cmp__d">A plan shaped around your strengths and gaps, with a mentor who keeps it on track from Foundation to Interview.</p>
+            <a class="bt bt--ink cmp__cta" href="#contact">Let&rsquo;s talk<span class="sq"></span></a>
+          </div>
+        </article>
+        <article class="cmp__p" aria-labelledby="storyT3">
+          <figure class="cmp__ph"><img src="assets/img/photos/why-4-study-material.webp" alt="Vajiram &amp; Ravi study material, test series sheets and notes on a desk" width="1536" height="1024" loading="lazy" decoding="async" style="object-position:50% 50%"></figure>
+          <div class="cmp__tx">
+            <p class="cmp__no" aria-hidden="true">04<small>/06</small></p>
+            <p class="cmp__lab">Study material</p>
+            <h3 class="cmp__t" id="storyT3"><span>Complete study material</span><i aria-hidden="true"></i></h3>
+            <p class="cmp__d">Notes, test series and interview preparation in one place. 59 questions in Prelims 2025 came from our test series.</p>
+            <a class="bt bt--ink cmp__cta" href="#resources">Explore study materials<span class="sq"></span></a>
+          </div>
+        </article>
+        <article class="cmp__p" aria-labelledby="storyT4">
+          <figure class="cmp__ph"><img src="assets/img/photos/why-5-location.webp" alt="Aspirants walking to the Vajiram &amp; Ravi gate in Old Rajinder Nagar" width="1286" height="1024" loading="lazy" decoding="async" style="object-position:55% 50%"></figure>
+          <div class="cmp__tx">
+            <p class="cmp__no" aria-hidden="true">05<small>/06</small></p>
+            <p class="cmp__lab">Old Rajinder Nagar</p>
+            <h3 class="cmp__t" id="storyT4"><span>A prime location</span><i aria-hidden="true"></i></h3>
+            <p class="cmp__d">Over 50 years in Old Rajinder Nagar, New Delhi, at Gate 5 of Karol Bagh Metro.</p>
+            <a class="bt bt--ink cmp__cta" href="#visit">Visit the campus<span class="sq"></span></a>
+          </div>
+        </article>
+        <article class="cmp__p" aria-labelledby="storyT5">
+          <figure class="cmp__ph"><img src="assets/img/photos/why-6-classroom-online.webp" alt="A Vajiram &amp; Ravi classroom with the lecture streaming live to online students" width="1536" height="1024" loading="lazy" decoding="async" style="object-position:50% 40%"></figure>
+          <div class="cmp__tx">
+            <p class="cmp__no" aria-hidden="true">06<small>/06</small></p>
+            <p class="cmp__lab">Classroom + LIVE-Online</p>
+            <h3 class="cmp__t" id="storyT5"><span>Learn the way that suits you</span><i aria-hidden="true"></i></h3>
+            <p class="cmp__d">12 UPSC CSE programmes in the classroom and LIVE-Online, with the same teachers and the same tests.</p>
+            <a class="bt bt--ink cmp__cta" href="#courses">Find your programme<span class="sq"></span></a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ============ BATCHES ============ -->
+<section class="band dots band--gap" id="batches" aria-labelledby="batH">
+  <h2 id="batH" class="h2 h2--sec rv" style="--d:.08s">Next batches starting soon.</h2>
+  <div class="bhead rv" style="--d:.16s">
+    <p class="intro">Register online, or call <a href="tel:08062206330">080-6220-6330</a> for registration or seat allotment, Monday to Saturday, 9 am to 7 pm.</p>
+    <button class="tlink" id="allBatches" type="button"><span>View all batches</span><svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></button>
+  </div>
+  <!-- one row of tickets that scrolls sideways; the buttons on its two sides, shown on hover, move it a whole screenful at a time
+       (user 2026-11-16): css/batches-row.css, js/batches-row.js -->
+  <div class="brow">
+  <div class="bnav" role="group" aria-label="Move through the batches">
+    <button type="button" class="bnav__btn bnav__prev" aria-label="Previous batches" aria-controls="price"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 6L9 12L15 18"/></svg></button>
+    <button type="button" class="bnav__btn bnav__next" aria-label="Next batches" aria-controls="price"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 6L15 12L9 18"/></svg></button>
+  </div>
+  <div class="cards" id="price"></div>
+  </div>
 </section>
 
 <!-- ============ GENERAL STUDIES ============ -->
@@ -530,115 +466,6 @@
   </div>
 </section>
 
-<!-- ============ FACULTY ============ -->
-<section class="band dots band--fac" id="faculty" aria-labelledby="facH">
-  <div class="lbl rv" style="--d:.05s"><span class="lbl__t">Faculty</span><i></i><span class="lbl__orn" aria-hidden="true"></span></div>
-  <h2 id="facH" class="h2 h2--sec rv" style="--d:.12s">Taught by subject specialists.</h2>
-  <!-- The educators on a ring of bent portrait cards: version 6's carousel (js/faculty-ring.js, css/faculty-ring.css). -->
-  <div class="fr" id="facRing"></div>
-</section>
-
-<!-- ============ WHY VAJIRAM & RAVI: a pinned photographic scene (after vajiram-ravi-homepage.vercel.app #campus), carrying the six reasons.
-     The gate photograph grows out of the full-bleed facade, "Why choose us?" splits apart, the card settles bottom-left and six chapters
-     swing in on the scroll. css/story.css, js/story.js (id stays "story": the older #why rules in v25/v49.css would restyle it). Without the
-     pinned stage (narrow, short or reduced motion) it is a stacked list. ============ -->
-<div class="cmp__pin"><!-- holds the scene and the scroll spacer js/story.js adds after it, so the sticky section lets go when its run ends -->
-<section class="cmp" id="story" aria-labelledby="storyH">
-  <div class="cmp__stage">
-    <div class="cmp__card" aria-hidden="true"><img src="assets/img/photos/why-1-track-record.webp" alt="" width="1536" height="1024" decoding="async" style="object-position:50% 55%"></div>
-    <p class="cmp__big" aria-hidden="true"><span class="cmp__l">Why choose</span><span class="cmp__r">us?</span></p>
-    <div class="cmp__ov">
-      <header class="cmp__hd">
-        <div class="lbl rv" style="--d:.05s"><span class="lbl__t">Your UPSC partner &middot; Since 1976</span><i></i><span class="lbl__orn" aria-hidden="true"></span></div>
-        <h2 id="storyH" class="cmp__h2 rv" style="--d:.12s"><span class="cmp__en">Why Vajiram &amp; Ravi?</span> <span class="cmp__h">Fifty years of teaching <em>the civil services examination</em>, built around what the UPSC actually asks.</span></h2>
-      </header>
-      <div class="cmp__track">
-        <article class="cmp__p" aria-labelledby="storyT0">
-          <figure class="cmp__ph"><img src="assets/img/photos/why-1-track-record.webp" alt="The Vajiram &amp; Ravi building, seen from its front gate" width="1536" height="1024" loading="lazy" decoding="async" style="object-position:50% 55%"></figure>
-          <div class="cmp__tx">
-            <p class="cmp__no" aria-hidden="true">01<small>/06</small></p>
-            <p class="cmp__lab">AIR 1 &middot; every result since 2016</p>
-            <h3 class="cmp__t" id="storyT0"><span>A proven track record</span><i aria-hidden="true"></i></h3>
-            <p class="cmp__d">AIR 1 in every UPSC result since 2016, and all ten of the top ten ranks in CSE 2025 prepared with us. Founded in 1976 by Prof. P.&nbsp;Velayutham.</p>
-            <a class="cmp__cta" href="#toppers">Meet the toppers<span class="cmp__cta-ic" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></a>
-          </div>
-        </article>
-        <article class="cmp__p" aria-labelledby="storyT1">
-          <figure class="cmp__ph"><img src="assets/img/photos/why-2-faculty.webp" alt="A Vajiram &amp; Ravi professor teaching a General Studies class" width="1536" height="1024" loading="lazy" decoding="async" style="object-position:50% 30%"></figure>
-          <div class="cmp__tx">
-            <p class="cmp__no" aria-hidden="true">02<small>/06</small></p>
-            <p class="cmp__lab">The teaching</p>
-            <h3 class="cmp__t" id="storyT1"><span>Expert faculty</span><i aria-hidden="true"></i></h3>
-            <p class="cmp__d">Expert faculty for every GS paper, the optionals and the essay: an academic tradition shaped by educators and subject specialists.</p>
-            <a class="cmp__cta" href="#faculty">Meet our educators<span class="cmp__cta-ic" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></a>
-          </div>
-        </article>
-        <article class="cmp__p" aria-labelledby="storyT2">
-          <figure class="cmp__ph"><img src="assets/img/photos/why-3-guidance.webp" alt="A mentor going through a study plan with an aspirant" width="1536" height="1024" loading="lazy" decoding="async" style="object-position:45% 40%"></figure>
-          <div class="cmp__tx">
-            <p class="cmp__no" aria-hidden="true">03<small>/06</small></p>
-            <p class="cmp__lab">Your plan</p>
-            <h3 class="cmp__t" id="storyT2"><span>Personal guidance</span><i aria-hidden="true"></i></h3>
-            <p class="cmp__d">A plan shaped around your strengths and gaps, with a mentor who keeps it on track from Foundation to Interview.</p>
-            <a class="cmp__cta" href="#contact">Let&rsquo;s talk<span class="cmp__cta-ic" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></a>
-          </div>
-        </article>
-        <article class="cmp__p" aria-labelledby="storyT3">
-          <figure class="cmp__ph"><img src="assets/img/photos/why-4-study-material.webp" alt="Vajiram &amp; Ravi study material, test series sheets and notes on a desk" width="1536" height="1024" loading="lazy" decoding="async" style="object-position:50% 50%"></figure>
-          <div class="cmp__tx">
-            <p class="cmp__no" aria-hidden="true">04<small>/06</small></p>
-            <p class="cmp__lab">Study material</p>
-            <h3 class="cmp__t" id="storyT3"><span>Complete study material</span><i aria-hidden="true"></i></h3>
-            <p class="cmp__d">Notes, test series and interview preparation in one place. 59 questions in Prelims 2025 came from our test series.</p>
-            <a class="cmp__cta" href="#resources">Explore study materials<span class="cmp__cta-ic" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></a>
-          </div>
-        </article>
-        <article class="cmp__p" aria-labelledby="storyT4">
-          <figure class="cmp__ph"><img src="assets/img/photos/why-5-location.webp" alt="Aspirants walking to the Vajiram &amp; Ravi gate in Old Rajinder Nagar" width="1286" height="1024" loading="lazy" decoding="async" style="object-position:55% 50%"></figure>
-          <div class="cmp__tx">
-            <p class="cmp__no" aria-hidden="true">05<small>/06</small></p>
-            <p class="cmp__lab">Old Rajinder Nagar</p>
-            <h3 class="cmp__t" id="storyT4"><span>A prime location</span><i aria-hidden="true"></i></h3>
-            <p class="cmp__d">Over 50 years in Old Rajinder Nagar, New Delhi, at Gate 5 of Karol Bagh Metro.</p>
-            <a class="cmp__cta" href="#visit">Visit the campus<span class="cmp__cta-ic" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></a>
-          </div>
-        </article>
-        <article class="cmp__p" aria-labelledby="storyT5">
-          <figure class="cmp__ph"><img src="assets/img/photos/why-6-classroom-online.webp" alt="A Vajiram &amp; Ravi classroom with the lecture streaming live to online students" width="1536" height="1024" loading="lazy" decoding="async" style="object-position:50% 40%"></figure>
-          <div class="cmp__tx">
-            <p class="cmp__no" aria-hidden="true">06<small>/06</small></p>
-            <p class="cmp__lab">Classroom + LIVE-Online</p>
-            <h3 class="cmp__t" id="storyT5"><span>Learn the way that suits you</span><i aria-hidden="true"></i></h3>
-            <p class="cmp__d">12 UPSC CSE programmes in the classroom and LIVE-Online, with the same teachers and the same tests.</p>
-            <a class="cmp__cta" href="#courses">Find your programme<span class="cmp__cta-ic" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M2 8h11M9 4l4 4-4 4"/></svg></span></a>
-          </div>
-        </article>
-      </div>
-    </div>
-  </div>
-</section>
-</div>
-
-
-
-<!-- ============ BATCHES ============ -->
-<section class="band dots band--gap" id="batches" aria-labelledby="batH">
-  <h2 id="batH" class="h2 h2--sec rv" style="--d:.08s">Next batches starting soon.</h2>
-  <div class="bhead rv" style="--d:.16s">
-    <p class="intro">Register online, or call <a href="tel:08062206330">080-6220-6330</a> for registration or seat allotment, Monday to Saturday, 9 am to 7 pm.</p>
-    <button class="tlink" id="allBatches" type="button"><span>View all batches</span><svg viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></button>
-  </div>
-  <!-- one row of tickets that scrolls sideways; the buttons on its two sides, shown on hover, move it a whole screenful at a time
-       (user 2026-11-16): css/batches-row.css, js/batches-row.js -->
-  <div class="brow">
-  <div class="bnav" role="group" aria-label="Move through the batches">
-    <button type="button" class="bnav__btn bnav__prev" aria-label="Previous batches" aria-controls="price"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 6L9 12L15 18"/></svg></button>
-    <button type="button" class="bnav__btn bnav__next" aria-label="Next batches" aria-controls="price"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 6L15 12L9 18"/></svg></button>
-  </div>
-  <div class="cards" id="price"></div>
-  </div>
-</section>
-
 <!-- ============ CONTACT ============ -->
 <section class="sheet sheet--gap contact" id="contact" aria-labelledby="counH">
   <div class="contact__in">
@@ -663,7 +490,7 @@
   </div>
 </section>
 
-<!-- ============ FREE RESOURCES (content from vajiram-ravi-sharon.vercel.app): the six resources as a stacking deck of cards; css/resources-stack.css.
+<!-- ============ FREE RESOURCES (as on the reference build): six manila folders; css/resources-folders.css.
      Every link opens the Vajiram &amp; Ravi site (content.js [data-rs]) until the resource pages exist. ============ -->
 <section class="sm" id="resources" aria-labelledby="resrcH">
   <div class="sm__in">
@@ -671,160 +498,45 @@
       <div class="sm__titles">
         <div class="lbl rv" style="--d:.05s"><span class="lbl__t">Free resources</span><i></i><span class="lbl__orn" aria-hidden="true"></span></div>
         <h2 id="resrcH" class="h2 h2--sec rv" style="--d:.12s">Your preparation can begin today.</h2>
+        <p class="intro rv" style="--d:.2s">Daily current affairs, a monthly magazine and the official papers, free, from the Vajiram &amp; Ravi editorial desk.</p>
       </div>
     </div>
-    <!-- the resources as a deck (after loopsii.com's highlights): one card each, every card sticking a step lower than the one before, so
-         they pile up as you scroll and the ones underneath tip back and shrink (css/resources-stack.css, js/resources-stack.js) -->
-    <ol class="rk" aria-label="Free resources">
-      <li class="rk__card" style="--i:0;--tone:linear-gradient(149deg, #e57512 14.3%, #ae3b0f 85.7%)">
-        <div class="rk__txt">
-          <p class="rk__n">01<small>/06</small></p>
-          <h3 class="rk__t">Daily Current Affairs</h3>
-          <p class="rk__d">Articles on the day&rsquo;s news for Prelims and Mains, with Quest, published every day.</p>
-          <ul class="rk__pts"><li>Saves you reading every newspaper</li><li>Shows how a story could be asked in the exam</li><li>Covers Prelims and Mains in one place</li></ul>
-          <a class="bt bt--line rk__cta" href="#" data-rs>Read today&rsquo;s articles</a>
-        </div>
-        <div class="rk__media" aria-hidden="true"><p class="rk__badge"><span>Today</span><time id="rsToday"></time></p><img src="assets/img/resources/cutout/current-affairs.png?v=2" alt="" width="640" height="410" loading="lazy" decoding="async"></div>
-      </li>
-      <li class="rk__card" style="--i:1;--tone:#B47A20">
-        <div class="rk__txt">
-          <p class="rk__n">02<small>/06</small></p>
-          <h3 class="rk__t">The Recitals: Monthly Magazine</h3>
-          <p class="rk__d">The month&rsquo;s current affairs gathered into one issue, free to download.</p>
-          <ul class="rk__pts"><li>Revise a whole month in one sitting</li><li>Catch up on anything you missed</li><li>A new issue every month</li></ul>
-          <a class="bt bt--line rk__cta" href="#" data-rs>Download this month</a>
-        </div>
-        <div class="rk__media" aria-hidden="true"><img src="assets/img/resources/cutout/the-recitals.png" alt="" width="640" height="520" loading="lazy" decoding="async"></div>
-      </li>
-      <li class="rk__card" style="--i:2;--tone:#3F5B87">
-        <div class="rk__txt">
-          <p class="rk__n">03<small>/06</small></p>
-          <h3 class="rk__t">Previous Year Papers</h3>
-          <p class="rk__d">UPSC&rsquo;s past Prelims and Mains question papers, with the answer key.</p>
-          <ul class="rk__pts"><li>Shows the kind of questions UPSC asks</li><li>Lets you practise on the real papers</li><li>Check your answers against the key</li></ul>
-          <a class="bt bt--line rk__cta" href="#" data-rs>Browse papers</a>
-        </div>
-        <div class="rk__media" aria-hidden="true"><img src="assets/img/resources/cutout/previous-year-papers.png?v=2" alt="" width="640" height="595" loading="lazy" decoding="async"></div>
-      </li>
-      <li class="rk__card" style="--i:3;--tone:#326F66">
-        <div class="rk__txt">
-          <p class="rk__n">04<small>/06</small></p>
-          <h3 class="rk__t">Syllabus &amp; Exam Pattern</h3>
-          <p class="rk__d">The full syllabus, and how Prelims, Mains and the Interview are set and marked.</p>
-          <ul class="rk__pts"><li>Tells you exactly what to study</li><li>Helps you plan by where the marks are</li><li>Shows which stages count for your rank</li></ul>
-          <a class="bt bt--line rk__cta" href="#" data-rs>Read the guide</a>
-        </div>
-        <div class="rk__media" aria-hidden="true"><img src="assets/img/resources/cutout/syllabus-exam-pattern.png?v=2" alt="" width="640" height="663" loading="lazy" decoding="async"></div>
-      </li>
-      <li class="rk__card" style="--i:4;--tone:#9D485B">
-        <div class="rk__txt">
-          <p class="rk__n">05<small>/06</small></p>
-          <h3 class="rk__t">GS Books by Post</h3>
-          <p class="rk__d">Vajiram &amp; Ravi&rsquo;s General Studies books in print, delivered by post.</p>
-          <ul class="rk__pts"><li>Study the institute&rsquo;s material from anywhere</li><li>Printed, so you can read and mark them up</li><li>Covers General Studies for the exam</li></ul>
-          <a class="bt bt--line rk__cta" href="#" data-rs>Buy now</a>
-        </div>
-        <div class="rk__media" aria-hidden="true"><img src="assets/img/resources/cutout/gs-postal-books.png?v=2" alt="" width="640" height="624" loading="lazy" decoding="async"></div>
-      </li>
-      <li class="rk__card" style="--i:5;--tone:#C64613">
-        <div class="rk__txt">
-          <p class="rk__n">06<small>/06</small></p>
-          <h3 class="rk__t">UPSC Calendar 2027</h3>
-          <p class="rk__d">The dates for every stage of the 2027 exam, with the age limit and eligibility rules.</p>
-          <ul class="rk__pts"><li>Plan your preparation around the dates</li><li>Check you are eligible before you apply</li><li>Keep track of notifications and deadlines</li></ul>
-          <a class="bt bt--line rk__cta" href="#" data-rs>See the calendar</a>
-        </div>
-        <div class="rk__media" aria-hidden="true"><img src="assets/img/resources/cutout/upsc-calendar.png" alt="" width="640" height="612" loading="lazy" decoding="async"></div>
-      </li>
-    </ol>
-    <div class="sm__more rv" style="--d:.08s">
-      <p class="sm__more-k" id="smMoreK">More free resources</p>
-      <ul class="sm__more-list sm__more-list--bento" aria-labelledby="smMoreK">
-        <li><a class="sm__mini" href="#" data-rs><span class="sm__mini-t">Daily Quiz</span><svg class="sm__mini-go" viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></a></li>
-        <li><a class="sm__mini" href="#" data-rs><span class="sm__mini-t">Editorial Analysis</span><svg class="sm__mini-go" viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></a></li>
-        <li><a class="sm__mini" href="#" data-rs><span class="sm__mini-t">Answer Writing Practice</span><svg class="sm__mini-go" viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></a></li>
-        <li><a class="sm__mini" href="#" data-rs><span class="sm__mini-t">NCERT Notes</span><svg class="sm__mini-go" viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></a></li>
-        <li><a class="sm__mini" href="#" data-rs><span class="sm__mini-t">Government Schemes</span><svg class="sm__mini-go" viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></a></li>
-        <li><a class="sm__mini" href="#" data-rs><span class="sm__mini-t">Essay Topics</span><svg class="sm__mini-go" viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></a></li>
-        <li><a class="sm__mini" href="#" data-rs><span class="sm__mini-t">Ethics Case Studies</span><svg class="sm__mini-go" viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></a></li>
-        <li><a class="sm__mini" href="#" data-rs><span class="sm__mini-t">Interview Guidance Tips</span><svg class="sm__mini-go" viewBox="0 0 16 16" width="18" height="18" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></a></li>
-      </ul>
-    </div>
+    <!-- the six resources as manila file folders from the editorial desk, as on the reference build (user 2026-11-16, "Free resources
+         as it is"): the folder's back, the resource sticking out of it, the front flap with the copy (css/resources-folders.css) -->
+    <ul class="sm__grid sm__grid--res" aria-label="Free resources">
+      <li class="sm__card sm__card--res rf"><span class="rf__back" aria-hidden="true"></span>
+        <div class="rmk rmk--photo" aria-hidden="true"><div class="rmk__obj"><img src="assets/img/resources/cutout/current-affairs.png?v=2" alt="" width="640" height="410" loading="lazy" decoding="async"></div></div>
+        <div class="rf__front"><span class="rf__tag">Daily</span><h3 class="sm__t">Current Affairs</h3><p class="sm__d">Prelims, Mains and Quest articles, written the way UPSC asks.</p>
+          <div class="rf__stub"><a class="bt bt--white rf__cta" href="#" data-rs>Read today’s articles<span class="sq sq--38 sq--brand"><img src="assets/img/icons/arrow-white.svg" alt="" width="16" height="16"></span></a></div></div></li>
+      <li class="sm__card sm__card--res rf"><span class="rf__back" aria-hidden="true"></span>
+        <div class="rmk rmk--photo" aria-hidden="true"><div class="rmk__obj"><img src="assets/img/resources/cutout/the-recitals.png" alt="" width="640" height="520" loading="lazy" decoding="async"></div></div>
+        <div class="rf__front"><span class="rf__tag">Monthly</span><h3 class="sm__t">The Recitals</h3><p class="sm__d">UPSC current affairs monthly material, free to download.</p>
+          <div class="rf__stub"><a class="bt bt--white rf__cta" href="#" data-rs>Download this month<span class="sq sq--38 sq--brand"><img src="assets/img/icons/arrow-white.svg" alt="" width="16" height="16"></span></a></div></div></li>
+      <li class="sm__card sm__card--res rf"><span class="rf__back" aria-hidden="true"></span>
+        <div class="rmk rmk--photo" aria-hidden="true"><div class="rmk__obj"><img src="assets/img/resources/cutout/previous-year-papers.png?v=2" alt="" width="640" height="595" loading="lazy" decoding="async"></div></div>
+        <div class="rf__front"><span class="rf__tag">Archive</span><h3 class="sm__t">Previous Year Papers</h3><p class="sm__d">Prelims and Mains papers, with the UPSC answer key.</p>
+          <div class="rf__stub"><a class="bt bt--white rf__cta" href="#" data-rs>Browse papers<span class="sq sq--38 sq--brand"><img src="assets/img/icons/arrow-white.svg" alt="" width="16" height="16"></span></a></div></div></li>
+      <li class="sm__card sm__card--res rf"><span class="rf__back" aria-hidden="true"></span>
+        <div class="rmk rmk--photo" aria-hidden="true"><div class="rmk__obj"><img src="assets/img/resources/cutout/infographics.png" alt="" width="796" height="567" loading="lazy" decoding="async"></div></div>
+        <div class="rf__front"><span class="rf__tag">Visual</span><h3 class="sm__t">Infographics</h3><p class="sm__d">Topics made visual: one-page graphics for quick, clear recall.</p>
+          <div class="rf__stub"><a class="bt bt--white rf__cta" href="#" data-rs>View infographics<span class="sq sq--38 sq--brand"><img src="assets/img/icons/arrow-white.svg" alt="" width="16" height="16"></span></a></div></div></li>
+      <li class="sm__card sm__card--res rf"><span class="rf__back" aria-hidden="true"></span>
+        <div class="rmk rmk--photo" aria-hidden="true"><div class="rmk__obj"><img src="assets/img/resources/cutout/kurukshetra.png" alt="" width="781" height="645" loading="lazy" decoding="async"></div></div>
+        <div class="rf__front"><span class="rf__tag">Monthly</span><h3 class="sm__t">Kurukshetra Magazine</h3><p class="sm__d">The monthly journal on rural development, a staple for Mains and Essay.</p>
+          <div class="rf__stub"><a class="bt bt--white rf__cta" href="#" data-rs>Read the magazine<span class="sq sq--38 sq--brand"><img src="assets/img/icons/arrow-white.svg" alt="" width="16" height="16"></span></a></div></div></li>
+      <li class="sm__card sm__card--res rf"><span class="rf__back" aria-hidden="true"></span>
+        <div class="rmk rmk--photo" aria-hidden="true"><div class="rmk__obj"><img src="assets/img/resources/cutout/quick-revision.png" alt="" width="739" height="712" loading="lazy" decoding="async"></div></div>
+        <div class="rf__front"><span class="rf__tag">Revise</span><h3 class="sm__t">Prelims Quick Revision</h3><p class="sm__d">Crisp, topic-wise notes and facts for the final days before Prelims.</p>
+          <div class="rf__stub"><a class="bt bt--white rf__cta" href="#" data-rs>Start revising<span class="sq sq--38 sq--brand"><img src="assets/img/icons/arrow-white.svg" alt="" width="16" height="16"></span></a></div></div></li>
+    </ul>
   </div>
-</section>
-
-<!-- ============ LIFE AT VAJIRAM & RAVI: photos and videos, after Free resources. A looping row of large media cards that runs off both
-     edges (after rox.com's customer stories), a caption line under each, All / Images / Videos tabs, arrows on hover; css/life-gallery.css, js/life-gallery.js ============ -->
-<section class="lgal" id="lifeGal" aria-labelledby="lifeH">
-  <div class="lg__hd">
-    <h2 class="lg__h" id="lifeH">Life at Vajiram &amp; Ravi</h2>
-    <div class="lg__tabs" role="tablist" aria-label="Show">
-      <button type="button" class="lg__tab" role="tab" data-f="all" aria-selected="true" aria-controls="lifeTrack">All</button>
-      <button type="button" class="lg__tab" role="tab" data-f="img" aria-selected="false" aria-controls="lifeTrack" tabindex="-1">Images</button>
-      <button type="button" class="lg__tab" role="tab" data-f="vid" aria-selected="false" aria-controls="lifeTrack" tabindex="-1">Videos</button>
-      <span class="lg__ind" aria-hidden="true"></span>
-    </div>
-  </div>
-  <!-- dummy media: every card uses a placeholder photo; a video card plays its clip once data-src names a file (e.g. assets/video/classroom.mp4) -->
-  <div class="lg__rail">
-  <button type="button" class="lg__arw lg__prev" aria-label="Previous photo"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 6L9 12L15 18"/></svg></button>
-  <button type="button" class="lg__arw lg__next" aria-label="Next photo"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 6L15 12L9 18"/></svg></button>
-  <ul class="lg__track" id="lifeTrack" aria-labelledby="lifeH">
-    <li class="lg__slide lg__slide--vid">
-      <figure class="lg__media"><video poster="assets/img/photos/footer-classroom.webp" data-src="" muted loop playsinline preload="none" aria-label="Video: a full classroom for an Indian Polity lecture"></video><span class="lg__badge" aria-hidden="true"><svg viewBox="0 0 24 24" width="12" height="12"><path d="M8 5.5v13l11-6.5z"/></svg>Video</span></figure>
-      <p class="lg__cap"><b>In the classroom</b><span>Indian Polity lecture, Old Rajinder Nagar</span></p>
-    </li>
-    <li class="lg__slide">
-      <figure class="lg__media"><img src="assets/img/photos/why-2-faculty.webp" alt="A Vajiram &amp; Ravi professor teaching a General Studies class" width="1536" height="1024" loading="lazy" decoding="async" style="object-position:62% 30%"></figure>
-      <p class="lg__cap"><b>Our faculty</b><span>Specialists for every General Studies paper</span></p>
-    </li>
-    <li class="lg__slide">
-      <figure class="lg__media"><img src="assets/img/photos/campus-entrance.webp" alt="The institute entrance with the Vajiram &amp; Ravi sign" width="900" height="1600" loading="lazy" decoding="async" style="object-position:50% 32%"></figure>
-      <p class="lg__cap"><b>The entrance</b><span>Next to Gate 5, Karol Bagh Metro</span></p>
-    </li>
-    <li class="lg__slide">
-      <figure class="lg__media"><img src="assets/img/photos/why-3-guidance.webp" alt="A mentor going through a study plan with an aspirant" width="1536" height="1024" loading="lazy" decoding="async" style="object-position:45% 40%"></figure>
-      <p class="lg__cap"><b>Mentoring</b><span>A study plan, kept on track</span></p>
-    </li>
-    <li class="lg__slide">
-      <figure class="lg__media"><img src="assets/img/photos/why-4-study-material.webp" alt="Vajiram &amp; Ravi study material, test series sheets and notes on a desk" width="1536" height="1024" loading="lazy" decoding="async"></figure>
-      <p class="lg__cap"><b>Study material</b><span>Notes and test series for every stage</span></p>
-    </li>
-    <li class="lg__slide lg__slide--vid">
-      <figure class="lg__media"><video poster="assets/img/photos/why-5-location.webp" data-src="" muted loop playsinline preload="none" aria-label="Video: aspirants walking in to the campus in Old Rajinder Nagar"></video><span class="lg__badge" aria-hidden="true"><svg viewBox="0 0 24 24" width="12" height="12"><path d="M8 5.5v13l11-6.5z"/></svg>Video</span></figure>
-      <p class="lg__cap"><b>Arriving for class</b><span>Old Rajinder Nagar, New Delhi</span></p>
-    </li>
-    <li class="lg__slide">
-      <figure class="lg__media"><img src="assets/img/photos/building-hd.webp" alt="The Vajiram &amp; Ravi building seen from the street" width="2240" height="1685" loading="lazy" decoding="async" style="object-position:40% 50%"></figure>
-      <p class="lg__cap"><b>The building</b><span>1-B/7, Pusa Road</span></p>
-    </li>
-    <li class="lg__slide">
-      <figure class="lg__media"><img src="assets/img/photos/why-6-classroom-online.webp" alt="A Vajiram &amp; Ravi classroom with the lecture streaming live to online students" width="1536" height="1024" loading="lazy" decoding="async" style="object-position:50% 40%"></figure>
-      <p class="lg__cap"><b>Classroom + LIVE-Online</b><span>The same teachers and the same tests</span></p>
-    </li>
-    <li class="lg__slide">
-      <figure class="lg__media"><img src="assets/img/photos/campus-hd.webp" alt="The Vajiram &amp; Ravi campus gate and building at Old Rajinder Nagar" width="2000" height="1334" loading="lazy" decoding="async" style="object-position:62% 50%"></figure>
-      <p class="lg__cap"><b>The campus</b><span>Old Rajinder Nagar since 1976</span></p>
-    </li>
-  </ul>
-  </div>
-</section>
-
-<!-- ============ FAQ ============ -->
-<section class="sheet sheet--pad sheet--gap faq" id="faq" aria-labelledby="faqH">
-  <div class="faq__l">
-    <h2 id="faqH" class="h2 h2--sec rv" style="--d:.12s">Frequently asked questions</h2>
-    <div class="rv-btn rv" style="--d:.28s"><a class="bt bt--brand" href="#contact">Talk to a counsellor<span class="sq sq--52 sq--white"><img src="assets/img/icons/arrow-brand.svg" alt="" width="16" height="16"></span></a></div>
-  </div>
-  <div class="qas" id="faqList"></div>
 </section>
 
 <!-- ============ VISIT: Contact us, compact (user 2026-11-16, after a reference): on the left the centre's card (address, landmark, hours,
      phone, email) over the map with a "View on maps" button; on the right the campus photos, full height, with a caption and dots.
      css/contact-compact.css, js/visit-gallery.js. Icons: Iconoir phone, mail (the hours are plain text); the button is the site's main CTA. ============ -->
 <section class="band dots band--gap" id="visit" aria-labelledby="locH">
-  <h2 id="locH" class="h2 h2--sec rv" style="--d:.12s">Contact us</h2>
-  <p class="intro rv" style="--d:.2s">Pick the channel that suits you, or visit us in New Delhi.</p>
+  <h2 id="locH" class="h2 h2--sec rv" style="--d:.12s">Contact us</h2>   <!-- no intro line under it, as on the reference build (user 2026-11-16) -->
   <div class="cx rv" style="--d:.28s">
     <div class="cx__l">
       <div class="cx__card">
@@ -852,6 +564,94 @@
   </div>
 </section>
 
+<!-- ============ LIFE AT VAJIRAM & RAVI: photos and videos, between Contact us and the FAQ (not on the reference build, user 2026-11-16). A spotlight row: one large picture in the middle with its caption, smaller dimmed ones either side
+     (after paraform.com's recruiters row, without its outline), All / Images / Videos tabs, arrows on hover; css/life-gallery.css, js/life-gallery.js ============ -->
+<section class="lgal" id="lifeGal" aria-labelledby="lifeH">
+  <div class="lg__hd">
+    <h2 class="lg__h" id="lifeH">Life at Vajiram &amp; Ravi</h2>
+  </div>
+  <!-- dummy media (user 2026-11-16, "more dummy content with videos in both landscape and portrait"): fourteen cards, landscape (--land) and
+       portrait (--port); the six video clips in assets/video are placeholders rendered from our own photos (a slow zoom and pan) -->
+  <div class="lg__rail">
+  <button type="button" class="lg__arw lg__prev" aria-label="Previous photo"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 6L9 12L15 18"/></svg></button>
+  <button type="button" class="lg__arw lg__next" aria-label="Next photo"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 6L15 12L9 18"/></svg></button>
+  <ul class="lg__track" id="lifeTrack" aria-labelledby="lifeH">
+    <li class="lg__slide lg__slide--vid lg__slide--land">
+      <figure class="lg__media"><video poster="assets/img/photos/footer-classroom.webp" data-src="assets/video/classroom.mp4" muted loop playsinline preload="none" aria-label="Video: a full classroom for an Indian Polity lecture"></video><span class="lg__badge" aria-hidden="true"><svg viewBox="0 0 24 24" width="12" height="12"><path d="M8 5.5v13l11-6.5z"/></svg>Video</span></figure>
+      <p class="lg__cap"><b>In the classroom</b><span>Indian Polity lecture, Old Rajinder Nagar</span></p>
+    </li>
+    <li class="lg__slide lg__slide--port">
+      <figure class="lg__media"><img src="assets/img/photos/why-2-faculty.webp" alt="A Vajiram &amp; Ravi professor teaching a General Studies class" width="1536" height="1024" loading="lazy" decoding="async" style="object-position:64% 30%"></figure>
+      <p class="lg__cap"><b>Our faculty</b><span>Specialists for every General Studies paper</span></p>
+    </li>
+    <li class="lg__slide lg__slide--vid lg__slide--port">
+      <figure class="lg__media"><video poster="assets/img/photos/campus-entrance.webp" data-src="assets/video/entrance.mp4" muted loop playsinline preload="none" aria-label="Video: the walk in through the institute entrance"></video><span class="lg__badge" aria-hidden="true"><svg viewBox="0 0 24 24" width="12" height="12"><path d="M8 5.5v13l11-6.5z"/></svg>Video</span></figure>
+      <p class="lg__cap"><b>Walking in</b><span>Next to Gate 5, Karol Bagh Metro</span></p>
+    </li>
+    <li class="lg__slide lg__slide--land">
+      <figure class="lg__media"><img src="assets/img/photos/why-3-guidance.webp" alt="A mentor going through a study plan with an aspirant" width="1536" height="1024" loading="lazy" decoding="async" style="object-position:45% 40%"></figure>
+      <p class="lg__cap"><b>Mentoring</b><span>A study plan, kept on track</span></p>
+    </li>
+    <li class="lg__slide lg__slide--vid lg__slide--land">
+      <figure class="lg__media"><video poster="assets/img/photos/why-5-location.webp" data-src="assets/video/arriving.mp4" muted loop playsinline preload="none" aria-label="Video: aspirants walking in to the campus in Old Rajinder Nagar"></video><span class="lg__badge" aria-hidden="true"><svg viewBox="0 0 24 24" width="12" height="12"><path d="M8 5.5v13l11-6.5z"/></svg>Video</span></figure>
+      <p class="lg__cap"><b>Arriving for class</b><span>Old Rajinder Nagar, New Delhi</span></p>
+    </li>
+    <li class="lg__slide lg__slide--port">
+      <figure class="lg__media"><img src="assets/img/photos/why-1-track-record.webp" alt="The Vajiram &amp; Ravi campus gate under the trees" width="1536" height="1024" loading="lazy" decoding="async" style="object-position:30% 50%"></figure>
+      <p class="lg__cap"><b>The gate</b><span>Old Rajinder Nagar since 1976</span></p>
+    </li>
+    <li class="lg__slide lg__slide--land">
+      <figure class="lg__media"><img src="assets/img/photos/why-4-study-material.webp" alt="Vajiram &amp; Ravi study material, test series sheets and notes on a desk" width="1536" height="1024" loading="lazy" decoding="async"></figure>
+      <p class="lg__cap"><b>Study material</b><span>Notes and test series for every stage</span></p>
+    </li>
+    <li class="lg__slide lg__slide--vid lg__slide--port">
+      <figure class="lg__media"><video poster="assets/img/photos/qutub-monument.webp" data-src="assets/video/qutub.mp4" muted loop playsinline preload="none" aria-label="Video: the Qutub Minar in Delhi"></video><span class="lg__badge" aria-hidden="true"><svg viewBox="0 0 24 24" width="12" height="12"><path d="M8 5.5v13l11-6.5z"/></svg>Video</span></figure>
+      <p class="lg__cap"><b>Around Delhi</b><span>Qutub Minar, a short ride away</span></p>
+    </li>
+    <li class="lg__slide lg__slide--land">
+      <figure class="lg__media"><img src="assets/img/photos/building-hd.webp" alt="The Vajiram &amp; Ravi building seen from the street" width="2240" height="1685" loading="lazy" decoding="async" style="object-position:40% 50%"></figure>
+      <p class="lg__cap"><b>The building</b><span>1-B/7, Pusa Road</span></p>
+    </li>
+    <li class="lg__slide lg__slide--vid lg__slide--land">
+      <figure class="lg__media"><video poster="assets/img/photos/samvidhan-scene.jpg" data-src="assets/video/sansad.mp4" muted loop playsinline preload="none" aria-label="Video: Sansad Bhavan, New Delhi"></video><span class="lg__badge" aria-hidden="true"><svg viewBox="0 0 24 24" width="12" height="12"><path d="M8 5.5v13l11-6.5z"/></svg>Video</span></figure>
+      <p class="lg__cap"><b>Sansad Bhavan</b><span>Where the Polity syllabus is made</span></p>
+    </li>
+    <li class="lg__slide lg__slide--port">
+      <figure class="lg__media"><img src="assets/img/photos/campus-entrance.webp" alt="The institute entrance with the Vajiram &amp; Ravi sign" width="900" height="1600" loading="lazy" decoding="async" style="object-position:50% 32%"></figure>
+      <p class="lg__cap"><b>The entrance</b><span>The sign on Pusa Road</span></p>
+    </li>
+    <li class="lg__slide lg__slide--land">
+      <figure class="lg__media"><img src="assets/img/photos/why-6-classroom-online.webp" alt="A Vajiram &amp; Ravi classroom with the lecture streaming live to online students" width="1536" height="1024" loading="lazy" decoding="async" style="object-position:50% 40%"></figure>
+      <p class="lg__cap"><b>Classroom + LIVE-Online</b><span>The same teachers and the same tests</span></p>
+    </li>
+    <li class="lg__slide lg__slide--vid lg__slide--port">
+      <figure class="lg__media"><video poster="assets/img/photos/faculty-2.jpg" data-src="assets/video/faculty.mp4" muted loop playsinline preload="none" aria-label="Video: a member of the faculty"></video><span class="lg__badge" aria-hidden="true"><svg viewBox="0 0 24 24" width="12" height="12"><path d="M8 5.5v13l11-6.5z"/></svg>Video</span></figure>
+      <p class="lg__cap"><b>From our faculty</b><span>Subject specialists, one paper each</span></p>
+    </li>
+    <li class="lg__slide lg__slide--land">
+      <figure class="lg__media"><img src="assets/img/photos/campus-hd.webp" alt="The Vajiram &amp; Ravi campus gate and building at Old Rajinder Nagar" width="2000" height="1334" loading="lazy" decoding="async" style="object-position:62% 50%"></figure>
+      <p class="lg__cap"><b>The campus</b><span>Old Rajinder Nagar since 1976</span></p>
+    </li>
+  </ul>
+  </div>
+  <!-- All / Images / Videos, under the pictures (user 2026-11-16) -->
+  <div class="lg__tabs" role="tablist" aria-label="Show">
+    <button type="button" class="lg__tab" role="tab" data-f="all" aria-selected="true" aria-controls="lifeTrack">All</button>
+    <button type="button" class="lg__tab" role="tab" data-f="img" aria-selected="false" aria-controls="lifeTrack" tabindex="-1">Images</button>
+    <button type="button" class="lg__tab" role="tab" data-f="vid" aria-selected="false" aria-controls="lifeTrack" tabindex="-1">Videos</button>
+    <span class="lg__ind" aria-hidden="true"></span>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="sheet sheet--pad sheet--gap faq" id="faq" aria-labelledby="faqH">
+  <div class="faq__l">
+    <h2 id="faqH" class="h2 h2--sec rv" style="--d:.12s">Frequently asked questions</h2>
+    <div class="rv-btn rv" style="--d:.28s"><a class="bt bt--brand" href="#contact">Talk to a counsellor<span class="sq sq--52 sq--white"><img src="assets/img/icons/arrow-brand.svg" alt="" width="16" height="16"></span></a></div>
+  </div>
+  <div class="qas" id="faqList"></div>
+</section>
+
 
 
 <dialog class="dlg" id="yd" aria-labelledby="ydH">
@@ -876,11 +676,14 @@
     <img class="cl__glow cl__glow--b" src="assets/img/patterns/cta-glow-2.svg" alt="" width="820" height="600" aria-hidden="true">
     <img class="cl__lotus" src="assets/img/brand/lotus-line.svg" alt="" width="560" height="560" aria-hidden="true">
     <span class="cl__spot" aria-hidden="true"></span>
+    <!-- AIR 1 and AIR 2 as black-and-white cut-outs at the card's two sides, as on the reference build (user 2026-11-16) -->
+    <figure class="cl__tp cl__tp--l rv" style="--d:.2s"><img src="assets/img/toppers/cta/air1-anuj-agnihotri.webp" alt="Anuj Agnihotri, All India Rank 1, UPSC CSE 2025" width="1200" height="1200" loading="lazy" decoding="async"><figcaption class="cl__tp-cap"><b>AIR 1</b><span>Anuj Agnihotri</span></figcaption></figure>
+    <figure class="cl__tp cl__tp--r rv" style="--d:.3s"><img src="assets/img/toppers/cta/air2-rajeshwari-suve-m.webp" alt="Rajeshwari Suve M, All India Rank 2, UPSC CSE 2025" width="1200" height="1200" loading="lazy" decoding="async"><figcaption class="cl__tp-cap"><b>AIR 2</b><span>Rajeshwari Suve M</span></figcaption></figure>
     <div class="cl__copy">
       <p class="cl__proof rv" style="--d:.05s"><span class="cl__faces" aria-hidden="true"><img src="assets/img/toppers/cta/ranker-1.png" alt="" width="32" height="32" loading="lazy"><img src="assets/img/toppers/cta/ranker-2.png" alt="" width="32" height="32" loading="lazy"><img src="assets/img/toppers/cta/ranker-3.png" alt="" width="32" height="32" loading="lazy"><img src="assets/img/toppers/cta/ranker-4.png" alt="" width="32" height="32" loading="lazy"><img src="assets/img/toppers/cta/ranker-5.png" alt="" width="32" height="32" loading="lazy"></span>36/50 CSE 2025 rankers from V&amp;R</p>
       <h2 id="clH" class="h2 cl__h rv" style="--d:.12s">Ready to start your UPSC preparation?</h2>
       <p class="cl__p rv" style="--d:.2s">Find the programme that fits your stage, or talk to a counsellor who will help you choose. No pressure to enrol.</p>
-      <p class="cl__btns rv" style="--d:.28s"><a class="bt bt--ink" href="#courses">Find your course<span class="sq"><img src="assets/img/icons/arrow-ur-white.svg" alt="" width="14" height="14"></span></a><a class="bt bt--white" href="#contact">Talk to a counsellor<span class="sq sq--brand"><img src="assets/img/icons/arrow-white.svg" alt="" width="16" height="16"></span></a></p>
+      <p class="cl__btns rv" style="--d:.28s"><a class="bt bt--ink" href="#courses">Find your course<span class="sq"><img src="assets/img/icons/arrow-ur-white.svg" alt="" width="14" height="14"></span></a><a class="bt bt--white bt--plain" href="#contact">Talk to a counsellor</a></p>
       <p class="cl__call rv" style="--d:.36s">Prefer to call? <a href="tel:+918062206330">080-6220-6330</a> · Mon – Sat, 9 AM – 7 PM</p>
     </div>
   </div>
@@ -985,25 +788,24 @@
 <script src="js/custom-select.js?v=3"></script>
 <script src="js/content.js?v=53"></script>
 <script src="js/batches-row.js?v=4"></script>
-<script src="js/resources-stack.js?v=2"></script>
-<script src="js/hero-v6.js?v=12"></script>
-<script src="js/faculty-ring.js?v=11"></script>
-<script src="js/mobile.js?v=1"></script>
-<script src="js/programme-shelf.js?v=4"></script>
+<script src="js/hero-v6.js?v=14"></script>
+<script src="js/faculty-ring.js?v=12"></script>
+<script src="js/mobile.js?v=2"></script>
+<script src="js/programme-shelf.js?v=5"></script>
 <script src="js/vendor/lenis.min.js"></script>
 <script src="js/hero-kit.js"></script>
 <script src="js/scroll.js"></script>
 <script src="js/hero-stop.js?v=2"></script>
-<script src="js/page-motion.js?v=20"></script>
+<script src="js/page-motion.js?v=25"></script>
 <script src="js/visit-gallery.js?v=4"></script>
-<script src="js/life-gallery.js?v=22"></script>
+<script src="js/life-gallery.js?v=27"></script>
 <script src="js/story.js?v=5"></script>
 <script src="js/accordion.js"></script>
 <script src="js/footer-curtain.js?v=3"></script>
 <script src="js/footer-word.js?v=4"></script>
 <script src="js/trending.js?v=3"></script>
-<script src="js/diamond-reel.js?v=9"></script>
+<script src="js/diamond-reel.js?v=10"></script>
 <script src="js/podium-fx.js?v=7"></script>
-<script src="js/stars.js?v=3"></script>
+<script src="js/stars.js?v=4"></script>
 </body>
 </html>

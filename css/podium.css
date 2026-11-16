@@ -11,8 +11,8 @@
    the site's orange so it sits with the rest of the page. Dark enough that the white and metal type has its contrast without more help. */
 #toppers.pd { --pd-gold: #FFD48A; --pd-plate-a: #8E2F0C; --pd-plate-b: #6C2208; --pd-line: rgba(255, 255, 255, .42);
   position: relative; isolation: isolate; padding-left: var(--px); padding-right: var(--px); color: #fff; text-align: center;
-  background: linear-gradient(rgba(194, 65, 12, .2), rgba(194, 65, 12, .2)),
-              url(../assets/img/photos/toppers-bokeh-bg.jpg) center / cover no-repeat, #3A0E06; }
+  background: linear-gradient(rgba(194, 65, 12, .68), rgba(194, 65, 12, .68)),
+              url(../assets/img/photos/toppers-bokeh-bg.jpg) center / cover no-repeat, var(--brand, #C2410C); }
 #toppers.pd::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none;
   background: url(../assets/img/patterns/grain.png) repeat fixed; background-size: 220px; mix-blend-mode: soft-light; opacity: .35; }
 @media (max-width: 1023px), (hover: none) {
@@ -395,3 +395,11 @@
 .dr__view:has(.is-drag) { cursor: grab; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
 .dr__view.is-grabbing { cursor: grabbing; }
 .dr__view img { -webkit-user-drag: none; }
+
+/* "36 rank holders, CSE 2025" given more prominence (user 2026-11-16): larger, white, the warm gold flourishes brighter */
+.dr__h { font-size: 24px; letter-spacing: .12em; color: #fff; text-shadow: 0 2px 14px rgba(80, 20, 0, .35); }
+.dr__h::before, .dr__h::after { height: 2px; width: min(200px, 18vw); }
+@media (max-width: 640px) { .dr__h { font-size: 17px; letter-spacing: .08em; gap: 10px; } .dr__h::before, .dr__h::after { width: 24px; } }
+
+/* performance (user 2026-11-16): the looping animations rest while the section is off screen (.pd--off, set by stars.js) */
+#toppers.pd--off, #toppers.pd--off *, #toppers.pd--off *::before, #toppers.pd--off *::after { animation-play-state: paused !important; }
