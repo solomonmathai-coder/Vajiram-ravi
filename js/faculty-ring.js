@@ -4,7 +4,7 @@
    are in black and white (colour on hover) and fade into the section's paper as they turn away.
 
    Each card, after the Figma card (VAR, 4102:399 "Photo"): the portrait fills it with 20px corners, a 200px scrim
-   rises from the foot, and over it the name (Mukta SemiBold 18/25) and subject (Source Sans 3 Medium 14/23) in
+   rises from the foot, and over it the name (Mukta SemiBold 18/25) and subject (IBM Plex Sans Medium 14/23) in
    white beside the LinkedIn mark; at the top left, the years of experience on a compact orange seal.
 
    It turns by drag, a sideways trackpad swipe, the arrows beside the ring, the dots, the ← → keys or a click on a

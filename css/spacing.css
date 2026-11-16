@@ -1,0 +1,29 @@
+/* One spacing rhythm (user 2026-11-16, "make top and bottom padding 72 for all sections"): every section after the hero has 72px above
+   and below its content, on every screen, instead of the mix that had built up (7vw up to 104px, half that on some sides, 254px under
+   Programmes). Loaded last, with selectors strong enough to win over the older rules.
+   Not touched: the hero; "Why Vajiram & Ravi" (#story), a pinned full-screen scene whose content is centred, with no padding; the
+   footer, which is not a section. */
+:root body main section:is(#courses, #toppers, #stories, #gs, #faculty, #batches, #resources, #lifeGal, #faq, #visit) {
+  padding-top: 72px; padding-bottom: 72px; }
+
+/* Talk to us: its spacing sits on its inner wrapper and on the margin under its two columns */
+:root body main #contact > .contact__in { padding-top: 72px; }
+:root body main #contact .contact__l, :root body main #contact .form { margin-bottom: 72px; }
+
+/* the closing card follows Contact us directly (Contact us gives the 72px above it); 72px under it */
+:root body main section#closing { padding-top: 0; padding-bottom: 72px; }
+
+/* One gap between a section's heading and its content (user 2026-11-16, "follow the same gap that is applied to the programme section"):
+   68px, as in Programmes from its tabs to the book covers, measured from the bottom of the heading group (the heading, with its intro
+   line or tabs where it has one) to the top of what is first seen of the content (the highest card, portrait or panel). The sections laid
+   out side by side (GS, Talk to us, FAQ), with the heading beside the content, have no such gap and are left as they are. Where the
+   content leans or curves (toppers, testimonials, the gallery) the figure is set for desktop widths. */
+:root body #faculty .fr { margin-top: 36px; }                           /* 60 -> 68 (to the tall end cards) */
+:root body #batches .brow { margin-top: 99px; }                         /* 38 -> 68 (from "View all batches" to the tickets; this margin merges with the heading block's own, and the row starts 16px up) */
+:root body #resources .rk { margin-top: 72px; }                         /* 44 -> 68 */
+:root body #visit .cx { margin-top: 63px; }                             /* 44 -> 68 (from the intro line to the card, map and photos) */
+@media (min-width: 761px) {
+  :root body #toppers .pd__row { margin-top: 44px; }                    /* 80 -> 68 (to AIR 1's head over the crest) */
+  :root body #stories .pst__track { margin-top: -17px; }                /* 85 -> 68 (to the highest tilted card) */
+  :root body #lifeGal .lg__track { margin-top: calc(68px + 21px - var(--cpad)); }   /* 31 -> 68 (the edge cards rise 21px over the row's top) */
+}
