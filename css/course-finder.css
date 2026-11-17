@@ -482,3 +482,14 @@ html.cf-locked { overflow: hidden; }
 @keyframes cf-pick-flip { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
 .cf-book.is-flip .ps-extras .ps-back, .cf-book.is-flip .ps-extras .ps-pages { visibility: hidden; }
 @media (prefers-reduced-motion: reduce) { .cf-book.is-flip .cf-book__body { animation: none; } }
+
+/* ---------- v2: the header carries the flagship programme's background picture (user 2026-11-17, "add the bg image used in flagship
+   courses to the main header"): the Delhi monument collage (assets/img/photos/collage.png, homepage #gs .cut) in pale grey, blended
+   into the orange ground under the grain, strongest at the two sides and fading out behind the title and stats ---------- */
+.cf-hero__bg { position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: url(../assets/img/photos/collage.png) center 30% / cover no-repeat;
+  filter: grayscale(1) contrast(1.15) brightness(2.2); opacity: .28; mix-blend-mode: soft-light;
+  -webkit-mask: linear-gradient(90deg, #000 0%, rgba(0, 0, 0, .55) 30%, rgba(0, 0, 0, .25) 50%, rgba(0, 0, 0, .55) 70%, #000 100%);
+          mask: linear-gradient(90deg, #000 0%, rgba(0, 0, 0, .55) 30%, rgba(0, 0, 0, .25) 50%, rgba(0, 0, 0, .55) 70%, #000 100%); }
+/* v2: the phone number on the counsellor card without its icon (user 2026-11-17) */
+.cf-help__tel { gap: 0; }
