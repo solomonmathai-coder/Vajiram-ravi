@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UPSC Courses: Course Finder | Vajiram &amp; Ravi IAS Institute</title>
+<meta name="description" content="Find your UPSC course at Vajiram &amp; Ravi: GS Foundation, optional subjects, CSAT, mentorship, Prelims and Mains test series and interview guidance, in Classroom and LIVE-Online, English and Hindi.">
+<meta name="theme-color" content="#C2410C">
+<link rel="icon" href="assets/img/brand/emblem.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,300&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Tiro+Devanagari+Hindi:ital@0;1&display=swap" rel="stylesheet">
+<!-- the homepage's styles for the nav, buttons and footer, then this page's own -->
+<link rel="stylesheet" href="css/v49.css?v=334">
+<link rel="stylesheet" href="css/cta-shine.css?v=2">
+<link rel="stylesheet" href="css/footer-v6.css?v=5">
+<link rel="stylesheet" href="css/mobile.css?v=9">
+<link rel="stylesheet" href="css/mobile-fixes.css?v=19">
+<link rel="stylesheet" href="css/programme-shelf.css?v=9">
+<link rel="stylesheet" href="css/course-finder.css?v=50">
+<link rel="stylesheet" href="css/ref-nav.css?v=1">
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body class="cfp">
+
+<!-- ============ floating navigation (the homepage's) ============ -->
+<!-- the reference build's nav (user 2026-11-17, "use the same nav bar and its behaviour"): css/ref-nav.css, js/site-nav.js -->
+<header class="rn is-open" id="nav">
+  <div class="rn__pill">
+    <a class="rn__logo" href="index.html" aria-label="Vajiram &amp; Ravi home"><img class="lg--l" src="assets/img/brand/logo-white.png" alt="Vajiram &amp; Ravi, Institute for IAS Examination" width="966" height="227"><img class="lg--d" src="assets/img/brand/logo.png" alt="" width="966" height="227"></a>
+    <nav class="rn__links" aria-label="Main">
+      <div class="explore" id="explore">
+        <button class="rn__a" id="exploreBtn" type="button" aria-expanded="false" aria-controls="mega">All courses</button>
+        <div class="mega" id="mega"></div>
+      </div>
+      <a class="rn__a" href="index.html#toppers" data-more="toppers">Toppers</a>
+      <div class="explore explore--sm" id="studyNav">
+        <button class="rn__a" id="studyBtn" type="button" aria-expanded="false" aria-controls="megaSm">Study materials</button>
+        <div class="mega mega--sm" id="megaSm"></div>
+      </div>
+      <a class="rn__a" href="index.html#gs" data-more="gs">UPSC exam</a>
+      <a class="rn__a" href="index.html#batches" data-more="batches">Upcoming batches</a>
+      <a class="rn__a" href="index.html#faq" data-more="faq">FAQs</a>
+      <div class="rn__more" id="navMore" hidden>
+        <button class="rn__a" id="moreBtn" type="button" aria-expanded="false" aria-controls="moreMenu" aria-haspopup="true"><span class="rn__more-t">More</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></button>
+        <ul class="rn-more" id="moreMenu">
+          <li data-more="toppers" hidden><a href="index.html#toppers">Toppers</a></li>
+          <li data-more="gs" hidden><a href="index.html#gs">UPSC exam</a></li>
+          <li data-more="batches" hidden><a href="index.html#batches">Upcoming batches</a></li>
+          <li data-more="faq" hidden><a href="index.html#faq">FAQs</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+  <div class="rn__end">
+    <div class="rn-lang" id="langSw" role="group" aria-label="Language / भाषा" data-cur="en"><span class="rn-lang__thumb" aria-hidden="true"></span><button class="rn-lang__b" type="button" data-lang="en" lang="en" aria-pressed="true" title="English">EN</button><button class="rn-lang__b" type="button" data-lang="hi" lang="hi" aria-pressed="false" title="हिन्दी">हिं</button></div>
+    <a class="rn__talk" href="index.html#contact"><span class="rn__talk-t">Let's talk</span><span class="rn__disc" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></span></a>
+  </div>
+  <button class="rn__burger" id="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="drawer"><span></span><span></span></button>
+</header>
+<div class="rn-drawer" id="drawer" hidden>
+  <a href="#cat=all" data-cf-cat="all">All courses</a><a href="index.html#toppers">Toppers</a><a href="index.html#resources">Study materials</a><a href="index.html#gs">UPSC exam</a><a href="index.html#batches">Upcoming batches</a><a href="index.html#faq">FAQs</a><a href="index.html#contact">Contact us</a>
+  <div class="rn-drawer__end"><div class="rn-lang" role="group" aria-label="Language / भाषा" data-cur="en"><span class="rn-lang__thumb" aria-hidden="true"></span><button class="rn-lang__b" type="button" data-lang="en" lang="en" aria-pressed="true" title="English">EN</button><button class="rn-lang__b" type="button" data-lang="hi" lang="hi" aria-pressed="false" title="हिन्दी">हिं</button></div><a class="rn__talk" href="index.html#contact"><span class="rn__talk-t">Let's talk</span><span class="rn__disc" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></span></a></div>
+</div>
+
+<main id="top" class="cf">
+  <!-- ============ page head, on the orange ground ============ -->
+  <section class="cf-hero" aria-labelledby="cfH">
+    <div class="cf-hero__in">
+      <nav class="cf-crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><span aria-current="page">Courses</span></nav>
+      <h1 class="cf-h" id="cfH">Find your UPSC course</h1>
+      <p class="cf-lede">Prelims to Interview. Classroom and LIVE-Online programmes, in English and <span lang="hi">हिंदी</span>.</p>
+      <ul class="cf-stats" id="cfTally" aria-label="The courses at a glance"></ul>
+    </div>
+  </section>
+
+  <!-- ============ categories: one book per category on a walnut plank (the homepage's programme books) ============ -->
+  <section class="cf-shelf" aria-labelledby="cfShelfH">
+    <div class="cf-shelf__hd">
+      <h2 class="cf-shelf__h" id="cfShelfH">Categories</h2>
+    </div>
+    <div class="cf-shelf__stage">
+      <div class="cf-shelf__rail" id="cfShelf">
+        <div class="cf-shelf__track" id="cfBooks" role="group" aria-label="Course categories"></div>
+      </div>
+      <button class="cf-arw cf-arw--prev" type="button" data-dir="-1" aria-label="Previous categories" aria-controls="cfShelf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
+      <button class="cf-arw cf-arw--next" type="button" data-dir="1" aria-label="Next categories" aria-controls="cfShelf"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+    </div>
+  </section>
+
+  <!-- ============ filters on the left, results on the right ============ -->
+  <section class="cf-body" aria-label="Courses">
+    <div class="cf-side">
+    <aside class="cf-filters" aria-labelledby="cfFiltH">
+      <div class="cf-filters__hd">
+        <h2 class="cf-filters__h" id="cfFiltH">Filters</h2>
+        <button class="cf-clear" type="button" data-clear hidden>Clear filters (<span id="cfNF">0</span>)</button>
+        <button class="cf-filters__tog" type="button" aria-expanded="false" aria-controls="cfGroups"><span>Show filters</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+      <div class="cf-filters__groups" id="cfGroups"></div>
+    </aside>
+      <!-- counsellor card, under the filters (user 2026-11-17: the full-width banner restructured) -->
+      <aside class="cf-help" aria-labelledby="cfHelpH">
+        <div class="cf-help__top">
+          <span class="cf-help__ic" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 9C9 5.49997 14.5 5.5 14.5 9C14.5 11.5 12 10.9999 12 13.9999"/><path d="M12 18.01L12.01 17.9989"/><path d="M4 13V12C4 7.58172 7.58172 4 12 4C16.4183 4 20 7.58172 20 12V13"/><path d="M4 13C4 14.6569 5.34315 16 7 16V12C5.34315 12 4 13.3431 4 15"/><path d="M20 13C20 14.6569 18.6569 16 17 16V12C18.6569 12 20 13.3431 20 15"/><path d="M17 16V17C17 19 15 20 12 20"/></svg></span>
+          <h2 class="cf-help__h" id="cfHelpH"><span class="cf-help__h-l">Not sure which programme is right for you?</span><span class="cf-help__h-s">Talk to a counsellor</span></h2>
+        </div>
+        <p class="cf-help__p">Speak with our academic counsellors.</p>
+        <a class="cf-help__tel" href="tel:+918062206330"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.118 14.702L14 15.5c-2.782-1.396-4.5-3-5.5-5.5l.77-4.13L7.815 2H4.064C2.936 2 2.047 2.932 2.215 4.047 2.635 6.83 3.874 11.877 7.5 15.5c3.808 3.808 9.29 5.46 12.304 6.117 1.164.253 2.196-.655 2.196-1.847v-3.584l-3.882-1.484Z"/></svg>080-6220-6330</a>
+        <p class="cf-help__hrs">Mon – Sat, 9 AM – 7 PM</p>
+        <a class="bt bt--brand cf-help__cta" href="index.html#contact">Get expert guidance<span class="sq"></span></a>
+      </aside>
+    </div>
+    <div class="cf-main">
+      <p class="cf-count vh" id="cfCount" aria-live="polite"></p><!-- for screen readers only: the visible line was removed (user 2026-11-17) -->
+      <div class="cf-out" id="cfOut"></div>
+      <div class="cf-empty" id="cfEmpty" hidden>
+        <p class="cf-empty__h">Nothing matches those filters.</p>
+        <p class="cf-empty__p">Try another category or fewer filters, or clear them to see every course.</p>
+        <button class="cf-clear" type="button" data-clear>Clear filters</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ course detail: a panel from the right (a sheet on phones) ============ -->
+<dialog class="cf-dlg" id="cfDlg" aria-labelledby="cfDlgH"><div class="cf-dlg__in" id="cfDlgIn"></div></dialog>
+
+<!-- ============ footer (the homepage's) ============ -->
+<footer class="vf">
+  <span class="foot__frame" aria-hidden="true"></span><!-- the gold double rule and corner diamonds of version 8's orange footer (Figma 2164:5557; css/v49.css .foot__frame), user 2026-11-16 -->
+  <div class="vf__in">
+    <div class="vf__bar">
+      <a class="vf__logo" href="index.html" aria-label="Vajiram &amp; Ravi, back to top"><img src="assets/img/brand/logo-v6.webp" alt="" width="617" height="206" loading="lazy" decoding="async"></a>
+      <ul class="vf__socials" aria-label="Vajiram &amp; Ravi on social media"><li><a href="https://vajiramandravi.com/" target="_blank" rel="noopener" aria-label="YouTube"><span class="vf__soc" style="--m:url(../assets/img/footer/social-youtube.svg)" aria-hidden="true"></span></a></li><li><a href="https://vajiramandravi.com/" target="_blank" rel="noopener" aria-label="Facebook"><span class="vf__soc" style="--m:url(../assets/img/footer/social-facebook.svg)" aria-hidden="true"></span></a></li><li><a href="https://vajiramandravi.com/" target="_blank" rel="noopener" aria-label="Instagram"><span class="vf__soc" style="--m:url(../assets/img/footer/social-instagram.svg)" aria-hidden="true"></span></a></li><li><a href="https://vajiramandravi.com/" target="_blank" rel="noopener" aria-label="Telegram"><span class="vf__soc" style="--m:url(../assets/img/footer/social-telegram.svg)" aria-hidden="true"></span></a></li><li><a href="https://vajiramandravi.com/" target="_blank" rel="noopener" aria-label="Quora"><span class="vf__soc" style="--m:url(../assets/img/footer/social-quora.svg)" aria-hidden="true"></span></a></li><li><a href="https://vajiramandravi.com/" target="_blank" rel="noopener" aria-label="WhatsApp channel"><span class="vf__soc" style="--m:url(../assets/img/footer/social-whatsapp.svg)" aria-hidden="true"></span></a></li></ul>
+    </div>
+    <div class="vf__top">
+    <nav class="vf__cols" aria-label="Footer">
+      <div class="vf__col"><h2 class="vf__h">Vajiram &amp; Ravi</h2><ul><li><a href="https://vajiramandravi.com/about-us/" target="_blank" rel="noopener">About Us</a></li><li><a href="https://vajiramandravi.com/careers/" target="_blank" rel="noopener">Careers</a></li><li><a href="index.html#contact">Contact Us</a></li><li><a href="index.html#faq">FAQs</a></li></ul></div>
+      <div class="vf__col"><h2 class="vf__h">Courses &amp; Test Series</h2><ul><li><a href="https://vajiramandravi.com/courses/upsc-gs-course/" target="_blank" rel="noopener">GS Course 2027</a></li><li><a href="https://vajiramandravi.com/courses/2-year-upsc-course/" target="_blank" rel="noopener">2 Year Course</a></li><li><a href="https://vajiramandravi.com/upsc-online-coaching/" target="_blank" rel="noopener">Online Coaching</a></li><li><a href="https://vajiramandravi.com/courses/upsc-csat-course/" target="_blank" rel="noopener">CSAT Course</a></li><li><a href="https://vajiramandravi.com/courses/upsc-module-courses/current-affairs-course/" target="_blank" rel="noopener">Current Affairs Course</a></li><li><a href="https://vajiramandravi.com/courses/prelims-test-series/" target="_blank" rel="noopener">Prelims Test Series 2027</a></li><li><a href="https://vajiramandravi.com/courses/upsc-mains-test-series/" target="_blank" rel="noopener">Mains Test Series 2027</a></li><li><a href="https://vajiramandravi.com/courses/upsc-mains-optional-subject-test-series/" target="_blank" rel="noopener">Optional Test Series</a></li><li><a href="https://vajiramandravi.com/courses/upsc-mentorship-program/" target="_blank" rel="noopener">Mentorship Program 2027</a></li><li><a href="https://vajiramandravi.com/courses/interview-guidance-program/" target="_blank" rel="noopener">Interview Guidance Program</a></li></ul></div>
+      <div class="vf__col"><h2 class="vf__h">UPSC Exam</h2><ul><li><a href="https://vajiramandravi.com/upsc-syllabus/" target="_blank" rel="noopener">Syllabus &amp; Exam Pattern</a></li><li><a href="https://vajiramandravi.com/upsc-exam/optional-subjects-for-upsc/" target="_blank" rel="noopener">Optional Subjects List</a></li><li><a href="https://vajiramandravi.com/upsc-exam/upsc-age-limit/" target="_blank" rel="noopener">Eligibility &amp; Age Limit</a></li><li><a href="https://vajiramandravi.com/upsc-exam/upsc-calendar/" target="_blank" rel="noopener">Exam Calendar 2027</a></li><li><a href="https://vajiramandravi.com/upsc-exam/upsc-admit-card/" target="_blank" rel="noopener">Admit Card &amp; Answer Key</a></li><li><a href="https://vajiramandravi.com/upsc-exam/upsc-cut-off/" target="_blank" rel="noopener">Cut Off &amp; Results</a></li><li><a href="https://vajiramandravi.com/upsc-exam/ias-salary/" target="_blank" rel="noopener">IAS Salary</a></li></ul></div>
+      <div class="vf__col"><h2 class="vf__h">Free Resources</h2><ul><li><a href="https://vajiramandravi.com/current-affairs/" target="_blank" rel="noopener">Current Affairs</a></li><li><a href="https://vajiramandravi.com/upsc-previous-year-papers/" target="_blank" rel="noopener">Previous Year Papers</a></li><li><a href="https://vajiramandravi.com/upsc-exam/upsc-book-list/" target="_blank" rel="noopener">Books &amp; Study Material</a></li><li><a href="https://vajiramandravi.com/upsc-exam/model-answers-for-upsc-mains/" target="_blank" rel="noopener">Model Answers for Mains 2026</a></li></ul></div>
+    </nav>
+      <section class="vf__news" aria-labelledby="vfNewsH">
+        <h2 class="vf__h vf__news-h" id="vfNewsH">Latest current affairs <span class="vf__live"><i aria-hidden="true"></i>Updated daily</span></h2>
+        <ul class="vf__news-list"><li><a href="https://vajiramandravi.com/current-affairs/upsc-mains-current-affairs/" target="_blank" rel="noopener"><span class="vf__tag">Mains</span><span class="vf__nt">Supreme Court redefines the meaning of &lsquo;industry&rsquo;</span><svg class="vf__arw" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></a></li><li><a href="https://vajiramandravi.com/current-affairs/upsc-mains-current-affairs/" target="_blank" rel="noopener"><span class="vf__tag">Mains</span><span class="vf__nt">NITI Aayog flags gap between education and employment</span><svg class="vf__arw" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></a></li><li><a href="https://vajiramandravi.com/current-affairs/upsc-prelims-current-affairs/" target="_blank" rel="noopener"><span class="vf__tag">Prelims</span><span class="vf__nt">Thiksey Monastery</span><svg class="vf__arw" viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></a></li></ul>
+      </section>
+    </div>
+    <div class="vf__word">
+      <span class="vh">Vajiram &amp; Ravi</span>
+      <svg aria-hidden="true" viewBox="0 0 1280 210" fill="none">
+        <defs>
+          <!-- softer (user 2026-11-16, "reduce the contrast of the shade"): the inner shadow at about half its strength and shorter, the white
+               edges gentler -->
+          <filter id="vf-deboss" x="-2%" y="-10%" width="104%" height="125%" color-interpolation-filters="sRGB">
+            <feOffset in="SourceAlpha" dy="4" result="down"/><feGaussianBlur in="down" stdDeviation="2.6" result="downSoft"/>
+            <feComposite in="SourceAlpha" in2="downSoft" operator="out" result="topBand"/>
+            <feFlood flood-color="#5a2a10" flood-opacity=".2" result="shadeInk"/><feComposite in="shadeInk" in2="topBand" operator="in" result="innerShade"/>
+            <feOffset in="SourceAlpha" dy="-2.2" result="up"/><feGaussianBlur in="up" stdDeviation="1.1" result="upSoft"/>
+            <feComposite in="SourceAlpha" in2="upSoft" operator="out" result="bottomBand"/>
+            <feFlood flood-color="#ffffff" flood-opacity=".55" result="lightInk"/><feComposite in="lightInk" in2="bottomBand" operator="in" result="innerLight"/>
+            <feOffset in="SourceAlpha" dy="2" result="lipDown"/><feComposite in="lipDown" in2="SourceAlpha" operator="out" result="lipBand"/>
+            <feFlood flood-color="#ffffff" flood-opacity=".55" result="lipInk"/><feComposite in="lipInk" in2="lipBand" operator="in" result="lip"/>
+            <feMerge><feMergeNode in="lip"/><feMergeNode in="SourceGraphic"/><feMergeNode in="innerShade"/><feMergeNode in="innerLight"/></feMerge>
+          </filter>
+        </defs>
+        <text x="640" y="172" text-anchor="middle" textLength="1272" lengthAdjust="spacingAndGlyphs" filter="url(#vf-deboss)">Vajiram &amp; Ravi</text>
+      </svg>
+    </div>
+    <div class="vf__legal">
+      <p>&copy; 2026 Vajiram &amp; Ravi. All rights reserved</p>
+      <nav aria-label="Legal"><a href="https://vajiramandravi.com/terms-and-conditions/" target="_blank" rel="noopener">Terms and conditions</a><a href="https://vajiramandravi.com/privacy-policy/" target="_blank" rel="noopener">Privacy policy</a><span>Grievance redressal</span></nav>
+    </div>
+  </div>
+</footer>
+
+<script src="js/data/courses.js?v=1"></script>
+<script src="js/course-finder.js?v=38"></script>
+<script src="js/site-nav.js?v=4"></script>
+</body>
+</html>
