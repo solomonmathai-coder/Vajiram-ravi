@@ -455,3 +455,16 @@ html.cf-locked { overflow: hidden; }
 
 /* the card's "View course" as a rounded pill (user 2026-11-18, "update the cta to a rounded cta in the course card") */
 .cf-k__go { height: 40px; padding: 0 18px; border-radius: 999px; }
+
+/* the badge chips (user 2026-11-18): one with no course behind it is greyed out and cannot be chosen; in the GS banner they sit on the
+   dark ground, under its description */
+.cf-chip:disabled { opacity: .45; cursor: not-allowed; border-style: dashed; }
+.cf-chip:disabled:hover { border-color: #CDBBA5; }
+.cf-feat .cf-chips { margin-top: 20px; }
+.cf-feat .cf-chip { border-color: rgb(255 212 138 / .45); background: transparent; color: #FFF3E1; }
+.cf-feat .cf-chip:hover { border-color: #FFF3E1; }
+.cf-feat .cf-chip[aria-pressed="true"] { border-color: #fff; background: #fff; color: var(--cf-ink); }
+.cf-feat .cf-chip:disabled:hover { border-color: rgb(255 212 138 / .45); }
+@media (max-width: 760px) { .cf-feat .cf-chips { margin-inline: calc(var(--px) * -1); } }
+.cf-feat .cf-chips { gap: 8px; flex-wrap: nowrap; }
+.cf-feat .cf-chip { min-height: 34px; padding: 0 14px; font-size: 14px; }

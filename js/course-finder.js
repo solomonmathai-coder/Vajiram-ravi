@@ -180,7 +180,7 @@
       // what the search looks through: the course's name, its category, its subject, its mode, its medium and its length
       const q = fold([v.t, t.label, famLabel[c.f], subLabel[c.s], modeTxt(v), v.l === 'hi' ? 'hindi हिंदी' : 'english', dur].join(' '));
       const b = badgeOf(c, v);
-      return `<li class="cf-k" data-mode="${v.k}" data-lang="${v.l}" data-sub="${c.s || ''}" data-q="${esc(q)}"><a class="cf-k__a" href="${esc(v.u)}" target="_blank" rel="noopener">
+      return `<li class="cf-k" data-mode="${v.k}" data-lang="${v.l}" data-sub="${c.s || ''}" data-badge="${b}" data-q="${esc(q)}"><a class="cf-k__a" href="${esc(v.u)}" target="_blank" rel="noopener">
         <span class="cf-k__pic"><img src="${v.i}" alt="" loading="lazy" decoding="async" width="450" height="300">${b ? `<span class="cf-badge cf-badge--${b}">${BADGE[b].label}</span>` : ''}</span>
         <span class="cf-k__b">
           <span class="cf-k__by">${LOGO}<span>Vajiram &amp; Ravi</span></span>
@@ -191,11 +191,12 @@
         <span class="cf-k__ft">${v.feeShort ? `<span class="cf-k__fee">${esc(v.feeShort)}<small>incl. GST</small></span>` : ''}<span class="cf-k__go">View course</span></span>
       </a></li>`;
     };
-    // the chips: a category taught by subject is split by subject (mode and medium are the bar's tabs, for every category at once)
-    const chipsFor = items => {
-      const subs = [...new Set(items.map(([c]) => c.s).filter(Boolean))];
-      return subs.length > 1 ? subs.sort((a, b) => subLabel[a].localeCompare(subLabel[b])).map(s => [`sub:${s}`, subLabel[s]]) : [];
-    };
+    // the chips (user 2026-11-18, "change this to new, trending, bestseller, apply this to all categories"; they were the subjects): the
+    // same four in every category, filtering it by the cards' badges; a chip with nothing behind it is greyed out and cannot be chosen
+    const CHIPS = [['badge:new', 'New'], ['badge:trending', 'Trending'], ['badge:bestseller', 'Bestseller']];
+    const chipRow = t => `<div class="cf-chips" role="group" aria-label="Show ${esc(t.label)} courses">
+          <button type="button" class="cf-chip" data-f="" aria-pressed="true">All</button>${CHIPS.map(([f, l]) => `<button type="button" class="cf-chip" data-f="${f}" aria-pressed="false">${esc(l)}</button>`).join('')}
+        </div>`;
     // a banner in the middle of the list offering a counsellor (user 2026-11-18, "add a banner in the middle to talk to a counselor", then
     // "take a look at the banner in the home page and update it"): the homepage's own (index.html #courses .prog__help, css/ref-port.css):
     // a white card with a thin orange inner rule, the headset (Iconoir's headset-help) in an orange disc, the question, the number and
@@ -211,7 +212,6 @@
     const secHTML = TREE.map(t => {
       const items = D.courses.filter(c => t.kids.includes(c.f)).flatMap(c => c.v.map(v => [c, v]));
       if (!items.length) return '';
-      const chips = chipsFor(items);
       const car = `<div class="cf-car">
           <ul class="cf-grid">${items.map(([c, v]) => card(c, v, t)).join('')}</ul>
           <button type="button" class="cf-arw cf-arw--prev" data-dir="-1" aria-label="Previous ${esc(t.label)} courses" hidden>${CHEV(-1)}</button>
@@ -228,6 +228,7 @@
           <div class="cf-feat__head">${bookFor('gs', t.label, items.length, true)}<h2 class="cf-sec__h" id="cath-gs"><span class="cf-sec__name">${esc(t.label)}</span><span class="cf-sec__n" data-total="${items.length}">${items.length} ${items.length === 1 ? 'course' : 'courses'}</span></h2></div>
           <p class="cf-sec__d">${esc(ABOUT.gs[0])}</p>
           <p class="cf-sec__who"><b>Who it’s for</b> ${esc(ABOUT.gs[1])}</p>
+          ${chipRow(t)}
         </div>
         ${car}
       </section>`;
@@ -237,9 +238,7 @@
         <h2 class="cf-sec__h" id="cath-${t.k}"><span class="cf-sec__name">${esc(t.label)}</span>${NEW.has(t.k) ? ' <span class="cf-new">New</span>' : ''}<span class="cf-sec__n" data-total="${items.length}">${items.length} ${items.length === 1 ? 'course' : 'courses'}</span></h2>
         ${ABOUT[t.k] ? `<div class="cf-sec__about"><p class="cf-sec__d">${esc(ABOUT[t.k][0])}</p><p class="cf-sec__who"><b>Who it’s for</b> ${esc(ABOUT[t.k][1])}</p></div>` : ''}
         </div></div>
-        ${chips.length ? `<div class="cf-chips" role="group" aria-label="Show ${esc(t.label)} courses">
-          <button type="button" class="cf-chip" data-f="" aria-pressed="true">All</button>${chips.map(([f, l]) => `<button type="button" class="cf-chip" data-f="${f}" aria-pressed="false">${esc(l)}</button>`).join('')}
-        </div>` : ''}
+        ${chipRow(t)}
         ${car}
       </section>`;
     });
@@ -258,12 +257,10 @@
     };
     const layout = sec => {
       const all = $$('.cf-k', sec), ok = all.filter(passes);
-      $$('.cf-chip[data-f^="sub:"]', sec).forEach(c => { c.hidden = !ok.some(k => `sub:${k.dataset.sub}` === c.dataset.f); });
-      const row = $('.cf-chips', sec);
-      if (row) row.hidden = $$('.cf-chip[data-f^="sub:"]:not([hidden])', sec).length < 2;   // one subject left: nothing to choose between
+      // a badge chip with no such course left (after the search and tabs) is greyed out; if it was the chosen one, All is chosen again
+      $$('.cf-chip[data-f^="badge:"]', sec).forEach(c => { c.disabled = !ok.some(k => `badge:${k.dataset.badge}` === c.dataset.f); });
       const on = $('.cf-chip[aria-pressed="true"]', sec);
-      if (row && row.hidden && on && on.dataset.f) on.hidden = true;
-      if (on && on.hidden) { $$('.cf-chip', sec).forEach(c => c.setAttribute('aria-pressed', String(!c.dataset.f))); sec.dataset.f = ''; }
+      if (on && on.disabled) { $$('.cf-chip', sec).forEach(c => c.setAttribute('aria-pressed', String(!c.dataset.f))); sec.dataset.f = ''; }
       const f = sec.dataset.f || '', [key, val] = f.split(':');
       const match = ok.filter(k => !f || k.dataset[key] === val);
       all.forEach(k => { k.hidden = !match.includes(k); });
