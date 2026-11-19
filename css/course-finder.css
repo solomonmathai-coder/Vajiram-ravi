@@ -810,3 +810,30 @@ html.cf-locked { overflow: hidden; }
 
 /* the breadcrumb in the hero's left corner (user 2026-11-18, "left corner"; it was at the right, and centred before that) */
 .cf-crumbs { justify-content: flex-start; }
+
+/* ---------- the line rail on tablets and phones (user 2026-11-19, "bring the same line indicator in mobile as well"): there is no
+   margin column, so the lines float at the screen's left edge, halfway down, on a small frosted tab, shown only while the course list
+   is being read (.is-shown, js/course-finder.js); a tap on them opens the same list of categories beside them ---------- */
+@media (max-width: 1100px) {
+  .cf-rail { display: block; position: fixed; left: 0; top: 50%; z-index: 26; translate: -100% -50%; opacity: 0; pointer-events: none;
+    transition: translate .4s cubic-bezier(.22, 1, .36, 1), opacity .3s; }
+  .cf-rail.is-shown { translate: 0 -50%; opacity: 1; pointer-events: auto; }
+  .cf-rail__in { position: static; translate: none; }
+  .cf-rail__btn { padding: 12px 10px 12px 8px; border: 1px solid var(--cf-line); border-left: 0; border-radius: 0 12px 12px 0;
+    background: rgb(255 251 245 / .86); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); box-shadow: 0 8px 20px -10px rgb(60 30 10 / .35); }
+  .cf-rail__ticks { gap: 6px; }
+  .cf-rail__ticks li { width: 12px; }
+  .cf-rail__ticks li.is-on { width: 22px; }
+  .cf-rail__btn:hover .cf-rail__ticks li:not(.is-on), .cf-rail.is-open .cf-rail__ticks li:not(.is-on) { width: 16px; }
+  .cf-rail__panel { left: calc(100% + 8px); width: min(280px, calc(100vw - 72px)); max-height: calc(100vh - 140px); overflow-y: auto; }
+  .cf-rail__go { padding: 10px 8px; }   /* a finger-sized row */
+}
+@media (max-width: 1100px) and (prefers-reduced-motion: reduce) { .cf-rail { transition: none; } }
+/* while its list is open the rail sits above the sticky search bar, so the list is never cut under it */
+@media (max-width: 1100px) { .cf-rail.is-open { z-index: 32; } }
+
+/* the tab behind the lines made lighter (user 2026-11-19, "let's go with a lighter box"): no border and no shadow, only a faint
+   frosted patch so the lines still read over white cards and course pictures */
+@media (max-width: 1100px) {
+  .cf-rail__btn { border: 0; box-shadow: none; background: rgb(255 251 245 / .55); -webkit-backdrop-filter: blur(6px) saturate(1.1); backdrop-filter: blur(6px) saturate(1.1); }
+}

@@ -586,7 +586,7 @@
        hovers over it they can see all the other categories, and by clicking on one they can go to it"): a slim column on the left of
        the course list, held halfway down the screen. A short line for every section, the one being read longer and in the brand colour,
        and beside them the book of the category being read, which flips as it changes. Hovering the rail (or pressing the book) opens a
-       list of every category, its cloth colour and its number of courses; choosing one scrolls to it. Desktop and laptop only. ---------- */
+       list of every category, its cloth colour and its number of courses; choosing one scrolls to it. On tablets and phones it floats at the screen's left edge and opens with a tap. ---------- */
     const rail = $('#cfRail');
     if (rail) {
       const secs = $$('.cf-sec', list).map(s => {
@@ -621,18 +621,31 @@
         // the list's sections hidden by the filters are dimmed in the panel
         $$('.cf-rail__go', rail).forEach(b => { b.disabled = $('#cat-' + b.dataset.k).hidden; });
         $$('.cf-rail__ticks li', rail).forEach(li => li.classList.toggle('is-off', $('#cat-' + li.dataset.k).hidden));
+        // on tablets and phones the rail floats at the screen's edge (user 2026-11-19, "bring the same line indicator in mobile as
+        // well"), shown only while the course list is what's being read
+        const lr = list.getBoundingClientRect(), mid = innerHeight / 2;
+        rail.classList.toggle('is-shown', lr.top < mid && lr.bottom > mid);
+        if (!rail.classList.contains('is-shown')) open(false);
+      };
+      // (openedAt: a tap fires focus, which opens the list, and then click; the click must not close it again straight away)
+      let openedAt = 0;
+      const open = on => {
+        if (on && !rail.classList.contains('is-open')) openedAt = performance.now();
+        rail.classList.toggle('is-open', on); btn.setAttribute('aria-expanded', String(on));
       };
       addEventListener('scroll', spy, { passive: true }); addEventListener('resize', spy);
       list.addEventListener('cf:layout', spy);
       spy(); rail.classList.add('is-ready');
-      const open = on => { rail.classList.toggle('is-open', on); btn.setAttribute('aria-expanded', String(on)); };
       // the list opens only from the lines (user 2026-11-18, "the list should only open when hovered over the lines"): hovering them,
       // or tabbing to them; it stays open while the pointer crosses the book to it, and closes when the pointer leaves the rail
       btn.addEventListener('mouseenter', () => open(true));
       btn.addEventListener('focus', () => open(true));
-      btn.addEventListener('click', () => open(!rail.classList.contains('is-open')));
+      btn.addEventListener('click', () => { if (performance.now() - openedAt > 400) open(!rail.classList.contains('is-open')); });
+      // a tap anywhere else closes it (touch screens have no pointer leaving the rail)
+      document.addEventListener('pointerdown', e => { if (rail.classList.contains('is-open') && !rail.contains(e.target)) open(false); });
       rail.addEventListener('mouseleave', () => open(false));
-      rail.addEventListener('focusout', e => { if (!rail.contains(e.relatedTarget)) open(false); });
+      // (only when focus moves to something else on the page: the window losing focus is no reason to close it)
+      rail.addEventListener('focusout', e => { if (e.relatedTarget && !rail.contains(e.relatedTarget)) open(false); });
       rail.addEventListener('keydown', e => { if (e.key === 'Escape') { open(false); btn.focus(); } });
       rail.addEventListener('click', e => { const g = e.target.closest('.cf-rail__go'); if (!g) return; open(false); window.__cfSetCat(g.dataset.k); });
     }
