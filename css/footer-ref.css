@@ -1,0 +1,146 @@
+/* The footer of the reference build (https://vajiram-ravi.abhishek-ps.workers.dev/, footer.vf; user 2026-11-18, "use the same footer and
+   the animation along with it"): its rules as that page computes them, in its order, image paths made relative to this file. The
+   animation (html.foot-curtain, --foot-off, --foot-p, .vf--zooming, .fb-anim.is-in) is driven by js/footer-ref.js: the footer
+   waits behind the page and is uncovered as the page scrolls off it, settling from 92% to full size as a dark veil lifts. */
+
+/* ---- the frame: a gold double rule with a diamond at each corner, fading and settling in ---- */
+.foot__frame { position: absolute; inset: 15px; z-index: -1; pointer-events: none; background: url("../assets/img/patterns/foot-diamond.svg") 0px 0px / 18px auto no-repeat, url("../assets/img/patterns/foot-diamond.svg") 100% 0px / 18px auto no-repeat, url("../assets/img/patterns/foot-diamond.svg") 0px 100% / 18px auto no-repeat, url("../assets/img/patterns/foot-diamond.svg") 100% 100% / 18px auto no-repeat; }
+.foot__frame::before { content: ""; position: absolute; inset: 9px; border: 1.2px solid rgb(217, 164, 65); outline: rgb(217, 164, 65) solid 0.6px; outline-offset: -6.6px; }
+@media (max-width: 640px) { .foot__frame { inset: 4px; } }
+.foot__frame.fb-anim { opacity: 0; transform: scale(1.012); transition: opacity .9s var(--ease, cubic-bezier(.22, 1, .36, 1)), transform 1.1s var(--ease, cubic-bezier(.22, 1, .36, 1)); }
+.foot__frame.fb-anim.is-in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .foot__frame.fb-anim { opacity: 1; transform: none; transition: none; } }
+
+/* ---- the footer ---- */
+.vf { --vf-paper: #FFF8EC; --vf-text: #6E655C; --vf-ink: #1A1714; --vf-burnt: #CC5500; --vf-rule: rgba(26, 23, 20, .12); position: relative; background: var(--vf-paper); color: var(--vf-text); font-family: var(--f, "IBM Plex Sans", system-ui, sans-serif); }
+.vf { isolation: isolate; }
+.vf .foot__frame { z-index: 0; }
+.vf .foot__frame { background-size: 8px auto; background-position: 5px 5px, calc(100% - 5px) 5px, 5px calc(100% - 5px), calc(100% - 5px) calc(100% - 5px); }
+html.foot-curtain footer.vf { position: sticky; bottom: var(--foot-off, 0px); z-index: 0; margin-top: 0px; }
+.vf__in { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 48px; max-width: 1280px; margin: 0px auto; padding: 72px max(var(--px, 24px), 48px) 56px; box-sizing: content-box; }
+.vf__bar { display: flex; align-items: center; justify-content: space-between; gap: 24px; width: 100%; padding-bottom: 24px; border-bottom: 1px solid var(--vf-rule); }
+.vf__logo { display: block; }
+.vf__logo img { display: block; width: 156px; height: auto; }
+.vf__socials { display: flex; align-items: center; gap: 12px; margin: 0px; padding: 0px; list-style: none; }
+.vf__socials a { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; color: var(--vf-text); transition: color 0.2s, background-color 0.2s; }
+.vf__socials a:hover, .vf__socials a:focus-visible { color: var(--vf-burnt); background: rgba(204, 85, 0, 0.1); }
+.vf__soc { display: block; width: 20px; height: 20px; background: currentcolor; -webkit-mask: var(--m) center / contain no-repeat; mask: var(--m) center / contain no-repeat; }
+.vf__top { display: grid; grid-template-columns: minmax(0px, 2.85fr) minmax(0px, 1.55fr); align-items: start; gap: 40px 56px; width: 100%; }
+.vf__cols { display: grid; grid-template-columns: 0.8fr 1.15fr 1.15fr 1fr; align-items: start; gap: 40px 32px; width: 100%; }
+.vf__col { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; min-width: 0px; }
+.vf__h { margin: 0px; font: 600 16px/22px "IBM Plex Sans", var(--f), sans-serif; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; color: var(--vf-ink); }
+.vf__col ul { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; margin: 0px; padding: 0px; list-style: none; }
+.vf__col a, .vf__legal a { font: 500 16px/22px var(--f, "IBM Plex Sans"), sans-serif; color: var(--vf-text); text-decoration: none; text-wrap: pretty; background: linear-gradient(currentcolor, currentcolor) 0px 100% / 0px 1px no-repeat; -webkit-box-decoration-break: clone; box-decoration-break: clone; transition: color 0.2s, background-size 0.25s; }
+.vf__col a:hover, .vf__col a:focus-visible, .vf__legal a:hover, .vf__legal a:focus-visible { color: var(--vf-burnt); background-size: 100% 1px; }
+.vf a:focus-visible { outline: 2px solid var(--vf-burnt); outline-offset: 3px; border-radius: 2px; }
+.vf__news { position: relative; padding: 22px 24px 8px 27px; border-radius: 14px; background: rgb(255, 255, 255); overflow: hidden; box-shadow: rgba(26, 23, 20, 0.05) 0px 1px 0px, rgba(110, 40, 8, 0.35) 0px 18px 40px -24px; }
+.vf__news::before { content: ""; position: absolute; left: 0px; top: 0px; bottom: 0px; width: 3px; background: linear-gradient(rgb(240, 138, 60), rgb(194, 65, 12)); }
+.vf__news-h { display: flex; align-items: center; flex-wrap: wrap; gap: 10px 12px; white-space: normal; }
+.vf__live { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; background: rgb(255, 241, 222); color: rgb(154, 52, 18); font: 700 11px/1.2 var(--f, "IBM Plex Sans"), sans-serif; letter-spacing: 0.08em; }
+.vf__live i { width: 6px; height: 6px; border-radius: 50%; background: rgb(232, 89, 12); animation: 1.8s ease-in-out 0s infinite normal none running vfPulse; }
+.vf__news-list { margin: 14px 0px 0px; padding: 0px; list-style: none; }
+.vf__news-list li + li { border-top: 1px solid var(--vf-rule); }
+.vf__news-list a { display: grid; grid-template-columns: minmax(0px, 1fr) auto; align-items: center; gap: 6px 16px; padding: 14px 0px; color: var(--vf-ink); text-decoration: none; }
+.vf__tag { grid-column: 1; justify-self: start; padding: 2px 9px; border: 1px solid rgba(204, 85, 0, 0.45); border-radius: 999px; color: rgb(154, 52, 18); font: 700 10.5px/1.4 var(--f, "IBM Plex Sans"), sans-serif; letter-spacing: 0.1em; text-transform: uppercase; }
+.vf__nt { grid-column: 1; font: 500 16px/1.35 var(--f, "IBM Plex Sans"), sans-serif; transition: color 0.2s; text-wrap: pretty; }
+.vf__arw { grid-area: 1 / 2 / span 2; width: 16px; height: 16px; fill: none; stroke: rgb(232, 89, 12); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; transition: translate 0.3s cubic-bezier(0.22, 1, 0.36, 1); }
+.vf__news-list a:hover .vf__nt, .vf__news-list a:focus-visible .vf__nt { color: var(--vf-burnt); }
+.vf__news-list a:hover .vf__arw, .vf__news-list a:focus-visible .vf__arw { translate: 4px; }
+.vf__word { width: 100%; user-select: none; }
+.vf__word svg { display: block; width: 100%; height: auto; overflow: visible; }
+.vf__word text { font: 700 224px "IBM Plex Sans", var(--f), sans-serif; letter-spacing: -0.03em; fill: rgb(246, 234, 216); }
+.vf__legal { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; width: 100%; padding-top: 24px; border-top: 1px solid var(--vf-rule); font-size: 14px; line-height: 20px; }
+.vf__legal p { margin: 0px; }
+.vf__legal nav { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+.vf__legal a, .vf__legal span { font-size: 14px; line-height: 20px; }
+@media (max-width: 1180px) { .vf__top { grid-template-columns: minmax(0px, 1fr); } }
+@media (max-width: 860px) { .vf__cols { grid-template-columns: repeat(2, minmax(0px, 1fr)); } }
+@media (max-width: 640px) { .vf__in { gap: 36px; padding: 52px 30px 44px; } }
+@media (max-width: 640px) { .vf__bar { flex-direction: column; align-items: flex-start; gap: 18px; } }
+@media (max-width: 640px) { .vf__socials { gap: 6px; margin-left: -6px; } }
+@media (max-width: 640px) { .vf__cols { gap: 32px 20px; } }
+@media (max-width: 640px) { .vf__h { white-space: normal; font-size: 14px; line-height: 20px; } }
+@media (max-width: 640px) { .vf__col, .vf__col ul { gap: 11px; } }
+@media (max-width: 640px) { .vf__col a { font-size: 15px; line-height: 21px; } }
+@media (max-width: 640px) { .vf__legal { flex-direction: column; } }
+@media (prefers-reduced-motion: reduce) { .vf__col a, .vf__legal a, .vf__socials a, .vf__nt, .vf__arw { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .vf__live i { animation: none; } }
+.vf .vf__h { font-family: var(--f); }
+.vf__word text { font-family: var(--f); }
+.vf__in { gap: 28px; padding-top: 52px; padding-bottom: 40px; }
+.vf__bar { padding-bottom: 18px; }
+.vf__top { gap: 28px 48px; }
+.vf__col, .vf__col ul { gap: 9px; }
+.vf__col a { line-height: 20px; }
+.vf__news { padding: 16px 20px 4px 23px; }
+.vf__news-list { margin-top: 8px; }
+.vf__news-list a { padding: 10px 0px; row-gap: 4px; }
+.vf__word { max-width: 860px; margin: -6px auto -10px; }
+.vf__legal { padding-top: 18px; }
+@media (max-width: 640px) { .vf__in { gap: 26px; padding: 40px 28px 34px; } }
+@media (max-width: 640px) { .vf__col, .vf__col ul { gap: 8px; } }
+.vf__in { gap: 22px; padding-top: 42px; padding-bottom: 32px; }
+.vf__bar { padding-bottom: 14px; }
+.vf__logo img { width: 136px; }
+.vf__top { gap: 22px 40px; }
+.vf__cols { row-gap: 28px; }
+.vf__col { gap: 10px; }
+.vf__col ul { gap: 6px; }
+.vf__h { font-size: 14px; line-height: 20px; }
+.vf__col a { font-size: 15px; line-height: 19px; }
+.vf__news { padding: 14px 18px 2px 21px; }
+.vf__news-list a { padding: 8px 0px; }
+.vf__nt { font-size: 15px; }
+.vf__word { max-width: 700px; margin: -10px auto -14px; }
+.vf__legal { padding-top: 14px; }
+@media (max-width: 640px) { .vf__in { gap: 22px; padding: 34px 26px 28px; } }
+@media (max-width: 640px) { .vf__col ul { gap: 6px; } }
+
+/* ---- the curtain: as the page scrolls off it, the footer settles from 92% to full size and a dark veil over it lifts ---- */
+html.foot-curtain .vf > .foot__frame, html.foot-curtain .vf > .vf__in { transform: scale(calc(.92 + var(--foot-p, 1) * .08)); transform-origin: 50% 50%; }
+html.foot-curtain .vf > .foot__frame { transition: opacity .9s var(--ease, cubic-bezier(.22, 1, .36, 1)); }
+html.foot-curtain .vf::after { content: ""; position: absolute; inset: 0px; z-index: 3; pointer-events: none; background: rgb(26, 10, 2); opacity: calc((1 - var(--foot-p, 1)) * .35); }
+@media (prefers-reduced-motion: reduce) { html.foot-curtain .vf > .foot__frame, html.foot-curtain .vf > .vf__in { transform: none; } }
+@media (prefers-reduced-motion: reduce) { html.foot-curtain .vf::after { display: none; } }
+@media (max-width: 760px) { html.foot-curtain footer.vf { position: relative; bottom: auto; z-index: auto; } }
+@media (max-width: 760px) { html.foot-curtain .vf > .foot__frame, html.foot-curtain .vf > .vf__in { transform: none; } }
+@media (max-width: 760px) { html.foot-curtain .vf::after { display: none; } }
+.vf__logo img { width: 220px; }
+@media (max-width: 760px) { .vf__logo { width: 100%; } }
+@media (max-width: 760px) { .vf__logo img { width: 100%; } }
+@media (max-width: 760px) { .vf__news { display: none; } }
+@media (max-width: 760px) { .vf__word { display: none; } }
+.vf__brand { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; min-width: 0px; }
+.vf__tagline { margin: 0px; font: italic 400 18px/1.35 var(--f-title, Georgia), serif; letter-spacing: -0.005em; color: var(--vf-ink); text-wrap: balance; }
+@media (max-width: 760px) { .vf__brand { width: 100%; } }
+@media (max-width: 760px) { .vf__tagline { font-size: 19px; } }
+@media (max-width: 760px) { .vf__bar > .vf__socials { align-self: center; justify-content: center; margin-left: 0px; } }
+.vf__tagline { font-style: normal; }
+@media (max-width: 760px) { .vf__brand { align-items: center; gap: 22px; text-align: center; } }
+@media (max-width: 760px) { .vf__tagline { font-size: 24px; line-height: 1.25; letter-spacing: -0.01em; } }
+@media (max-width: 760px) { .vf__tagline > span { display: block; } }
+@media (max-width: 760px) { .vf__bar { align-items: center; gap: 24px; } }
+@media (max-width: 760px) { .vf__legal { flex-direction: column; align-items: center; gap: 8px; text-align: center; } }
+@media (max-width: 760px) { .vf__legal p { font-size: 13px; line-height: 20px; opacity: 0.85; } }
+@media (max-width: 760px) { .vf__legal nav { justify-content: center; gap: 4px 20px; } }
+@media (max-width: 760px) { .vf__legal nav > * { padding-block: 2px; } }
+.vf__socials { gap: 8px; }
+.vf__socials a { width: 40px; height: 40px; }
+.vf__socials a .vf__soc { width: 20px; height: 20px; }
+@media (max-width: 760px) { .vf__socials { gap: 8px; } }
+@media (max-width: 760px) { .vf__socials a { width: 44px; height: 44px; } }
+@media (max-width: 760px) { .vf__socials a .vf__soc { width: 22px; height: 22px; } }
+.vf .vf__tagline { font: 400 clamp(22px, 2.2vw, 34px)/1.2 var(--f-title, "Newsreader"), Georgia, serif; letter-spacing: -0.01em; color: var(--vf-ink); }
+.vf .vf__tagline > span { display: inline-block; }
+.vf .vf__tagline > span + span { color: var(--vf-burnt); }
+@media (max-width: 760px) { .vf .vf__tagline { font-size: 26px; } }
+@media (max-width: 760px) { .vf .vf__tagline > span { display: block; } }
+html.foot-curtain .vf.vf--zooming > .vf__in, html.foot-curtain .vf.vf--zooming > .foot__frame { will-change: transform; }
+@media (min-width: 761px) { .vf .vf__in { padding-bottom: 52px; } }
+@media (min-width: 761px) { .vf .vf__tagline { display: none; } }
+.vf .vf__legal p, .vf .vf__legal a, .vf .vf__legal nav > span { font-size: 15px; line-height: 20px; }
+.vf .vf__legal nav > span { font-weight: 500; }
+@keyframes vfPulse { 50% { opacity: 0.35; scale: 0.8; } }
+
+/* ---- the course finder's own: the page sits over the footer, so the footer waits behind it (the reference's main does the same) ---- */
+html.foot-curtain main.cf { position: relative; z-index: 1; }

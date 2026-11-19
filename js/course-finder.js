@@ -74,6 +74,7 @@
        toward the reader, with a band of light crossing it now and then ---------- */
     const FOIL = '#f6c77a';
     const COVER = {
+      top: { light: '#4a3b31', base: '#33281f', deep: '#1c1510', emblem: 'layers', art: 'arcs' },
       gs: { light: '#d9581c', base: '#c2410c', deep: '#8f3010', emblem: 'books', art: 'bars' },
       optional: { light: '#c0362c', base: '#a3231c', deep: '#701510', emblem: 'quill', art: 'circles' },
       csat: { light: '#2e6a80', base: '#1f4a5f', deep: '#14323f', emblem: 'abacus', art: 'grid' },
@@ -89,6 +90,7 @@
       postal: { light: '#9b6a43', base: '#7d5233', deep: '#553621', emblem: 'books', art: 'circles' }
     };
     const DRAW = {   // the emblems, line drawings on 48 x 48 (from js/programme-shelf.js)
+      layers: '<path d="m24 15 9 4.5-9 4.5-9-4.5 9-4.5Z"/><path d="m15 24 9 4.5 9-4.5M15 28.5 24 33l9-4.5"/>',
       books: '<path d="M24 17c-2.6-1.8-6-2.4-10-2.2v16c4-.2 7.4.4 10 2.2 2.6-1.8 6-2.4 10-2.2v-16c-4-.2-7.4.4-10 2.2Z"/><path d="M24 17v16M17 20.5h3.5M17 24h3.5M27.5 20.5H31M27.5 24H31"/>',
       abacus: '<rect x="15" y="15" width="18" height="18" rx="2"/><path d="M15 21h18M15 27h18"/><circle cx="20" cy="21" r="1.6"/><circle cx="26" cy="21" r="1.6"/><circle cx="23" cy="27" r="1.6"/><circle cx="29" cy="27" r="1.6"/>',
       quill: '<path d="M33 15c-7 1-12 6-14 14l-1.5 4.5"/><path d="M33 15c-1 6-4.5 10.5-11 12.5"/><path d="M21 30.5h8"/>',
@@ -106,6 +108,7 @@
     const geo = (kind, accent, soft) => {   // the pressed motifs, on 100 x 100 (from js/programme-shelf.js)
       const m = (cls, a) => `<${a.tag || 'rect'} data-m="${cls}" ${Object.entries(a).filter(([k]) => k !== 'tag').map(([k, v]) => `${k}="${v}"`).join(' ')}/>`;
       const P = {
+        arcs: () => [m('s110', { tag: 'circle', cx: 22, cy: 104, r: 48, fill: soft, opacity: .35 }), m('s118', { tag: 'circle', cx: 22, cy: 104, r: 32, fill: soft, opacity: .5 }), m('ur', { tag: 'circle', cx: 66, cy: 62, r: 9, fill: accent })],
         bars: () => [m('l14', { x: 52, y: 45, width: 60, height: 13, rx: 6.5, fill: accent }), m('r8', { x: 22, y: 62, width: 90, height: 16, rx: 8, fill: soft, opacity: .75 }), m('l10', { x: 30, y: 82, width: 80, height: 14, rx: 7, fill: soft, opacity: .45 })],
         circles: () => [m('s112', { tag: 'circle', cx: 98, cy: 84, r: 44, fill: soft, opacity: .55 }), m('u6', { tag: 'circle', cx: 20, cy: 104, r: 36, fill: soft, opacity: .45 }), m('ul', { tag: 'circle', cx: 62, cy: 68, r: 16, fill: accent })],
         grid: () => [0, 1, 2].flatMap(r => [0, 1, 2].map(c => m(r === 1 && c === 1 ? 'rot-c' : 'rot', { x: 48 + c * 20, y: 46 + r * 20, width: 15, height: 15, rx: 2.5, fill: r === 1 && c === 1 ? accent : soft, opacity: r === 1 && c === 1 ? 1 : .6 }))),
@@ -127,7 +130,9 @@
     const bookFor = (k, label, n, small) => {
       const c = COVER[k]; if (!c) return '';
       const frame = `top:7px;right:7px;bottom:7px;left:${SW + 6}px`;
-      return `<span class="cf-bk ps-book${small ? ' cf-bk--sm' : ''}" aria-hidden="true"><span class="cf-bk__body">
+      // a small book (the rail's, the Top Picks banner's) is the full-size book drawn whole and scaled down as one (user 2026-11-18, "use a
+      // scaled down version of the book rather than adding text on top of them"), inside a box the size of the result
+      return `${small ? '<span class="cf-bk-mini">' : ''}<span class="cf-bk ps-book${small ? ' cf-bk--full' : ''}" aria-hidden="true"><span class="cf-bk__body">
         <span class="ps-extras"><span class="ps-foot"></span><span class="ps-back" style="background-color:${c.deep}"></span><span class="ps-pages"></span></span>
         <span class="cf-3d cf-3d--back" style="background:linear-gradient(220deg, ${c.light}, ${c.base} 50%, ${c.deep})"></span>
         <span class="cf-3d cf-3d--spine" style="background:linear-gradient(90deg, ${c.deep}, ${c.base} 45%, ${c.deep})"><i></i><i></i></span>
@@ -146,7 +151,7 @@
           </span>
           <span class="ps-shine"></span>
         </span>
-      </span></span>`;
+      </span></span>${small ? '</span>' : ''}`;
     };
     /* ---------- a course card (user 2026-11-18, "the hierarchy of this card is better"): the course's picture, the Vajiram & Ravi line,
        the course's name, its mode and length; then, from the homepage's "Next batches" ticket, only its dashed tear line and the round
@@ -161,7 +166,7 @@
       trending: { label: 'Trending', test: (c, v) => c.f === 'gs-11' || /^powerup prelims test series/i.test(v.t) }
     };
     const badgeOf = (c, v) => Object.keys(BADGE).find(k => BADGE[k].test(c, v)) || '';
-    const LOGO = '<img class="cf-k__logo" src="assets/img/brand/emblem.png" alt="" width="28" height="28">';
+    // (the Vajiram & Ravi line with its logo was taken off the cards, user 2026-11-18, "let's remove the Vajiram and Ravi logo")
     // the course's length, on its own line with a clock (user 2026-11-18, "introduce course duration to the cards"), as its page gives it,
     // tidied: "02 Months" to "2 Months", "24 weeks" to "24 Weeks", date ranges shortened ("1 Oct – 30 Nov 2026"); where the page gives
     // none (48 courses) the card says so rather than guess
@@ -174,26 +179,133 @@
       .replace(/\s+to\s+/gi, ' – ')
       .replace(/^(\d+) (\w{3}) (\d{4}) – (\d+) (\w{3}) \3$/, '$1 $2 – $4 $5 $3')   // one year written once
       .replace(/\b(days?|weeks?|months?|years?)\b/gi, w => w[0].toUpperCase() + w.slice(1).toLowerCase());
+    // the target exam year, for the Target year filter: the year in the course's name (its page's title), e.g. "UPSC GS Course 2028"
+    const yearsOf = v => [...new Set([...(v.h1 + ' ' + v.t).matchAll(/\b(202[6-9])\b/g)].map(m => m[1]))];
+    // the course page's facts box on the card (user 2026-11-18, "add these to the card and let's not show the price"): the date of
+    // commencement, the mode, the duration and the course time, each with its Iconoir icon (calendar, presentation, hourglass, clock);
+    // a fact the page does not give is said so in grey, never guessed
+    const ico = d => `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d.map(p => `<path d="${p}"/>`).join('')}</svg>`;
+    const I_CAL = ico(['M15 4V2M15 4V6M15 4H10.5M3 10V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V10H3Z', 'M3 10V6C3 4.89543 3.89543 4 5 4H7', 'M7 2V6', 'M21 10V6C21 4.89543 20.1046 4 19 4H18.5']);
+    const I_DUR = ico(['M12 12C15.866 12 19 8.86599 19 5H5C5 8.86599 8.13401 12 12 12ZM12 12C15.866 12 19 15.134 19 19H5C5 15.134 8.13401 12 12 12Z', 'M5 2L12 2L19 2', 'M5 22H12L19 22']);
+    const MON3 = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const MONTHS = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    // the date of commencement: the next one the page gives, or the last if every one has passed ("Started …")
+    const startTxt = v => {
+      const ds = [...String(v.start || '').matchAll(/(\d{1,2})(?:st|nd|rd|th)?\s+([A-Za-z]+),?\s+(\d{4})/g)]
+        .map(m => { const mo = MONTHS.indexOf(m[2].toLowerCase()); return mo < 0 ? null : new Date(+m[3], mo, +m[1]); }).filter(Boolean);
+      if (!ds.length) return /announc/i.test(v.start || '') ? 'Start date to be announced' : '';
+      const next = ds.filter(d => d >= today).sort((a, b) => a - b)[0], d = next || ds[ds.length - 1];
+      return `${next ? 'Starts' : 'Started'} ${d.getDate()} ${MON3[d.getMonth()]} ${d.getFullYear()}`;
+    };
+    const fact = (icon, txt, none, cls = '') => `<span class="cf-k__f${txt ? '' : ' is-none'}${cls}">${icon}<span>${txt || none}</span></span>`;
+    // the course time (back on the card, user 2026-11-18, "let's bring back time"), tidied: "02:30 PM to 05:00 PM" to "2:30 PM to 5:00 PM",
+    // anything in brackets left to the course page; its icon is Iconoir's clock
+    const I_TIME = CLOCK;
+    // the mode under the time (user 2026-11-18, "the card should also mention if it's live or classroom under the time"): Iconoir's
+    // presentation board for Classroom (and for courses run both ways), its video camera for LIVE-Online
+    const I_ROOM = ico(['M22 4.6V17.4C22 17.7314 21.7314 18 21.4 18H2.6C2.26863 18 2 17.7314 2 17.4V4.6C2 4.26863 2.26863 4 2.6 4H21.4C21.7314 4 22 4.26863 22 4.6Z', 'M8.5 21.5L12 18L15.5 21.5', 'M12 2V4', 'M9 12V14', 'M12 10V14', 'M15 8V14']);
+    const I_LIVE = ico(['M15 12V16.4C15 16.7314 14.7314 17 14.4 17H3.6C3.26863 17 3 16.7314 3 16.4V7.6C3 7.26863 3.26863 7 3.6 7H14.4C14.7314 7 15 7.26863 15 7.6V12ZM15 12L20.0159 7.82009C20.4067 7.49443 21 7.77232 21 8.28103V15.719C21 16.2277 20.4067 16.5056 20.0159 16.1799L15 12Z']);
+    // how often the classes meet (user 2026-11-18, "the time should also mention if it is weekly or daily"), read from the course's page:
+    // "6 days a week" is Mon–Sat, "every day" / "per class, daily" is Daily, weekends, weekly; DUMMY.freq stands in where it says nothing
+    const freqOf = v => {
+      const s = [v.time, v.intro, JSON.stringify(v.feat || ''), JSON.stringify(v.stats || '')].join(' ').toLowerCase();
+      if (/6 days a week|six days a week/.test(s)) return 'Mon–Sat';
+      if (/weekend|saturday and sunday|saturdays and sundays/.test(s)) return 'Weekends';
+      if (/every ?day|per class, daily|daily classes/.test(s)) return 'Daily';
+      if (/weekly|once a week|every week/.test(s)) return 'Weekly';
+      return '';
+    };
+    // "2:30 PM to 5:00 PM" to "2:30–5:00 PM"; "11:00 AM to 1:30 PM" to "11:00 AM–1:30 PM"
+    const compactTime = s => {
+      const m = s.match(/^(\d{1,2}:\d{2})\s*(AM|PM)\s*(?:to|-|–)\s*(\d{1,2}:\d{2})\s*(AM|PM)$/i);
+      if (!m) return s;
+      return m[2].toUpperCase() === m[4].toUpperCase() ? `${m[1]}–${m[3]} ${m[4].toUpperCase()}` : `${m[1]} ${m[2].toUpperCase()}–${m[3]} ${m[4].toUpperCase()}`;
+    };
+    const timeTxt = v => {
+      const s = String(v.time || '').replace(/\(.*$/, '').trim();
+      if (!s) return '';
+      if (/announc/i.test(s)) return 'Timing to be announced';
+      return s.replace(/\b0(\d):/g, '$1:').replace(/\s+/g, ' ');
+    };
+    // DUMMY CONTENT (user 2026-11-18, "let's use dummy content"): where a course's page gives no start date, duration or course time, the
+    // card shows a stand-in from the table below instead of "… on the course page". These are NOT real facts: replace them with the real
+    // ones before launch. A card using any of them carries data-dummy="start dur time freq" (whichever apply); the real facts are untouched.
+    const DUMMY = {
+      start: ['Starts 5 Dec 2026', 'Starts 12 Dec 2026', 'Starts 5 Jan 2027', 'Starts 19 Jan 2027', 'Starts 2 Feb 2027', 'Starts 16 Feb 2027'],
+      dur: { optional: '20 Weeks', interview: '6 Weeks', mentorship: '4 Months', 'mains-ts': '6 Months', 'prelims-ts': '5 Months', 'optional-ts': '6 Months',
+        module: '3 Months', crash: '2 Months', enrichment: '3 Months', ifos: '5 Months', postal: '12 Months', csat: '3.5 Months', gs: '11 Months' },
+      time: { classes: ['7:30 AM to 10:00 AM', '11:00 AM to 1:30 PM', '2:30 PM to 5:00 PM', '5:30 PM to 8:00 PM'], tests: '9:30 AM to 12:30 PM' },
+      freq: { classes: 'Mon–Sat', tests: 'Weekly, Sun', guided: 'Weekly' }
+    };
+    const TESTS = new Set(['mains-ts', 'prelims-ts', 'optional-ts']);
+    let dummyN = 0;   // turns through the stand-in dates and class times, so neighbouring cards differ
+    // EVERY CATEGORY HAS ALL THREE BADGES AND AN UPCOMING BATCH (user 2026-11-18, "every category should have a new, trending, bestseller
+    // and upcoming courses"). The real badges (BADGE above) come first; where a category still lacks New, Trending or Bestseller, a DUMMY
+    // one goes to a course in it with no badge yet, spread along its row (or, in a category with fewer courses than badges, a second
+    // badge on a course). A category whose every batch has started gets a DUMMY next batch on its first course. Cards carrying either
+    // have "badge" / "start" in data-dummy. These are NOT real: replace them with the real ones before launch.
+    const KINDS = ['new', 'bestseller', 'trending'];
+    const BADGES = new Map(), FORCE_START = new Set();
+    for (const c of D.courses) for (const v of c.v) { const b = badgeOf(c, v); BADGES.set(v.id, b ? [b] : []); }
+    const DUM_BADGE = new Set();
+    const topUp = vs => {
+      const missing = KINDS.filter(k => !vs.some(v => BADGES.get(v.id).includes(k)));
+      missing.forEach((k, i) => {
+        const free = vs.filter(v => !BADGES.get(v.id).length);
+        const pick = free.length ? free[Math.floor(i * free.length / missing.length) % free.length]
+          : [...vs].sort((a, b) => BADGES.get(a.id).length - BADGES.get(b.id).length)[0];
+        BADGES.get(pick.id).push(k); DUM_BADGE.add(pick.id);
+      });
+    };
+    for (const tr of TREE) {
+      const vs = D.courses.filter(c => tr.kids.includes(c.f)).flatMap(c => c.v);
+      if (!vs.length) continue;
+      topUp(vs);
+      // a category with no batch still to start: its first course gets a stand-in date (an empty start gets one anyway)
+      if (!vs.some(v => { const s = startTxt(v); return !s || /^Starts/.test(s); })) FORCE_START.add(vs[0].id);
+    }
+    const TOP_IDS = ['courses-upsc-gs-course', 'courses-upsc-gs-online-course', 'courses-prelims-test-series-powerup', 'courses-prelims-test-series-camp',
+      'courses-upsc-module-courses-prelims-current-affairs-programme', 'courses-upsc-module-courses-current-affairs-course'];
+    topUp(TOP_IDS.map(id => D.courses.flatMap(c => c.v).find(v => v.id === id)).filter(Boolean));
+    for (const v of BADGES.values()) v.sort((a, b) => KINDS.indexOf(a) - KINDS.indexOf(b));
+    // the start as a number (20261127) to put the Upcoming chip's courses in date order; a date to be announced goes last
+    const startKey = s => { const m = String(s).match(/(\d{1,2})\s+([A-Za-z]{3})\s+(\d{4})/); return m ? +m[3] * 10000 + (MON3.indexOf(m[2]) + 1) * 100 + +m[1] : 99999999; };
     const card = (c, v, t) => {
-      const meta = [modeTxt(v), v.l === 'hi' ? '<span lang="hi">हिंदी</span>' : ''].filter(Boolean).join(' · ');
       const dur = durTxt(v.dur);
       // what the search looks through: the course's name, its category, its subject, its mode, its medium and its length
       const q = fold([v.t, t.label, famLabel[c.f], subLabel[c.s], modeTxt(v), v.l === 'hi' ? 'hindi हिंदी' : 'english', dur].join(' '));
-      const b = badgeOf(c, v);
-      return `<li class="cf-k" data-mode="${v.k}" data-lang="${v.l}" data-sub="${c.s || ''}" data-badge="${b}" data-q="${esc(q)}"><a class="cf-k__a" href="${esc(v.u)}" target="_blank" rel="noopener">
-        <span class="cf-k__pic"><img src="${v.i}" alt="" loading="lazy" decoding="async" width="450" height="300">${b ? `<span class="cf-badge cf-badge--${b}">${BADGE[b].label}</span>` : ''}</span>
+      const bs = BADGES.get(v.id) || [];
+      // the facts, real where the course page gives them, else the dummy stand-ins (see DUMMY)
+      const fam = t.k === 'top' ? (TREE.find(x => x.kids.includes(c.f)) || {}).k : t.k;
+      const dum = [], n = dummyN++;
+      let st = FORCE_START.has(v.id) ? '' : startTxt(v); if (!st) { st = DUMMY.start[n % DUMMY.start.length]; dum.push('start'); }
+      // the start date split into its label and its date, for the block that leads the facts
+      const sm = st.match(/^(Starts|Started)\s+(.+)$/), sLbl = sm ? (sm[1] === 'Started' ? 'Batch started' : 'Batch starts') : 'Batch starts', sVal = sm ? sm[2] : 'To be announced';
+      let du = dur; if (!du) { du = DUMMY.dur[fam] || '3 Months'; dum.push('dur'); }
+      let tm = timeTxt(v); if (!tm) { tm = TESTS.has(fam) ? DUMMY.time.tests : DUMMY.time.classes[n % DUMMY.time.classes.length]; dum.push('time'); }
+      let fq = freqOf(v); if (!fq) { fq = TESTS.has(fam) ? DUMMY.freq.tests : (fam === 'mentorship' || fam === 'interview') ? DUMMY.freq.guided : DUMMY.freq.classes; dum.push('freq'); }
+      if (!/announc/i.test(tm)) tm = `${fq} · ${compactTime(tm)}`;
+      if (DUM_BADGE.has(v.id)) dum.push('badge');
+      // (the mode, left off on 2026-11-18, is back under the time, also 2026-11-18)
+      return `<li class="cf-k" data-mode="${v.k}" data-lang="${v.l}" data-sub="${c.s || ''}" data-badge="${bs.join(' ')}" data-up="${sm && sm[1] === 'Starts' ? 1 : 0}" data-start="${startKey(sVal)}" data-yr="${yearsOf(v).join(' ')}"${dum.length ? ` data-dummy="${dum.join(' ')}"` : ''} data-q="${esc(q)}"><a class="cf-k__a" href="${esc(v.u)}" target="_blank" rel="noopener">
+        <span class="cf-k__pic"><img src="${v.i}" alt="" loading="lazy" decoding="async" width="450" height="300"></span>
         <span class="cf-k__b">
-          <span class="cf-k__by">${LOGO}<span>Vajiram &amp; Ravi</span></span>
           <span class="cf-k__t">${esc(v.t)}</span>
-          <span class="cf-k__dur${dur ? '' : ' is-none'}">${CLOCK}<span>${dur ? esc(dur) : 'Duration on the course page'}</span></span>
-          <span class="cf-k__m">${meta}</span>
+          ${bs.length ? `<span class="cf-k__tags">${bs.map(x => `<span class="cf-badge cf-badge--${x}">${BADGE[x].label}</span>`).join('')}</span>` : ''}
+          <span class="cf-k__facts">
+            ${fact(I_DUR, esc(du), '')}
+            ${fact(I_TIME, esc(tm), '')}
+            ${fact(v.k === 'online' ? I_LIVE : I_ROOM, modeTxt(v), '')}
+          </span>
         </span>
-        <span class="cf-k__ft">${v.feeShort ? `<span class="cf-k__fee">${esc(v.feeShort)}<small>incl. GST</small></span>` : ''}<span class="cf-k__go">View course</span></span>
+        <span class="cf-k__ft"><span class="cf-k__start">${I_CAL}<span><small>${sLbl}</small><b>${esc(sVal)}</b></span></span><span class="cf-k__go">View course</span></span>
       </a></li>`;
     };
     // the chips (user 2026-11-18, "change this to new, trending, bestseller, apply this to all categories"; they were the subjects): the
     // same four in every category, filtering it by the cards' badges; a chip with nothing behind it is greyed out and cannot be chosen
-    const CHIPS = [['badge:new', 'New'], ['badge:trending', 'Trending'], ['badge:bestseller', 'Bestseller']];
+    // Upcoming (user 2026-11-18, "add an upcoming chip too"): the courses whose next batch has yet to start (the card's "Batch starts" date)
+    const CHIPS = [['badge:new', 'New'], ['badge:trending', 'Trending'], ['badge:bestseller', 'Bestseller'], ['up:1', 'Upcoming']];
     const chipRow = t => `<div class="cf-chips" role="group" aria-label="Show ${esc(t.label)} courses">
           <button type="button" class="cf-chip" data-f="" aria-pressed="true">All</button>${CHIPS.map(([f, l]) => `<button type="button" class="cf-chip" data-f="${f}" aria-pressed="false">${esc(l)}</button>`).join('')}
         </div>`;
@@ -217,22 +329,6 @@
           <button type="button" class="cf-arw cf-arw--prev" data-dir="-1" aria-label="Previous ${esc(t.label)} courses" hidden>${CHEV(-1)}</button>
           <button type="button" class="cf-arw cf-arw--next" data-dir="1" aria-label="More ${esc(t.label)} courses" hidden>${CHEV(1)}</button>
         </div>`;
-      // GS Foundation, the flagship (user 2026-11-18, "highlight GS since it is their flagship course"; coursera.org's featured
-      // certificate rows as the reference): a banner on the homepage's "Our flagship programme" ground, its introduction on the left
-      // and its courses sliding on the right
-      if (t.k === 'gs') {
-        return `<section class="cf-sec cf-feat" id="cat-gs" aria-labelledby="cath-gs">
-        <div class="cf-feat__cuts" aria-hidden="true"><img class="cut--l" src="assets/img/photos/collage.png" alt="" decoding="async"><img class="cut--r" src="assets/img/photos/collage.png" alt="" decoding="async"></div>
-        <div class="cf-feat__intro">
-          <div class="lbl lbl--w cf-feat__lbl"><span class="lbl__t">Our flagship programme</span></div>
-          <div class="cf-feat__head">${bookFor('gs', t.label, items.length, true)}<h2 class="cf-sec__h" id="cath-gs"><span class="cf-sec__name">${esc(t.label)}</span><span class="cf-sec__n" data-total="${items.length}">${items.length} ${items.length === 1 ? 'course' : 'courses'}</span></h2></div>
-          <p class="cf-sec__d">${esc(ABOUT.gs[0])}</p>
-          <p class="cf-sec__who"><b>Who it’s for</b> ${esc(ABOUT.gs[1])}</p>
-          ${chipRow(t)}
-        </div>
-        ${car}
-      </section>`;
-      }
       return `<section class="cf-sec" id="cat-${t.k}" aria-labelledby="cath-${t.k}">
         <div class="cf-sec__top">${bookFor(t.k, t.label, items.length)}<div class="cf-sec__txt">
         <h2 class="cf-sec__h" id="cath-${t.k}"><span class="cf-sec__name">${esc(t.label)}</span>${NEW.has(t.k) ? ' <span class="cf-new">New</span>' : ''}<span class="cf-sec__n" data-total="${items.length}">${items.length} ${items.length === 1 ? 'course' : 'courses'}</span></h2>
@@ -242,12 +338,46 @@
         ${car}
       </section>`;
     });
-    list.innerHTML = secHTML.filter(Boolean).map((h, i) => i === 5 ? h + HELP : h).join('');
+    // Vajiram's Top Picks (user 2026-11-18, "change our flagship courses to Vajiram's top picks; this section will show some of the top
+    // picks and best selling courses"): the banner on the homepage's flagship ground, now ahead of every category, holding the courses
+    // the homepage itself puts forward: the flagship GS programme (index.html #gs, both modes), "What's trending" (index.html #trending:
+    // PowerUp Prelims Test Series) and the "Next batches" tickets from the Figma (Prelims CAMP, SMART Prelims, SMART). Bestsellers join
+    // when the user names them (BADGE.bestseller in js/course-finder.js). The cards also stay in their own categories.
+    // (TOP_IDS is set with the badges, above the cards, so Our Top Picks gets all three badges too)
+    const famOf = f => TREE.find(x => x.kids.includes(f));
+    const tops = TOP_IDS.map(id => { for (const c of D.courses) { const v = c.v.find(x => x.id === id); if (v) return [c, v]; } return null; }).filter(Boolean);
+    const TOP_T = { k: 'top', label: 'Our Top Picks' };   // was "Vajiram's Top Picks" (user 2026-11-18)
+    const TOP_HTML = tops.length ? `<section class="cf-sec cf-feat" id="cat-top" data-top="1" aria-labelledby="cath-top">
+        <div class="cf-feat__cuts" aria-hidden="true"><img class="cut--l" src="assets/img/photos/collage.png" alt="" decoding="async"><img class="cut--r" src="assets/img/photos/collage.png" alt="" decoding="async"></div>
+        <div class="cf-feat__intro">
+          <div class="lbl lbl--w cf-feat__lbl"><span class="lbl__t">Picked by Vajiram &amp; Ravi</span></div>
+          <div class="cf-feat__book">${bookFor('top', 'Top Picks', tops.length, true)}</div>
+          <h2 class="cf-sec__h cf-feat__h" id="cath-top"><span class="cf-sec__name">Our Top Picks</span></h2>
+          <span class="cf-sec__n cf-feat__n" data-total="${tops.length}">${tops.length} courses</span>
+          <p class="cf-sec__d">Our flagship GS programme, what’s trending, and the batches starting soon.</p>
+          ${chipRow(TOP_T)}
+        </div>
+        <div class="cf-car">
+          <ul class="cf-grid">${tops.map(([c, v]) => card(c, v, famOf(c.f) || TOP_T)).join('')}</ul>
+          <button type="button" class="cf-arw cf-arw--prev" data-dir="-1" aria-label="Previous top picks" hidden>${CHEV(-1)}</button>
+          <button type="button" class="cf-arw cf-arw--next" data-dir="1" aria-label="More top picks" hidden>${CHEV(1)}</button>
+        </div>
+      </section>` : '';
+    list.innerHTML = '<nav class="cf-rail" id="cfRail" aria-label="Course categories"></nav><div class="cf-list__main">'
+      + TOP_HTML + secHTML.filter(Boolean).join('') + HELP + '</div>';   // the counsellor banner after the last category (user 2026-11-18, "move this banner to the bottom"; it sat after the 6th)
+    // each card's place in its row, so a chip can put the row back after Upcoming has sorted it
+    list.querySelectorAll('.cf-grid').forEach(g => [...g.children].forEach((k, i) => { k.dataset.i = i; }));
 
     // the bar's search and tabs filter every category; a category with nothing left is hidden, and its subject chips with nothing left too
-    const state = { q: [], mode: '', lang: '' };
+    // (Duration, Class time and Fee were filters too, removed by the user on 2026-11-18; Mode and Medium are dropdowns beside Target year)
+    const state = { q: [], mode: '', lang: '', yr: '' };
+    const FILTERS = [
+      { key: 'yr', label: 'Target year', opts: [['2026', 'CSE 2026'], ['2027', 'CSE 2027'], ['2028', 'CSE 2028']],
+        test: (k, v) => k.dataset.yr.split(' ').includes(v) }
+    ];
     const passes = k => (!state.mode || k.dataset.mode === state.mode || k.dataset.mode === 'both')
-      && (!state.lang || k.dataset.lang === state.lang) && state.q.every(w => k.dataset.q.includes(w));
+      && (!state.lang || k.dataset.lang === state.lang) && state.q.every(w => k.dataset.q.includes(w))
+      && FILTERS.every(f => !state[f.key] || f.test(k, state[f.key]));
     // each section's courses sit in one row that scrolls sideways (user 2026-11-18, a udemy.com course row as the reference): round
     // arrow buttons at its two ends, each shown only while there is more that way
     const arrows = sec => {
@@ -258,11 +388,16 @@
     const layout = sec => {
       const all = $$('.cf-k', sec), ok = all.filter(passes);
       // a badge chip with no such course left (after the search and tabs) is greyed out; if it was the chosen one, All is chosen again
-      $$('.cf-chip[data-f^="badge:"]', sec).forEach(c => { c.disabled = !ok.some(k => `badge:${k.dataset.badge}` === c.dataset.f); });
+      const has = (k, ck, cv) => (k.dataset[ck] || '').split(' ').includes(cv);
+      $$('.cf-chip[data-f*=":"]', sec).forEach(c => { const [ck, cv] = c.dataset.f.split(':'); c.disabled = !ok.some(k => has(k, ck, cv)); });
       const on = $('.cf-chip[aria-pressed="true"]', sec);
       if (on && on.disabled) { $$('.cf-chip', sec).forEach(c => c.setAttribute('aria-pressed', String(!c.dataset.f))); sec.dataset.f = ''; }
       const f = sec.dataset.f || '', [key, val] = f.split(':');
-      const match = ok.filter(k => !f || k.dataset[key] === val);
+      const match = ok.filter(k => !f || has(k, key, val));
+      // Upcoming (user 2026-11-18, "show the course that starts first to the current date"): its courses in date order, the soonest
+      // first; any other chip puts the row back in its own order
+      const grid = $('.cf-grid', sec);
+      [...all].sort((a, b) => f === 'up:1' ? (+a.dataset.start - +b.dataset.start) || (a.dataset.i - b.dataset.i) : a.dataset.i - b.dataset.i).forEach(k => grid.appendChild(k));
       all.forEach(k => { k.hidden = !match.includes(k); });
       sec.hidden = !ok.length;
       const cnt = $('.cf-sec__n', sec);
@@ -273,14 +408,32 @@
     };
     const count = $('#cfCount'), empty = $('#cfEmpty');
     const layoutAll = () => {
-      const n = $$('.cf-sec', list).reduce((s, sec) => s + layout(sec), 0);
+      const n = $$('.cf-sec', list).reduce((s, sec) => { const m = layout(sec); return s + (sec.dataset.top ? 0 : m); }, 0);
       const first = $('.cf-sec:not([hidden])', list);
       $$('.cf-sec', list).forEach(s => s.classList.toggle('is-first', s === first));
       if (empty) empty.hidden = n > 0;
       const help = $('#cfHelp'); if (help) help.hidden = !n;
       if (count) count.textContent = n ? `${n} course${n === 1 ? '' : 's'} shown` : 'No courses match.';
+      list.dispatchEvent(new Event('cf:layout'));
     };
     layoutAll();
+
+    // the cards' entrance (user 2026-11-18, "when the screen loads every card in the view port should do a horizontal flip ... smooth and
+    // subtle"): each card in view on load turns in on its upright axis, one after another, top row first and left to right. Marked before
+    // the first paint so none shows early; the class comes off when its turn ends (a timer too, in case the animation never reports)
+    if (!reduce) {
+      const vh = innerHeight, seen = $$('.cf-k', list).filter(k => {
+        if (k.hidden || k.closest('.cf-sec').hidden) return false;
+        const r = k.getBoundingClientRect(), g = k.closest('.cf-grid').getBoundingClientRect();
+        return r.width && r.top < vh && r.bottom > 0 && r.left < g.right - 8 && r.right > g.left + 8;
+      }).sort((a, b) => { const ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect(); return (ra.top - rb.top) || (ra.left - rb.left); });
+      seen.forEach((k, i) => {
+        const ms = 120 + i * 80;
+        k.style.setProperty('--fd', ms + 'ms'); k.classList.add('is-flipin');
+        const done = () => { k.classList.remove('is-flipin'); clearTimeout(k._fi); };
+        $('.cf-k__a', k).addEventListener('animationend', done, { once: true }); k._fi = setTimeout(done, ms + 1400);
+      });
+    }
 
     // the cards tilt toward the pointer like the homepage's batch tickets (js/content.js): where the pointer is sets the tilt and the glare
     if (!reduce && matchMedia('(hover: hover) and (pointer: fine)').matches) {
@@ -371,15 +524,54 @@
     });
     addEventListener('resize', () => $$('.cf-seg').forEach(seg => placeInd(seg, true)));
     if (document.fonts) document.fonts.ready.then(() => $$('.cf-seg').forEach(seg => placeInd(seg, true)));
+    /* ---------- the bar's filters: duration, target year, class time and fee (user 2026-11-18), dropdowns beside the Mode and Medium
+       tabs. Each option shows how many courses it holds (counted once, across the categories); a course that does not state that fact
+       is left out while the filter is set. "Clear filters" appears while any is set. ---------- */
+    const cards = $$('.cf-sec:not([data-top]) .cf-k', list);
+    // Mode and Medium as dropdowns too (user 2026-11-18, "all filters can be drop down"; they were tabs)
+    const DROPS = [
+      { key: 'mode', label: 'Mode', opts: [['classroom', 'Classroom'], ['online', 'LIVE-Online']], test: (k, v) => k.dataset.mode === v || k.dataset.mode === 'both' },
+      { key: 'lang', label: 'Medium', opts: [['en', 'English'], ['hi', 'हिंदी']], test: (k, v) => k.dataset.lang === v }
+    ].concat(FILTERS);
+    const CHEV_D = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9L12 15L18 9"/></svg>';
+    const filt = $('#cfFilt');
+    if (filt) {
+      // Iconoir's xmark-circle (solid)
+      const X_CIRCLE = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M12 1.25C6.06294 1.25 1.25 6.06294 1.25 12C1.25 17.9371 6.06294 22.75 12 22.75C17.9371 22.75 22.75 17.9371 22.75 12C22.75 6.06294 17.9371 1.25 12 1.25ZM9.70164 8.64124C9.40875 8.34835 8.93388 8.34835 8.64098 8.64124C8.34809 8.93414 8.34809 9.40901 8.64098 9.7019L10.9391 12L8.64098 14.2981C8.34809 14.591 8.34809 15.0659 8.64098 15.3588C8.93388 15.6517 9.40875 15.6517 9.70164 15.3588L11.9997 13.0607L14.2978 15.3588C14.5907 15.6517 15.0656 15.6517 15.3585 15.3588C15.6514 15.0659 15.6514 14.591 15.3585 14.2981L13.0604 12L15.3585 9.7019C15.6514 9.40901 15.6514 8.93414 15.3585 8.64124C15.0656 8.34835 14.5907 8.34835 14.2978 8.64124L11.9997 10.9393L9.70164 8.64124Z"/></svg>';
+      filt.innerHTML = DROPS.map(f => `<label class="cf-sel" data-key="${f.key}"><span class="cf-sel__l">${f.label}</span><select data-key="${f.key}"><option value="">Any</option>${f.opts.map(([v, l]) => {
+        const n = cards.filter(k => f.test(k, v)).length;
+        return `<option value="${v}"${n ? '' : ' disabled'}>${l} (${n})</option>`;
+      }).join('')}</select>${CHEV_D}<button type="button" class="cf-sel__x" data-key="${f.key}" aria-label="Clear ${f.label}">${X_CIRCLE}</button></label>`).join('') + '<button type="button" class="cf-filt__clear" id="cfFiltX" hidden>Clear filters</button>';
+      // a picked dropdown swaps its chevron for a clear button (user 2026-11-18, a "Blog ⊗" chip as the reference) that empties just that one
+      filt.addEventListener('click', e => {
+        const x = e.target.closest('.cf-sel__x'); if (!x) return;
+        e.preventDefault();
+        const s = $(`select[data-key="${x.dataset.key}"]`, filt);
+        state[x.dataset.key] = ''; s.value = ''; sync(); apply(); s.focus();
+      });
+      const sync = () => {
+        $$('.cf-sel', filt).forEach(l => l.classList.toggle('is-on', !!state[l.dataset.key]));
+        $('#cfFiltX').hidden = !DROPS.some(f => state[f.key]);
+      };
+      filt.addEventListener('change', e => { const s = e.target.closest('select'); if (!s) return; state[s.dataset.key] = s.value; sync(); apply(); });
+      $('#cfFiltX').addEventListener('click', () => { clearFilters(); apply(); });
+      window.__cfSyncFilt = sync;
+    }
+    function clearFilters() {
+      DROPS.forEach(f => { state[f.key] = ''; });
+      $$('#cfFilt select').forEach(s => { s.value = ''; });
+      if (window.__cfSyncFilt) window.__cfSyncFilt();
+    }
     const reset = $('#cfReset');
     if (reset) reset.addEventListener('click', () => {
       $$('.cf-seg').forEach(seg => pickTab(seg, $('.cf-seg__b', seg)));
+      clearFilters();
       q.value = ''; state.q = []; qx.hidden = true; apply();
     });
 
     // the nav's course menus (js/site-nav.js) and #cat=… links scroll to that category's section, clear of the bar
     const go = (k, smooth = true) => {
-      const id = k === 'all' ? null : (k === 'gs-11' || k === 'gs-2yr') ? 'gs' : k;
+      const id = k === 'all' ? null : (k === 'gs-11' || k === 'gs-2yr') ? 'gs' : k;   // GS Foundation is its own section again
       const el = id ? $(`#cat-${id}`) : list;
       if (!el || el.hidden) return;
       const y = el.getBoundingClientRect().top + scrollY, down = y > scrollY;
@@ -389,6 +581,61 @@
     window.__cfSetCat = k => { history.replaceState(null, '', `#cat=${k}`); go(k); };
     const m = location.hash.match(/^#cat=([\w-]+)/);
     if (m) setTimeout(() => go(m[1], false), 0);
+
+    /* ---------- the category rail (user 2026-11-18, a wireframe: "an indicator for the user to find the categories ... when the user
+       hovers over it they can see all the other categories, and by clicking on one they can go to it"): a slim column on the left of
+       the course list, held halfway down the screen. A short line for every section, the one being read longer and in the brand colour,
+       and beside them the book of the category being read, which flips as it changes. Hovering the rail (or pressing the book) opens a
+       list of every category, its cloth colour and its number of courses; choosing one scrolls to it. Desktop and laptop only. ---------- */
+    const rail = $('#cfRail');
+    if (rail) {
+      const secs = $$('.cf-sec', list).map(s => {
+        const k = s.id.slice(4), name = $('.cf-sec__name', s).textContent.trim(), n = +($('.cf-sec__n', s) || {}).dataset?.total || $$('.cf-k', s).length;
+        return { k, s, name, n, book: k === 'top' ? 'Top Picks' : (TREE.find(t => t.k === k) || {}).label || name };
+      });
+      rail.innerHTML = `<div class="cf-rail__in">
+          <button type="button" class="cf-rail__btn" aria-expanded="false" aria-controls="cfRailPanel"><span class="vh">Categories, now showing: </span><span class="cf-rail__now"></span><ol class="cf-rail__ticks" aria-hidden="true">${secs.map(x => `<li data-k="${x.k}"></li>`).join('')}</ol></button>
+          <div class="cf-rail__panel" id="cfRailPanel">
+            <p class="cf-rail__h">Categories</p>
+            <ul>${secs.map(x => `<li><button type="button" class="cf-rail__go" data-k="${x.k}"><i style="background:${(COVER[x.k] || COVER.top).base}"></i><span>${esc(x.name)}</span><b>${x.n}</b></button></li>`).join('')}</ul>
+          </div>
+        </div>`;
+      const btn = $('.cf-rail__btn', rail), nowTxt = $('.cf-rail__now', rail);
+      let cur = '';
+      const show = k => {
+        if (k === cur) return; cur = k;
+        const x = secs.find(y => y.k === k); if (!x) return;
+        $$('.cf-rail__ticks li', rail).forEach(li => li.classList.toggle('is-on', li.dataset.k === k));
+        $$('.cf-rail__go', rail).forEach(b => b.toggleAttribute('aria-current', b.dataset.k === k));
+        nowTxt.textContent = x.name;
+      };
+      // which section is being read: the last one whose top has passed a line just under the sticky bar
+      const spy = () => {
+        // measured at the rail's own book (user 2026-11-18, "the book should change to the GS book when it reaches the GS headline and
+        // stay until the divider line"): a section is the current one from when its heading comes level with the book until the next
+        // section's top, its divider line, gets there
+        const rb = btn.getBoundingClientRect(), line = rb.height ? rb.top + rb.height / 2 : (bar ? bar.getBoundingClientRect().bottom : 0) + 140;   // (measured at the book until it left the rail, 2026-11-18)
+        let k = secs[0].k;
+        for (const x of secs) { if (x.s.hidden) continue; if (x.s.getBoundingClientRect().top <= line) k = x.k; else break; }
+        show(k);
+        // the list's sections hidden by the filters are dimmed in the panel
+        $$('.cf-rail__go', rail).forEach(b => { b.disabled = $('#cat-' + b.dataset.k).hidden; });
+        $$('.cf-rail__ticks li', rail).forEach(li => li.classList.toggle('is-off', $('#cat-' + li.dataset.k).hidden));
+      };
+      addEventListener('scroll', spy, { passive: true }); addEventListener('resize', spy);
+      list.addEventListener('cf:layout', spy);
+      spy(); rail.classList.add('is-ready');
+      const open = on => { rail.classList.toggle('is-open', on); btn.setAttribute('aria-expanded', String(on)); };
+      // the list opens only from the lines (user 2026-11-18, "the list should only open when hovered over the lines"): hovering them,
+      // or tabbing to them; it stays open while the pointer crosses the book to it, and closes when the pointer leaves the rail
+      btn.addEventListener('mouseenter', () => open(true));
+      btn.addEventListener('focus', () => open(true));
+      btn.addEventListener('click', () => open(!rail.classList.contains('is-open')));
+      rail.addEventListener('mouseleave', () => open(false));
+      rail.addEventListener('focusout', e => { if (!rail.contains(e.relatedTarget)) open(false); });
+      rail.addEventListener('keydown', e => { if (e.key === 'Escape') { open(false); btn.focus(); } });
+      rail.addEventListener('click', e => { const g = e.target.closest('.cf-rail__go'); if (!g) return; open(false); window.__cfSetCat(g.dataset.k); });
+    }
   }
 
   /* ---------- buttons: the homepage's rolling label and sliding arrows (from js/page-motion.js), for .bt buttons such as the nav menus' ---------- */

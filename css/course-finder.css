@@ -468,3 +468,345 @@ html.cf-locked { overflow: hidden; }
 @media (max-width: 760px) { .cf-feat .cf-chips { margin-inline: calc(var(--px) * -1); } }
 .cf-feat .cf-chips { gap: 8px; flex-wrap: nowrap; }
 .cf-feat .cf-chip { min-height: 34px; padding: 0 14px; font-size: 14px; }
+
+/* ---------- the bar's filters (user 2026-11-18): duration, target year, class time and fee, a row of pill dropdowns under the search and
+   the Mode and Medium tabs; a set one is outlined in the brand colour; "Clear filters" at the end while any is set ---------- */
+.cf-filt { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 12px; }
+.cf-sel { position: relative; display: inline-flex; align-items: center; height: 40px; padding: 0 34px 0 14px; border: 1px solid #CDBBA5; border-radius: 999px; background: #fff;
+  cursor: pointer; transition: border-color .2s, background-color .2s; }
+.cf-sel:hover { border-color: var(--cf-ink); }
+.cf-sel__l { margin-right: 6px; font: 600 12px/1 var(--f); letter-spacing: .06em; text-transform: uppercase; color: var(--cf-mute); white-space: nowrap; }
+.cf-sel select { appearance: none; -webkit-appearance: none; height: 100%; margin: 0; padding: 0; border: 0; background: transparent; cursor: pointer;
+  font: 500 15px/1 var(--f); color: var(--cf-ink); }
+.cf-sel select:focus { outline: none; }
+.cf-sel:focus-within { border-color: var(--cf-brand); box-shadow: 0 0 0 3px rgb(194 65 12 / .16); }
+.cf-sel svg { position: absolute; right: 12px; pointer-events: none; color: var(--cf-body); }
+.cf-sel.is-on { border-color: var(--cf-brand); background: #FFF4EA; }
+.cf-sel.is-on .cf-sel__l, .cf-sel.is-on svg { color: var(--cf-brand); }
+.cf-filt__clear { appearance: none; height: 40px; padding: 0 6px; border: 0; background: none; cursor: pointer; font: 600 14.5px/1 var(--f); color: var(--cf-brand);
+  text-decoration: underline; text-underline-offset: 4px; text-decoration-color: rgb(194 65 12 / .35); }
+.cf-filt__clear:hover { text-decoration-color: var(--cf-brand); }
+.cf-filt__clear[hidden] { display: none; }
+@media (max-width: 760px) {
+  .cf-filt { flex-wrap: nowrap; gap: 8px; margin: 10px calc(var(--px) * -1) 0; padding-inline: var(--px); overflow-x: auto; scrollbar-width: none; }
+  .cf-filt::-webkit-scrollbar { display: none; }
+  .cf-sel { flex: none; height: 36px; padding-left: 12px; }
+  .cf-sel select { font-size: 14px; }
+  .cf-filt__clear { flex: none; height: 36px; }
+}
+
+/* the bar with every filter as a dropdown (user 2026-11-18, "all filters can be drop down"): the search, then Mode, Medium, Duration,
+   Target year, Class time and Fee, wrapping onto a second line where they do not fit */
+.cf-bar__in { flex-wrap: wrap; gap: 10px; }
+.cf-search { flex: 1 1 300px; max-width: 420px; }
+.cf-filt { flex: 1 1 auto; margin-top: 0; }
+@media (max-width: 1100px) { .cf-search { max-width: none; } }
+@media (max-width: 760px) {
+  .cf-search { flex-basis: 100%; }
+  .cf-filt { flex-basis: 100%; margin-top: 0; }
+}
+
+/* one row on desktop: the search, then the six dropdowns in equal columns (a long choice is cut short with an ellipsis); "Clear filters"
+   takes its own short line at the right while any is set. Three across on tablets; a row to swipe on phones. */
+@media (min-width: 761px) {
+  .cf-bar__in { display: grid; grid-template-columns: minmax(240px, 1.5fr) repeat(6, minmax(0, 1fr)); align-items: center; gap: 10px; }
+  .cf-search { max-width: none; }
+  .cf-filt { display: contents; }
+  .cf-sel { min-width: 0; width: 100%; box-sizing: border-box; }
+  .cf-sel select { flex: 1 1 auto; min-width: 0; width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .cf-filt__clear { grid-column: 1 / -1; justify-self: end; height: 24px; margin-top: -2px; }
+}
+@media (min-width: 761px) and (max-width: 1240px) {
+  .cf-bar__in { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .cf-search { grid-column: 1 / -1; }
+}
+@media (min-width: 761px) {
+  .cf-sel { padding: 0 30px 0 12px; }
+  .cf-sel__l { margin-right: 5px; font-size: 11px; letter-spacing: .04em; }
+  .cf-sel svg { right: 10px; }
+}
+/* the search and the dropdowns one height (44px) with even 12px gaps (user 2026-11-18, "fix the spacing and layout of the filter") */
+@media (min-width: 761px) {
+  .cf-bar__in { gap: 12px; }
+  .cf-search input { height: 44px; }
+  .cf-sel { height: 44px; }
+}
+
+/* the Top Picks banner's head in order (user 2026-11-18, "hierarchy issues, fix it"): the eyebrow with the course count beside it; the book
+   beside the title, set on two even lines ("Vajiram's / Top Picks") and centred on the book; the description; the chips */
+.cf-feat__meta { display: flex; align-items: center; gap: 10px; margin: 0 0 18px; }
+.cf-feat__meta .cf-feat__lbl { margin: 0; }
+.cf-feat__meta .cf-sec__n { padding: 5px 10px 4px; font-size: 12.5px; }
+.cf-feat__head { align-items: center; gap: 18px; }
+.cf-feat .cf-feat__head .cf-sec__h { display: block; font-size: clamp(36px, 3.1vw, 44px); line-height: 1.02; }
+.cf-feat .cf-sec__d { margin-top: 16px; max-width: 34ch; }
+.cf-feat .cf-chips { margin-top: 22px; }
+.cf-bk--sm.ps-book { --bw: 60px; --bh: 77px; }
+
+/* three dropdowns now (Mode, Medium, Target year; user 2026-11-18 removed Duration, Class time and Fee): the search and the three in
+   one row on desktop and tablet */
+@media (min-width: 761px) {
+  .cf-bar__in { grid-template-columns: minmax(260px, 1.6fr) repeat(3, minmax(0, 1fr)); }
+  .cf-search { grid-column: auto; }
+}
+@media (min-width: 761px) and (max-width: 1100px) {
+  .cf-bar__in { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .cf-search { grid-column: 1 / -1; }
+}
+
+/* the Top Picks banner's head, top to bottom (user 2026-11-18, "show the book on top and bring 6 courses down"): the book, the eyebrow,
+   the title, the course count under it, then the description and the chips */
+.cf-feat__book { display: block; margin: 0 0 20px 4px; }
+.cf-feat__book .cf-bk--sm.ps-book { --bw: 72px; --bh: 92px; --d: 11px; }
+.cf-feat__book .cf-bk--sm .ps-face__name { font-size: 9.5px; }
+.cf-feat__book .cf-bk--sm .ps-emblem { width: 22px; height: 22px; }
+.cf-feat .cf-feat__lbl { margin: 0 0 14px; }
+.cf-feat .cf-feat__h { display: block; font-size: clamp(38px, 3.2vw, 46px); line-height: 1.04; }
+.cf-feat .cf-feat__n { display: inline-block; margin-top: 12px; padding: 5px 10px 4px; font-size: 12.5px; }
+.cf-feat .cf-sec__d { margin-top: 16px; }
+@media (max-width: 760px) { .cf-feat__book { margin-bottom: 16px; } }
+.cf-feat .cf-feat__n { align-self: flex-start; }
+/* the eyebrow first, then the book (user 2026-11-18, "move the eyebrow to the top, then the book") */
+.cf-feat .cf-feat__lbl { margin: 0 0 20px; }
+.cf-feat__book { margin: 0 0 18px 4px; }
+
+/* ---------- the category rail (user 2026-11-18, a wireframe): a slim column on the left of the course list on wide screens, its
+   contents held halfway down the screen: a line per section (the one being read longer, in the brand colour) beside the book of the
+   category being read; hovering it, or pressing the book, opens a list of every category to jump to ---------- */
+.cf-rail { display: none; }
+@media (min-width: 1101px) {
+  .cf-list { display: flex; align-items: stretch; gap: 32px; }
+  .cf-list__main { flex: 1 1 auto; min-width: 0; }
+  .cf-rail { --rw: 112px; position: relative; z-index: 25; display: block; flex: none; width: var(--rw); }
+  .cf-rail__in { position: sticky; top: 50vh; display: flex; align-items: center; gap: 14px; translate: 0 -50%; }
+}
+.cf-rail__ticks { display: flex; flex-direction: column; align-items: flex-start; gap: 7px; margin: 0; padding: 0; list-style: none; }
+.cf-rail__ticks li { width: 16px; height: 3px; border-radius: 3px; background: #D3BFA4; transition: width .35s cubic-bezier(.22, 1, .36, 1), background-color .3s; }
+.cf-rail__ticks li.is-on { width: 30px; background: var(--cf-brand); }
+.cf-rail__ticks li.is-off { opacity: .35; }
+.cf-rail:hover .cf-rail__ticks li:not(.is-on) { width: 20px; }
+.cf-rail__btn { position: relative; display: block; padding: 6px 4px; border: 0; background: none; cursor: pointer; }
+.cf-rail__btn:focus-visible { outline: 2px solid var(--cf-brand); outline-offset: 4px; border-radius: 8px; }
+.cf-rail__now { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.cf-rail__book { display: block; }
+.cf-rail .cf-bk--sm.ps-book { --bw: 60px; --bh: 77px; --d: 10px; margin: 0; }
+.cf-rail .cf-bk .ps-front { box-shadow: 0 1px 0 rgb(255 255 255 / .2) inset, 10px 14px 20px -8px rgb(43 18 6 / .45); }
+
+/* the panel: a card to the right of the rail, every category with its cloth colour, its name and its count; the one being read marked */
+.cf-rail__panel { position: absolute; left: calc(100% + 14px); top: 50%; z-index: 2; width: 280px; padding: 14px 10px 10px; border: 1px solid var(--cf-line); border-radius: 14px;
+  background: #fff; box-shadow: 0 24px 48px -20px rgb(60 30 10 / .35), 0 2px 6px rgb(60 30 10 / .06);
+  opacity: 0; visibility: hidden; translate: -8px -50%; transition: opacity .2s, translate .25s cubic-bezier(.22, 1, .36, 1), visibility 0s .25s; }
+.cf-rail:hover .cf-rail__panel, .cf-rail.is-open .cf-rail__panel, .cf-rail:focus-within .cf-rail__panel { opacity: 1; visibility: visible; translate: 0 -50%; transition-delay: 0s; }
+.cf-rail__panel::before { content: ""; position: absolute; right: 100%; top: 0; bottom: 0; width: 18px; }   /* a bridge, so the pointer can cross to it */
+.cf-rail__h { margin: 0 8px 8px; font: 600 11.5px/1 var(--f); letter-spacing: .1em; text-transform: uppercase; color: var(--cf-mute); }
+.cf-rail__panel ul { margin: 0; padding: 0; list-style: none; }
+.cf-rail__go { display: flex; align-items: center; gap: 10px; width: 100%; padding: 8px 8px; border: 0; border-radius: 8px; background: none; cursor: pointer; text-align: left;
+  font: 500 14.5px/1.25 var(--f); color: var(--cf-ink); transition: background-color .15s; }
+.cf-rail__go i { flex: none; width: 10px; height: 14px; border-radius: 2px 3px 3px 2px; box-shadow: inset 2px 0 0 rgb(0 0 0 / .25); }
+.cf-rail__go span { flex: 1 1 auto; min-width: 0; }
+.cf-rail__go b { flex: none; font: 500 12.5px/1 var(--f); color: var(--cf-mute); font-variant-numeric: tabular-nums; }
+.cf-rail__go:hover { background: var(--cf-sand); }
+.cf-rail__go[aria-current] { background: #FFF1E6; color: var(--cf-brand); font-weight: 600; }
+.cf-rail__go[aria-current] b { color: var(--cf-brand); }
+.cf-rail__go:disabled { opacity: .4; cursor: default; background: none; }
+.cf-rail__go:focus-visible { outline: 2px solid var(--cf-brand); outline-offset: -2px; }
+@media (prefers-reduced-motion: reduce) { .cf-rail__ticks li, .cf-rail__panel { transition: none; } }
+
+/* the list opens from the lines only (user 2026-11-18): the lines are the rail's button; the book is decoration. The hover and focus
+   openers on the whole rail give way to .is-open, set by js/course-finder.js */
+.cf-rail:hover .cf-rail__panel, .cf-rail:focus-within .cf-rail__panel { opacity: 0; visibility: hidden; translate: -8px -50%; transition: opacity .2s, translate .25s cubic-bezier(.22, 1, .36, 1), visibility 0s .25s; }
+.cf-rail.is-open .cf-rail__panel { opacity: 1; visibility: visible; translate: 0 -50%; transition-delay: 0s; }
+.cf-rail__btn { display: flex; align-items: center; padding: 14px 10px 14px 0; cursor: pointer; }
+.cf-rail:hover .cf-rail__ticks li:not(.is-on) { width: 16px; }
+.cf-rail__btn:hover .cf-rail__ticks li:not(.is-on), .cf-rail.is-open .cf-rail__ticks li:not(.is-on) { width: 22px; background: #BFA584; }
+.cf-rail__book { display: block; pointer-events: none; }
+@media (min-width: 1101px) { .cf-rail__in { top: calc(50vh - 90px); translate: none; padding-top: 6px; } }   /* held near the middle of the screen without starting above the list */
+
+/* ---------- the small books as true miniatures (user 2026-11-18, "use a scaled down version of the book rather than adding text on top
+   of them"): the book is drawn at its full size, 112 x 142 with the homepage cover's own lettering, emblem, rule and count, and the
+   whole of it scaled down by --s inside a box of the scaled size; nothing on the cover is re-set for the small size ---------- */
+.cf-bk-mini { --s: .5; position: relative; display: block; flex: none; width: calc(112px * var(--s)); height: calc(142px * var(--s)); }
+.cf-bk-mini > .cf-bk.cf-bk--full.ps-book { --bw: 112px; --bh: 142px; --d: 16px; position: absolute; left: 0; top: 0; width: 112px; height: 142px; margin: 0;
+  transform-origin: 0 0; scale: var(--s); }
+.cf-bk-mini .cf-bk--full .ps-face { padding: 8px 4px 7px; }
+.cf-bk-mini .cf-bk--full .ps-face__name { margin-top: 2px; font-size: 13.5px; line-height: 1.08; }
+.cf-bk-mini .cf-bk--full .ps-face__rule { display: flex; margin-top: 5px; }
+.cf-bk-mini .cf-bk--full .ps-face__rule i { width: 11px; }
+.cf-bk-mini .cf-bk--full .ps-emblem { width: 34px; height: 34px; }
+.cf-bk-mini .cf-bk--full .ps-face__foot { display: flex; margin-top: 5px; font-size: 8.5px; letter-spacing: .12em; }
+.cf-bk-mini .cf-bk--full .ps-front { box-shadow: 0 1px 0 rgb(255 255 255 / .2) inset, 14px 18px 26px -10px rgb(43 18 6 / .5); }
+/* the sizes: the rail's 0.55 (62 x 78), the Top Picks banner's 0.66 (74 x 94) */
+.cf-rail .cf-bk-mini { --s: .55; }
+.cf-feat__book .cf-bk-mini { --s: .66; }
+.cf-feat .cf-bk-mini .cf-bk--full .ps-front { box-shadow: 0 1px 0 rgb(255 255 255 / .2) inset, 14px 18px 26px -8px rgb(0 0 0 / .6); }
+/* (the miniatures briefly went without lettering; it was put back the same day at the user's request) */
+/* the Top Picks banner without its book (user 2026-11-18, "remove the book"): the eyebrow sits straight over the title */
+.cf-feat .cf-feat__lbl { margin-bottom: 16px; }
+
+/* the rail with its lines only (user 2026-11-18, "keep the lines and remove the book"): a narrow column; the books are back beside the
+   category headings */
+@media (min-width: 1101px) {
+  .cf-rail { --rw: 40px; }
+  .cf-list { gap: 28px; }
+  .cf-rail__in { top: calc(50vh - 70px); }
+}
+.cf-rail__panel { left: calc(100% + 6px); }
+/* the Top Picks book back under the eyebrow (user 2026-11-18, "bring back the book here as well") */
+.cf-feat .cf-feat__lbl { margin-bottom: 20px; }
+.cf-feat__book { display: block; margin: 0 0 18px 4px; }
+/* the room beside each row (for the hover shadow) is exactly the row's own card gap, so the next card starts just out of view and never
+   peeks in (user 2026-11-18, "remove the sneak peek of the 4th card": the banner's 20px gap left 4px of it showing in a 24px margin) */
+@media (min-width: 761px) { .cf-sec .cf-grid { padding-inline: var(--gap); margin-inline: calc(var(--gap) * -1); scroll-padding-inline: var(--gap); } }
+
+/* ---------- the cards made plain again (user 2026-11-18, "remove the ticket style of card and make the card look normal"): no tear line
+   and no round cuts at the edges; a white card with a thin border and rounded corners. The batch ticket's hover (tilt, glare, swinging
+   shadow) stays. ---------- */
+.cf-k { filter: none; }
+.cf-k__a { border: 1px solid var(--cf-line); border-radius: 12px; -webkit-mask: none; mask: none; }
+.cf-k__ft::before { content: none; }
+.cf-k__ft { height: auto; margin: 0 -12px; padding: 4px 16px 16px; }
+@media (hover: hover) and (pointer: fine) {
+  .cf-k:hover { filter: drop-shadow(calc(var(--tx, 0) * -14px) calc(24px - var(--ty, 0) * 10px) 18px rgb(102 38 13 / .22)); }
+  .cf-k:hover .cf-k__a { border-color: #DCC8AE; }
+}
+.cf-k:has(.cf-k__a:focus-visible) { filter: none; }
+.cf-k__a:focus-visible { outline: 2px solid var(--cf-brand); outline-offset: 2px; }
+.cf-feat .cf-k__a { border-color: transparent; }
+
+/* ---------- the page head centred (user 2026-11-18, "centre align this"): the breadcrumb, the title, the line under it and the three
+   figures, the gold rule over them fading out at both ends ---------- */
+.cf-hero__in { text-align: center; }
+.cf-crumbs { justify-content: center; }
+.cf-h, .cf-lede { margin-inline: auto; }
+.cf-stats { justify-content: center; margin-inline: auto; }
+.cf-stats::before { background: linear-gradient(90deg, rgb(255 212 138 / 0), rgb(255 212 138 / .8) 30%, rgb(255 212 138 / .8) 70%, rgb(255 212 138 / 0)); }
+.cf-stat { text-align: left; }
+@media (max-width: 760px) {
+  .cf-stats { justify-items: center; }
+  .cf-stat { align-items: center; text-align: center; }
+}
+
+/* ---------- the course page's facts on the card (user 2026-11-18, "add these to the card and let's not show the price"): the date of
+   commencement, the mode, the duration and the course time, one to a line, each after its Iconoir icon; a fact the page does not give in
+   grey. No fee: the foot holds "View course" alone, across the card. ---------- */
+.cf-k__facts { display: flex; flex-direction: column; gap: 7px; margin-top: auto; padding-top: 8px; }
+.cf-k__f { display: flex; align-items: flex-start; gap: 8px; font: 500 14px/1.35 var(--f); color: var(--cf-ink); }
+.cf-k__f svg { flex: none; margin-top: 1px; color: var(--cf-brand); }
+.cf-k__f.is-none { font-weight: 400; color: var(--cf-mute); }
+.cf-k__f.is-none svg { color: #C9B49A; }
+.cf-k__f [lang="hi"] { font-family: "Tiro Devanagari Hindi", var(--f); }
+.cf-k__b { gap: 8px; padding-bottom: 14px; }
+.cf-k__ft { padding: 2px 16px 16px; }
+.cf-k__go { justify-content: center; width: 100%; margin-left: 0; }
+
+/* ---------- the card's facts in order of weight (user 2026-11-18, "the starting date should have more hierarchy"): the start date leads, in
+   its own block (a small label over the date, the date larger and in the ink, its calendar in a soft brand-tinted square); the duration
+   and the time (now with how often: Daily, Mon–Sat, Weekly) follow as quieter lines ---------- */
+.cf-k__start { display: flex; align-items: center; gap: 10px; margin-top: auto; padding-top: 10px; }
+.cf-k__start > svg { flex: none; box-sizing: content-box; width: 18px; height: 18px; padding: 8px; border-radius: 10px; background: #FFF1E6; color: var(--cf-brand); }
+.cf-k__start > span { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.cf-k__start small { font: 600 11px/1 var(--f); letter-spacing: .08em; text-transform: uppercase; color: var(--cf-mute); }
+.cf-k__start b { font: 600 17px/1.15 var(--f); color: var(--cf-ink); font-variant-numeric: lining-nums; }
+.cf-k__facts { margin-top: 0; padding-top: 4px; gap: 6px; }
+.cf-k__f { font-weight: 400; font-size: 14px; color: var(--cf-body); }
+.cf-k__f svg { color: var(--cf-mute); }
+
+/* ---------- the card in the user's wireframe order (2026-11-18): picture, the Vajiram & Ravi byline, the title, then the duration and
+   the time; below a divider, the batch date on the left and an outlined "View course" button on the right ---------- */
+.cf-k__b { gap: 8px; padding-bottom: 16px; }
+.cf-k__facts { margin-top: 6px; padding-top: 0; gap: 6px; }
+.cf-k__ft { display: flex; align-items: center; justify-content: space-between; gap: 12px; height: auto; margin: auto -12px 0; padding: 14px 16px 16px; }
+.cf-k__ft::before { content: ""; position: absolute; left: 16px; right: 16px; top: 0; border-top: 1px solid var(--cf-line); }
+.cf-k__ft .cf-k__start { margin: 0; padding: 0; gap: 8px; min-width: 0; }
+.cf-k__ft .cf-k__start > svg { width: 16px; height: 16px; padding: 7px; border-radius: 8px; }
+.cf-k__ft .cf-k__start small { font-size: 10px; }
+.cf-k__ft .cf-k__start b { font-size: 16px; white-space: nowrap; }
+.cf-k__go { flex: none; width: auto; margin-left: 0; justify-content: center; height: 40px; padding: 0 18px; border: 1px solid var(--cf-brand); border-radius: 999px; background: #fff; color: var(--cf-brand); font: 600 14px/1 var(--f); }
+.cf-k__a:hover .cf-k__go { background: var(--cf-brand); color: #fff; }
+/* the footer row fits the narrowest card (the Top Picks row, 229px): the date stands alone as in the wireframe, without its calendar,
+   and the button is a touch more compact so the full date never has to be cut */
+.cf-k__ft { gap: 8px; padding: 14px 12px 16px; }
+.cf-k__ft::before { left: 12px; right: 12px; }
+.cf-k__ft .cf-k__start > svg { display: none; }
+.cf-k__ft .cf-k__start > span { gap: 4px; }
+.cf-k__ft .cf-k__start b { font-size: 15px; }
+.cf-k__go { height: 36px; padding: 0 13px; font-size: 13px; }
+
+/* ---------- the dropdowns as outlined fields (user 2026-11-18, reference: a "Tools / Photoshop" field): a rounded box, its name sitting
+   on the top border in a small notch, the choice inside in the ink, a chevron at the right. The notch is half the bar's cream (above the
+   border) and half the field's white (below it), so the border appears to break around the name. The search takes the same corners so
+   the row reads as one set. ---------- */
+.cf-sel { height: 48px; padding: 0 40px 0 16px; border: 1px solid #CDBBA5; border-radius: 12px; background: #fff; }
+.cf-sel__l { position: absolute; top: 0; left: 12px; transform: translateY(-50%); margin: 0; padding: 0 5px;
+  background: linear-gradient(#FFFBF5 50%, #fff 50%); font: 500 12px/1.2 var(--f); letter-spacing: 0; text-transform: none; color: var(--cf-body); pointer-events: none; }
+.cf-sel select { font: 500 15px/1 var(--f); color: var(--cf-ink); }
+.cf-sel svg { right: 14px; color: var(--cf-ink); }
+.cf-sel:hover { border-color: var(--cf-ink); }
+.cf-sel:focus-within { border-color: var(--cf-brand); box-shadow: 0 0 0 3px rgb(194 65 12 / .14); }
+.cf-sel:focus-within .cf-sel__l { color: var(--cf-brand); }
+.cf-sel.is-on { border-color: var(--cf-brand); background: #fff; }
+.cf-sel.is-on .cf-sel__l { color: var(--cf-brand); }
+.cf-sel.is-on svg { color: var(--cf-brand); }
+.cf-search input { height: 48px; border-radius: 12px; }
+@media (min-width: 761px) { .cf-sel { height: 48px; padding: 0 40px 0 16px; } .cf-sel__l { margin: 0; font-size: 12px; letter-spacing: 0; } .cf-search input { height: 48px; } }
+@media (max-width: 760px) {
+  /* the swipe row scrolls sideways, which would clip a name sticking above the box, so it gets room on top */
+  .cf-filt { padding-top: 8px; margin-top: 2px; }
+  .cf-sel { height: 44px; padding: 0 36px 0 14px; }
+  .cf-sel select { font-size: 14.5px; }
+  .cf-search input { height: 44px; }
+}
+
+/* ---------- the badge moved off the picture into the card (user 2026-11-18, reference: a course store's "Bestseller" / "Hot & New" tags):
+   it sits at the foot of the card's text, just above the divider, as a soft tinted tag in sentence case with dark text in its own hue ---------- */
+.cf-k__tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 12px; }
+.cf-k__tags .cf-badge { position: static; display: inline-flex; align-items: center; height: 24px; padding: 0 8px; border-radius: 4px; box-shadow: none;
+  font: 600 13px/1 var(--f); letter-spacing: 0; text-transform: none; }
+.cf-k__tags .cf-badge--trending { background: #FFE1D2; color: #9A3412; }
+.cf-k__tags .cf-badge--new { background: #D5F0DF; color: #1E6A3F; }
+.cf-k__tags .cf-badge--bestseller { background: #C9ECEA; color: #0F5752; }
+
+/* ---------- the dropdowns filled with a warm sand (user 2026-11-18, "a different fill colour to the dropdown"), so they read apart from
+   the white search; the name's notch takes the same sand on its lower half so the border still breaks cleanly around it ---------- */
+.cf-sel { --sel-fill: #F5E9D8; background: var(--sel-fill); border-color: #D9C3A6; transition: border-color .2s, background-color .2s; }
+.cf-sel:hover { --sel-fill: #F0E1CC; }
+.cf-sel.is-on { --sel-fill: #FDE6D6; background: var(--sel-fill); }
+.cf-sel__l { background: linear-gradient(#FFFBF5 50%, var(--sel-fill) 50%); }
+
+/* the badge between the title and the facts (user 2026-11-18, "trending badge on top then duration and time") */
+.cf-k__tags { margin-top: 2px; padding-top: 0; }
+.cf-k__tags + .cf-k__facts { margin-top: 4px; }
+
+/* the Top Picks chips wrap inside the banner's intro (user 2026-11-18, "fix the issue with the upcoming chip": with Upcoming the five
+   no longer fitted its 360px column on one line and ran under the cards); on phones they stay one row to swipe */
+@media (min-width: 761px) {
+  .cf-feat .cf-chips { flex-wrap: wrap; max-width: 100%; row-gap: 8px; }
+}
+
+/* a picked dropdown: its chevron gives way to a clear button, Iconoir's solid xmark-circle in the brand orange (user 2026-11-18, a
+   "Blog ⊗" chip as the reference); it empties that one filter */
+.cf-sel__x { position: absolute; top: 50%; right: 9px; z-index: 1; display: none; place-items: center; width: 28px; height: 28px; margin-top: -14px; padding: 0;
+  border: 0; border-radius: 50%; background: none; color: var(--cf-brand); cursor: pointer; transition: color .15s, background-color .15s; }
+.cf-sel__x svg { position: static; right: auto; color: inherit; }
+.cf-sel__x:hover { color: #9A3412; background: rgb(194 65 12 / .1); }
+.cf-sel__x:focus-visible { outline: 2px solid var(--cf-brand); outline-offset: 1px; }
+.cf-sel.is-on .cf-sel__x { display: grid; }
+.cf-sel.is-on > svg { display: none; }
+
+/* the breadcrumb at the hero's right edge (user 2026-11-18, "move this to the right side"); the title and stats stay centred */
+.cf-crumbs { justify-content: flex-end; }
+
+/* ---------- the cards' entrance on load (user 2026-11-18, "every card in the view port should do a horizontal flip ... smooth and
+   subtle"): a turn in from 60° on the upright axis, fading in over the first part, on a long soft ease-out so it settles gently;
+   the cards follow one another 80ms apart (--fd, set in js/course-finder.js). It runs on the card's link, so the hover tilt on the
+   card itself is untouched. ---------- */
+.cf-k.is-flipin .cf-k__a { animation: cf-k-flipin 1.05s cubic-bezier(.16, 1, .3, 1) var(--fd, 0ms) both; transform-origin: 50% 50%; }
+@keyframes cf-k-flipin {
+  from { opacity: 0; transform: perspective(1400px) rotateY(-60deg); }
+  40% { opacity: 1; }
+  to { opacity: 1; transform: perspective(1400px) rotateY(0deg); }
+}
+@media (prefers-reduced-motion: reduce) { .cf-k.is-flipin .cf-k__a { animation: none; } }
+
+/* the breadcrumb in the hero's left corner (user 2026-11-18, "left corner"; it was at the right, and centred before that) */
+.cf-crumbs { justify-content: flex-start; }
