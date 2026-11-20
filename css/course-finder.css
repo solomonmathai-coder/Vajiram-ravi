@@ -837,3 +837,45 @@ html.cf-locked { overflow: hidden; }
 @media (max-width: 1100px) {
   .cf-rail__btn { border: 0; box-shadow: none; background: rgb(255 251 245 / .55); -webkit-backdrop-filter: blur(6px) saturate(1.1); backdrop-filter: blur(6px) saturate(1.1); }
 }
+
+/* "View course" as the homepage's "See all programmes" (user 2026-11-20; the reference build's .btn--outline.btn--disc): an outlined
+   pill, a 1.5px orange edge at 45% on white, orange bold type, the arrow in a solid orange disc 4px from the right end. The whole card
+   is the link, so its behaviour plays when the card is hovered: a faint orange wash and a full-orange edge, the label rolls up to its
+   copy, the arrow slides out of the disc as a second slides in and the disc grows 6%; a press shrinks the button to 97%. Sized as the
+   reference's small button (36px, a 28px disc) so the date beside it is never cut on the narrow Top Picks cards. */
+.cf-k__go { position: relative; isolation: isolate; overflow: hidden; display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 4px 0 14px;
+  border: 0; border-radius: 999px; background: #fff; color: var(--cf-brand); font: 700 13px/1.25 var(--f); letter-spacing: .005em; white-space: nowrap;
+  box-shadow: inset 0 0 0 1.5px rgb(194 65 12 / .45); transition: box-shadow .35s, color .35s, scale .15s; }
+.cf-k__go::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: rgb(194 65 12 / .08); opacity: 0; transition: opacity .35s; pointer-events: none; }
+.cf-go__l { position: relative; display: inline-grid; overflow: hidden; padding-top: 2px; }
+.cf-go__t { grid-area: 1 / 1; display: block; transition: transform .5s cubic-bezier(.7, 0, .2, 1); }
+.cf-go__t + .cf-go__t { transform: translateY(115%); }
+.cf-go__d { position: relative; flex: none; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; overflow: hidden;
+  background: var(--cf-brand); color: #fff; transition: transform .45s cubic-bezier(.2, .8, .2, 1); }
+.cf-go__d svg { grid-area: 1 / 1; width: 13px; height: 13px; stroke-width: 2.4; transition: transform .5s cubic-bezier(.7, 0, .2, 1); }
+.cf-go__d svg + svg { transform: translateX(-220%); }
+.cf-k__a:hover .cf-k__go { background: #fff; color: var(--cf-brand); box-shadow: inset 0 0 0 1.5px var(--cf-brand); }
+.cf-k__a:focus-visible .cf-k__go { box-shadow: 0 0 0 3px #fff, 0 0 0 5.5px var(--cf-hot); }
+.cf-k__a:hover .cf-k__go::before, .cf-k__a:focus-visible .cf-k__go::before { opacity: 1; }
+@media (hover: hover) and (pointer: fine) {
+  .cf-k__a:hover .cf-go__t { transform: translateY(-115%); }
+  .cf-k__a:hover .cf-go__t + .cf-go__t { transform: translateY(0); }
+  .cf-k__a:hover .cf-go__d { transform: scale(1.06); }
+  .cf-k__a:hover .cf-go__d svg { transform: translateX(220%); }
+  .cf-k__a:hover .cf-go__d svg + svg { transform: translateX(0); }
+}
+.cf-k__a:active .cf-k__go { scale: .97; }
+@media (prefers-reduced-motion: reduce) { .cf-k__go, .cf-go__t, .cf-go__d, .cf-go__d svg { transition: none; } }
+/* on a card too narrow for the date and the button side by side (the 229px Top Picks cards, about 203px inside: the date needs 88px, the button 129px), the
+   button takes its own row under the date, the full width of the card, the label centred and the disc at the right end (as the
+   reference's full-width disc button), so neither the date nor the label is ever cut */
+.cf-k__a { container: cfk / inline-size; }
+@container cfk (max-width: 232px) {
+  .cf-k__ft { flex-wrap: wrap; row-gap: 12px; }
+  .cf-k__ft .cf-k__go { display: grid; grid-template-columns: 28px minmax(0, 1fr) 28px; width: 100%; padding: 0 4px; gap: 0; }
+  .cf-go__l { grid-column: 2; justify-self: center; }
+  .cf-go__d { grid-area: 1 / 3; }
+}
+/* a long start ("To be announced", 118px) beside the button on a phone's card (about 111px left) breaks onto two lines rather than
+   being cut; the dates themselves always fit on one */
+.cf-k__ft .cf-k__start b { white-space: normal; overflow-wrap: normal; text-wrap: balance; }
