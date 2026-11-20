@@ -63,7 +63,8 @@
     };
     const NEW = new Set(['interview']);   // shown as new (user 2026-11-17, "let's say Interview Guidance is a new course")
     // Iconoir's nav-arrow-left and nav-arrow-right
-    const CHEV = d => `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d < 0 ? 'M15 6L9 12L15 18' : 'M9 6L15 12L9 18'}"/></svg>`;
+    // the carousel buttons' arrow (user 2026-11-20, "use arrow like this instead of chevron"): Iconoir's arrow-right / arrow-left
+    const CHEV = d => `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${d < 0 ? 'M21 12L3 12M3 12L11.5 3.5M3 12L11.5 20.5' : 'M3 12L21 12M21 12L12.5 3.5M21 12L12.5 20.5'}"/></svg>`;
     const modeTxt = v => v.k === 'classroom' ? 'Classroom' : v.k === 'online' ? 'LIVE-Online' : 'Classroom & LIVE-Online';
 
     const fold = s => String(s || '').toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '');

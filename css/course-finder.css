@@ -866,16 +866,42 @@ html.cf-locked { overflow: hidden; }
 }
 .cf-k__a:active .cf-k__go { scale: .97; }
 @media (prefers-reduced-motion: reduce) { .cf-k__go, .cf-go__t, .cf-go__d, .cf-go__d svg { transition: none; } }
-/* on a card too narrow for the date and the button side by side (the 229px Top Picks cards, about 203px inside: the date needs 88px, the button 129px), the
-   button takes its own row under the date, the full width of the card, the label centred and the disc at the right end (as the
-   reference's full-width disc button), so neither the date nor the label is ever cut */
+/* the Top Picks cards keep the footer of every other card (user 2026-11-20: "make the card look like the rest"): the date on the left,
+   the button on the right. The introduction column narrows from 360px to 330px so the cards widen (229px to 239px), and on a card
+   this narrow (about 213px inside) the button is a shade smaller (12px type, a 26px disc) and the date 14px, with 10px sides.
+   Only on a card narrower still (under 206px inside, never at the usual widths) does the button drop to its own full-width row. */
+.cf-sec.cf-feat { grid-template-columns: minmax(280px, 330px) minmax(0, 1fr); }
+/* below 1440px three cards would drop under that width (227px at 1400px, 191px at 1280px), so the row shows two, beside a 280px introduction; below
+   1100px two would too (217px at 1024px), so the introduction moves above the cards, as it already did below 1000px */
+@media (max-width: 1439px) { .cf-sec.cf-feat { grid-template-columns: 280px minmax(0, 1fr); } .cf-feat .cf-grid { --cols: 2; } }
+@media (max-width: 1100px) { .cf-sec.cf-feat { grid-template-columns: minmax(0, 1fr); gap: 28px; padding: 36px 32px; } .cf-feat__intro { max-width: 640px; } }
+@media (max-width: 760px) { .cf-sec.cf-feat { padding: 32px var(--px) 28px; } }
 .cf-k__a { container: cfk / inline-size; }
 @container cfk (max-width: 232px) {
+  .cf-k__ft { gap: 6px; padding-left: 10px; padding-right: 10px; }
+  .cf-k__ft::before { left: 10px; right: 10px; }
+  .cf-k__ft .cf-k__start b { font-size: 14px; }
+  .cf-k__ft .cf-k__go { gap: 6px; padding: 0 4px 0 12px; font-size: 12px; }
+  .cf-k__ft .cf-go__d { width: 26px; height: 26px; }
+  .cf-k__ft .cf-go__d svg { width: 12px; height: 12px; }
+}
+@container cfk (max-width: 205px) {
   .cf-k__ft { flex-wrap: wrap; row-gap: 12px; }
-  .cf-k__ft .cf-k__go { display: grid; grid-template-columns: 28px minmax(0, 1fr) 28px; width: 100%; padding: 0 4px; gap: 0; }
+  .cf-k__ft .cf-k__go { display: grid; grid-template-columns: 26px minmax(0, 1fr) 26px; width: 100%; padding: 0 4px; gap: 0; }
   .cf-go__l { grid-column: 2; justify-self: center; }
   .cf-go__d { grid-area: 1 / 3; }
 }
 /* a long start ("To be announced", 118px) beside the button on a phone's card (about 111px left) breaks onto two lines rather than
    being cut; the dates themselves always fit on one */
 .cf-k__ft .cf-k__start b { white-space: normal; overflow-wrap: normal; text-wrap: balance; }
+
+/* the carousel buttons as the user's reference (2026-11-20): a straight arrow (Iconoir arrow-right / arrow-left) in place of the
+   chevron, orange on a pale peach disc with a soft orange rim; on hover the rim goes full orange and the disc a shade warmer */
+.cf-arw { width: 48px; height: 48px; margin-top: -24px; border: 1.5px solid #F1C3A5; background: #FFF3EB; color: var(--cf-brand);
+  box-shadow: 0 8px 20px -10px rgb(60 30 10 / .35); }
+.cf-arw svg { width: 20px; height: 20px; }
+.cf-arw:hover { background: #FDE6D6; border-color: var(--cf-brand); box-shadow: 0 12px 24px -10px rgb(60 30 10 / .4); }
+.cf-arw:focus-visible { outline: none; box-shadow: 0 0 0 3px #fff, 0 0 0 5.5px var(--cf-hot); }
+.cf-arw--prev { left: -24px; }
+.cf-arw--next { right: -24px; }
+.cf-feat .cf-arw--next { right: -18px; }
