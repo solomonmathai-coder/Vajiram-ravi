@@ -905,3 +905,5 @@ html.cf-locked { overflow: hidden; }
 .cf-arw--prev { left: -24px; }
 .cf-arw--next { right: -24px; }
 .cf-feat .cf-arw--next { right: -18px; }
+/* the disc's arrow is the carousel buttons' (Iconoir arrow-right on a 24-unit grid): a heavier stroke so it reads as boldly at 12-13px */
+.cf-go__d svg { stroke-width: 2.8; }

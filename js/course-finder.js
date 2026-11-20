@@ -203,8 +203,8 @@
     // the course time (back on the card, user 2026-11-18, "let's bring back time"), tidied: "02:30 PM to 05:00 PM" to "2:30 PM to 5:00 PM",
     // anything in brackets left to the course page; its icon is Iconoir's clock
     const I_TIME = CLOCK;
-    // the arrow in the "View course" disc, the homepage's "See all programmes" one (reference build .btn__disc): two, one slides out as the other slides in
-    const GO_ARW = '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg>';
+    // the arrow in the "View course" disc: the carousel buttons' arrow (Iconoir arrow-right, user 2026-11-20); two, one slides out as the other slides in
+    const GO_ARW = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 12L21 12M21 12L12.5 3.5M21 12L12.5 20.5"/></svg>';
     // the mode under the time (user 2026-11-18, "the card should also mention if it's live or classroom under the time"): Iconoir's
     // presentation board for Classroom (and for courses run both ways), its video camera for LIVE-Online
     const I_ROOM = ico(['M22 4.6V17.4C22 17.7314 21.7314 18 21.4 18H2.6C2.26863 18 2 17.7314 2 17.4V4.6C2 4.26863 2.26863 4 2.6 4H21.4C21.7314 4 22 4.26863 22 4.6Z', 'M8.5 21.5L12 18L15.5 21.5', 'M12 2V4', 'M9 12V14', 'M12 10V14', 'M15 8V14']);
