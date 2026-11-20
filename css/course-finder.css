@@ -907,3 +907,16 @@ html.cf-locked { overflow: hidden; }
 .cf-feat .cf-arw--next { right: -18px; }
 /* the disc's arrow is the carousel buttons' (Iconoir arrow-right on a 24-unit grid): a heavier stroke so it reads as boldly at 12-13px */
 .cf-go__d svg { stroke-width: 2.8; }
+
+/* the reference build's arrow (user 2026-11-20) in the carousel buttons and the "View course" disc: 16px on its 16-unit grid with a
+   2.4 stroke, mirrored for "previous"; on hover the arrow slides out to the right as its copy slides in from the left */
+.cf-arw__i { display: grid; place-items: center; width: 18px; height: 18px; overflow: hidden; }
+.cf-arw__i--flip { scale: -1 1; }
+.cf-arw .cf-arw__i svg { grid-area: 1 / 1; width: 16px; height: 16px; stroke-width: 2.4; transition: transform .5s cubic-bezier(.7, 0, .2, 1); }
+.cf-arw .cf-arw__i svg + svg { transform: translateX(-220%); }
+@media (hover: hover) and (pointer: fine) {
+  .cf-arw:hover .cf-arw__i svg { transform: translateX(220%); }
+  .cf-arw:hover .cf-arw__i svg + svg { transform: translateX(0); }
+}
+.cf-go__d svg { stroke-width: 2.4; }
+@media (prefers-reduced-motion: reduce) { .cf-arw .cf-arw__i svg { transition: none; } }
