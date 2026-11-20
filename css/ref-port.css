@@ -104,3 +104,24 @@ html main #closing .cl__faces { flex: none; }
 /* the banner's frame simplified (user 2026-11-16): one thin line in the frame's colour, no diamonds at the corners, 6px in from the
    card's edge (from 12px plus the double rule), so there is more room inside it */
 #courses .prog__help::before, #courses .prog__help::before { inset: 6px; border: 1px solid #E9B48A; border-image: none; border-radius: 4px; }
+
+/* "See all programmes" as the reference build's (user 2026-11-20, vajiram-ravi.abhishek-ps.workers.dev .btn--outline.btn--md.btn--disc):
+   an outlined pill on the page's ground, a 1.5px orange edge at 45%, orange bold type, the arrow in a solid orange disc 5px from the
+   right end. Its behaviour too: on hover a faint orange wash fills it and the edge goes full orange, the label rolls up to its copy,
+   the arrow slides out of the disc as a second one slides in and the disc grows 6%, a press shrinks it to 97%; the keyboard ring is
+   white then orange. Below 640px it spans the column, the label centred, the disc at the right end (as the reference). */
+#courses .prog__more .cta.cta.bt--outline { height: 48px; padding: 0 5px 0 22px; gap: 14px; background: transparent; color: #C2410C; text-shadow: none;
+  box-shadow: inset 0 0 0 1.5px rgb(194 65 12 / .45); transition: box-shadow .35s, color .35s, scale .15s; }
+#courses .prog__more .cta.cta.bt--outline::before { background: rgb(194 65 12 / .08); }
+#courses .prog__more .cta.cta.bt--outline:hover { background: transparent; color: #C2410C; box-shadow: inset 0 0 0 1.5px #C2410C; }
+#courses .prog__more .cta.cta.bt--outline:focus-visible { box-shadow: 0 0 0 3px #fff, 0 0 0 5.5px #E85020; }
+#courses .prog__more .cta.cta.bt--outline:focus-visible::before { opacity: 1; }
+#courses .prog__more .cta.cta.bt--outline .sq { width: 38px; height: 38px; background: #C2410C; box-shadow: none; }
+#courses .prog__more .cta.cta.bt--outline .sq svg { stroke: #fff; }
+#courses .prog__more .cta.bt--outline::after { background-image: linear-gradient(75deg, transparent 0%, rgba(194, 65, 12, 0) 30%, rgba(194, 65, 12, .04) 40%, rgba(194, 65, 12, .1) 50%, rgba(194, 65, 12, .04) 60%, rgba(194, 65, 12, 0) 70%, transparent 100%); }
+@media (max-width: 640px) {
+  #courses .prog__more { width: 100%; }
+  #courses .prog__more .cta.cta.bt--outline { display: grid; grid-template-columns: 38px minmax(0, 1fr) 38px; width: 100%; padding: 0 5px; gap: 0; }
+  #courses .prog__more .cta.cta.bt--outline .btn__label { grid-column: 2; justify-self: center; }
+  #courses .prog__more .cta.cta.bt--outline .sq { grid-area: 1 / 3; }
+}
