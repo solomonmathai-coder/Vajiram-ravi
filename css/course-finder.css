@@ -920,3 +920,7 @@ html.cf-locked { overflow: hidden; }
 }
 .cf-go__d svg { stroke-width: 2.4; }
 @media (prefers-reduced-motion: reduce) { .cf-arw .cf-arw__i svg { transition: none; } }
+
+/* the dropdowns back to white (user 2026-11-20, "lets keep this white"), at rest, on hover and once picked; the border and the
+   orange edge on a picked filter still mark them, and the name's notch follows the white */
+.cf-sel, .cf-sel:hover, .cf-sel.is-on { --sel-fill: #fff; }
