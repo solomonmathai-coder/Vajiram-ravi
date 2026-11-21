@@ -1,0 +1,105 @@
+/*
+ * The Free Resources page (/free-resources, FreeResourcesPage). Its head is the About page's (about.css); below it,
+ * everything sits in .kv, which carries Kevin's homepage parts (kevin-parts.css, from his stylesheet) and the values
+ * his stylesheet takes from its :root, fixed at the 1440 canvas (his clamp()s and vw sizes at 1440 wide), with his
+ * fonts as this site's (Mukta for text, Newsreader for titles). The sources, the benefits and the role are drawn
+ * here in his tokens: his warm hairline (--line), 8px corners (--r-card), his ink and body colours, his buttons.
+ */
+
+/* ---------- 1. the head: the About page's, with no photograph rising over its foot ---------- */
+.fr-page .fr-hero { padding-bottom: 96px; }
+.fr-page .fr-hero .ab-lbl { margin-bottom: 22px; }
+.fr-page .fr-hero .cf-h { max-width: 980px; }
+.fr-page .fr-hero .cf-lede { max-width: 780px; }
+
+/* ---------- Kevin's values, at 1440 ---------- */
+.fr-page .kv {
+  --f: var(--font-heading-face), "Nirmala UI", "Helvetica Neue", Arial, sans-serif;
+  --f-m: var(--f);
+  --f-d: var(--font-news), Georgia, serif;
+  --f-title: var(--f-d);
+  --f-hi: "Tiro Devanagari Hindi", "Nirmala UI", serif;
+  --ink: #1E1A17; --body: #4A4A4A; --muted: #6B6B6B; --brand: #C2410C; --brand-d: #A8380A;
+  --sand: #FFF2E6; --rule: #F3C9AE; --line: #F7DCC5; --line-2: #F3CDB1; --off: #F4C3A0;
+  --marigold: #FEAA1C; --teal: #244F69;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  --ground: linear-gradient(180deg, #fff7ee, #fffbf5);
+  --card-gap: 28px; --h2: 64px; --hd-gap: 48px; --hd-in: 16px; --hd-lbl: 24px;
+  --pb: 90px; --px: 80px; --sec-y: 90px; --sec-gap: 0px; --r-card: 8px;
+  color: var(--ink); font-family: var(--f);
+}
+.fr-page .kv h2, .fr-page .kv h3, .fr-page .kv p { margin: 0; }
+.fr-page .kv ul, .fr-page .kv ol { margin: 0; padding: 0; list-style: none; }
+
+/* a section on the page's ground; its head, left or centred */
+.fr-page .kv .fr-sec { padding: 104px var(--px) 0; }
+.fr-page .kv .fr-head--c { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.fr-page .kv .fr-head--c .lbl { justify-content: center; }
+.fr-page .kv .fr-head--c .h2 { max-width: 900px; }
+.fr-page .kv .fr-head--c .intro { margin-inline: auto; max-width: 560px; }
+
+/* ---------- 2. the materials: Kevin's folders; a material with no photograph of his stands as a sheet of paper ---------- */
+.fr-page .kv .fr-mats { padding-top: 104px; }
+.fr-page .kv .fr-doc {
+  position: relative; display: flex; flex-direction: column; gap: 9px; width: 150px; height: 172px; box-sizing: border-box; padding: 18px 18px 0;
+  border-radius: 3px; background: linear-gradient(180deg, #fff, #FFFCF7); rotate: -3deg;
+  box-shadow: 0 0 0 1px rgb(120 70 30 / .1), 0 10px 14px rgb(60 30 5 / .22);
+}
+.fr-page .kv .fr-doc::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 5px; border-radius: 3px 3px 0 0; background: var(--brand); opacity: .85; }
+.fr-page .kv .fr-doc__ic { width: 46px; height: 46px; margin-bottom: 6px; background: center / contain no-repeat; }
+.fr-page .kv .fr-doc i { display: block; height: 6px; border-radius: 3px; background: #EFE3D3; }
+.fr-page .kv .fr-doc i:nth-of-type(2) { width: 82%; }
+.fr-page .kv .fr-doc i:nth-of-type(3) { width: 90%; }
+.fr-page .kv .fr-doc i:nth-of-type(4) { width: 64%; }
+
+/* ---------- 3. the sources: on his dotted sand sheet ---------- */
+.fr-page .kv .fr-srcs-sec { margin-top: 112px; }
+.fr-page .kv .fr-cols { columns: 2; column-gap: 56px; margin-top: 28px; }
+.fr-page .kv .fr-cols p { margin: 0 0 14px; break-inside: avoid; font: 400 16.5px/1.65 var(--f); color: var(--body); }
+.fr-page .kv .fr-srcs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--card-gap); margin-top: 40px; }
+.fr-page .kv .fr-src {
+  display: grid; grid-template-columns: 176px minmax(0, 1fr); gap: 26px; min-height: 236px; padding: 10px; border-radius: var(--r-card); background: #fff;
+  box-shadow: inset 0 0 0 1px var(--line), 0 24px 40px -34px rgb(120 50 10 / .45); transition: box-shadow .35s var(--ease), translate .45s var(--ease);
+}
+.fr-page .kv .fr-src:hover { translate: 0 -4px; box-shadow: inset 0 0 0 1px var(--line-2), 0 30px 50px -32px rgb(120 50 10 / .5); }
+.fr-page .kv .fr-src__ph { overflow: hidden; border-radius: 4px; background: var(--sand); }
+.fr-page .kv .fr-src__ph img { width: 100%; height: 100%; object-fit: cover; transition: scale .8s var(--ease); }
+.fr-page .kv .fr-src:hover .fr-src__ph img { scale: 1.05; }
+.fr-page .kv .fr-src__b { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; padding: 18px 18px 8px 0; }
+.fr-page .kv .fr-src__t { font: 600 24px/1.2 var(--f-d); letter-spacing: -.01em; color: var(--ink); }
+.fr-page .kv .fr-src__d { flex: 1; margin-top: 10px; font: 400 16px/1.6 var(--f); color: var(--body); text-wrap: pretty; }
+.fr-page .kv .fr-src .btn { margin-top: 18px; }
+
+/* ---------- 4. why it matters: six cards on his hairline, turning orange under the pointer (the design's hover) ---------- */
+.fr-page .kv .fr-whys { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); margin-top: var(--hd-gap); }
+.fr-page .kv .fr-why {
+  position: relative; isolation: isolate; overflow: hidden; min-height: 262px; padding: 32px; border-radius: var(--r-card); background: #fff;
+  box-shadow: inset 0 0 0 1px var(--line), 0 24px 40px -34px rgb(120 50 10 / .45); transition: box-shadow .25s ease-out;
+}
+.fr-page .kv .fr-why::before { content: ""; position: absolute; inset: 0; z-index: -1; opacity: 0; transition: opacity .25s ease-out;
+  background: radial-gradient(60% 55% at 92% 0%, rgb(255 190 120 / .55), transparent 70%), linear-gradient(150deg, #E57512 0%, #C2410C 55%, #AE3B0F 100%); }
+.fr-page .kv .fr-why__ic { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 12px; background: #FCEAC9; transition: background-color .25s; }
+.fr-page .kv .fr-why__ic img { width: 24px; height: 24px; }
+.fr-page .kv .fr-why__t { margin-top: 26px; font: 600 24px/1.2 var(--f-d); letter-spacing: -.01em; color: var(--ink); transition: color .25s; }
+.fr-page .kv .fr-why__d { margin-top: 12px; font: 400 16px/1.6 var(--f); color: var(--body); transition: color .25s; }
+@media (hover: hover) {
+  .fr-page .kv .fr-why:hover::before { opacity: 1; }
+  .fr-page .kv .fr-why:hover { box-shadow: 0 30px 60px -34px rgb(174 59 15 / .7); }
+  .fr-page .kv .fr-why:hover .fr-why__ic { background: #fff; }
+  .fr-page .kv .fr-why:hover .fr-why__t { color: #fff; }
+  .fr-page .kv .fr-why:hover .fr-why__d { color: rgb(255 255 255 / .92); }
+}
+
+/* ---------- 5. the role of study material: on his sheet, the heading held on the left, three numbered points ---------- */
+.fr-page .kv .fr-role { display: grid; grid-template-columns: 500px minmax(0, 1fr); gap: 96px; align-items: start; margin-top: 112px; overflow: visible; }
+.fr-page .kv .fr-role__l { position: sticky; top: 120px; display: flex; flex-direction: column; align-items: flex-start; }
+.fr-page .kv .fr-role__l .btn { margin-top: 32px; }
+.fr-page .kv .fr-pt { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 8px; padding: 34px 0; border-bottom: 1px solid var(--rule); }
+.fr-page .kv .fr-pt:first-child { padding-top: 6px; }
+.fr-page .kv .fr-pt:last-child { border-bottom: 0; }
+.fr-page .kv .fr-pt__n { font: 500 30px/1 var(--f-d); color: var(--brand); font-variant-numeric: lining-nums; }
+.fr-page .kv .fr-pt__t { font: 600 26px/1.2 var(--f-d); letter-spacing: -.01em; color: var(--ink); }
+.fr-page .kv .fr-pt__d { margin-top: 12px; max-width: 620px; font: 400 16.5px/1.65 var(--f); color: var(--body); }
+
+/* ---------- 6. FAQs: his, with room before the footer ---------- */
+.fr-page .kv .kv-faq { margin-top: 112px; }

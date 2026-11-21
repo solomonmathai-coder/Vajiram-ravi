@@ -16,7 +16,6 @@ export default function ValuesPanels() {
   const { label, heading, intro, items } = aboutValues;
   const [on, setOn] = useState(0);
   const wait = useRef(0);
-  const total = pad(items.length);
 
   // A short pause before a panel opens under the pointer, so sweeping across the row doesn't open each in turn.
   const hover = (i: number) => {
@@ -48,7 +47,6 @@ export default function ValuesPanels() {
             <div className="ab-val__body" id={`abVal${i}`} aria-hidden={i !== on}>
               <p className="ab-val__big" aria-hidden="true">
                 {pad(i + 1)}
-                <small>/{total}</small>
               </p>
               <h3 className="ab-val__t">{item.title}</h3>
               <p className="ab-val__d">{item.text}</p>

@@ -8,7 +8,8 @@ import { useEffect } from "react";
  */
 export default function AboutReveal() {
   useEffect(() => {
-    const els = [...document.querySelectorAll<HTMLElement>(".ab-page .ab-rv")];
+    // ...and Kevin's homepage parts where a page reuses them (.kv: his .rv, and his .rise and .sg rows, whose items rise in turn)
+    const els = [...document.querySelectorAll<HTMLElement>(".ab-page .ab-rv, .ab-page .kv .rv, .ab-page .kv .rise, .ab-page .kv .sg")];
     if (!("IntersectionObserver" in window)) {
       els.forEach((el) => el.classList.add("in"));
       return;

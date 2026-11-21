@@ -69,13 +69,22 @@ html.js .ab-page .ab-rv.in { opacity: 1; translate: none; }
 .ab-page .ab-hero .cf-lede { max-width: 760px; }
 .ab-page .ab-hero .cf-stats { --sg: 48px; max-width: 1280px; flex-wrap: nowrap; }
 .ab-page .ab-hero .cf-stat__t { width: 116px; }
-/* The head's ground and the values band's (21 Nov 2026, the client's reference): a warm wash from a deep orange at the
-   top left, through peach, to a pale cream at the bottom right, under a faint grain. The words on it are dark, as on Kevin's
-   latest course finder head (course-finder.css, 58f580a: brown title and text, rust figures and diamonds), so they stay
-   readable on its light end. Its nav keeps the behaviour it had (CourseFinderNav variant="hiding"). */
-.cf-page.ab-page .cf-hero, .ab-page .ab-vals { --ab-ground: linear-gradient(155deg, #FF6A3D 0%, #FF8C5A 22%, #FFB07C 48%, #FFCE9A 72%, #FFF6BE 100%); }
-.cf-page.ab-page .cf-hero { background: var(--ab-ground); }
-.cf-page.ab-page .cf-hero::after { background: url(/images/course-finder/patterns/grain.png) repeat; background-size: 200px; mix-blend-mode: soft-light; opacity: .18; }
+/* The head's ground and the values band's (21 Nov 2026): the logo's orange, from its saffron (#F87820) at the top
+   left to its red-orange (#E85020) at the foot, a soft warm light at the top right and a faint grain; white words on
+   it, gold figures and diamonds. (Since 58f580a Kevin's course finder head is paper with dark words, which these pages
+   do not take; their nav keeps the matching behaviour, CourseFinderNav variant="hiding".) */
+.cf-page.ab-page .cf-hero, .ab-page .ab-vals { --ab-ground: radial-gradient(55% 70% at 88% 0%, rgb(255 190 110 / .32), transparent 70%), linear-gradient(160deg, #F7821F 0%, #F06A20 48%, #E5531D 100%); }
+.cf-page.ab-page .cf-hero { color: #fff; background: var(--ab-ground); }
+.cf-page.ab-page .cf-hero::after { background: url(/images/course-finder/patterns/grain.png) repeat; background-size: 200px; mix-blend-mode: soft-light; opacity: .22; }
+.cf-page.ab-page .cf-h { color: #fff; }
+.cf-page.ab-page .cf-lede { color: rgb(255 255 255 / .92); }
+.cf-page.ab-page .cf-crumbs { color: rgb(255 255 255 / .8); }
+.cf-page.ab-page .cf-crumbs a, .cf-page.ab-page .cf-crumbs [aria-current] { color: #fff; text-decoration-color: rgb(255 255 255 / .45); }
+.cf-page.ab-page .cf-crumbs a:hover { text-decoration-color: #fff; }
+.cf-page.ab-page .cf-stats::before { background: linear-gradient(90deg, rgb(255 226 170 / 0), rgb(255 226 170 / .85) 30%, rgb(255 226 170 / .85) 70%, rgb(255 226 170 / 0)); }
+.cf-page.ab-page .cf-stat__fig { color: #FFF6E6; }
+.cf-page.ab-page .cf-stat__t { color: rgb(255 255 255 / .92); }
+.cf-page.ab-page .cf-stat + .cf-stat::before { background: #FFE2A8; box-shadow: 0 0 0 3px rgb(255 226 168 / .2); }
 .ab-page .ab-photo {
   position: relative; z-index: 2; height: 540px; margin: -160px var(--px) 0; padding: 10px; border-radius: 32px; background: #fff;
   box-shadow: 0 40px 80px -50px rgb(43 18 6 / .65), 0 0 0 1px var(--line);
@@ -85,19 +94,19 @@ html.js .ab-page .ab-rv.in { opacity: 1; translate: none; }
 /* ---------- 2. how it started: one fixed card, the slides moving inside it (StoryCarousel) ---------- */
 .ab-page .ab-tale { max-width: 1120px; margin: 44px auto 0; }
 /* the card: white, 1120 wide and centred, fixed in place; it clips the slides as they move through it */
-.ab-page .ab-tale__card { overflow: hidden; border-radius: 28px; background: #fff; box-shadow: 0 0 0 1px var(--line), 0 30px 60px -44px rgb(43 18 6 / .6); }
+.ab-page .ab-tale__card { overflow: hidden; }   /* no card (21 Nov 2026, "too loud"): it only clips the slides as they move */
 .ab-page .ab-tale__track { display: flex; margin: 0; padding: 0; list-style: none;
   transform: translateX(calc(var(--i, 0) * -100%)); transition: transform .9s var(--ease); }
 /* a slide: its words on the left, set in the middle of the card's height, and its photograph filling the right; the
    card's 12px margin is each slide's own, so no edge of the next or last slide shows in it */
-.ab-page .ab-tale__slide { flex: 0 0 100%; display: grid; grid-template-columns: minmax(0, 1fr) 600px; height: 500px; padding: 12px; transition: opacity .6s var(--ease); }
+.ab-page .ab-tale__slide { flex: 0 0 100%; display: grid; grid-template-columns: minmax(0, 1fr) 600px; height: 460px; gap: 64px; transition: opacity .6s var(--ease); }
 /* the loop's jump from a copy back to the slide it copies (StoryCarousel): instant, nothing moving or fading */
 .ab-page .ab-tale__track[data-still], .ab-page .ab-tale__track[data-still] .ab-tale__slide, .ab-page .ab-tale__track[data-still] .ab-tale__ph img { transition: none; }
 .ab-page .ab-tale__slide:not([data-on]) { opacity: .35; }
 .ab-page .ab-tale__tx { display: flex; flex-direction: column; justify-content: center; min-width: 0; padding: 36px 56px 36px 44px; }
 .ab-page .ab-tale__t { margin: 0; padding-bottom: 20px; border-bottom: 1px solid var(--line); font: 400 54px/1.02 var(--f-title); letter-spacing: -.02em; color: var(--ink); }
 .ab-page .ab-tale__p { margin: 20px 0 0; font: 400 18.5px/1.65 var(--f); color: var(--body); text-wrap: pretty; }
-.ab-page .ab-tale__ph { margin: 0; overflow: hidden; border-radius: 20px; background: var(--sand); }
+.ab-page .ab-tale__ph { margin: 0; overflow: hidden; border-radius: 8px; background: var(--sand); box-shadow: 0 30px 60px -44px rgb(43 18 6 / .55); }
 .ab-page .ab-tale__ph img { width: 100%; height: 100%; object-fit: cover; scale: 1.06; transition: scale 1.4s var(--ease); }
 .ab-page .ab-tale__slide[data-on] .ab-tale__ph img { scale: 1; }
 /* under the card, centred: the arrows either side of the dots */
@@ -105,12 +114,12 @@ html.js .ab-page .ab-rv.in { opacity: 1; translate: none; }
 @media (prefers-reduced-motion: reduce) { .ab-page .ab-tale__track, .ab-page .ab-tale__slide, .ab-page .ab-tale__ph img { transition: none; } }
 
 /* ---------- 3. our values: all five on one screen, photograph panels that open under the pointer (ValuesPanels) ---------- */
-.ab-page .ab-vals { position: relative; isolation: isolate; margin-top: 112px; padding: 104px var(--px) 112px; color: #2A1A0C; background: var(--ab-ground); }
+.ab-page .ab-vals { position: relative; isolation: isolate; margin-top: 112px; padding: 104px var(--px) 112px; color: #fff; background: var(--ab-ground); }
 .ab-page .ab-vals::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
   background: url(/images/course-finder/patterns/grain.png) repeat; background-size: 200px; mix-blend-mode: soft-light; opacity: .18; }
 .ab-page .ab-vals__hd { display: flex; align-items: flex-end; justify-content: space-between; gap: 64px; }
-.ab-page .ab-vals__h2 { margin: 22px 0 0; max-width: 640px; font: 400 64px/1.02 var(--f-title); letter-spacing: -.025em; color: #2A1A0C; }
-.ab-page .ab-vals__intro { max-width: 460px; margin: 0 0 6px; font: 400 16.5px/1.55 var(--f); color: #4A2F14; text-wrap: pretty; }
+.ab-page .ab-vals__h2 { margin: 22px 0 0; max-width: 640px; font: 400 64px/1.02 var(--f-title); letter-spacing: -.025em; color: #fff; }
+.ab-page .ab-vals__intro { max-width: 460px; margin: 0 0 6px; font: 400 16.5px/1.55 var(--f); color: rgb(255 255 255 / .9); text-wrap: pretty; }
 .ab-page .ab-vals__row { display: flex; gap: 12px; height: 480px; margin: 52px 0 0; padding: 0; list-style: none; }
 /* a panel: narrow, or open (flex-grow); the photograph under a dark wash that deepens to the foot */
 .ab-page .ab-val { position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; border-radius: 16px; background: #3a1608;
@@ -176,30 +185,36 @@ html.js .ab-page .ab-rv.in { opacity: 1; translate: none; }
 .ab-page .ab-edu { padding-bottom: 8px; }
 .ab-page .ab-edu__flow { margin-top: 44px; }
 
-/* ---------- 6. where we teach: his "Contact us" card ---------- */
-.ab-page .ab-visit {
-  display: grid; grid-template-columns: 360px minmax(0, 1fr); gap: 48px; margin-top: 52px; padding: 36px; border-radius: 10px;
-  background: rgb(255 255 255 / .85); border: 1px solid var(--line); box-shadow: 0 30px 60px -50px rgb(43 18 6 / .55);
+/* ---------- 6. where we teach: Kevin's homepage "Contact us" card (his #visit, measured on his page) ---------- */
+/* the card: 1180 wide and centred, a translucent white with his warm edge and, 6px in, a fine orange frame */
+.ab-page .ab-cu {
+  position: relative; display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 48px; width: 100%; max-width: 1180px; margin: 48px auto 0;
+  padding: 36px; box-sizing: border-box; text-align: left; background: rgb(255 255 255 / .85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  border: 1px solid #EADBC4; border-radius: 8px;
 }
-.ab-page .ab-visit__map { position: relative; display: block; height: 196px; overflow: hidden; border-radius: 6px; border: 1px solid var(--line); }
-.ab-page .ab-visit__map img { width: 100%; height: 100%; object-fit: cover; object-position: 79% 50%; transition: scale .6s var(--ease); }
-.ab-page .ab-visit__map:hover img { scale: 1.04; }
-.ab-page .ab-visit__go {
-  position: absolute; left: 12px; bottom: 12px; display: inline-flex; align-items: center; gap: 8px; height: 34px; padding: 0 14px; border-radius: 99px;
-  background: #fff; font: 600 13.5px/1 var(--f); color: var(--brand); box-shadow: 0 8px 18px -10px rgb(43 18 6 / .6);
-}
-.ab-page .ab-visit__tag { display: inline-flex; margin-top: 22px; padding: 4px 9px; border-radius: 4px; border: 1px solid rgb(194 65 12 / .35);
-  font: 600 11px/1.2 var(--f); letter-spacing: .1em; text-transform: uppercase; color: var(--brand); }
-.ab-page .ab-visit__addr { margin: 12px 0 0; font: 400 27px/1.2 var(--f-title); letter-spacing: -.01em; color: var(--ink); }
-.ab-page .ab-visit__note { margin: 10px 0 0; font: 400 15px/1.5 var(--f); color: var(--body); }
-.ab-page .ab-visit__rows { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--line); }
-.ab-page .ab-visit__row { display: flex; align-items: center; gap: 10px; font: 500 15px/1.3 var(--f); color: var(--ink); }
-.ab-page .ab-visit__row svg { flex: none; width: 17px; height: 17px; color: var(--brand); }
-.ab-page .ab-visit__row a:hover { color: var(--brand); }
-.ab-page .ab-visit__ph { min-height: 420px; overflow: hidden; border-radius: 6px; }
-.ab-page .ab-visit__ph img { width: 100%; height: 100%; object-fit: cover; }
+.ab-page .ab-cu::before { content: ""; position: absolute; inset: 6px; border: 1px solid rgb(225 120 60 / .55); border-radius: 4px; pointer-events: none; }
+.ab-page .ab-cu__l { display: flex; flex-direction: column; min-width: 0; }
+/* the live map, its Google bar cropped off the top */
+.ab-page .ab-cu__map { position: relative; flex: none; width: 100%; aspect-ratio: 2 / 1; margin-bottom: 24px; overflow: hidden; border-radius: 4px; background: #EDE6DA; }
+.ab-page .ab-cu__map::after { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: inherit; pointer-events: none; box-shadow: inset 0 0 0 1px rgb(194 65 12 / .16); }
+.ab-page .ab-cu__map iframe { position: absolute; left: 0; right: 0; top: -64px; width: 100%; height: calc(100% + 64px); border: 0; }
+.ab-page .ab-cu__tag { align-self: flex-start; margin: 0; padding: 2px 9px; border: 1px solid rgb(204 85 0 / .45); border-radius: 999px; color: #9A3412;
+  font: 700 10.5px/1.4 var(--f); letter-spacing: .1em; text-transform: uppercase; }
+.ab-page .ab-cu__addr { margin: 12px 0 0; font: 400 27px/1.22 var(--f-title); letter-spacing: -.01em; color: var(--ink); text-wrap: balance; }
+.ab-page .ab-cu__note { margin: 10px 0 0; font: 400 14.5px/1.5 var(--f); color: var(--body); }
+.ab-page .ab-cu__hours { margin: 6px 0 0; font: 500 14.5px/1.5 var(--f); color: var(--ink); }
+.ab-page .ab-cu__rows { display: flex; flex-direction: column; gap: 10px; margin: 18px 0 0; padding: 18px 0 0; border-top: 1px solid #EADBC4; list-style: none; }
+.ab-page .ab-cu__rows a { display: inline-flex; align-items: center; gap: 8px; padding-bottom: 1px; font: 500 14.5px/1.3 var(--f); color: var(--ink); text-decoration: none;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: color .2s ease, background-size .3s cubic-bezier(.22, 1, .36, 1); }
+.ab-page .ab-cu__rows a:hover, .ab-page .ab-cu__rows a:focus-visible { color: var(--brand); background-size: 100% 1px; }
+.ab-page .ab-cu__rows svg { flex: none; fill: none; stroke: var(--brand); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+/* the photograph, easing in a little under the pointer */
+.ab-page .ab-cu__ph { position: relative; z-index: 1; min-height: 360px; margin: 0; overflow: hidden; background: #6B2A0C; }
+.ab-page .ab-cu__ph img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: 100% 45%; transition: transform .9s cubic-bezier(.22, 1, .36, 1); }
+@media (hover: hover) and (pointer: fine) { .ab-page .ab-cu__ph:hover img { transform: scale(1.04); } }
+@media (prefers-reduced-motion: reduce) { .ab-page .ab-cu__rows a, .ab-page .ab-cu__ph img { transition: none; } }
 .ab-page .ab-notice {
-  display: flex; align-items: center; gap: 12px; margin: 24px 0 0; padding: 16px 22px; border-radius: 10px; border: 1px dashed var(--rule);
+  display: flex; align-items: center; gap: 12px; max-width: 1180px; box-sizing: border-box; margin: 24px auto 0; padding: 16px 22px; border-radius: 10px; border: 1px dashed var(--rule);
   background: rgb(255 255 255 / .6); font: 400 15.5px/1.5 var(--f); color: var(--body);
 }
 .ab-page .ab-notice img { flex: none; width: 16px; height: 16px; }

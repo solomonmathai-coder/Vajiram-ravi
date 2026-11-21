@@ -397,7 +397,7 @@ export default function CourseFinderNav({ variant = "fixed" }: { variant?: "fixe
                       </li>
                     ))}
                   </ul>
-                  <Pill href="/#resources" className="mega__cta" sq="sq sq--52 sq--white">
+                  <Pill href="/free-resources" className="mega__cta" sq="sq sq--52 sq--white">
                     Explore free resources
                   </Pill>
                   <a className="mega__all" href={SITE} target="_blank" rel="noopener">

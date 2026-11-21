@@ -19,16 +19,13 @@ import "./about.css";
 /** A part that rises in as it comes into view, after `d` seconds. */
 const rv = (d = 0) => ({ className: "ab-rv", style: { "--d": `${d}s` } as CSSProperties });
 
-function Icon({ d }: { d: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d={d} />
-    </svg>
-  );
-}
-const CLOCK = "M12 7v5l3 2M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z";
-const PHONE = "M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z";
-const MAIL = "M4 6h16v12H4zM4 7l8 6 8-6";
+/** Kevin's homepage contact card's icons (his #visit): the phone and the envelope. */
+const PHONE =
+  "M18.118 14.702 14 15.5c-2.782-1.396-4.5-3-5.5-5.5l.77-4.13L7.815 2H4.064c-1.128 0-2.016.932-1.848 2.047.421 2.783 1.66 7.83 5.284 11.453 3.805 3.805 9.286 5.456 12.302 6.113.965.21 1.998-.698 1.998-1.89v-3.584l-3.882-1.437z";
+const MAIL = "M2 17V7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2z";
+/** The live map his card embeds (Google Maps, the New Delhi centre). */
+const MAP_EMBED =
+  "https://www.google.com/maps?q=Vajiram+%26+Ravi,+1-B%2F7+Pusa+Road,+Old+Rajinder+Nagar,+New+Delhi+110060&z=16&output=embed";
 
 /**
  * The About page's body (/about, Figma "About Us – 1441", 1008:38294), in the language of Kevin's homepage
@@ -146,31 +143,37 @@ export default function AboutPage() {
               {aboutPlaces.intro}
             </p>
           </div>
-          <div {...rv(0.1)} className="ab-visit ab-rv">
-            <div>
-              <a className="ab-visit__map" href={centre.mapsUrl} target="_blank" rel="noopener noreferrer" aria-label={`${aboutPlaces.mapsCta}: ${centre.mapLabel} (opens Google Maps)`}>
-                <img src="/images/locations/map/map.webp" alt="" loading="lazy" />
-                <span className="ab-visit__go">{aboutPlaces.mapsCta} ↗</span>
-              </a>
-              <span className="ab-visit__tag">{aboutPlaces.centreLabel}</span>
-              <p className="ab-visit__addr">{centre.address}</p>
-              {centre.landmark && <p className="ab-visit__note">{centre.landmark}</p>}
-              <div className="ab-visit__rows">
-                <span className="ab-visit__row">
-                  <Icon d={CLOCK} />
-                  {centre.hours}
-                </span>
-                <a className="ab-visit__row" href={centre.phoneHref}>
-                  <Icon d={PHONE} />
-                  {centre.phone}
-                </a>
-                <a className="ab-visit__row" href={`mailto:${contact.email}`}>
-                  <Icon d={MAIL} />
-                  {contact.email}
-                </a>
+          {/* Kevin's homepage "Contact us" card (his #visit): the live map, the centre, its hours, phone and email, and the photograph */}
+          <div {...rv(0.1)} className="ab-cu ab-rv">
+            <div className="ab-cu__l">
+              <div className="ab-cu__map">
+                <iframe src={MAP_EMBED} title={`Map: ${centre.mapLabel}`} loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen />
               </div>
+              <p className="ab-cu__tag">{aboutPlaces.centreLabel}</p>
+              <h3 className="ab-cu__addr">{centre.address}</h3>
+              {centre.landmark && <p className="ab-cu__note">{centre.landmark}</p>}
+              <p className="ab-cu__hours">{centre.hours}</p>
+              <ul className="ab-cu__rows">
+                <li>
+                  <a href={centre.phoneHref} aria-label={`Call us on ${centre.phone}`}>
+                    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                      <path d={PHONE} />
+                    </svg>
+                    <span>{centre.phone}</span>
+                  </a>
+                </li>
+                <li>
+                  <a href={`mailto:${contact.email}`}>
+                    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+                      <path d="m7 9 5 3.5L17 9" />
+                      <path d={MAIL} />
+                    </svg>
+                    <span>{contact.email}</span>
+                  </a>
+                </li>
+              </ul>
             </div>
-            <figure className="ab-visit__ph">
+            <figure className="ab-cu__ph">
               <img src={aboutPlaces.photo.src} alt={aboutPlaces.photo.alt} width={aboutPlaces.photo.width} height={aboutPlaces.photo.height} loading="lazy" />
             </figure>
           </div>
