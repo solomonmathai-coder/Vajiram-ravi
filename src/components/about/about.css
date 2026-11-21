@@ -98,34 +98,39 @@ html.js .ab-page .ab-rv.in { opacity: 1; translate: none; }
 .ab-page .ab-photo img { width: 100%; height: 100%; object-fit: cover; border-radius: 24px; }
 
 /* ---------- 2. how it started: one fixed card, the slides moving inside it (StoryCarousel) ---------- */
-.ab-page .ab-tale { margin-top: 44px; }
-/* the frame: the slides lie one over another in it (the tallest sets nothing: each is 460 tall), its left edge the heading's */
-.ab-page .ab-tale__stage { display: grid; margin: 0; padding: 0; list-style: none; }
-.ab-page .ab-tale__slide { grid-area: 1 / 1; display: grid; grid-template-columns: minmax(0, 1fr) 680px; gap: 96px; height: 460px; visibility: hidden; pointer-events: none; }
-.ab-page .ab-tale__slide[data-on], .ab-page .ab-tale__slide[data-last] { visibility: visible; }
-.ab-page .ab-tale__slide[data-last] { z-index: 1; }
-.ab-page .ab-tale__slide[data-on] { z-index: 2; pointer-events: auto; }
-/* the words: the last ones fade out a little toward where they are going, the new ones come in from the other side */
-.ab-page .ab-tale__tx { display: flex; flex-direction: column; justify-content: center; min-width: 0; padding: 0;
-  opacity: 0; translate: calc(var(--dir, 1) * 28px) 0; transition: opacity .3s ease, translate .4s ease; }
-.ab-page .ab-tale__slide[data-last] .ab-tale__tx { translate: calc(var(--dir, 1) * -20px) 0; }
-.ab-page .ab-tale__slide[data-on] .ab-tale__tx { opacity: 1; translate: 0 0; transition: opacity .7s var(--ease) .2s, translate .9s var(--ease) .2s; }
-.ab-page .ab-tale__t { margin: 0; padding-bottom: 20px; border-bottom: 1px solid var(--line); font: 400 54px/1.02 var(--f-title); letter-spacing: -.02em; color: var(--ink); }
-.ab-page .ab-tale__p { margin: 20px 0 0; font: 400 18.5px/1.65 var(--f); color: var(--body); text-wrap: pretty; }
-/* the photograph: the new one wipes in over the last inside its own rounded frame (from the right going on, from the
-   left going back), settling from a slight zoom */
-.ab-page .ab-tale__ph { position: relative; margin: 0; overflow: hidden; border-radius: 8px; background: var(--sand); clip-path: inset(0 round 8px); }
-.ab-page .ab-tale__ph img { width: 100%; height: 100%; object-fit: cover; scale: 1.06; transition: scale 1.6s var(--ease); }
-.ab-page .ab-tale__slide[data-on] .ab-tale__ph img { scale: 1; }
-.ab-page .ab-tale[data-dir="1"] .ab-tale__slide[data-on] .ab-tale__ph { animation: abWipeN .95s cubic-bezier(.65, 0, .25, 1) both; }
-.ab-page .ab-tale[data-dir="-1"] .ab-tale__slide[data-on] .ab-tale__ph { animation: abWipeP .95s cubic-bezier(.65, 0, .25, 1) both; }
-@keyframes abWipeN { from { clip-path: inset(0 0 0 100% round 8px); } to { clip-path: inset(0 0 0 0 round 8px); } }
-@keyframes abWipeP { from { clip-path: inset(0 100% 0 0 round 8px); } to { clip-path: inset(0 0 0 0 round 8px); } }
-/* under the words, at the heading's edge: the arrows either side of the dots */
-.ab-page .ab-tale__ctrl { display: flex; align-items: center; justify-content: flex-start; gap: 22px; margin-top: 28px; }
+/* the photograph on the left, smaller; the story's parts as a numbered list on the right (StoryChapters) */
+.ab-page .ab-ch { display: grid; grid-template-columns: 540px minmax(0, 1fr); gap: 88px; align-items: start; margin-top: 48px; }
+.ab-page .ab-ch__ph { position: relative; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 8px; background: var(--sand);
+  box-shadow: 0 0 0 1px var(--line), 0 30px 60px -48px rgb(43 18 6 / .5); }
+.ab-page .ab-ch__img { position: absolute; inset: 0; margin: 0; opacity: 0; transition: opacity .7s var(--ease); }
+.ab-page .ab-ch__img[data-on] { opacity: 1; }
+.ab-page .ab-ch__img img { width: 100%; height: 100%; object-fit: cover; scale: 1.04; transition: scale 1.6s var(--ease); }
+.ab-page .ab-ch__img[data-on] img { scale: 1; }
+/* the list: each part between fine rules, its number and title; the open one's sentence shown, a fine orange rule at its left */
+.ab-page .ab-ch__list { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+.ab-page .ab-ch__item { position: relative; border-bottom: 1px solid var(--line); }
+/* the open part's rule: a faint track, and over it the orange filling downward over --hold (StoryChapters moves on when it is full) */
+.ab-page .ab-ch__item[data-on]::before { content: ""; position: absolute; left: 0; top: -1px; bottom: -1px; width: 2px; background: rgb(194 65 12 / .18); }
+.ab-page .ab-ch__bar { position: absolute; left: 0; top: -1px; bottom: -1px; z-index: 1; width: 2px; background: var(--brand);
+  transform-origin: top; animation: abChFill var(--hold, 6s) linear forwards; }
+.ab-page [data-paused] .ab-ch__bar { animation-play-state: paused; }
+@keyframes abChFill { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@media (prefers-reduced-motion: reduce) { .ab-page .ab-ch__bar { animation: none; } }
+.ab-page .ab-ch__btn { display: flex; align-items: baseline; gap: 20px; width: 100%; padding: 22px 0 22px 24px; border: 0; background: none; text-align: left; cursor: pointer; }
+.ab-page .ab-ch__n { flex: none; width: 28px; font: 400 15px/1 var(--f-title); color: #A3958A; font-variant-numeric: lining-nums; transition: color .3s; }
+.ab-page .ab-ch__t { font: 400 30px/1.15 var(--f-title); letter-spacing: -.015em; color: #8A776A; transition: color .3s; }
+.ab-page .ab-ch__btn:hover .ab-ch__t { color: var(--ink); }
+.ab-page .ab-ch__item[data-on] .ab-ch__n { color: var(--brand); }
+.ab-page .ab-ch__item[data-on] .ab-ch__t { color: var(--ink); }
+.ab-page .ab-ch__btn:focus-visible { outline: 2px solid var(--brand); outline-offset: -2px; border-radius: 4px; }
+.ab-page .ab-ch__body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .5s var(--ease); }
+.ab-page .ab-ch__item[data-on] .ab-ch__body { grid-template-rows: 1fr; }
+.ab-page .ab-ch__body > div { overflow: hidden; }
+.ab-page .ab-ch__p { margin: 0; padding: 0 24px 26px 72px; max-width: 640px; font: 400 17px/1.65 var(--f); color: var(--body); text-wrap: pretty;
+  opacity: 0; transition: opacity .4s ease; }
+.ab-page .ab-ch__item[data-on] .ab-ch__p { opacity: 1; transition: opacity .6s ease .15s; }
 @media (prefers-reduced-motion: reduce) {
-  .ab-page .ab-tale__tx, .ab-page .ab-tale__slide[data-on] .ab-tale__tx, .ab-page .ab-tale__ph img { transition: none; }
-  .ab-page .ab-tale .ab-tale__slide[data-on] .ab-tale__ph { animation: none; }
+  .ab-page .ab-ch__img, .ab-page .ab-ch__img img, .ab-page .ab-ch__body, .ab-page .ab-ch__p { transition: none; }
 }
 
 /* ---------- 3. our values: all five on one screen, photograph panels that open under the pointer (ValuesPanels) ---------- */

@@ -8,7 +8,7 @@ import { contact } from "@/data/site";
 import AboutFigures from "./AboutFigures";
 import AboutReveal from "./AboutReveal";
 import AboutTilt from "./AboutTilt";
-import StoryCarousel from "./StoryCarousel";
+import StoryChapters from "./StoryChapters";
 import ValuesPanels from "./ValuesPanels";
 import "@/components/course-finder/base.css";
 import "@/components/course-finder/shared.css";
@@ -34,7 +34,7 @@ const MAP_EMBED =
  * band, white cards with his warm hairline.
  *   1. the head: breadcrumb, label, title, introduction and four figures; the institute's photograph rising
  *      over its foot
- *   2. how it started: one carousel, each part of the story with its photograph (StoryCarousel)
+ *   2. how it started: the photograph beside the story's parts as a quiet numbered list, one open (StoryChapters)
  *   3. our values: all five on one screen as photograph panels (ValuesPanels), on Kevin's toppers ground
  *   4. the people who lead Vajiram & Ravi, their cards tilting toward the pointer (AboutTilt)
  *   5. the educators (the homepage's carousel)
@@ -77,7 +77,7 @@ export default function AboutPage() {
             {aboutStory.heading}
           </h2>
           <div {...rv(0.12)}>
-            <StoryCarousel chapters={aboutStory.chapters} />
+            <StoryChapters chapters={aboutStory.chapters} />
           </div>
         </section>
 
