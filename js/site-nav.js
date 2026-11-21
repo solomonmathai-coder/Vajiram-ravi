@@ -1,7 +1,6 @@
 /* The course finder's nav (css/ref-nav.css): the reference build's bar and behaviour (vajiram-ravi.abhishek-ps.workers.dev, user
    2026-11-17, "use the same nav bar and its behaviour").
-   - States: .is-open at the top of the page (no bar, white on the orange head); scrolling down closes it away (.is-away); scrolling up
-     brings it back as the white bar (.is-scrolled). A few pixels of jitter are ignored; an open menu keeps it in place.
+   - Fixed and never hidden, contents always dark; the white panel clear at the top of the page (.is-top), shown once scrolled (2026-11-20).
    - "All courses" and "Study materials" open the homepage's mega menus (hover with a mouse, click or Enter, ArrowDown into the first link;
      one at a time; an outside click, focus leaving or Escape closes them; the page blurs behind). On this page a programme in "All
      courses" opens that category on the shelf (js/course-finder.js window.__cfSetCat); the counts are this page's.
@@ -16,23 +15,16 @@
   const root = document.documentElement;
   const drawer = $('#drawer'), burger = $('#burger');
 
-  /* ---------- the states, from the scroll ---------- */
-  let last = scrollY, tick = false;
-  const busy = () => root.classList.contains('mega-open') || (drawer && !drawer.hidden) || !!$('.rn__more.is-open');
-  const f = () => {
-    tick = false;
-    const y = scrollY, d = y - last;
-    if (window.__cfGliding) { last = y; return; }   // the page is scrolling itself (js/course-finder.js): hold the state
-    if (y < 40) { nav.classList.add('is-open'); nav.classList.remove('is-away', 'is-scrolled'); last = y; return; }
-    nav.classList.remove('is-open');
-    if (d > 6 && !busy()) { nav.classList.add('is-away'); }
-    else if (d < -6) { nav.classList.remove('is-away'); nav.classList.add('is-scrolled'); }
-    else if (!nav.classList.contains('is-away')) nav.classList.add('is-scrolled');
-    if (Math.abs(d) > 6) last = y;
-  };
-  addEventListener('scroll', () => { if (!tick) { tick = true; requestAnimationFrame(f); } }, { passive: true });
-  if (scrollY < 40) nav.classList.add('is-open'); else nav.classList.add('is-scrolled');
-  nav.addEventListener('focusin', () => { if (nav.classList.contains('is-away')) { nav.classList.remove('is-away'); nav.classList.add('is-scrolled'); } });
+  /* ---------- the reference build's current behaviour (user 2026-11-20, "use the same nav behaviour as the nav in this link"): fixed at
+     the top and never hidden; its contents always dark (.is-scrolled: the dark logo, ink links, the orange "Let's talk"); within the first
+     48px of the page the white panel behind it is clear (.is-top, the reference's #nav[data-top]), and past that it fades in with its
+     shadow (css/course-finder.css) ---------- */
+  nav.classList.remove('is-open', 'is-away');
+  nav.classList.add('is-scrolled');
+  let tick = false;
+  const top = () => { tick = false; nav.classList.toggle('is-top', scrollY < 48); };
+  addEventListener('scroll', () => { if (!tick) { tick = true; requestAnimationFrame(top); } }, { passive: true });
+  top();
 
   /* ---------- the drawer ---------- */
   const setDrawer = open => { if (!drawer || !burger) return; drawer.hidden = !open; burger.setAttribute('aria-expanded', open); burger.classList.toggle('x', open); };
@@ -97,10 +89,14 @@
     ['Exam guide', [['Syllabus & exam pattern', 'Each stage, and how it is marked'], ['UPSC Calendar 2027', 'Every date, the age limit, eligibility'],
       ['Optional subjects list', 'All optionals, and how to choose'], ['Interview guidance tips', 'Preparing for the Personality Test']]]
   ];
-  const heads = $$('.vf__news-list li').slice(0, 3).map(li => {
-    const a = $('a', li), k = $('.vf__tag', li), t = $('.vf__nt', li);
-    return `<li><a class="mega__h" href="${a ? a.getAttribute('href') : SITE}" target="_blank" rel="noopener"><span class="mega__hk">${esc(k ? k.textContent : '')}</span><span class="mega__ht">${esc(t ? t.textContent : '')}</span></a></li>`;
-  }).join('');
+  // the menu's headlines; they used to be read from the footer's "Latest current affairs" card, which the footer no longer has
+  // (user 2026-11-20, "remove these from the footer"), so they live here now
+  const CA = 'https://vajiramandravi.com/current-affairs/';
+  const HEADS = [['Mains', 'Supreme Court redefines the meaning of ‘industry’', CA + 'upsc-mains-current-affairs/'],
+    ['Mains', 'NITI Aayog flags gap between education and employment', CA + 'upsc-mains-current-affairs/'],
+    ['Prelims', 'Thiksey Monastery', CA + 'upsc-prelims-current-affairs/']];
+  const heads = HEADS.map(([k, t, href]) =>
+    `<li><a class="mega__h" href="${href}" target="_blank" rel="noopener"><span class="mega__hk">${esc(k)}</span><span class="mega__ht">${esc(t)}</span></a></li>`).join('');
   const megaSm = $('#megaSm');
   if (megaSm) megaSm.innerHTML = `<div class="mega__stages">${SM.map(([k, items], i) => `<section class="mega__col${i ? '' : ' mega__col--feat'}" style="--i:${i}">
     <p class="mega__k"><b>${String(i + 1).padStart(2, '0')}</b>${esc(k)}${i ? '' : '<span class="mega__live"><i aria-hidden="true"></i>Live</span>'}</p>

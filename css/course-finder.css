@@ -924,3 +924,203 @@ html.cf-locked { overflow: hidden; }
 /* the dropdowns back to white (user 2026-11-20, "lets keep this white"), at rest, on hover and once picked; the border and the
    orange edge on a picked filter still mark them, and the name's notch follows the white */
 .cf-sel, .cf-sel:hover, .cf-sel.is-on { --sel-fill: #fff; }
+
+/* ---------- the page held to its 1440px layout (user 2026-11-20, "let the screen size to 1440px width"): on wider screens the content
+   stays the 1280px it is at 1440 (80px margins inside a centred 1440px frame) instead of growing to 1440px; the hero and bands still
+   run edge to edge. Only above 1440, so 1440 and below are unchanged ---------- */
+@media (min-width: 1441px) {
+  :root { --px: calc((100vw - 1440px) / 2 + 80px); }
+}
+
+/* the footer without its "Latest current affairs" card (user 2026-11-20, "remove these from the footer"): the link columns take the
+   full width of the footer */
+.vf__top { grid-template-columns: minmax(0, 1fr); }
+
+/* ---------- Top Picks cards as wide as every other card (user 2026-11-20, "these cards look shrinked ... keep the same width as the
+   rest of the cards and for the 3rd card we will make it sneek peek"). The column of sections is a size container, so a Top Picks
+   card can take the width a card has in the category rows below (4 across, 3 at 1200px, 2 at 900px, from the same column width and
+   gaps); two fit beside the introduction and the third shows in part at the edge, inviting a scroll. Phones keep their 82% cards. */
+.cf-list__main { container: cflist / inline-size; --row-cols: 4; --row-gap: 24px; }
+@media (max-width: 1200px) { .cf-list__main { --row-cols: 3; } }
+@media (max-width: 900px) { .cf-list__main { --row-cols: 2; --row-gap: 16px; } }
+@media (min-width: 761px) {
+  .cf-feat .cf-grid { grid-auto-columns: calc((100cqw - var(--row-gap) * (var(--row-cols) - 1)) / var(--row-cols)); }
+}
+
+/* ---------- Top Picks laid out as the user's wireframe (2026-11-20, "lets try a layout like this for the Our Top Picks"): the book
+   tilted in the top left corner; the ribbon, headline, count, line and chips centred above; the cards in one row of four across the
+   whole banner (three under 1200px, two under 900px), with the arrows to scroll on to the rest. Phones keep their stacked layout. */
+@media (min-width: 761px) {
+  .cf-sec.cf-feat { grid-template-columns: minmax(0, 1fr); gap: 36px; padding: 48px 48px 40px; }
+  .cf-feat__intro { position: static; max-width: none; align-items: center; text-align: center; }
+  .cf-feat .cf-feat__lbl { justify-content: center; margin: 0 0 18px; }
+  .cf-feat .cf-feat__n { align-self: center; }
+  .cf-feat .cf-sec__d { max-width: 54ch; margin-inline: auto; }
+  .cf-feat .cf-chips { justify-content: center; flex-wrap: wrap; row-gap: 8px; }
+  .cf-feat__book { position: absolute; z-index: 4; top: 34px; left: 52px; margin: 0; rotate: -12deg; }
+  .cf-feat__book .cf-bk-mini { --s: .78; }
+  .cf-feat .cf-grid { --cols: 4; --gap: 20px; grid-auto-columns: calc((100% - var(--gap) * (var(--cols) - 1)) / var(--cols)); }
+  .cf-feat .cf-arw--prev { left: -24px; }
+  .cf-feat .cf-arw--next { right: -24px; }
+}
+@media (min-width: 761px) and (max-width: 1200px) { .cf-feat .cf-grid { --cols: 3; } .cf-feat__book { top: 32px; left: 36px; } .cf-feat__book .cf-bk-mini { --s: .72; } }
+@media (min-width: 761px) and (max-width: 900px) {
+  .cf-feat .cf-grid { --cols: 2; --gap: 16px; }
+  .cf-sec.cf-feat { padding: 40px 32px 32px; }
+  .cf-feat__book { top: 22px; left: 22px; }
+  .cf-feat__book .cf-bk-mini { --s: .52; }
+}
+@media (min-width: 901px) and (max-width: 1080px) { .cf-feat__book { top: 28px; left: 28px; } .cf-feat__book .cf-bk-mini { --s: .6; } }
+
+/* the count inside the Top Picks headline, "Our 6 Top Picks" (user 2026-11-20): the number in the warm gold of the ribbon so it reads as the
+   count; the old "6 courses" pill under the headline is gone */
+.cf-feat .cf-feat__num { color: #FFD48A; }
+
+/* ---------- the sticky search and filter bar in the homepage's magazine-card paper (user 2026-11-20, "lets use the colours from this
+   and updte the colour on the sticky bar", the reference build's Kurukshetra Magazine card): the warm paper gradient with its grain,
+   the card's brown hairline edges and light top edge; the fields take the card's button cream with the same brown hairline, and the
+   labels its brown ink. Orange stays the accent (focus, a picked filter, Clear filters). ---------- */
+.cf-bar::before { background: linear-gradient(178deg, #F9EFDA, #F5E8CE 30%, #EFDFC0); -webkit-backdrop-filter: none; backdrop-filter: none;
+  box-shadow: inset 0 1px 0 rgb(255 250 235 / .9), 0 1px 0 rgb(110 66 18 / .2); }
+.cf-bar.is-stuck::before { box-shadow: inset 0 1px 0 rgb(255 250 235 / .9), 0 1px 0 rgb(110 66 18 / .2), 0 16px 26px -18px rgb(60 30 5 / .45); }
+.cf-bar::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: url("../assets/img/patterns/grain.png");
+  mix-blend-mode: soft-light; opacity: .45; }
+.cf-bar.is-stuck::after { top: calc(var(--cf-navoff, 0px) * -1); }
+.cf-search input { border-color: rgb(110 66 18 / .26); background: rgb(255 252 244 / .82); color: #2A2016; }
+.cf-search input::placeholder, .cf-search { color: #7A6045; }
+.cf-sel, .cf-sel:hover, .cf-sel.is-on { --sel-fill: #FFFCF4; }
+.cf-sel { border-color: rgb(110 66 18 / .26); }
+.cf-sel select { color: #2A2016; }
+.cf-sel__l { color: #5A4632; background: linear-gradient(#F7EBD4 50%, var(--sel-fill) 50%); }
+.cf-sel > svg { color: #5A4632; }
+.cf-search input:hover, .cf-sel:hover { border-color: #6E4212; }
+.cf-sel.is-on { border-color: var(--cf-brand); }
+
+/* the dropdowns' outline drawn by .cf-sel__o, a fieldset whose legend (the name, invisible, at the name's size) cuts the gap the name
+   sits in, so nothing is painted behind the name and the bar's grain runs on under it (user 2026-11-20, "there is some kind of box
+   behind the dropdown"); the field's own border is left transparent */
+.cf-sel, .cf-sel:hover, .cf-sel:focus-within, .cf-sel.is-on { border-color: transparent; }
+.cf-sel__l { background: none; }
+.cf-sel__o { position: absolute; inset: -7px -1px -1px; z-index: 0; margin: 0; padding: 0 12px; min-width: 0; border: 1px solid rgb(110 66 18 / .26);
+  border-radius: 12px; pointer-events: none; text-align: left; transition: border-color .2s; }
+.cf-sel__o legend { display: block; float: none; width: auto; max-width: 100%; height: 12px; margin: 0; padding: 0 5px; overflow: hidden; visibility: hidden;
+  white-space: nowrap; font: 500 12px/12px var(--f); letter-spacing: normal; text-transform: none; }
+.cf-sel:hover .cf-sel__o { border-color: #6E4212; }
+.cf-sel:focus-within .cf-sel__o, .cf-sel.is-on .cf-sel__o { border-color: var(--cf-brand); }
+.cf-sel > select, .cf-sel > .cf-sel__l, .cf-sel > .cf-sel__x { position: relative; z-index: 1; }
+.cf-sel > .cf-sel__l { position: absolute; }
+
+/* more room around the footer's legal line (user 2026-11-20, "add a bit more space"): a wider gap above its rule, more air between
+   the rule and the line, and more below it before the footer's edge */
+.vf .vf__legal { margin-top: 18px; padding-top: 22px; margin-bottom: 16px; }
+
+/* ---------- the hero in a golden gradient (user 2026-11-20, "lets use a gradient colour similar to the uploaded image ... for the hero
+   section"): saffron at the top and bottom, a pale gold band through the middle, with a fine grain over it, as in the image. On the
+   lighter ground the hero's words turn dark brown (white no longer reads on the gold); the stats' figures and diamonds take the burnt
+   orange. ---------- */
+.cf-hero { color: #2A1A0C; background: linear-gradient(180deg, #EF9E2F 0%, #F2B044 22%, #F6CF73 44%, #F7D886 52%, #F4C463 66%, #F1A93C 84%, #EC982C 100%); }
+.cf-hero::after { opacity: .14; mix-blend-mode: soft-light; background-size: 220px; }
+.cf-h { color: #2A1A0C; }
+.cf-lede { color: #4A2F14; }
+.cf-crumbs { color: #5A3A18; }
+.cf-crumbs a, .cf-crumbs [aria-current] { color: #2A1A0C; text-decoration-color: rgb(42 26 12 / .4); }
+.cf-crumbs a:hover { text-decoration-color: #2A1A0C; }
+.cf-stats::before { background: linear-gradient(90deg, rgb(122 46 6 / 0), rgb(122 46 6 / .4) 30%, rgb(122 46 6 / .4) 70%, rgb(122 46 6 / 0)); }
+.cf-stat__fig { color: #7A2E06; }
+.cf-stat__t { color: #4A2F14; }
+.cf-stat + .cf-stat::before { background: #C2410C; box-shadow: 0 0 0 3px rgb(194 65 12 / .16); }
+@media (max-width: 760px) { .cf-stat + .cf-stat { border-left-color: rgb(122 46 6 / .3); } }
+
+/* ---------- Top Picks on an orange-and-yellow watercolour wash (user 2026-11-20, "let use this as the bg colour for the our top pick
+   section", a watercolour of orange blooms over saffron fading to yellow): a saffron ground that warms to yellow towards the bottom,
+   with soft blooms laid over it (a coral one top left, deeper orange along the top and at the right, yellow pooling at the left and the
+   bottom), the paper grain kept over it. On the light wash the headline and chips turn dark brown, the count deep rust, and the ribbon
+   takes the dark cartouche so its white capitals still read. ---------- */
+.cf-sec.cf-feat { color: #2A1A0C; background:
+    radial-gradient(26% 24% at 8% 2%, rgb(238 104 78 / .6), transparent 70%),
+    radial-gradient(34% 22% at 40% 6%, rgb(245 116 32 / .55), transparent 72%),
+    radial-gradient(22% 30% at 88% 36%, rgb(245 122 36 / .5), transparent 70%),
+    radial-gradient(24% 26% at 66% 70%, rgb(250 150 40 / .35), transparent 72%),
+    radial-gradient(30% 40% at 2% 72%, rgb(255 206 48 / .75), transparent 72%),
+    radial-gradient(70% 44% at 40% 104%, rgb(255 200 50 / .8), transparent 76%),
+    linear-gradient(172deg, #F8862C 0%, #FA9530 30%, #FCA834 62%, #FDBC38 100%); }
+.cf-sec.cf-feat::after { opacity: .14; }
+.cf-feat .cf-sec__h, .cf-feat .cf-feat__h { color: #2A1A0C; }
+.cf-feat .cf-feat__num { color: #8A2D0E; }
+.cf-feat .cf-feat__lbl .lbl__t { border-image-source: url("../assets/img/brand/cartouche.svg"); color: #FFF3E1; }
+.cf-feat .cf-chip { border-color: rgb(42 26 12 / .35); background: rgb(255 248 236 / .28); color: #2A1A0C; }
+.cf-feat .cf-chip:hover { border-color: #2A1A0C; }
+.cf-feat .cf-chip[aria-pressed="true"] { border-color: #2A1A0C; background: #2A1A0C; color: #FFF3E1; }
+.cf-feat .cf-chip:disabled:hover { border-color: rgb(42 26 12 / .35); }
+
+/* ---------- Top Picks on a slowly flowing gradient (user 2026-11-20, mixpanel.com/home's Session Replay panel as the reference, "a
+   similar animation ... the gradient should be in orange colour"): five large, heavily blurred colour clouds drift, swell and shrink on
+   long, out-of-step loops behind the content; the grain stays over it. Transforms only; held still for reduced motion. The colours and
+   timing are set further down (calmed, then the search bar's paper). ---------- */
+.cf-feat__flow { position: absolute; inset: 0; z-index: -2; overflow: hidden; border-radius: inherit; pointer-events: none; }
+.cf-feat__flow i { position: absolute; display: block; width: 62%; aspect-ratio: 1; border-radius: 50%; filter: blur(70px); opacity: .9;
+  will-change: transform; animation: 26s ease-in-out infinite alternate; }
+.cf-feat__flow i:nth-child(1) { left: -14%; top: -38%; }
+.cf-feat__flow i:nth-child(2) { right: -18%; top: -24%; width: 56%; }
+.cf-feat__flow i:nth-child(3) { left: 22%; bottom: -46%; width: 58%; }
+.cf-feat__flow i:nth-child(4) { right: -8%; bottom: -40%; width: 46%; }
+@media (min-width: 761px) { .cf-feat__flow i:nth-child(2) { left: 26%; right: auto; top: -6%; width: 50%; } }
+@media (max-width: 760px) { .cf-feat__flow i { width: 110%; filter: blur(56px); } }
+
+/* the nav's panel clear at the top of the page (user 2026-11-20, the reference build's nav, #nav[data-top]): js/site-nav.js sets .is-top
+   in the first 48px; the panel's existing .35s transition fades it in and out */
+.rn.is-scrolled.is-top::after { background: transparent; box-shadow: none; }
+
+/* ---------- the flow calmed (user 2026-11-20, "the gradient has too much colour and is not working properly"): paler, more see-through
+   clouds moving slowly, a gentle drift on 14-20s loops; the fifth child (once a glossy ring of light) removed (user, "remove the glossy
+   ring") ---------- */
+.cf-feat__flow i { filter: blur(80px); }
+.cf-feat__flow i:nth-child(1) { animation: cf-flow-1c 16s ease-in-out infinite alternate; }
+.cf-feat__flow i:nth-child(2) { animation: cf-flow-2c 19s ease-in-out infinite alternate; }
+.cf-feat__flow i:nth-child(3) { animation: cf-flow-3c 14s ease-in-out infinite alternate; }
+.cf-feat__flow i:nth-child(4) { animation: cf-flow-4c 20s ease-in-out infinite alternate; }
+.cf-feat__flow i:nth-child(5) { display: none; }
+@keyframes cf-flow-1c { from { transform: translate(-6%, -4%) scale(1); } to { transform: translate(34%, 14%) scale(1.12); } }
+@keyframes cf-flow-2c { from { transform: translate(-18%, 6%) scale(1.05); } to { transform: translate(20%, 18%) scale(.92); } }
+@keyframes cf-flow-3c { from { transform: translate(16%, 0) scale(1); } to { transform: translate(-30%, -16%) scale(1.15); } }
+@keyframes cf-flow-4c { from { transform: translate(0, 0) scale(1); } to { transform: translate(-46%, -18%) scale(1.08); } }
+@media (prefers-reduced-motion: reduce) { .cf-feat__flow i:nth-child(n) { animation: none; } }
+
+/* ---------- Top Picks cards in a wave (user 2026-11-20, "the card do a subtle jump and continue to the next card as a wave pattern"):
+   every 4.2s each card hops up 10px and settles with a small rebound, the next one 140ms later, so the jump ripples along the row. It
+   moves the card's position (top), not its transform or translate, so the hover lift and tilt and the flip-in entrance are untouched;
+   it waits for the entrance to finish, pauses while the pointer is on the row, and is off for reduced motion. ---------- */
+.cf-feat .cf-k { position: relative; animation: cf-k-wave 4.2s cubic-bezier(.33, 0, .3, 1) infinite; animation-delay: calc(1.4s + var(--w, 0) * 140ms); }
+.cf-feat .cf-k:nth-child(2) { --w: 1; } .cf-feat .cf-k:nth-child(3) { --w: 2; } .cf-feat .cf-k:nth-child(4) { --w: 3; }
+.cf-feat .cf-k:nth-child(5) { --w: 4; } .cf-feat .cf-k:nth-child(6) { --w: 5; } .cf-feat .cf-k:nth-child(7) { --w: 6; } .cf-feat .cf-k:nth-child(8) { --w: 7; }
+@keyframes cf-k-wave { 0% { top: 0; } 6% { top: -10px; } 12% { top: 0; } 15% { top: -2px; } 18%, 100% { top: 0; } }
+.cf-feat .cf-grid:hover .cf-k { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .cf-feat .cf-k { animation: none; } }
+
+/* ---------- Top Picks in the search bar's paper (user 2026-11-20, "lets use the same colour as this for our top pick"): the bar's warm
+   paper gradient and its grain (.cf-bar::before / ::after) with the same brown hairline edge; the drifting clouds in the paper's own
+   lighter and deeper tones, so the surface still breathes faintly without adding colour; the monument ghosts fainter so the paper isn't
+   greyed ---------- */
+.cf-sec.cf-feat { background: linear-gradient(178deg, #F9EFDA, #F5E8CE 30%, #EFDFC0);
+  box-shadow: inset 0 1px 0 rgb(255 250 235 / .9), inset 0 0 0 1px rgb(110 66 18 / .16); }
+.cf-sec.cf-feat::after { background: url("../assets/img/patterns/grain.png"); mix-blend-mode: soft-light; opacity: .45; }
+.cf-feat__flow i:nth-child(1) { background: #F3E4C8; opacity: .5; }
+.cf-feat__flow i:nth-child(2) { background: #FFF6E6; opacity: .75; }
+.cf-feat__flow i:nth-child(3) { background: #F1E0C0; opacity: .45; }
+.cf-feat__flow i:nth-child(4) { background: #FBF0DC; opacity: .7; }
+.cf-feat__cuts { opacity: .14; }
+.cf-sec.cf-feat::before { opacity: .04; }
+
+/* ---------- the hero and Top Picks colours swapped (user 2026-11-21, "lets flip the colour we used in the hero and our top picks"):
+   the hero takes the search bar's warm paper and its grain; Top Picks takes the hero's golden gradient (saffron at the top and bottom,
+   pale gold through the middle) with the hero's fine grain, its drifting clouds now in lighter and deeper golds. Both keep their dark
+   brown words, which read on either. ---------- */
+.cf-hero { background: linear-gradient(178deg, #F9EFDA, #F5E8CE 30%, #EFDFC0); }
+.cf-hero::after { background: url("../assets/img/patterns/grain.png"); background-size: auto; mix-blend-mode: soft-light; opacity: .45; }
+.cf-sec.cf-feat { background: linear-gradient(180deg, #EF9E2F 0%, #F2B044 22%, #F6CF73 44%, #F7D886 52%, #F4C463 66%, #F1A93C 84%, #EC982C 100%);
+  box-shadow: none; }
+.cf-sec.cf-feat::after { background: url("../assets/img/patterns/grain.png"); background-size: 220px; mix-blend-mode: soft-light; opacity: .14; }
+.cf-feat__flow i:nth-child(1) { background: #F7D886; opacity: .55; }
+.cf-feat__flow i:nth-child(2) { background: #FBE3A4; opacity: .6; }
+.cf-feat__flow i:nth-child(3) { background: #F1A93C; opacity: .45; }
+.cf-feat__flow i:nth-child(4) { background: #F6CF73; opacity: .55; }
