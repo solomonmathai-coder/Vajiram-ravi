@@ -1580,3 +1580,5 @@ html.cf-locked { overflow: hidden; }
 .cf-feat .cf-sec__n { border-color: rgb(42 26 12 / .4); background: rgb(255 246 236 / .22); color: #2A1A0C; }
 /* the Top Picks intro sits at the top of the banner, level with the top of the cards, instead of centred (user 2026-11-21) */
 .cf-sec.cf-feat > .cf-feat__intro { align-self: start; }
+/* Top Picks eyebrow back to the dark-orange brand cartouche (#C2410C, cartouche-brand.svg) with white capitals (user 2026-11-21) */
+.cf-feat .cf-feat__lbl .lbl__t { border-image-source: url("../assets/img/brand/cartouche-brand.svg"); }
