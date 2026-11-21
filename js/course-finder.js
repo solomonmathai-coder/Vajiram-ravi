@@ -15,7 +15,7 @@
   if (tally && D) {
     const products = D.courses.reduce((n, c) => n + c.v.length, 0);
     const categories = D.families.filter(f => f.k !== 'gs-2yr').length;   // GS Foundation's two lengths count as one category
-    const STATS = [[products, 'Courses to choose from'], [categories, 'Categories, Prelims to Interview'], [D.subjects.length, 'Optional subjects taught']];
+    const STATS = [[products, 'Courses'], [categories, 'Categories'], [D.subjects.length, 'Optional subjects']];   // short labels (user 2026-11-21)
     tally.innerHTML = STATS.map(([a, b], i) => `<li class="cf-stat" style="--i:${i}"><span class="cf-stat__num"><b class="cf-stat__fig" data-n="${a}">${a}</b><span class="cf-stat__fig cf-stat__room" aria-hidden="true">${a}</span></span><span class="cf-stat__t">${b}</span></li>`).join('');
     if (!reduce) $$('.cf-stat__fig[data-n]', tally).forEach((el, i) => {
       const to = +el.dataset.n, t0 = performance.now() + 250 + i * 120, dur = 1100;
@@ -61,7 +61,7 @@
       postal: ['Vajiram & Ravi’s printed study material, subject by subject: polity, history, society, international relations and more.',
         'Aspirants preparing on their own who want the institute’s notes.']
     };
-    const NEW = new Set(['interview']);   // shown as new (user 2026-11-17, "let's say Interview Guidance is a new course")
+    const NEW = new Set([]);   // categories marked new; Interview Guidance was (user 2026-11-17), its badge removed (user 2026-11-21)
     // Iconoir's nav-arrow-left and nav-arrow-right
     // the reference build's arrow (vajiram-ravi.abhishek-ps.workers.dev, user 2026-11-20): a straight shaft with a gently curved head on a
     // 16-unit grid, mirrored for "previous"; two copies, one slides out as the other slides in on hover (its .btn__icon--swap)
@@ -246,7 +246,7 @@
     };
     const TESTS = new Set(['mains-ts', 'prelims-ts', 'optional-ts']);
     let dummyN = 0;   // turns through the stand-in dates and class times, so neighbouring cards differ
-    // EVERY CATEGORY HAS ALL THREE BADGES AND AN UPCOMING BATCH (user 2026-11-18, "every category should have a new, trending, bestseller
+    // CATEGORIES ARE TOPPED UP WITH STAND-IN BADGES AND AN UPCOMING BATCH (user 2026-11-18, "every category should have a new, trending, bestseller
     // and upcoming courses"). The real badges (BADGE above) come first; where a category still lacks New, Trending or Bestseller, a DUMMY
     // one goes to a course in it with no badge yet, spread along its row (or, in a category with fewer courses than badges, a second
     // badge on a course). A category whose every batch has started gets a DUMMY next batch on its first course. Cards carrying either
@@ -255,8 +255,13 @@
     const BADGES = new Map(), FORCE_START = new Set();
     for (const c of D.courses) for (const v of c.v) { const b = badgeOf(c, v); BADGES.set(v.id, b ? [b] : []); }
     const DUM_BADGE = new Set();
-    const topUp = vs => {
-      const missing = KINDS.filter(k => !vs.some(v => BADGES.get(v.id).includes(k)));
+    // TRIMMED (user 2026-11-21, "trim the badges", with only the chips a category has courses for now shown): a category no longer gets
+    // all three; it is topped up only with the kinds listed for it here (DUMMY still), on top of its real ones, so the chip rows vary.
+    // A category not listed gets none beyond its real badges. Our Top Picks still gets all three.
+    const WANT = { gs: ['bestseller'], optional: ['bestseller'], csat: ['new'], 'mains-ts': ['bestseller', 'trending'],
+      'prelims-ts': ['bestseller'], 'optional-ts': ['new'], enrichment: ['new'], postal: ['bestseller'] };   // Trending taken off Mentorship and Module Courses (user 2026-11-21)
+    const topUp = (vs, want = KINDS) => {
+      const missing = want.filter(k => !vs.some(v => BADGES.get(v.id).includes(k)));
       missing.forEach((k, i) => {
         const free = vs.filter(v => !BADGES.get(v.id).length);
         const pick = free.length ? free[Math.floor(i * free.length / missing.length) % free.length]
@@ -267,7 +272,7 @@
     for (const tr of TREE) {
       const vs = D.courses.filter(c => tr.kids.includes(c.f)).flatMap(c => c.v);
       if (!vs.length) continue;
-      topUp(vs);
+      topUp(vs, WANT[tr.k] || []);
       // a category with no batch still to start: its first course gets a stand-in date (an empty start gets one anyway)
       if (!vs.some(v => { const s = startTxt(v); return !s || /^Starts/.test(s); })) FORCE_START.add(vs[0].id);
     }
@@ -357,9 +362,10 @@
         <div class="cf-feat__flow" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
         <div class="cf-feat__cuts" aria-hidden="true"><img class="cut--l" src="assets/img/photos/collage.png" alt="" decoding="async"><img class="cut--r" src="assets/img/photos/collage.png" alt="" decoding="async"></div>
         <div class="cf-feat__intro">
-          <div class="lbl lbl--w cf-feat__lbl"><span class="lbl__t">Picked by Vajiram &amp; Ravi</span></div>
+          <div class="lbl lbl--w cf-feat__lbl"><span class="lbl__t">Picked by Vajiram &amp; Ravi</span></div>   <!-- eyebrow first, then the book (user 2026-11-21) -->
           <div class="cf-feat__book">${bookFor('top', 'Top Picks', tops.length, true)}</div>
           <h2 class="cf-sec__h cf-feat__h" id="cath-top" data-total="${tops.length}"><span class="cf-sec__name">Our <span class="cf-feat__num">${tops.length}</span> Top <span class="cf-feat__pl">${tops.length === 1 ? 'Pick' : 'Picks'}</span></span></h2>
+          <p class="cf-feat__sub">Our flagship GS programme, the most-joined test series and the batches starting soon, picked by our faculty.</p>
           ${chipRow(TOP_T)}
         </div>
         <div class="cf-car">
@@ -389,12 +395,29 @@
       const tr = $('.cf-grid', sec), max = tr.scrollWidth - tr.clientWidth;
       $('.cf-arw--prev', sec).hidden = tr.scrollLeft <= 2;
       $('.cf-arw--next', sec).hidden = tr.scrollLeft >= max - 2;
+      // Top Picks: the card cut by the row's right edge fades out across the part still showing (user 2026-11-21, the card's
+      // own opacity through a gradient mask, no overlay); --vis is how much of it shows. The card cut by the left edge once the
+      // row is scrolled does the same, mirrored (.is-peek-l)
+      if (sec.dataset.top) {
+        const { left: L, right: R } = tr.getBoundingClientRect();
+        $$('.cf-k', tr).forEach(k => {
+          const r = k.getBoundingClientRect(), on = !k.hidden;
+          const pr = on && r.left < R - 1 && r.right > R + 1, pl = on && !pr && r.left < L - 1 && r.right > L + 1;
+          k.classList.toggle('is-peek', pr); k.classList.toggle('is-peek-l', pl);
+          if (pr || pl) k.style.setProperty('--vis', `${Math.round(pr ? R - r.left : r.right - L)}px`); else k.style.removeProperty('--vis');
+        });
+      }
     };
     const layout = sec => {
       const all = $$('.cf-k', sec), ok = all.filter(passes);
       // a badge chip with no such course left (after the search and tabs) is greyed out; if it was the chosen one, All is chosen again
       const has = (k, ck, cv) => (k.dataset[ck] || '').split(' ').includes(cv);
       $$('.cf-chip[data-f*=":"]', sec).forEach(c => { const [ck, cv] = c.dataset.f.split(':'); c.disabled = !ok.some(k => has(k, ck, cv)); });
+      // only the chips this category has courses for are shown (user 2026-11-21, "lets only the chips that are available for that
+      // catagory"); with none of them left, "All" alone says nothing, so the row goes too
+      const fchips = $$('.cf-chip[data-f*=":"]', sec);
+      fchips.forEach(c => { c.hidden = c.disabled; });
+      const crow = $('.cf-chips', sec); if (crow) crow.hidden = fchips.every(c => c.disabled);
       const on = $('.cf-chip[aria-pressed="true"]', sec);
       if (on && on.disabled) { $$('.cf-chip', sec).forEach(c => c.setAttribute('aria-pressed', String(!c.dataset.f))); sec.dataset.f = ''; }
       const f = sec.dataset.f || '', [key, val] = f.split(':');
@@ -412,8 +435,20 @@
       const num = $('.cf-feat__num', sec);
       if (num) { num.textContent = ok.length; $('.cf-feat__pl', sec).textContent = ok.length === 1 ? 'Pick' : 'Picks'; }
       const tr = $('.cf-grid', sec); tr.scrollLeft = 0;
+      even(sec);
       arrows(sec);
       return ok.length;
+    };
+    // every card in a section keeps the height of its tallest course, shown or not (user 2026-11-21: switching chips in Top Picks
+    // changed the card height); measured with all the cards in, then the filter's hidden state put back. --kh is the min-height
+    const even = sec => {
+      if (sec.hidden) return;
+      const grid = $('.cf-grid', sec), all = $$('.cf-k', grid), was = all.map(k => k.hidden);
+      grid.style.removeProperty('--kh');
+      all.forEach(k => { k.hidden = false; });
+      const h = Math.max(0, ...all.map(k => k.getBoundingClientRect().height));
+      all.forEach((k, i) => { k.hidden = was[i]; });
+      if (h) grid.style.setProperty('--kh', `${Math.ceil(h)}px`);
     };
     const count = $('#cfCount'), empty = $('#cfEmpty');
     const layoutAll = () => {
@@ -469,6 +504,13 @@
       const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { io.unobserve(e.target); setTimeout(() => flip(e.target), 250); } }), { threshold: .6 });
       $$('.cf-bk', list).forEach(b => io.observe(b));
     }
+    // the Top Picks book turns again every 4s (user 2026-11-21), only while it is on screen and the tab is showing
+    const topBk = $('.cf-feat__book .cf-bk', list);
+    if (topBk && !reduce) {
+      let seen = !('IntersectionObserver' in window);
+      if (!seen) new IntersectionObserver(es => { seen = es[0].isIntersecting; }).observe(topBk);
+      setInterval(() => { if (seen && !document.hidden) flip(topBk); }, 4000);
+    }
     list.addEventListener('click', e => {
       const chip = e.target.closest('.cf-chip');
       if (chip) {
@@ -483,7 +525,8 @@
       }
     });
     $$('.cf-sec', list).forEach(sec => $('.cf-grid', sec).addEventListener('scroll', () => arrows(sec), { passive: true }));
-    addEventListener('resize', () => $$('.cf-sec', list).forEach(arrows));
+    addEventListener('resize', () => $$('.cf-sec', list).forEach(s => { even(s); arrows(s); }));
+    if (document.fonts) document.fonts.ready.then(() => $$('.cf-sec', list).forEach(even));   // card heights settle once the web fonts are in
 
     /* ---------- the bar: sticks under the nav, or at the top while the nav is slid away (.is-away, js/site-nav.js) ---------- */
     const bar = $('#cfBar'), navEl = $('#nav') || $('.rn'), q = $('#cfQ'), qx = $('#cfQx');
@@ -542,7 +585,7 @@
       { key: 'mode', label: 'Mode', opts: [['classroom', 'Classroom'], ['online', 'LIVE-Online']], test: (k, v) => k.dataset.mode === v || k.dataset.mode === 'both' },
       { key: 'lang', label: 'Medium', opts: [['en', 'English'], ['hi', 'हिंदी']], test: (k, v) => k.dataset.lang === v }
     ].concat(FILTERS);
-    const CHEV_D = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9L12 15L18 9"/></svg>';
+    const CHEV_D = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9L12 15L18 9"/></svg>';
     const filt = $('#cfFilt');
     if (filt) {
       // Iconoir's xmark-circle (solid)
@@ -555,7 +598,10 @@
       }).join('')}</select>${CHEV_D}<button type="button" class="cf-sel__x" data-key="${f.key}" aria-label="Clear ${f.label}">${X_CIRCLE}</button></label>`).join('') + '<button type="button" class="cf-filt__clear" id="cfFiltX" hidden>Clear filters</button>';
       // a picked dropdown swaps its chevron for a clear button (user 2026-11-18, a "Blog ⊗" chip as the reference) that empties just that one
       filt.addEventListener('click', e => {
-        const x = e.target.closest('.cf-sel__x'); if (!x) return;
+        const x = e.target.closest('.cf-sel__x');
+        // the split-button field (user 2026-11-21): a click anywhere on it, its name or its chevron segment, opens the menu, not only a
+        // click on the choice itself
+        if (!x) { const lab = e.target.closest('.cf-sel'); if (lab && e.target.tagName !== 'SELECT') { const s = $('select', lab); try { s.showPicker(); } catch (_) { s.focus(); } } return; }
         e.preventDefault();
         const s = $(`select[data-key="${x.dataset.key}"]`, filt);
         state[x.dataset.key] = ''; s.value = ''; sync(); apply(); s.focus();
@@ -643,7 +689,22 @@
       const open = on => {
         if (on && !rail.classList.contains('is-open')) openedAt = performance.now();
         rail.classList.toggle('is-open', on); btn.setAttribute('aria-expanded', String(on));
+        if (on) fit();
       };
+      // the open list stays between the sticky search bar and the bottom of the screen (user 2026-11-21: it opened centred on the
+      // lines and its top half went under the bar): --py nudges it from that centred spot, --ph caps its height (it scrolls)
+      const panel = $('.cf-rail__panel', rail), barEl = $('#cfBar'), navEl2 = $('#nav');
+      const fit = () => {
+        if (!panel || !panel.offsetParent) return;
+        panel.style.removeProperty('--ph'); panel.classList.remove('is-capped');
+        const gap = 12, top = Math.max(0, barEl ? barEl.getBoundingClientRect().bottom : 0, navEl2 ? navEl2.getBoundingClientRect().bottom : 0) + gap;
+        const room = innerHeight - gap - top, h = Math.min(panel.offsetHeight, room);
+        if (panel.offsetHeight > room) { panel.style.setProperty('--ph', `${Math.max(160, room)}px`); panel.classList.add('is-capped'); }
+        const cb = panel.offsetParent.getBoundingClientRect(), mid = cb.top + panel.offsetTop;   // where top:50% puts its centre
+        const want = Math.min(Math.max(mid - h / 2, top), innerHeight - gap - h);
+        panel.style.setProperty('--py', `${Math.round(want - (mid - h / 2))}px`);
+      };
+      addEventListener('scroll', () => { if (rail.classList.contains('is-open')) fit(); }, { passive: true });
       addEventListener('scroll', spy, { passive: true }); addEventListener('resize', spy);
       list.addEventListener('cf:layout', spy);
       spy(); rail.classList.add('is-ready');
