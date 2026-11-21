@@ -10,11 +10,11 @@ let instance: Lenis | null = null;
 /**
  * Inline <head> script: the page always opens at the hero. The browser is told not to restore the last
  * scroll position on a reload, and a section hash left in the address by a nav link is dropped before it
- * can jump the page there. It also marks <html> with `js`, so styles that wait for a script (the counter
+ * can jump the page there (not on the courses page, whose address keeps its open book and filters). It also marks <html> with `js`, so styles that wait for a script (the counter
  * labels) only apply when one will run.
  */
 export const startAtTopScript =
-  'document.documentElement.classList.add("js");history.scrollRestoration="manual";if(location.hash)history.replaceState(null,"",location.pathname+location.search)';
+  'document.documentElement.classList.add("js");history.scrollRestoration="manual";if(location.hash&&location.pathname.indexOf("/courses")!==0)history.replaceState(null,"",location.pathname+location.search)';
 
 export function setSmoothScroll(lenis: Lenis | null) {
   instance = lenis;

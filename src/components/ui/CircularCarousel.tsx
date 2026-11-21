@@ -82,6 +82,14 @@ type CircularCarouselProps<T> = {
   renderSlide: (item: T) => ReactNode;
   /** Shown under the ring for the item at the front, cross-fading as it changes. Visual only. */
   renderCaption?: (item: T, index: number) => ReactNode;
+  /**
+   * Drawn over the front card itself (homepage v2: the educators' details on the card, as the Figma topper
+   * card): laid over the front card's place at rest, cross-fading as the front changes. Decoration for
+   * assistive technology, which reads `renderSlide`.
+   */
+  renderFront?: (item: T, index: number) => ReactNode;
+  /** A dark fade up from each card's foot (the Figma topper card's), for type over the picture. */
+  shade?: boolean;
   /** A card, canvas px. */
   width: number;
   height: number;
@@ -93,8 +101,22 @@ type CircularCarouselProps<T> = {
   fadeColor: string;
   /** The colour under a card's picture while it loads. */
   backColor: string;
-  /** "dark" on a dark band (cream controls), "light" on paper. */
-  tone?: "light" | "dark";
+  /** "dark" on a dark band (cream controls), "light" on paper, "brand" the final site's orange controls. */
+  tone?: "light" | "dark" | "brand";
+  /** The cards' corner radius, px (18; the final site's educators, 8). */
+  cardRadius?: number;
+  /**
+   * The picture at the card's width, its height in proportion, set this far down (e.g. "30%", the final site's);
+   * by default it is stretched to the card.
+   */
+  photoY?: string;
+  /**
+   * The final site's way with renderFront: drawn inside each card, just in front of it, showing on the card at
+   * the front (so it turns and lifts with it), instead of laid over the front's place.
+   */
+  frontInCard?: boolean;
+  /** A card lifts 10px under the pointer (the final site's). */
+  lift?: boolean;
   /** Space between the ring and what follows it (dots, caption), canvas px. */
   spacing?: number;
   /** How far from the stage's centre the arrows' centres sit, canvas px: just clear of the ring's
@@ -127,6 +149,8 @@ export default function CircularCarousel<T>({
   href,
   renderSlide,
   renderCaption,
+  renderFront,
+  shade = false,
   width,
   height,
   gap = 32,
@@ -134,6 +158,10 @@ export default function CircularCarousel<T>({
   fadeColor,
   backColor,
   tone = "light",
+  cardRadius = 18,
+  photoY,
+  frontInCard = false,
+  lift: liftOnHover = false,
   spacing = 32,
   arrowReach,
   className,
@@ -163,6 +191,8 @@ export default function CircularCarousel<T>({
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
   const fillRef = useRef<HTMLSpanElement>(null);
   const liveRef = useRef<HTMLParagraphElement>(null);
+  /** Where the front card stands in the stage at rest (canvas px), for `renderFront`. */
+  const [frontBox, setFrontBox] = useState<{ left: number; top: number; width: number; height: number } | null>(null);
 
   const sim = useRef<Sim>({ pos: 0, vel: 0, target: 0, stiffness: SNAP_HAND, held: false, lean: { x: 0, y: 0, aimX: 0, aimY: 0 }, clock: 0 });
   /** What the loop needs from React's state, kept current. */
@@ -193,6 +223,37 @@ export default function CircularCarousel<T>({
   }, [radius, width]);
 
   // The one loop: the ring's spring, the camera's lean, the autoplay clock and the depth fades.
+  // The front card's place at rest: measured from its strips a moment after the front changes (when the
+  // ring has settled) and on a resize; every card comes to the same place at the front.
+  useEffect(() => {
+    if (!renderFront) return;
+    let timer = 0;
+    const measure = () => {
+      const stage = stageRef.current;
+      const card = cardRefs.current[mod(frontRef.current, slots)];
+      if (!stage || !card) return;
+      const zoom = getCanvasZoom();
+      const s = stage.getBoundingClientRect();
+      const rects = Array.from(card.querySelectorAll<HTMLElement>("[data-strip]"), (el) => el.getBoundingClientRect());
+      if (!rects.length) return;
+      const left = Math.min(...rects.map((r) => r.left));
+      const right = Math.max(...rects.map((r) => r.right));
+      const top = Math.min(...rects.map((r) => r.top));
+      const bottom = Math.max(...rects.map((r) => r.bottom));
+      setFrontBox({ left: (left - s.left) / zoom, top: (top - s.top) / zoom, width: (right - left) / zoom, height: (bottom - top) / zoom });
+    };
+    const later = () => {
+      clearTimeout(timer);
+      timer = window.setTimeout(measure, 1200);
+    };
+    later();
+    addEventListener("resize", later);
+    return () => {
+      clearTimeout(timer);
+      removeEventListener("resize", later);
+    };
+  }, [renderFront, front, shown, slots]);
+
   useEffect(() => {
     const s = sim.current;
     const f = flags.current;
@@ -467,7 +528,7 @@ export default function CircularCarousel<T>({
   }, [pitch]);
 
   const name = itemName.charAt(0).toUpperCase() + itemName.slice(1);
-  const radiusPx = 18;
+  const radiusPx = cardRadius;
 
   if (!count) return null;
 
@@ -549,7 +610,7 @@ export default function CircularCarousel<T>({
                   return (
                     <Fragment key={j}>
                       {/* The front of the strip: its slice of the picture, black and white off the front. */}
-                      <span aria-hidden="true" className="absolute outline outline-1 outline-transparent [backface-visibility:hidden]" style={{ ...box, transform: strip.transform }}>
+                      <span data-strip aria-hidden="true" className="absolute outline outline-1 outline-transparent [backface-visibility:hidden]" style={{ ...box, transform: strip.transform }}>
                         <span
                           className={cx(
                             "absolute inset-0 overflow-hidden bg-no-repeat [transition:filter_600ms_var(--ease-out)]",
@@ -557,9 +618,11 @@ export default function CircularCarousel<T>({
                           )}
                           style={{
                             borderRadius: round(edge),
-                            backgroundImage: `url("${src}")`,
-                            backgroundSize: `${width}px ${height}px`,
-                            backgroundPosition: `${-strip.offset}px 0`,
+                            backgroundImage: shade
+                              ? `linear-gradient(180deg, rgb(18 17 16 / 0) 48%, rgb(18 17 16 / 0.92) 100%), url("${src}")`
+                              : `url("${src}")`,
+                            backgroundSize: shade ? `100% 100%, ${width}px ${photoY ? "auto" : `${height}px`}` : `${width}px ${photoY ? "auto" : `${height}px`}`,
+                            backgroundPosition: shade ? `0 0, ${-strip.offset}px ${photoY ?? "0"}` : `${-strip.offset}px ${photoY ?? "0"}`,
                             backgroundColor: backColor,
                           }}
                         >
@@ -570,7 +633,21 @@ export default function CircularCarousel<T>({
                   );
                 });
                 const cardStyle: CSSProperties = { transform: `rotateY(${(slot * step).toFixed(3)}deg) translateZ(${radius.toFixed(2)}px)` };
-                const cardClass = "group/cc absolute top-0 left-0 size-0 [transform-style:preserve-3d]";
+                const cardClass = cx(
+                  "group/cc absolute top-0 left-0 size-0 [transform-style:preserve-3d]",
+                  liftOnHover && "[translate:0_0] [transition:translate_450ms_var(--ease-out)] hover:[translate:0_-10px] motion-reduce:transition-none",
+                );
+                // The final site's front type: inside the card, just in front of it, showing on the front card.
+                const inCard =
+                  renderFront && frontInCard ? (
+                    <div
+                      aria-hidden="true"
+                      className="pointer-events-none absolute [backface-visibility:hidden] [transition:opacity_350ms_var(--ease-out)] motion-reduce:transition-none"
+                      style={{ left: -width / 2, top: -height / 2, width, height, transform: "translateZ(2px)", opacity: isFront && shown ? 1 : 0 }}
+                    >
+                      {renderFront(item, index)}
+                    </div>
+                  ) : null;
                 return (
                   <div
                     key={slot}
@@ -593,11 +670,13 @@ export default function CircularCarousel<T>({
                     {link !== null ? (
                       <a href={link} draggable={false} tabIndex={copy ? -1 : undefined} className="absolute top-0 left-0 size-0 [transform-style:preserve-3d]">
                         {faces}
+                        {inCard}
                         <div className="sr-only">{renderSlide(item)}</div>
                       </a>
                     ) : (
                       <>
                         {faces}
+                        {inCard}
                         {!copy && <div className="sr-only">{renderSlide(item)}</div>}
                       </>
                     )}
@@ -607,6 +686,27 @@ export default function CircularCarousel<T>({
             </div>
           </div>
         </div>
+
+        {/* The front card's own type (renderFront), over its place at rest, cross-fading with the front. */}
+        {renderFront && !frontInCard && frontBox && (
+          <div aria-hidden="true" className="pointer-events-none absolute z-[5]" style={frontBox}>
+            {items.map((item, i) => {
+              const on = i === active && shown;
+              return (
+                <div
+                  key={i}
+                  className="absolute inset-0"
+                  style={{
+                    opacity: on ? 1 : 0,
+                    transition: still ? "none" : on ? `opacity ${CAPTION_MS}ms ${EASE} ${CAPTION_OUT_MS + 120}ms` : `opacity ${CAPTION_OUT_MS}ms linear`,
+                  }}
+                >
+                  {renderFront(item, i)}
+                </div>
+              );
+            })}
+          </div>
+        )}
 
         {/* The arrows level with the front card: just beside the ring's ends, or at the stage's edges. */}
         {([-1, 1] as const).map((side) => (

@@ -70,3 +70,17 @@ export const institutionCards: InstitutionCard[] = [
     paper: ["#f8ebd2", "#d6a15e"],
   },
 ];
+
+/**
+ * Homepage v2: the six points as design S's chapters (the client chose its "Why Vajiram & Ravi" style and
+ * scroll): each card's photograph (design S's, public/images/about/why) and the button that follows it.
+ * The titles and sentences stay the cards' own (institutionCards).
+ */
+export const whyChapters: Record<InstitutionIcon, { photo: string; width: number; height: number; cta: { label: string; href: string } }> = {
+  trophy: { photo: "/images/about/why/why-1-track-record.webp", width: 1100, height: 733, cta: { label: "Meet the toppers", href: "#toppers" } },
+  faculty: { photo: "/images/about/why/why-2-faculty.webp", width: 1100, height: 733, cta: { label: "Meet our educators", href: "#educators" } },
+  mentor: { photo: "/images/about/why/why-3-guidance.webp", width: 1100, height: 733, cta: { label: "Let's talk", href: "#counselling" } },
+  books: { photo: "/images/about/why/why-4-study-material.webp", width: 1100, height: 733, cta: { label: "Explore study materials", href: "#resources" } },
+  location: { photo: "/images/about/why/why-5-location.webp", width: 1100, height: 876, cta: { label: "Visit the campus", href: "#locations" } },
+  modes: { photo: "/images/about/why/why-6-classroom-online.webp", width: 1100, height: 733, cta: { label: "Find your programme", href: "#programmes" } },
+};

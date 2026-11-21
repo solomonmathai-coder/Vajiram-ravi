@@ -1,0 +1,91 @@
+/*
+ * The courses page (/courses): a strip for each category (CoursesExplorer). The cloth and the page block are
+ * the homepage shelf's (Programmes/shelf.css). Everything still with reduced motion.
+ */
+
+/* A ticket goes into the book or comes out of it, or moves along the row, a ticket's width at a time; it
+   lifts a little under the pointer. Laid in the book, it has no shadow of its own. */
+.cs-card {
+  transform-origin: 0 50%;
+  transition:
+    transform 720ms cubic-bezier(0.65, 0, 0.25, 1),
+    translate 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.cs-card[data-inside] .cs-shadow {
+  opacity: 0;
+}
+
+/* The cover swings open on its spine, showing the endpaper inside, and shuts again. */
+.cs-lid {
+  transform-origin: 0 50%;
+  transform-style: preserve-3d;
+  transition: transform 420ms cubic-bezier(0.3, 0.7, 0.3, 1);
+}
+.lid-open .cs-lid {
+  transform: rotateY(-105deg);
+}
+.cs-face {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.cs-face-in {
+  transform: rotateY(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cs-card,
+  .cs-lid {
+    transition: none;
+  }
+}
+
+/* ---- our course finder with Kevin's bar and cards (21 Nov 2026) ---- */
+/* his bar sits in our sticky wrapper, which already holds it under the header */
+.cb-page .cf-bar { position: static; padding: 0; }
+.cb-page .cf-bar::before { display: none; }
+/* his card, drawn at his size and shown at 85% (CoursesExplorer, CARD_ZOOM), fills its place in the row */
+.cb-page .cs-card .cf-k__a { height: 100%; }
+/* Our Top Picks' band: Kevin's .cf-feat ground */
+.cb-page .cb-feat {
+  background: linear-gradient(90deg, rgb(30 9 4 / .6) 0%, rgb(30 9 4 / .34) 40%, rgb(30 9 4 / .08) 66%, rgb(30 9 4 / 0) 100%),
+    radial-gradient(40% 55% at 78% 50%, rgb(226 96 30 / .5), transparent 72%),
+    radial-gradient(48% 42% at 6% 108%, rgb(240 112 40 / .5), transparent 70%),
+    linear-gradient(100deg, #4E1708 0%, #6E220B 34%, #8A2D0E 60%, #5C1A08 82%, #3A1006 100%);
+}
+.cb-page .cb-feat__qutub { aspect-ratio: 720 / 1239; opacity: .07; background: url(/images/course-finder/photos/qutub-monument.webp) left bottom / cover no-repeat;
+  -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 22%, transparent 62%), linear-gradient(0deg, #000 0%, #000 55%, transparent 96%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(90deg, #000 0%, #000 22%, transparent 62%), linear-gradient(0deg, #000 0%, #000 55%, transparent 96%);
+  mask-composite: intersect; }
+.cb-page .cb-feat__grain { z-index: 1; opacity: .2; mix-blend-mode: overlay;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E") 0 0 / 160px 160px; }
+
+/* Kevin's dropdowns in white, like the search beside them (his 88af1a4, "white filter dropdowns") */
+.cf-page.cb-page .cf-sel, .cf-page.cb-page .cf-sel:hover, .cf-page.cb-page .cf-sel.is-on { --sel-fill: #fff; }
+
+/* the card's picture: the line illustration on a warm paper, printed onto it (multiply), whole and centred */
+.cf-page.cb-page .cb-illus { background: radial-gradient(70% 80% at 50% 60%, #fff 0%, #fff6ec 70%), #fff6ec; }
+.cf-page.cb-page .cb-illus img { object-fit: contain; object-position: center; padding: 10px 14px 6px; mix-blend-mode: multiply; }
+
+/* ---- on a phone (lib/canvas: html.phone, the page not zoomed) ---- */
+/* Kevin's bar: the search across, the three dropdowns side by side under it */
+html.phone .cb-page .cf-bar__in { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+html.phone .cb-page .cf-search { grid-column: 1 / -1; max-width: none; }
+html.phone .cb-page .cf-search input { height: 44px; font-size: 16px; }
+html.phone .cb-page .cf-filt { display: contents; }
+html.phone .cb-page .cf-sel { width: 100%; min-width: 0; height: 40px; padding: 0 26px 0 10px; }
+html.phone .cb-page .cf-sel select { min-width: 0; width: 100%; font-size: 14px; }
+html.phone .cb-page .cf-filt__clear { grid-column: 1 / -1; justify-self: start; }
+/* the menu (CoursesExplorer, a dialog): it slides in from the left over a dimmed page, and back out */
+.cb-menu { translate: -100% 0; transition: translate 340ms cubic-bezier(0.22, 1, 0.36, 1), overlay 340ms allow-discrete, display 340ms allow-discrete; }
+.cb-menu[open] { translate: 0 0; }
+@starting-style { .cb-menu[open] { translate: -100% 0; } }
+.cb-menu::backdrop { background: rgb(26 10 2 / 0); transition: background-color 340ms ease, overlay 340ms allow-discrete, display 340ms allow-discrete; }
+.cb-menu[open]::backdrop { background: rgb(26 10 2 / .45); }
+@starting-style { .cb-menu[open]::backdrop { background: rgb(26 10 2 / 0); } }
+@media (prefers-reduced-motion: reduce) { .cb-menu, .cb-menu::backdrop { transition: none; } }
+/* the chips stay on one line, the row swiping sideways */
+html.phone .cb-page .cf-chips { flex-wrap: nowrap; }
+html.phone .cb-page .cf-chip { white-space: nowrap; }
+/* the page sits over the final site's footer (footer-ref/RefFooter), so the footer waits behind it */
+html.foot-curtain main.cb-main { position: relative; z-index: 1; }

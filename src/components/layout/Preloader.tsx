@@ -1,57 +1,49 @@
+import "./intro.css";
+import { INTRO_OUT } from "./introTiming";
 import PreloaderCurtain from "./PreloaderCurtain";
 
 /*
- * The intro: the opening of the page. A mahogany curtain covers it for a moment, then lifts off the top
- * with a curved lower edge that flattens as it leaves, and the hero plays its entrance beneath. (It once
- * cycled "Namaste" through Indian languages first; the client asked for the opening alone.)
+ * The intro: the opening of the page, after design S's (vajiram-ravi.vercel.app; the client chose its
+ * opening for homepage v2). An orange iris opens on a dark cover, a faint mandala settles behind the logo,
+ * the tagline "Understanding India. Shaping its Future." comes in, a saffron bar runs across the top, and
+ * at 2.5s the panel slides up off the page with its kinari border under it. Skip intro, Esc or a scroll
+ * ends it early. The look and the timings are CSS (./intro.css) from the first paint; PreloaderCurtain
+ * only ends it.
  *
- * It is CSS from the first paint: the head script (`introScript`) decides before anything is drawn and
- * marks <html> with `intro`; only then is the curtain displayed, and the lift and the curve are
- * @starting-style transitions with their own delays. So it never flashes for anyone else, it needs no
- * script to run its timeline, and it shares the first paint's clock with the hero's own CSS sequence,
- * which waits for `--intro` (Hero/enter). PreloaderCurtain locks the page's scroll meanwhile and removes
- * `intro` when the curtain's transitions are done.
- *
- * On every page load (a reload included), never with reduced motion, never without JavaScript (no head
- * script, no `intro`, no curtain), and where @starting-style is unsupported the curtain rests off screen.
- * A page restored from the back-forward cache does not replay it. Decorative and short: aria-hidden,
- * nothing to focus. About 1.1 seconds in all, the hero starting 0.8s in.
+ * The head script (`introScript`) decides before anything is drawn and marks <html> with `intro`; only then
+ * is the panel displayed, so it never flashes for anyone else, and without JavaScript there is none. On
+ * every page load (a reload included); with reduced motion it is still and fades out after 1.5s. A page
+ * restored from the back-forward cache does not replay it.
  */
 
-/** The curtain holds this long before it lifts, ms. */
-const LIFT_AT = 300;
-/** The lift, ms; the curve flattens over all but the first FLATTEN_LAG of it. */
-const LIFT = 800;
-const FLATTEN_LAG = 100;
 /**
- * When the hero's entrance starts (`--intro`): 500ms into the lift, when the eased curtain is about 80% up
- * and its edge is leaving the top of the hero, so the copy rises as it clears.
+ * When the hero's entrance starts (`--intro`): 450ms into the slide, when the eased panel has cleared
+ * most of the first screen, so the copy rises as it is uncovered.
  */
-const HERO_AT = LIFT_AT + 500;
+const HERO_AT = INTRO_OUT + 450;
 
 /**
- * Inline <head> script: decides before the first paint whether the intro plays (on every load, unless the
- * visitor prefers reduced motion) and, if so, marks <html> with `intro` and sets `--intro` to the hero's
- * start time.
+ * Inline <head> script: marks <html> with `intro` before the first paint (on every load of the homepage
+ * only; the courses page has no intro) and sets
+ * `--intro` to the hero's start time (none with reduced motion, where nothing waits).
  */
-export const introScript = `(function(){try{var r=document.documentElement;if(matchMedia("(prefers-reduced-motion: reduce)").matches)return;r.classList.add("intro");r.style.setProperty("--intro","${HERO_AT}ms")}catch(e){}})();`;
+export const introScript = `(function(){try{var p=location.pathname;if(p!=="/"&&p!=="/index.html")return;var r=document.documentElement;r.classList.add("intro");if(!matchMedia("(prefers-reduced-motion: reduce)").matches)r.style.setProperty("--intro","${HERO_AT}ms")}catch(e){}})();`;
 
 export default function Preloader() {
   return (
-    <PreloaderCurtain
-      until={LIFT_AT + LIFT}
-      className="fixed inset-0 z-100 hidden -translate-y-full bg-mahogany starting:translate-y-0 [.intro_&]:block"
-      style={{ transition: `translate ${LIFT}ms var(--ease-in-out) ${LIFT_AT}ms` }}
-    >
-      {/* The curved lower edge: a bulge under the curtain that flattens (scaleY 1 → 0) as it lifts. */}
-      <svg
-        viewBox="0 0 1440 100"
-        preserveAspectRatio="none"
-        className="absolute top-full left-0 -mt-px h-[15%] w-full origin-top scale-y-0 fill-mahogany starting:scale-y-100"
-        style={{ transition: `scale ${LIFT - FLATTEN_LAG}ms var(--ease-in-out) ${LIFT_AT + FLATTEN_LAG}ms` }}
-      >
-        <path d="M0 0Q720 200 1440 0Z" />
-      </svg>
+    <PreloaderCurtain>
+      <div className="vrv__fin">
+        <span className="vrv__ring" aria-hidden="true" />
+        <div className="vrv__logo" role="img" aria-label="Vajiram & Ravi, Institute for IAS Examination">
+          <img className="vrv__mark" src="/images/logo.webp" alt="" width={617} height={206} />
+          <img className="vrv__name" src="/images/logo.webp" alt="" width={617} height={206} />
+        </div>
+        <p className="vrv__tag">
+          <span>Understanding India.</span> <span>Shaping its Future.</span>
+        </p>
+      </div>
+      <span className="vrv__bar" aria-hidden="true" />
+      <span className="vrv__edge" aria-hidden="true" />
     </PreloaderCurtain>
   );
 }

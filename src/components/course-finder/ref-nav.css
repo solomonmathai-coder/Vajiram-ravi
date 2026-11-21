@@ -1,0 +1,94 @@
+/*
+ * The course finder's nav (Kevin's css/ref-nav.css, commit 39e7bc9, "the reference build's bar and behaviour"):
+ * scoped under .cf-page, desktop only (the menu button and drawer under 1024px, and the phone layout, are not
+ * ported), Mukta from the site's next/font face.
+ */
+/* ---- from ref-nav.css ---- */
+.cf-page .rn { --rn-ink: #1E1A17; --rn-brand: #C2410C; --rn-font: var(--font-heading-face), "Nirmala UI", "Helvetica Neue", Arial, sans-serif; --rn-ease: cubic-bezier(.2, .7, .2, 1);
+  position: fixed; z-index: 50; top: 22px; left: calc(max(0px, (calc(100 * var(--vw)) - 1440px) / 2) + 30px); right: calc(max(0px, (calc(100 * var(--vw)) - 1440px) / 2) + 30px);
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 46px; box-sizing: border-box;
+  clip-path: inset(-8px -10px round 20px); transition: clip-path .8s cubic-bezier(.65, 0, .35, 1), opacity 0s; }
+.cf-page .rn.is-open { clip-path: none; }
+.cf-page .rn.is-away { opacity: 0; pointer-events: none; clip-path: inset(-8px 50% round 20px); transition: clip-path .8s cubic-bezier(.65, 0, .35, 1), opacity .12s linear .68s; }
+.cf-page .rn.is-away * { pointer-events: none; }
+html.mega-open .cf-page .rn { clip-path: none; }
+.cf-page .rn::after { content: ""; position: absolute; inset: -8px -10px; z-index: -1; border-radius: 20px; background: transparent; pointer-events: none;
+  transition: background-color .35s var(--rn-ease), box-shadow .35s var(--rn-ease); }
+.cf-page .rn.is-scrolled::after { background: #fff; box-shadow: 0 6px 24px -14px rgba(60, 25, 5, .28); }
+
+.cf-page .rn__pill { display: flex; align-items: center; min-width: 0; height: 46px; }
+.cf-page .rn__logo { flex: 0 0 auto; display: flex; align-items: center; height: 44px; margin-right: 14px; }
+.cf-page .rn__logo img { display: block; height: 44px; width: auto; transition: transform .3s cubic-bezier(.22, 1, .36, 1); }
+.cf-page .rn__logo:hover img, .cf-page .rn__logo:focus-visible img { transform: scale(1.03); }
+.cf-page .rn__logo .lg--d { display: none; }
+.cf-page .rn.is-scrolled .rn__logo .lg--d { display: block; }
+.cf-page .rn.is-scrolled .rn__logo .lg--l { display: none; }
+
+.cf-page .rn__links { display: flex; align-items: center; gap: 2px; min-width: 0; }
+.cf-page .rn__a { display: inline-flex; align-items: center; height: 34px; padding: 0 13px; border: 0; border-radius: 999px; background: none; cursor: pointer; white-space: nowrap;
+  font: 500 16px/1 var(--rn-font); letter-spacing: .005em; color: #fff; text-decoration: none; transition: color .35s var(--rn-ease), background-color .2s; }
+.cf-page .rn__a:hover, .cf-page .rn .explore.open > .rn__a, .cf-page .rn__more.is-open > .rn__a { background: rgba(255, 255, 255, .16); color: #fff; }
+.cf-page .rn__a:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.cf-page .rn.is-scrolled .rn__a { color: var(--rn-ink); }
+.cf-page .rn.is-scrolled .rn__a:hover, .cf-page .rn.is-scrolled .explore.open > .rn__a, .cf-page .rn.is-scrolled .rn__more.is-open > .rn__a { background: rgba(194, 65, 12, .1); color: var(--rn-brand); }
+.cf-page .rn.is-scrolled .rn__a:focus-visible { outline-color: var(--rn-brand); }
+.cf-page .rn__a[aria-current="page"] { box-shadow: inset 0 -2px 0 currentColor; border-radius: 999px 999px 4px 4px; }
+.cf-page .rn__a.is-over { display: none; }
+html[lang="hi"] .cf-page .rn__a, html[lang="hi"] .cf-page .rn__talk-t, html[lang="hi"] .cf-page .rn-more a { font-family: var(--font-heading-face), var(--rn-font); }
+.cf-page .rn__more { position: relative; display: flex; align-items: center; }
+.cf-page .rn__more[hidden] { display: none; }
+.cf-page .rn__more > .rn__a { gap: 6px; }
+.cf-page .rn__more svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: rotate .3s cubic-bezier(.22, 1, .36, 1); }
+.cf-page .rn__more.is-open svg { rotate: 180deg; }
+.cf-page .rn-more { position: absolute; top: calc(100% + 14px); right: 0; z-index: 70; min-width: 220px; margin: 0; padding: 8px; list-style: none; background: #fff; border-radius: 16px;
+  box-shadow: 0 0 0 1px rgba(122, 42, 10, .06), 0 24px 48px -20px rgba(60, 25, 5, .35); visibility: hidden; opacity: 0; translate: 0 -6px; pointer-events: none;
+  transition: opacity .2s, translate .3s cubic-bezier(.22, 1, .36, 1), visibility 0s linear .3s; }
+.cf-page .rn__more.is-open .rn-more { visibility: visible; opacity: 1; translate: 0 0; pointer-events: auto; transition-delay: 0s; }
+.cf-page .rn-more li[hidden] { display: none; }
+.cf-page .rn-more li + li { margin-top: 2px; }
+.cf-page .rn-more a { display: block; padding: 11px 14px; border-radius: 10px; white-space: nowrap; font: 500 17px/1.2 var(--rn-font); color: var(--rn-ink); text-decoration: none; transition: background-color .2s, color .2s; }
+.cf-page .rn-more a:hover, .cf-page .rn-more a:focus-visible { background: rgba(194, 65, 12, .08); color: var(--rn-brand); outline: none; }
+.cf-page .rn .explore { position: static; }
+.cf-page .rn .mega { position: absolute; top: calc(100% + 18px); left: 50%; translate: -50% 0; width: min(1380px, calc(calc(100 * var(--vw)) - 40px)); z-index: 60; }
+.cf-page .rn__end { flex: 0 0 auto; display: flex; align-items: center; gap: 10px; }
+.cf-page .rn-lang { position: relative; display: flex; align-items: center; height: 44px; padding: 4px; box-sizing: border-box; border-radius: 999px;
+  background: rgba(43, 18, 6, .32); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .45); transition: background-color .3s var(--rn-ease), box-shadow .3s var(--rn-ease); }
+.cf-page .rn-lang__thumb { position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc(50% - 4px); border-radius: 999px; background: #fff; box-shadow: 0 4px 10px -4px rgba(43, 18, 6, .5);
+  transition: transform .45s cubic-bezier(.34, 1.4, .5, 1), background-color .3s; }
+.cf-page .rn-lang[data-cur="hi"] .rn-lang__thumb { transform: translateX(100%); }
+.cf-page .rn-lang__b { position: relative; z-index: 1; min-width: 44px; height: 100%; padding: 0 12px; border: 0; border-radius: 999px; background: none; cursor: pointer;
+  font: 600 15px/1 var(--rn-font); letter-spacing: .02em; color: #fff; transition: color .25s var(--rn-ease), transform .25s var(--rn-ease); }
+.cf-page .rn-lang__b[lang="hi"] { padding-top: 2px; font: 400 20px/1 "Tiro Devanagari Hindi", var(--font-heading-face), var(--rn-font); letter-spacing: 0; }
+.cf-page .rn-lang__b[aria-pressed="true"] { color: var(--rn-brand); }
+.cf-page .rn-lang__b:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .cf-page .rn-lang:hover { box-shadow: inset 0 0 0 1px #fff; }
+  .cf-page .rn-lang__b[aria-pressed="false"]:hover { color: #FFD48A; transform: translateY(-1px); }
+  .cf-page .rn.is-scrolled .rn-lang:hover { box-shadow: none; }
+  .cf-page .rn.is-scrolled .rn-lang__b[aria-pressed="false"]:hover { color: var(--rn-brand); }
+}
+.cf-page .rn.is-scrolled .rn-lang { background: #F9F0E4; box-shadow: none; }
+.cf-page .rn.is-scrolled .rn-lang__thumb { background: var(--rn-brand); box-shadow: none; }
+.cf-page .rn.is-scrolled .rn-lang__b { color: var(--rn-ink); }
+.cf-page .rn.is-scrolled .rn-lang__b[aria-pressed="true"] { color: #fff; }
+.cf-page .rn.is-scrolled .rn-lang__b:focus-visible { outline-color: var(--rn-brand); }
+.cf-page .rn__talk { display: inline-flex; align-items: center; gap: 8px; height: 44px; padding: 0 4px 0 16px; box-sizing: border-box; border-radius: 999px; background: #fff; color: var(--rn-ink);
+  font: 700 16px/1 var(--rn-font); letter-spacing: .005em; white-space: nowrap; text-decoration: none; transition: background-color .3s, color .3s, box-shadow .3s; }
+.cf-page .rn__talk:hover { background: #FFF2E6; }
+.cf-page .rn__talk:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.cf-page .rn__disc { position: relative; display: grid; place-items: center; width: 36px; height: 36px; overflow: hidden; border-radius: 50%; background: var(--rn-brand); color: #fff;
+  transition: transform .45s cubic-bezier(.34, 1.56, .64, 1), background-color .3s, color .3s; }
+.cf-page .rn__disc svg { grid-area: 1 / 1; width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; transition: transform .45s cubic-bezier(.65, 0, .35, 1); }
+.cf-page .rn__disc svg + svg { transform: translateX(-220%); }
+@media (hover: hover) and (pointer: fine) {
+  .cf-page .rn__talk:hover .rn__disc { transform: scale(1.06); }
+  .cf-page .rn__talk:hover .rn__disc svg { transform: translateX(220%); }
+  .cf-page .rn__talk:hover .rn__disc svg + svg { transform: translateX(0); }
+}
+.cf-page .rn.is-scrolled .rn__talk { background: linear-gradient(135deg, #F06A2C 0%, #E85020 45%, #C2410C 100%); color: #fff; box-shadow: 0 10px 20px -12px rgba(194, 65, 12, .7); }
+.cf-page .rn.is-scrolled .rn__talk:hover { background: linear-gradient(135deg, #E85020 0%, #C2410C 60%, #A8380A 100%); }
+.cf-page .rn.is-scrolled .rn__disc { background: #fff; color: var(--rn-brand); }
+.cf-page .rn.is-scrolled .rn__talk:focus-visible { outline-color: var(--rn-brand); }
+@media (prefers-reduced-motion: reduce) {
+  .cf-page .rn, .cf-page .rn.is-away, .cf-page .rn::after, .cf-page .rn__a, .cf-page .rn-lang, .cf-page .rn-lang__thumb, .cf-page .rn-lang__b, .cf-page .rn__talk, .cf-page .rn__disc, .cf-page .rn__disc svg, .cf-page .rn-more, .cf-page .rn__more svg { transition: none; }
+}

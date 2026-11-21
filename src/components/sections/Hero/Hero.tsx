@@ -9,6 +9,7 @@ import { cx } from "@/lib/cx";
 import { prefersReducedMotion } from "@/lib/motion";
 import { AT, ENTER, LINE, RISE, at } from "./enter";
 import HeroFigure from "./HeroFigure";
+import HeroUpdates from "./HeroUpdates";
 
 /** How long each topper stays before the next comes in, and how long the hand-over takes. */
 const SLIDE_MS = 6500;
@@ -125,15 +126,18 @@ export default function Hero() {
   const slide = heroSlides[current];
 
   return (
-    <section id="hero" aria-labelledby="hero-h" className="hero-ember text-white">
+    // Pinned under the header while the programmes sheet slides over it (homepage v2, after design S): it
+    // darkens and draws back with the sheet's rise (--cover, set by ui/CoverSheet).
+    <section id="hero" aria-labelledby="hero-h" className="hero-ember top-20 z-0 text-white" style={{ position: "sticky" }}>
+      <div className="origin-[50%_35%] will-change-[scale]" style={{ scale: "calc(1 - var(--cover, 0) * 0.2)" }}>
       <div className="px-4 pt-6">
         <div
           aria-roledescription="carousel"
           aria-label={`UPSC CSE ${slide.year} toppers`}
           className={cx(
-            // The header (80), the room above the panel (24) and the stats strip under it (182) share the
-            // first screen with it; the announcement strip waits just below.
-            "relative h-[clamp(520px,calc(100svh/var(--canvas-zoom,1)-80px-24px-182px),820px)] overflow-clip rounded-[28px] bg-mahogany",
+            // The header (80), the room above the panel (24) and the stats row under it (100) share the
+            // first screen with it.
+            "relative h-[clamp(520px,calc(100svh/var(--canvas-zoom,1)-80px-24px-100px),820px)] overflow-clip rounded-[28px] bg-mahogany",
             ENTER,
           )}
           style={at(AT.art)}
@@ -249,6 +253,11 @@ export default function Hero() {
             />
           </div>
 
+          {/* What's new: the next batches and the new courses, in the bottom right corner (homepage v2). */}
+          <div className={cx("absolute right-6 bottom-6 z-20", RISE)} style={at(AT.ctas[1] + 120)}>
+            <HeroUpdates />
+          </div>
+
           {/* A way to stop the slideshow, kept out of sight until reached with the keyboard. */}
           {!still && (
             <button
@@ -265,29 +274,33 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Under the panel: the four points, each figure in its laurel, centred (Figma "stats bar", 2425:51305). */}
-      <ul aria-label={achievementsLabel} className="mx-auto flex w-canvas items-center justify-center gap-16 px-12 pt-12 pb-12">
+      {/*
+        Under the panel, straight on the orange (homepage v2; no band): the four points in a row, each
+        figure large in white with its line beside it in cream, a short saffron rule over the line; between
+        them a hairline with a small saffron diamond at its middle. The figures roll in (HeroFigure).
+      */}
+      <ul aria-label={achievementsLabel} className="mx-auto mt-2 flex w-canvas items-center justify-center px-16 py-5">
         {achievements.map((item, i) => (
-          <li key={item.text} data-enter className={cx("flex items-center gap-4", RISE)} style={at(AT.achievements[Math.min(i, AT.achievements.length - 1)] + (i > 2 ? 80 : 0))}>
-            <span className="relative flex h-[86px] w-[108px] shrink-0 items-center justify-center">
-              {/* The laurel sways a little about its foot while the hero is on screen (globals.css, .lp-sway), each out of step. */}
-              <img
-                src="/images/hero/laurel-cream.svg"
-                alt=""
-                aria-hidden="true"
-                width={108}
-                height={86}
-                className="lp-sway absolute inset-0 size-full"
-                style={{ animationDelay: `${-i * 2.3}s` }}
-              />
-              <span className="relative font-heading text-[28px]/[1] font-medium whitespace-nowrap">
+          <li key={item.text} data-enter className={cx("flex items-center", RISE)} style={at(AT.achievements[Math.min(i, AT.achievements.length - 1)] + (i > 2 ? 80 : 0))}>
+            {i > 0 && (
+              <span aria-hidden="true" className="relative mx-12 block h-12 w-px bg-white/30">
+                <span className="absolute top-1/2 left-1/2 size-2 -translate-1/2 rotate-45 bg-saffron" />
+              </span>
+            )}
+            <span className="flex items-center gap-3.5">
+              <span className="font-heading text-[46px]/[1] font-semibold tracking-[-0.02em] whitespace-nowrap text-white">
                 <HeroFigure value={item.figure} />
               </span>
+              <span className="flex w-[132px] flex-col gap-1.5">
+                <span aria-hidden="true" className="block h-0.5 w-6 rounded-full bg-saffron" />
+                <span className="text-[15px]/[1.3] font-medium text-[#ffe9c2]">{item.text}</span>
+              </span>
             </span>
-            <span className="w-[150px] text-[17px]/[1.35]">{item.text}</span>
           </li>
         ))}
       </ul>
+      </div>
+      <span aria-hidden="true" className="pointer-events-none absolute inset-0 z-30 bg-[#1a0a02]" style={{ opacity: "calc(var(--cover, 0) * 0.85)" }} />
     </section>
   );
 }

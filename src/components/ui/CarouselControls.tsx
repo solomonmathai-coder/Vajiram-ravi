@@ -28,9 +28,11 @@ type CarouselArrowProps = {
   disabled?: boolean;
   /**
    * "light" (the default) on paper; "dark" on a dark band, the ring and icon in cream. "solid" is the old
-   * filled look, now the same as "light": every arrow is an outline until hovered.
+   * filled look, now the same as "light": every arrow is an outline until hovered. "brand" is the final
+   * site's (the About page's educators): a white disc with a fine orange ring and an orange arrow, filling
+   * orange on hover.
    */
-  tone?: "light" | "dark" | "solid";
+  tone?: "light" | "dark" | "solid" | "brand";
   /** "circle" or the toppers' rounded "square". */
   shape?: "circle" | "square";
   /** Box size in px (40 or 44 in the design). */
@@ -52,7 +54,11 @@ export function CarouselArrow({ direction, onClick, label, hidden = false, disab
       className={cx(
         "relative isolate flex shrink-0 cursor-pointer items-center justify-center overflow-visible border [transition:background-color_var(--dur-fast)_var(--ease-out),color_var(--dur-fast)_var(--ease-out),border-color_var(--dur-fast)_var(--ease-out),opacity_var(--dur-fast)_var(--ease-out),scale_80ms_var(--ease-out)] active:scale-[.96]",
         shape === "circle" ? "rounded-full" : "rounded-lg",
-        tone !== "dark" ? "border-ink/25 bg-cream/70 text-ink backdrop-blur-sm hover:border-ink hover:bg-ink hover:text-cream" : "border-cream/55 bg-[rgb(62_22_8/0.4)] text-cream backdrop-blur-sm hover:border-cream hover:bg-cream hover:text-ink",
+        tone === "brand"
+          ? "border-transparent bg-white text-[#c2410c] shadow-[inset_0_0_0_1.5px_rgb(194_65_12/0.3)] hover:bg-[#c2410c] hover:text-white"
+          : tone !== "dark"
+            ? "border-ink/25 bg-cream/70 text-ink backdrop-blur-sm hover:border-ink hover:bg-ink hover:text-cream"
+            : "border-cream/55 bg-[rgb(62_22_8/0.4)] text-cream backdrop-blur-sm hover:border-cream hover:bg-cream hover:text-ink",
         hidden && "pointer-events-none opacity-0",
         disabled && "cursor-default opacity-35",
         disabled && (tone !== "dark" ? "hover:border-ink/25 hover:bg-cream/70 hover:text-ink" : "hover:border-cream/55 hover:bg-[rgb(62_22_8/0.4)] hover:text-cream"),
@@ -74,8 +80,8 @@ type CarouselDotsProps = {
   label: string;
   /** What one item is called: "Story" reads "Story 3 of 10". */
   itemName: string;
-  /** Colours of the active and idle dots. */
-  tone?: "light" | "dark";
+  /** Colours of the active and idle dots; "brand" is the final site's orange (track and fill), the active one 32px. */
+  tone?: "light" | "dark" | "brand";
   /** Autoplay progress: a fill inside the active dot that the carousel's clock scales from 0 to 1. */
   fillRef?: RefObject<HTMLSpanElement | null>;
   className?: string;
@@ -95,8 +101,14 @@ export function CarouselDots({ count, active, onSelect, label, itemName, tone = 
             onClick={() => onSelect(i)}
             className={cx(
               "relative h-2 cursor-pointer overflow-hidden rounded-full [transition:width_var(--dur-base)_var(--ease-in-out),background-color_var(--dur-fast)_var(--ease-out)] after:absolute after:-inset-2",
-              isActive ? "w-6" : "w-2",
-              tone === "light"
+              isActive ? (tone === "brand" ? "w-8" : "w-6") : "w-2",
+              tone === "brand"
+                ? isActive
+                  ? fillRef
+                    ? "bg-[#c2410c]/30"
+                    : "bg-[#c2410c]"
+                  : "bg-[#c2410c]/30 hover:bg-[#c2410c]/60"
+                : tone === "light"
                 ? isActive
                   ? fillRef
                     ? "bg-burnt/25"
@@ -113,7 +125,7 @@ export function CarouselDots({ count, active, onSelect, label, itemName, tone = 
               <span
                 ref={fillRef}
                 aria-hidden="true"
-                className={cx("absolute inset-0 origin-left rounded-full", tone === "light" ? "bg-burnt" : "bg-white")}
+                className={cx("absolute inset-0 origin-left rounded-full", tone === "brand" ? "bg-[#c2410c]" : tone === "light" ? "bg-burnt" : "bg-white")}
                 // Starts empty; the clock sets the fill (not a scale class, which would multiply with it).
                 style={{ transform: "scaleX(0)" }}
               />

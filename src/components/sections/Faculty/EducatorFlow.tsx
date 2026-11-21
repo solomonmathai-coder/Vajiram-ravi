@@ -10,13 +10,45 @@ const AUTOPLAY_MS = 4500;
  * The educators on a circular carousel (after React Bits' "Circular Carousel"): portrait cards standing
  * round a ring, each bent to follow it, the camera looking a little down onto it. The card at the front is
  * in colour; the rest are in black and white (colour on hover) and fade into the cream as they turn away.
- * Under the ring the front educator is introduced: the name, the subject, the introduction and the
- * qualifications and experience, cross-fading as the front changes (the dots sit between the ring and
- * the caption). It turns by drag, swipe, the arrows just beside the ring, dots
+ * Homepage v2: each card is the Figma topper card (a dark fade up from its foot), and the front one carries
+ * its educator's subject, name and experience on itself (FrontCard), with no caption under the ring, to
+ * save the scroll. It turns by drag, swipe, the arrows just beside the ring, dots
  * and keys, and plays on its own, pausing while the pointer is on the front card, on keyboard focus and
  * off screen (no pause button).
+ *
+ * `plate="reference"` (the About page): the final site's ring (vajiram-ravi.abhishek-ps.workers.dev, as measured
+ * there): cards 264 × 340 with 8px corners, each picture at the card's width set 30% down, a card lifting 10px
+ * under the pointer, the orange arrows and dots, and the front card's plate drawn inside the card (turning and
+ * lifting with it): its own dark fade, the name in Newsreader and the subject in amber, no chip or border.
  */
-export default function EducatorFlow({ educators }: { educators: Educator[] }) {
+export default function EducatorFlow({ educators, plate = "homepage" }: { educators: Educator[]; plate?: "homepage" | "reference" }) {
+  if (plate === "reference") {
+    return (
+      <CircularCarousel
+        items={educators}
+        label="Our educators"
+        itemName="educator"
+        slideTitle={(educator) => `${educator.name}, ${educator.focus}`}
+        image={(educator) => educator.photo}
+        href={(educator) => educator.profile}
+        renderSlide={(educator) => <SlideText educator={educator} />}
+        renderFront={(educator) => <ReferencePlate educator={educator} />}
+        frontInCard
+        lift
+        cardRadius={8}
+        photoY="30%"
+        width={264}
+        height={340}
+        gap={30}
+        interval={AUTOPLAY_MS}
+        fadeColor="#fff8ec"
+        backColor="#ead9c2"
+        tone="brand"
+        spacing={28}
+        arrowReach={523}
+      />
+    );
+  }
   return (
     <CircularCarousel
       items={educators}
@@ -26,7 +58,8 @@ export default function EducatorFlow({ educators }: { educators: Educator[] }) {
       image={(educator) => educator.photo}
       href={(educator) => educator.profile}
       renderSlide={(educator) => <SlideText educator={educator} />}
-      renderCaption={(educator) => <Caption educator={educator} />}
+      renderFront={(educator) => <FrontCard educator={educator} />}
+      shade
       width={264}
       height={372}
       gap={30}
@@ -54,43 +87,37 @@ function SlideText({ educator }: { educator: Educator }) {
 }
 
 /**
- * Under the ring, in a clear order: the name large in Mukta semibold; the subject as a small orange tag;
- * the introduction as the reading text (18px, ink, at a measure of about 60 characters); then the
- * qualifications and the experience as two quiet facts, each after its own line icon (a mortarboard, a
- * clock), set apart by a hairline.
+ * The front card's type, as the Figma topper card (homepage v2: the details on the card itself, kept
+ * short): the subject in the orange chip at the top left, and at the foot, over the card's dark fade, the
+ * name and the experience. An orange border marks the card at the front.
  */
-function Caption({ educator }: { educator: Educator }) {
-  const { name, focus, introduction, qualifications, experience } = educator;
+function FrontCard({ educator }: { educator: Educator }) {
+  const { name, focus, experience, qualifications } = educator;
   return (
-    <div className="mx-auto flex w-[620px] flex-col items-center text-center">
-      <p className="font-heading text-[34px]/[1.1] font-semibold tracking-[-0.01em] text-ink">{name}</p>
+    <div className="relative size-full rounded-[18px] ring-2 ring-[#e57512] ring-inset">
       {focus && (
-        <p className="mt-3 rounded-full bg-[#f6dfc6] px-3.5 py-1 text-[14px]/[20px] font-semibold text-burnt">{focus}</p>
+        <span className="absolute top-3 left-3 rounded-full bg-[#e57512] px-2.5 py-1 text-[12px]/[14px] font-semibold tracking-[0.02em] text-white">{focus}</span>
       )}
-      {introduction && <p className="mt-4 text-[18px]/[1.6] text-ink/80">{introduction}</p>}
-      {(qualifications || experience) && (
-        <div className="mt-5 flex items-center gap-4 border-t border-[#eadbc4] pt-4 text-[15px]/[20px] text-clay">
-          {qualifications && (
-            <span className="flex items-center gap-2">
-              <svg aria-hidden="true" viewBox="0 0 20 20" width={18} height={18} fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" className="text-burnt">
-                <path d="M2 7.5 10 4l8 3.5-8 3.5-8-3.5Z" />
-                <path d="M5.5 9.2v3.6c1.2 1.1 2.7 1.7 4.5 1.7s3.3-.6 4.5-1.7V9.2M18 7.5v4.5" />
-              </svg>
-              {qualifications}
-            </span>
-          )}
-          {qualifications && experience && <span aria-hidden="true" className="h-4 w-px bg-[#e2cfb5]" />}
-          {experience && (
-            <span className="flex items-center gap-2">
-              <svg aria-hidden="true" viewBox="0 0 20 20" width={18} height={18} fill="none" stroke="currentColor" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" className="text-burnt">
-                <circle cx={10} cy={10} r={7} />
-                <path d="M10 6v4l2.5 2" />
-              </svg>
-              {experience}
-            </span>
-          )}
-        </div>
-      )}
+      <div className="absolute inset-x-4 bottom-4 text-left text-white">
+        <p className="font-heading text-[20px]/[1.2] font-semibold">{name}</p>
+        {(experience || qualifications) && <p className="mt-1 text-[13px]/[1.35] text-white/75">{experience || qualifications}</p>}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * The final site's front plate (its .cc-plate): the card's dark fade, and at its foot the name in Newsreader with
+ * a soft shadow and the subject under it in amber; no chip, no border.
+ */
+function ReferencePlate({ educator }: { educator: Educator }) {
+  const { name, focus } = educator;
+  return (
+    <div className="relative size-full overflow-hidden rounded-[8px] bg-[linear-gradient(180deg,rgb(0_0_0/0)_52%,rgb(30_14_6/0.55)_76%,rgb(30_14_6/0.88)_100%)]">
+    <div className="absolute inset-x-0 bottom-0 flex flex-col gap-0.5 px-4 pb-4 text-left">
+      <span className="font-[family-name:var(--font-news)] text-[22px]/[1.15] font-medium tracking-[-0.01em] text-white [text-shadow:0_1px_12px_rgb(20_8_2/0.35)]">{name}</span>
+      {focus && <span className="font-heading text-[13px]/[1.3] font-semibold tracking-[0.02em] text-[#ffd9a8]">{focus}</span>}
+    </div>
     </div>
   );
 }

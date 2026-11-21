@@ -1,0 +1,237 @@
+/*
+ * The intro (layout/Preloader), after design S's opening (vajiram-ravi.vercel.app, its intro.css): a dark
+ * cover at first paint, out of which an orange disc opens like an iris (0.8s); in it a faint white mandala
+ * settles from 86% (from 0.15s), the logo rises out of a soft blur (from 0.3s), mark in colour on a cream
+ * disc and the name in white, and the tagline comes in a half at a time (0.6s, 0.75s). A saffron bar runs
+ * across the top for 2.3s; at 2.5s (or on Skip, Esc or a scroll) the whole panel slides up off the page,
+ * its block-printed kinari border trailing under it. It is shown only while <html> has `intro` (set
+ * before the first paint by the head script), so it never flashes for anyone else.
+ *
+ * Reduced motion: no iris, no rises; the panel is simply there, still, and fades out after 1.5s.
+ */
+.vrv {
+  --vrv-ink: #120d09;
+  --vrv-e: cubic-bezier(0.45, 0.05, 0.25, 1);
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: none;
+  overflow: visible;
+  background: var(--vrv-ink);
+  color: #fff;
+  transition:
+    translate 850ms cubic-bezier(0.7, 0, 0.2, 1),
+    opacity 260ms;
+}
+.intro .vrv {
+  display: block;
+}
+.vrv__fin {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  padding: 24px;
+  text-align: center;
+  clip-path: circle(0% at 50% 52%);
+  background: radial-gradient(70% 60% at 50% 45%, #e85020 0%, #c2410c 55%, #a8380a 100%);
+  animation: vrv-iris 800ms cubic-bezier(0.65, 0, 0.3, 1) forwards;
+}
+.vrv__ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(760px, 120vw);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  background: url("/images/intro/mandala.svg") center / contain no-repeat;
+  filter: brightness(0) invert(1);
+  opacity: 0;
+  animation: vrv-ring 1.4s 150ms var(--vrv-e) forwards;
+}
+/* The logo: the mark in its colours on a cream disc, the name and line in white. */
+.vrv__logo {
+  position: relative;
+  width: min(460px, 80vw);
+  aspect-ratio: 617 / 206;
+  opacity: 0;
+  animation: vrv-logo 850ms 300ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+.vrv__logo::before {
+  content: "";
+  position: absolute;
+  left: -3.4%;
+  top: -11.5%;
+  width: 38.5%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(255 244 228 / 0.95) 0, rgb(255 244 228 / 0.95) 58%, rgb(255 244 228 / 0) 72%);
+}
+.vrv__logo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.vrv__logo .vrv__mark {
+  clip-path: inset(0 66% 0 0);
+}
+.vrv__logo .vrv__name {
+  filter: brightness(0) invert(1);
+  clip-path: inset(0 0 0 34%);
+}
+.vrv__tag {
+  position: relative;
+  margin: 26px 0 0;
+  font-family: var(--font-heading);
+  font-weight: 400;
+  font-size: clamp(22px, 2.2vw, 34px);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: #fff;
+}
+.vrv__tag span {
+  display: inline-block;
+  opacity: 0;
+  animation: vrv-in 600ms 600ms var(--vrv-e) forwards;
+}
+.vrv__tag span + span {
+  color: #ffd48a;
+  animation-delay: 750ms;
+}
+.vrv__bar {
+  position: absolute;
+  z-index: 4;
+  left: 0;
+  top: 0;
+  height: 3px;
+  width: 100%;
+  background: #ffd48a;
+  scale: 0 1;
+  transform-origin: 0 50%;
+  animation: vrv-bar 2.3s linear forwards;
+}
+.vrv__skip {
+  position: absolute;
+  z-index: 5;
+  right: clamp(16px, 3vw, 40px);
+  bottom: clamp(16px, 4vh, 40px);
+  height: 40px;
+  padding: 0 16px;
+  border: 1px solid rgb(255 255 255 / 0.55);
+  border-radius: 4px;
+  background: rgb(120 40 5 / 0.25);
+  color: #fff;
+  font: 600 14px/1 var(--font-heading);
+  cursor: pointer;
+  transition:
+    background-color 200ms,
+    opacity 200ms;
+}
+.vrv__skip:hover {
+  background: rgb(120 40 5 / 0.5);
+}
+.vrv__skip:focus-visible {
+  outline: 2px solid #ffd48a;
+  outline-offset: 3px;
+}
+/* The kinari border under the panel, seen as it slides away. */
+.vrv__edge {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -30px;
+  height: 30px;
+  background: url("/images/intro/kinari.svg") 0 0 / 40px 30px repeat-x;
+}
+.vrv--out {
+  translate: 0 calc(-100% - 30px);
+}
+.vrv--out .vrv__skip {
+  opacity: 0;
+}
+
+@keyframes vrv-iris {
+  to {
+    clip-path: circle(150% at 50% 52%);
+  }
+}
+@keyframes vrv-ring {
+  from {
+    opacity: 0;
+    scale: 0.86;
+  }
+  to {
+    opacity: 0.16;
+    scale: 1;
+  }
+}
+@keyframes vrv-logo {
+  from {
+    opacity: 0;
+    translate: 0 14px;
+    scale: 0.97;
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    translate: none;
+    scale: none;
+    filter: none;
+  }
+}
+@keyframes vrv-in {
+  from {
+    opacity: 0;
+    translate: 0 10px;
+  }
+  to {
+    opacity: 1;
+    translate: none;
+  }
+}
+@keyframes vrv-bar {
+  to {
+    scale: 1 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vrv {
+    background: #c2410c;
+  }
+  .vrv__fin,
+  .vrv__fin * {
+    clip-path: none !important;
+    animation: none !important;
+    opacity: 1 !important;
+    translate: none;
+    scale: none;
+    filter: none;
+  }
+  .vrv__logo .vrv__name {
+    filter: brightness(0) invert(1);
+  }
+  .vrv__ring {
+    translate: -50% -50% !important;
+    filter: brightness(0) invert(1) !important;
+    opacity: 0.16 !important;
+  }
+  .vrv__logo .vrv__mark {
+    clip-path: inset(0 66% 0 0) !important;
+  }
+  .vrv__logo .vrv__name {
+    clip-path: inset(0 0 0 34%) !important;
+  }
+  .vrv__bar,
+  .vrv__edge {
+    display: none;
+  }
+  .vrv--out {
+    translate: none;
+    opacity: 0;
+    transition: opacity 400ms;
+  }
+}

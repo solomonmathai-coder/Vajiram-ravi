@@ -2,7 +2,7 @@ import { callTimes, counsellingCopy } from "@/data/admissions";
 import { programmeChoices } from "@/data/programmes";
 import { contact } from "@/data/site";
 import GuidanceButton from "./GuidanceButton";
-import Postcard from "./Postcard";
+import SentenceForm from "./SentenceForm";
 
 /**
  * The band's lattice: a jaali of interlocking circles (each 48px circle passing through its neighbours'
@@ -15,7 +15,8 @@ const JAALI = `url("data:image/svg+xml,${encodeURIComponent(
 /**
  * Counselling & Academic Guidance (IA 6; Figma "05 · Personalised Counselling", 2377:4839): on the left
  * the heading, the paragraph, "Get expert guidance" (it puts the focus in the form) and the phone line with
- * the hours; on the right the postcard form (Postcard). "Register now" on a batch ticket scrolls here with
+ * the hours; on the right, for homepage v2, design S's sentence form on its note (SentenceForm), in place
+ * of v1's postcard. "Register now" on a batch ticket scrolls here with
  * its programme filled in (requestEnquiry).
  *
  * The ground is a deep burnt orange, darkest behind the heading and at the band's sides, with a brighter
@@ -39,9 +40,9 @@ export default function Counselling() {
 
       <div aria-hidden="true" className="pointer-events-none absolute inset-0" style={{ backgroundImage: JAALI, backgroundSize: "48px 48px" }} />
 
-      <div className="relative mx-auto flex w-canvas items-center justify-between px-20 py-24">
-        <div className="relative flex w-[500px] shrink-0 flex-col items-start">
-          <h2 id="counselling-h" data-split className="font-heading text-[56px]/[1.08] tracking-[-0.02em] text-white">
+      <div className="relative mx-auto flex w-canvas items-center justify-between px-20 py-20">
+        <div className="relative flex w-[540px] shrink-0 flex-col items-start">
+          <h2 id="counselling-h" data-split className="font-heading text-[52px]/[1.08] font-semibold tracking-[-0.02em] text-white">
             {title.before}{" "}
             <em data-reveal-em className="text-white italic">
               {title.em}
@@ -65,7 +66,7 @@ export default function Counselling() {
           </div>
         </div>
 
-        <Postcard programmes={programmeChoices} times={callTimes} />
+        <SentenceForm programmes={programmeChoices} times={callTimes} />
       </div>
     </section>
   );

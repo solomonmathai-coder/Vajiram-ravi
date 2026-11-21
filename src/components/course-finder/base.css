@@ -1,0 +1,60 @@
+/*
+ * The course finder's ground (/courses): what Kevin's page took from its <html> and <body> (css/v25.css to
+ * css/v49.css, :root and body), set on the page's root, .cf-page, instead, so none of it reaches the rest of
+ * the site. Tailwind's preflight already does the rest of his reset (box-sizing, margins, lists, images, links,
+ * form fonts).
+ */
+.cf-page {
+  /* his :root colours (the last value of each wins in his cascade) */
+  --ink: #1E1A17;
+  --body: #4A4A4A;
+  --muted: #6B6B6B;
+  --brand: #C2410C;
+  --brand-d: #A8380A;
+  --sand: #FFF2E6;
+  --rule: #F3C9AE;
+  --off: #F4C3A0;
+  --night: #1E1A17;
+  --marigold: #FEAA1C;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+
+  /* his type: IBM Plex Sans for text, Newsreader for titles, on the site's next/font faces */
+  --f: var(--font-plex), "Nirmala UI", "Helvetica Neue", Arial, sans-serif;
+  --f-m: var(--font-plex), "Nirmala UI", Arial, sans-serif;
+  --f-title: var(--font-news), Georgia, serif;
+  --f-d: var(--f-title);
+  --f-n: var(--f-title);
+
+  /*
+   * Viewport units on the 1440px canvas: <html> is zoomed so 1440 canvas px fill the window (lib/canvas), and
+   * the zoom shrinks vw / vh too, so they are read through --canvas-zoom. At 1440px and below, 1 --vw is 14.4px.
+   */
+  --vw: calc(1vw / var(--canvas-zoom, 1));
+  --vh: calc(1vh / var(--canvas-zoom, 1));
+
+  /* the page margin (css/v49.css): 5.5vw up to 80px, and the 1440px content centred on wider screens */
+  --px: max(clamp(16px, calc(5.5 * var(--vw)), 80px), calc((calc(100 * var(--vw)) - 1440px) / 2));
+
+  font: 400 17px/1.5 var(--f);
+  letter-spacing: 0;
+  -webkit-font-smoothing: antialiased;
+}
+.cf-page :focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 6px; }
+
+/* his <main>: the cream jaali ground under the head (css/v49.css main) */
+.cf-page main.cf {
+  background: linear-gradient(90deg, rgba(255, 250, 243, 0) 0%, rgba(255, 250, 243, .94) 30%, rgba(255, 250, 243, .94) 70%, rgba(255, 250, 243, 0) 100%),
+    url(/images/course-finder/patterns/bg-jaali.svg) 0 0 / 36px 36px repeat, #fffaf3;
+  background-size: 100% 100%, 36px 36px, auto;
+}
+
+/* the site's own .cta (globals.css, ui/Cta) pops to 102% on hover; Kevin's pills do not */
+.cf-page .cta:hover, .cf-page .cta:focus-visible { scale: none; }
+
+/*
+ * His page builds the list and the head's figures in script, so they never show before it runs; here they are
+ * rendered on the server, and held back until the client has laid them out (CourseFinder sets data-ready),
+ * so the cards' flip-in and the count-up start from nothing, as on his page. Without script they show at once.
+ */
+html.js .cf-page .cf:not([data-ready]) .cf-list,
+html.js .cf-page .cf:not([data-ready]) .cf-stat__fig[data-n] { visibility: hidden; }

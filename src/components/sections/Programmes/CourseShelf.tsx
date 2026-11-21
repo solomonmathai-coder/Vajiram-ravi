@@ -97,6 +97,11 @@ function spot(k: number, n: number) {
 
 type Pt = { x: number; y: number };
 
+/** At most two planks of books (the client, homepage v2: "two rows, not more"); the rest are reached through "View all". */
+const MAX_BOOKS = 2 * PER_SHELF;
+// The courses page beside the homepage.
+const ALL_COURSES = "/courses";
+
 /** How many planks n books take. */
 const rowsFor = (n: number) => Math.max(1, Math.ceil(n / PER_SHELF));
 
@@ -260,8 +265,10 @@ export default function CourseShelf({ programmes }: { programmes: Programme[] })
   // The book motions playing (the entrance, a filter change), to cut them short.
   const stacking = useRef<Animation[]>([]);
 
-  const shownIn = (f: Filter) => programmes.flatMap((p, i) => (f === "All" || p.category === f ? [i] : []));
+  const inFilter = (f: Filter) => programmes.flatMap((p, i) => (f === "All" || p.category === f ? [i] : []));
+  const shownIn = (f: Filter) => inFilter(f).slice(0, MAX_BOOKS);
   const shown = shownIn(filter);
+  const beyond = inFilter(filter).length - shown.length;
   const rows = rowsFor(shown.length);
 
   const later = (fn: () => void, ms: number) => {
@@ -436,7 +443,7 @@ export default function CourseShelf({ programmes }: { programmes: Programme[] })
     <div className="flex w-full flex-col items-center">
       <ShelfFilter
         filter={filter}
-        counts={FILTERS.map((f) => shownIn(f).length)}
+        counts={FILTERS.map((f) => inFilter(f).length)}
         onChoose={choose}
       />
       <p aria-live="polite" className="sr-only">
@@ -487,6 +494,14 @@ export default function CourseShelf({ programmes }: { programmes: Programme[] })
           />
         ))}
       </div>
+      {/* More than two planks' worth: the rest are on the programmes page. */}
+      {beyond > 0 && (
+        <div className="mt-6">
+          <IndianLink tone="light" href={ALL_COURSES}>
+            {`View all ${beyond + shown.length} programmes`}
+          </IndianLink>
+        </div>
+      )}
     </div>
   );
 }

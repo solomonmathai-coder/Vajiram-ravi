@@ -1,0 +1,139 @@
+/*
+ * The running testimonials (SuccessStories/Running), after design S's "inland letter" cards (its v49.css,
+ * .pst): paper cards, tilted and overlapping, sliding left in one seamless loop (two identical sets in one
+ * track, moved by exactly one set); the pointer over the strip holds it. A card under the pointer
+ * straightens, lifts and grows while the others blur back; it tilts a little towards the pointer. When the
+ * section comes into view the cards are dealt onto the table one after another.
+ */
+.run-strip {
+  overflow: hidden;
+  padding: 72px 0 64px;
+  mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
+}
+.run-track {
+  display: flex;
+  width: max-content;
+  align-items: flex-start;
+  animation: run-slide var(--dur, 60s) linear infinite;
+  will-change: transform;
+}
+.run-strip:hover .run-track,
+.run-strip:focus-within .run-track {
+  animation-play-state: paused;
+}
+@keyframes run-slide {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.run-card {
+  --t: 0deg;
+  --y: 0px;
+  --tx: 0;
+  --ty: 0;
+  position: relative;
+  z-index: var(--z, 1);
+  flex: none;
+  width: 400px;
+  margin: 0 -22px;
+  rotate: var(--t);
+  translate: 0 var(--y);
+  transition:
+    rotate 550ms var(--ease-out),
+    translate 550ms var(--ease-out),
+    scale 550ms var(--ease-out),
+    filter 450ms var(--ease-out),
+    opacity 450ms var(--ease-out);
+}
+.run-card:hover,
+.run-card:focus-within {
+  z-index: 30;
+  rotate: 0deg;
+  scale: 1.12;
+  translate: 0 calc(var(--y) - 16px);
+}
+.run-strip:has(.run-card:hover) .run-card:not(:hover),
+.run-strip:has(.run-card:focus-within) .run-card:not(:focus-within) {
+  filter: blur(3px);
+  opacity: 0.55;
+}
+.run-paper {
+  position: relative;
+  aspect-ratio: 1.41;
+  border-radius: 4px;
+  color: #1b2a52;
+  background:
+    linear-gradient(135deg, rgb(255 255 255 / 0.55), rgb(255 255 255 / 0) 45%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .36 0 0 0 0 .2 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E"),
+    #fbf7ec;
+  box-shadow:
+    0 0 0 1px rgb(120 95 55 / 0.16),
+    inset 0 0 0 1px rgb(255 255 255 / 0.7),
+    0 1px 1px rgb(40 25 10 / 0.18),
+    0 6px 10px -4px rgb(40 25 10 / 0.3),
+    0 26px 30px -18px rgb(40 25 10 / 0.5);
+  transform: perspective(1000px) rotateX(calc(var(--ty) * -3deg)) rotateY(calc(var(--tx) * 4deg));
+  transition: transform 500ms var(--ease-out);
+}
+.run-card:hover .run-paper {
+  transition-duration: 200ms;
+}
+/* The photo in the stamp's place: a passport print stuck on the card, the words wrapping round it. */
+.run-photo {
+  float: right;
+  width: 70px;
+  height: 88px;
+  margin: -4px -2px 8px 14px;
+  object-fit: cover;
+  object-position: 50% 18%;
+  border: 5px solid #fffdf6;
+  rotate: 3deg;
+  background: #fff;
+  box-shadow:
+    0 1px 1px rgb(40 25 10 / 0.25),
+    0 6px 10px -4px rgb(40 25 10 / 0.5);
+  shape-outside: margin-box;
+}
+
+/* Dealt onto the table as the section arrives. */
+.run-wait .run-card {
+  opacity: 0;
+}
+.run-in .run-card {
+  animation: run-deal 900ms cubic-bezier(0.34, 1.56, 0.64, 1) calc(0.2s + var(--n, 0) * 0.12s) both;
+}
+@keyframes run-deal {
+  0% {
+    opacity: 0;
+    transform: translateY(110px) rotate(var(--from-r, 8deg)) scale(0.9);
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .run-track {
+    animation: none;
+  }
+  .run-strip {
+    overflow-x: auto;
+    mask-image: none;
+  }
+  .run-card[aria-hidden="true"] {
+    display: none;
+  }
+  .run-card,
+  .run-paper {
+    transition: none;
+  }
+  .run-wait .run-card,
+  .run-in .run-card {
+    opacity: 1;
+    animation: none;
+  }
+}

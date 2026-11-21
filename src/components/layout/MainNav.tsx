@@ -35,7 +35,9 @@ function Indicator({ on }: { on: boolean }) {
  * tracked by SiteHeader) keeps the pill.
  *
  * All Courses, Study Materials and UPSC Exam are buttons that open mega menus: on hover after a 120ms
- * intent delay, or at once on click / Enter / Space (ArrowDown also moves into the panel). A menu closes
+ * intent delay, or at once on click / Enter / Space (ArrowDown also moves into the panel). All courses
+ * has a page of its own (/courses): a click or tap opens that page instead; Enter, Space, ↓ and hovering
+ * still open its menu. A menu closes
  * 200ms after the pointer leaves it, when focus moves out of it, on a click elsewhere, and on Escape,
  * which returns focus to its trigger when focus was inside. Only one is open at a time.
  */
@@ -93,8 +95,14 @@ export default function MainNav({ current }: { current: string | null }) {
     schedule(() => setOpen((value) => (value === id ? null : value)), CLOSE_DELAY);
   };
 
-  const onTriggerClick = (id: MenuId) => (event: MouseEvent) => {
+  const onTriggerClick = (id: MenuId, page?: string) => (event: MouseEvent) => {
     cancel();
+    // A trigger with a page of its own (All courses → /courses) goes there on a click or tap; Enter and
+    // Space (a click with no pointer, detail 0) still open its menu, as ↓ and hovering do.
+    if (page && event.detail > 0) {
+      window.location.href = page;
+      return;
+    }
     if (open !== id) {
       openedByHover.current = false;
       setOpen(id);
@@ -142,7 +150,7 @@ export default function MainNav({ current }: { current: string | null }) {
           aria-haspopup="true"
           aria-controls={`menu-${id}`}
           aria-current={marked ? "true" : undefined}
-          onClick={onTriggerClick(id)}
+          onClick={onTriggerClick(id, item.page)}
           onKeyDown={onTriggerKeyDown(id)}
           className={cx(ITEM, "cursor-pointer", isOpen || marked ? "text-burnt" : "text-charcoal")}
         >

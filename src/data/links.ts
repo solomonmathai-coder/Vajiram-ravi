@@ -82,7 +82,7 @@ export const links = {
   finalResult: `${SITE}/upsc-exam/upsc-result-2025/`,
 
   // The institute.
-  aboutUs: `${SITE}/about-us/`,
+  aboutUs: "/about", // this site's About page (20 Nov 2026); the live site's is `${SITE}/about-us/`
   faculty: null, // TODO: the live site has no faculty page yet ("Meet Our Faculty")
   studentStories: null, // TODO: student stories and video testimonials ("Watch Student Stories"); no page or channel yet
   // TODO: the live site has no test series hub; "Explore Test Series" opens the Prelims test series.

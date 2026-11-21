@@ -19,6 +19,8 @@ type SelectMenuProps = {
   buttonRef?: Ref<HTMLButtonElement>;
   /** The box's classes (the form's BOX and border). */
   className?: string;
+  /** Replaces the button's own size and padding (the sentence form's inline blank). */
+  layout?: string;
 };
 
 /**
@@ -33,7 +35,7 @@ type SelectMenuProps = {
  * chooses nothing and moves on; typing a letter jumps to the next choice that starts with it. A click away
  * closes it. A hidden input carries the value for a plain form post.
  */
-export default function SelectMenu({ id, name, value, options, placeholder, onChange, onBlur, invalid, describedBy, buttonRef, className }: SelectMenuProps) {
+export default function SelectMenu({ id, name, value, options, placeholder, onChange, onBlur, invalid, describedBy, buttonRef, className, layout }: SelectMenuProps) {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(-1);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -128,7 +130,7 @@ export default function SelectMenu({ id, name, value, options, placeholder, onCh
           setOpen(false);
           onBlur();
         }}
-        className={cx(className, "vr-select flex h-[52px] cursor-pointer items-center pr-10 pl-4 text-left", value ? "text-ink" : "text-[#737373]")}
+        className={cx(className, "vr-select flex cursor-pointer items-center text-left", layout ?? "h-[52px] pr-10 pl-4", value ? "text-ink" : "text-[#737373]")}
       >
         <span className="vr-select-value truncate">{value || placeholder}</span>
       </button>

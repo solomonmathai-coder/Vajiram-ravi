@@ -86,7 +86,11 @@ const MOTION: Record<TicketArtName, { faint: Record<number, string>; strong: Rec
  * fitting its subject, with a small loop of motion of its own (MOTION) that runs only while the batches are
  * on screen and rests with reduced motion. Decoration only.
  */
-export default function TicketArt({ name }: { name: TicketArtName }) {
+/**
+ * `bold` (homepage v2, the client: "follow the same thickness and make it blend overlay"): drawn at the
+ * ticket lotus's heavier line (2.2px), stronger, and blended into the head with `overlay`.
+ */
+export default function TicketArt({ name, bold = false }: { name: TicketArtName; bold?: boolean }) {
   const { faint, strong } = ART[name];
   const motion = MOTION[name];
   return (
@@ -97,17 +101,17 @@ export default function TicketArt({ name }: { name: TicketArtName }) {
       viewBox="0 0 204 108"
       fill="none"
       overflow="visible"
-      strokeWidth={1.2}
+      strokeWidth={bold ? 2.2 : 1.2}
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="ticket-art pointer-events-none absolute top-0 left-[104px] max-w-none"
+      className={`ticket-art pointer-events-none absolute top-0 left-[104px] max-w-none${bold ? " mix-blend-overlay" : ""}`}
     >
-      <g stroke="white" strokeOpacity={0.1}>
+      <g stroke="white" strokeOpacity={bold ? 0.45 : 0.1}>
         {faint.map((d, i) => (
           <path key={d} d={d} className={motion.faint[i]} />
         ))}
       </g>
-      <g stroke="white" strokeOpacity={0.18} className={motion.strongGroup}>
+      <g stroke="white" strokeOpacity={bold ? 0.8 : 0.18} className={motion.strongGroup}>
         {strong.map((d, i) => (
           <path key={d} d={d} className={motion.strong[i]} />
         ))}

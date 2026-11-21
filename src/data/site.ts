@@ -94,7 +94,8 @@ export const menuColumns = { courses: COURSES, testSeries: TEST_SERIES, upscExam
 export const menus: Record<MenuId, Menu> = {
   courses: {
     columns: [COURSES, TEST_SERIES],
-    more: { label: "View all courses", href: links.allCourses },
+    // The courses page beside the homepage (/courses).
+    more: { label: "View all courses", href: "/courses" },
   },
   study: {
     columns: [
@@ -123,10 +124,14 @@ export const menus: Record<MenuId, Menu> = {
  * `menu` is a button that opens that mega menu; its `href` is the section of the page it stands for (the
  * header marks it while that section is in view, and the search lists it), or its page on the live site.
  */
-export type NavItem = LinkItem & { menu?: MenuId };
+export type NavItem = LinkItem & {
+  menu?: MenuId;
+  /** A page of this site that a click or tap on the menu's trigger opens (the menu still opens on hover and from the keyboard). */
+  page?: string;
+};
 
 export const mainNav: NavItem[] = [
-  { label: "All courses", href: "#programmes", menu: "courses" },
+  { label: "All courses", href: "#programmes", menu: "courses", page: "/courses" },
   { label: "Toppers", href: links.toppers },
   { label: "Study materials", href: "#resources", menu: "study" },
   { label: "Current affairs", href: links.currentAffairs },

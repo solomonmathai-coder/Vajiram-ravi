@@ -1,7 +1,7 @@
 import FooterWordmark from "@/components/sections/ClosingCta/FooterWordmark";
 import LinkOrText from "@/components/ui/LinkOrText";
 import Photo from "@/components/ui/Photo";
-import { footerColumns, footerCopyright, footerLegal, footerSocial, footerWordmark } from "@/data/footer";
+import { footerColumns, footerCopyright, footerLegal, footerNews, footerSocial, footerTagline, footerWordmark } from "@/data/footer";
 import { cx } from "@/lib/cx";
 
 /** The footer's warm grey for links and small print, and its hairline. */
@@ -40,9 +40,12 @@ export default function SiteFooter() {
         {/* The logo row, fading in out of a soft blur as it comes into view (ui/TextMotion, data-fade): the
             logo on the left, the social icons opposite it on the right. */}
         <div data-fade className={cx("flex w-[1280px] items-center justify-between border-b pb-6", RULE)}>
-          <a href="#top" aria-label="Vajiram & Ravi, back to top" className="block">
-            <Photo src="/images/logo.webp" alt="" sizes="156px" className="relative h-[52px] w-[156px] bg-cream" />
-          </a>
+          <div className="flex items-center gap-6">
+            <a href="#top" aria-label="Vajiram & Ravi, back to top" className="block">
+              <Photo src="/images/logo.webp" alt="" sizes="156px" className="relative h-[52px] w-[156px] bg-cream" />
+            </a>
+            <p className={cx("w-[360px] text-[15px]/[1.45]", TEXT)}>{footerTagline}</p>
+          </div>
           <ul aria-label="Vajiram & Ravi on social media" className={cx("flex items-center gap-3", TEXT)}>
             {footerSocial.map((social) => {
               const mark = `url(/images/footer/social-${social.name}.svg) center / contain no-repeat`;
@@ -63,14 +66,12 @@ export default function SiteFooter() {
           </ul>
         </div>
 
-        {/* The six columns. */}
-        {/* At 16px the longest links would push the columns together, so the columns share the width in
-            proportion (the test series column, with the longest links, widest) and a long link wraps. */}
-        <nav aria-label="Footer" data-stagger className={cx("grid w-[1280px] grid-cols-[0.7fr_1.1fr_1.35fr_1fr_0.95fr_1.1fr] items-start gap-x-8", TEXT)}>
+        {/* Design S's four columns and its latest current affairs (homepage v2), sharing the width in proportion. */}
+        <nav aria-label="Footer" data-stagger className={cx("grid w-[1280px] grid-cols-[0.8fr_1.25fr_1.1fr_1fr_1.45fr] items-start gap-x-10", TEXT)}>
           {footerColumns.map((column) => (
             <div key={column.heading} className="flex flex-col items-start gap-3.5">
               <h2 className="font-heading text-[16px]/[22px] font-semibold tracking-[0.06em] whitespace-nowrap text-ink uppercase">{column.heading}</h2>
-              <ul className="flex flex-col items-start gap-3.5 text-[16px]/[22px] font-medium text-pretty">
+              <ul className="flex flex-col items-start gap-2.5 text-[16px]/[22px] font-medium text-pretty">
                 {column.links.map((link) => (
                   <li key={link.label}>
                     <FooterLink href={link.href}>{link.label}</FooterLink>
@@ -79,6 +80,26 @@ export default function SiteFooter() {
               </ul>
             </div>
           ))}
+          {/* Design S's "Latest current affairs", on its own box. */}
+          <div className="-mt-5 flex flex-col items-start gap-3.5 rounded-[18px] border border-[#eadbc4] bg-white p-5 shadow-[0_14px_30px_-24px_rgb(77_31_8/0.45)]">
+            <h2 className="flex flex-col items-start gap-0.5 font-heading text-[16px]/[22px] font-semibold tracking-[0.06em] whitespace-nowrap text-ink uppercase">
+              {footerNews.heading}
+              <span className="flex items-center gap-1.5 text-[12px]/[16px] font-semibold tracking-normal text-burnt normal-case">
+                <span aria-hidden="true" className="size-1.5 rounded-full bg-burnt" />
+                {footerNews.note}
+              </span>
+            </h2>
+            <ul className="flex flex-col gap-3">
+              {footerNews.items.map((item) => (
+                <li key={item.title}>
+                  <a href={item.href} className="group/news flex items-start gap-2.5 text-[15px]/[1.4] [transition:color_var(--dur-fast)_var(--ease-out)] hover:text-burnt">
+                    <span className="mt-0.5 shrink-0 rounded-full bg-burnt/10 px-2 py-0.5 text-[12px]/[14px] font-semibold text-burnt">{item.tag}</span>
+                    <span className="font-medium text-ink group-hover/news:text-burnt">{item.title}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         </nav>
 
         <FooterWordmark text={footerWordmark} />

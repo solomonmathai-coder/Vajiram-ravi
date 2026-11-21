@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import Medallion, { type MedallionTone } from "@/components/ui/Medallion";
 import type { Href } from "@/data/links";
 import { cx } from "@/lib/cx";
+import { magnetLeave, magnetMove } from "@/lib/magnetic";
 import { pressRipple } from "@/lib/pressRipple";
 
 /*
@@ -124,7 +125,7 @@ export default function Cta({
       <span data-ripple aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden rounded-[inherit]" />
       <span className="cta-label">{children}</span>
       {/* The medallion and the spinner share its 30/26px box and swap in place (see SWAP). */}
-      <span className="relative flex shrink-0" style={{ width: dims.medallion, height: dims.medallion }} aria-hidden="true">
+      <span data-magnet className="relative flex shrink-0 [transition:translate_500ms_cubic-bezier(0.34,1.56,0.64,1)]" style={{ width: dims.medallion, height: dims.medallion }} aria-hidden="true">
         <Medallion tone={look.medallion} size={dims.medallion} className={cx(SWAP, loading && SWAPPED_OUT)}>
           {icon}
         </Medallion>
@@ -149,6 +150,8 @@ export default function Cta({
         onClick={disabled ? (event) => event.preventDefault() : onClick}
         onPointerDown={disabled ? undefined : (event) => pressRipple(event, { rings: false })}
         onPointerEnter={disabled ? undefined : (event) => event.pointerType === "mouse" && pressRipple(event, { rings: false, soft: true })}
+        onPointerMove={disabled ? undefined : magnetMove}
+        onPointerLeave={magnetLeave}
         aria-label={ariaLabel}
         aria-disabled={disabled || undefined}
         className={classes}
@@ -163,6 +166,8 @@ export default function Cta({
       onClick={disabled || loading ? undefined : onClick}
       onPointerDown={disabled || loading ? undefined : (event) => pressRipple(event, { rings: false })}
       onPointerEnter={disabled || loading ? undefined : (event) => event.pointerType === "mouse" && pressRipple(event, { rings: false, soft: true })}
+      onPointerMove={disabled || loading ? undefined : magnetMove}
+      onPointerLeave={magnetLeave}
       aria-label={ariaLabel}
       aria-haspopup={hasPopup}
       aria-disabled={disabled || undefined}

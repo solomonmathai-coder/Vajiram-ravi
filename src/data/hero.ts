@@ -1,3 +1,5 @@
+import { links } from "@/data/links";
+
 /**
  * The hero: the toppers' slideshow panel (after the `kevin` branch's hero) and the results strip under it.
  * The headline, lead and buttons are the client's (homepage content, "01. Hero section"), word for word;
@@ -54,4 +56,27 @@ export const achievements: Achievement[] = [
   { figure: "59", text: "Questions reflected in Prelims" },
   { figure: "10/10", text: "Top rankers from V&R courses" },
   { figure: "36/50", text: "CSE 2025 rankers from V&R" },
+];
+
+/**
+ * The hero's "What's new" card (the client, for homepage v2: "show the upcoming batches, new courses etc."
+ * in the hero): two tabs, the next batches (read from data/admissions) and the new courses.
+ */
+export const heroUpdates = {
+  title: "What's new",
+  tabs: { batches: "Upcoming batches", courses: "New courses" },
+  viewAll: { batches: { label: "All upcoming batches", href: "#batches" }, courses: { label: "All programmes", href: "#programmes" } },
+  /** The tag on a new course. */
+  newTag: "New",
+};
+
+/** A course on the "New courses" tab. */
+export type HeroNewCourse = { name: string; note: string; href: string };
+
+// TODO: placeholder. Which courses are new this season is the client's to confirm; these are three of the
+// programmes the site already lists, until the CMS flags the new ones.
+export const heroNewCourses: HeroNewCourse[] = [
+  { name: "Optional test series", note: "Evaluated tests for every optional", href: links.optionalTestSeries },
+  { name: "Mentorship programme", note: "One-to-one guidance through the year", href: links.mentorshipPrograms },
+  { name: "CSAT course", note: "Aptitude for Prelims Paper II", href: links.csatCourses },
 ];

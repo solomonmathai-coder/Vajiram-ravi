@@ -17,16 +17,13 @@ import EducatorFlow from "./EducatorFlow";
  * once as it comes into view (data-rise, a 560ms rise), and its ring turns in once it is in view.
  */
 export default function Faculty() {
-  const { heading, lead, cta } = facultyIntro;
+  const { heading, cta } = facultyIntro;
   return (
-    <section id="educators" aria-labelledby="educators-h" className="relative isolate overflow-clip bg-cream pt-24 pb-16">
+    <section id="educators" aria-labelledby="educators-h" className="relative isolate overflow-clip bg-cream pt-16 pb-14">
       <div className="mx-auto flex w-canvas flex-col items-center gap-5 px-20 text-center">
-        <h2 id="educators-h" data-split className="w-[820px] font-heading text-[56px]/[1.08] font-normal tracking-[-0.02em] text-ink">
+        <h2 id="educators-h" data-split className="w-[820px] font-heading text-[52px]/[1.08] font-semibold tracking-[-0.02em] text-ink">
           {heading.lead} <span className="text-burnt">{heading.emphasis}</span>
         </h2>
-        <p data-words className="w-[640px] text-[18px]/[1.6] text-clay">
-          {lead}
-        </p>
         {cta.href !== null && (
           <IndianLink tone="light" size="sm" href={cta.href}>
             {cta.label}
@@ -34,7 +31,7 @@ export default function Faculty() {
         )}
       </div>
       {/* The carousel rises into place once as it comes into view (ui/TextMotion, data-rise). */}
-      <div className="mt-14">
+      <div className="mt-8">
         <div data-rise>
           <EducatorFlow educators={educators} />
         </div>
