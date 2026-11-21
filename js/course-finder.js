@@ -357,15 +357,15 @@
     // (TOP_IDS is set with the badges, above the cards, so Our Top Picks gets all three badges too)
     const famOf = f => TREE.find(x => x.kids.includes(f));
     const tops = TOP_IDS.map(id => { for (const c of D.courses) { const v = c.v.find(x => x.id === id); if (v) return [c, v]; } return null; }).filter(Boolean);
-    const TOP_T = { k: 'top', label: 'Our Top Picks' };   // was "Vajiram's Top Picks" (user 2026-11-18)
+    const TOP_T = { k: 'top', label: 'Our Top Picks' };   // was "Vajiram's Top Picks" (2026-11-18), "Our Top Picks"; heading "Top Picks" with a count badge (user 2026-11-21)
     const TOP_HTML = tops.length ? `<section class="cf-sec cf-feat" id="cat-top" data-top="1" aria-labelledby="cath-top">
         <div class="cf-feat__flow" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
         <div class="cf-feat__cuts" aria-hidden="true"><img class="cut--l" src="assets/img/photos/collage.png" alt="" decoding="async"><img class="cut--r" src="assets/img/photos/collage.png" alt="" decoding="async"></div>
         <div class="cf-feat__intro">
-          <div class="lbl lbl--w cf-feat__lbl"><span class="lbl__t">Picked by Vajiram &amp; Ravi</span></div>   <!-- eyebrow first, then the book (user 2026-11-21) -->
+          <div class="lbl lbl--w cf-feat__lbl"><span class="lbl__t">Most popular courses</span></div>   <!-- eyebrow first, then the book (user 2026-11-21) -->
           <div class="cf-feat__book">${bookFor('top', 'Top Picks', tops.length, true)}</div>
-          <h2 class="cf-sec__h cf-feat__h" id="cath-top" data-total="${tops.length}"><span class="cf-sec__name">Our <span class="cf-feat__num">${tops.length}</span> Top <span class="cf-feat__pl">${tops.length === 1 ? 'Pick' : 'Picks'}</span></span></h2>
-          <p class="cf-feat__sub">Our most popular courses, the ones aspirants join year after year.</p>
+          <h2 class="cf-sec__h cf-feat__h" id="cath-top"><span class="cf-sec__name">Our Top Picks</span><span class="cf-sec__n" data-total="${tops.length}">${tops.length} ${tops.length === 1 ? 'course' : 'courses'}</span></h2>
+          <p class="cf-feat__sub">The courses aspirants join year after year, from our flagship GS Foundation to the test series that sharpen your Prelims and Mains. Start here if you are not sure where to begin.</p>
         </div>
         <div class="cf-car">
           <ul class="cf-grid">${tops.map(([c, v]) => card(c, v, famOf(c.f) || TOP_T)).join('')}</ul>

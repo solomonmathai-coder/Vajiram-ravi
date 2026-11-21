@@ -1569,3 +1569,14 @@ html.cf-locked { overflow: hidden; }
               linear-gradient(140deg, #FDBA74 0%, #C2410C 28%, #FB923C 52%, #9A3412 78%, #FDBA74 100%) border-box;
   background-blend-mode: multiply, soft-light, normal, normal;
 }
+/* Top Picks headline and sub text in dark brown (user 2026-11-21): headline #2A1A0C, the count in deep orange-brown #7A2E06,
+   sub text #3A230F; no light-text shadows */
+.cf-feat .cf-sec__h, .cf-feat .cf-feat__h { color: #2A1A0C; text-shadow: none; }
+.cf-feat .cf-feat__num { color: #7A2E06; }
+.cf-feat__sub { color: #3A230F; text-shadow: none; }
+/* Top Picks heading: "Top Picks" with a course-count badge like the category headings (user 2026-11-21); the badge in the
+   dark-brown text colour on the orange */
+.cf-feat .cf-feat__h { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
+.cf-feat .cf-sec__n { border-color: rgb(42 26 12 / .4); background: rgb(255 246 236 / .22); color: #2A1A0C; }
+/* the Top Picks intro sits at the top of the banner, level with the top of the cards, instead of centred (user 2026-11-21) */
+.cf-sec.cf-feat > .cf-feat__intro { align-self: start; }
