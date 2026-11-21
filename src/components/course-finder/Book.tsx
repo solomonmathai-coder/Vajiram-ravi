@@ -8,7 +8,8 @@ import { prefersReducedMotion } from "@/lib/motion";
  * (css/programme-shelf.css), its cloth colours, pressed motif, gold frame, name, emblem and course count, built
  * as a solid (back cover, spine, page block and top edge behind its front) so it shows its depth when it turns.
  * It does a full horizontal flip as its section comes into view and whenever it is hovered. A small book (the
- * Top Picks banner's) is the full-size book drawn whole and scaled down as one (.cf-bk-mini).
+ * Top Picks banner's) is the full-size book drawn whole and scaled down as one (.cf-bk-mini). The Top Picks book
+ * also turns again every 4s (`every`, his 10eea1b), only while it is on screen and the tab is showing.
  */
 
 const FOIL = "#f6c77a";
@@ -88,7 +89,7 @@ const Emblem = ({ kind, size }: { kind: string; size: number }) => (
 /** The spine's width on these small covers. */
 const SW = 11;
 
-export default function Book({ k, label, n, small = false }: { k: string; label: string; n: number; small?: boolean }) {
+export default function Book({ k, label, n, small = false, every }: { k: string; label: string; n: number; small?: boolean; every?: number }) {
   const ref = useRef<HTMLSpanElement>(null);
   const [flip, setFlip] = useState(false);
   const flipping = useRef(false);
@@ -131,6 +132,22 @@ export default function Book({ k, label, n, small = false }: { k: string; label:
       window.clearTimeout(timer.current);
     };
   }, []);
+
+  // the book turns again every `every` ms while it is on screen and the tab is showing (not with reduced motion)
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !every || prefersReducedMotion()) return;
+    let seen = !("IntersectionObserver" in window);
+    const io = seen ? null : new IntersectionObserver((es) => (seen = es[0].isIntersecting));
+    io?.observe(el);
+    const iv = window.setInterval(() => {
+      if (seen && !document.hidden) startRef.current();
+    }, every);
+    return () => {
+      io?.disconnect();
+      window.clearInterval(iv);
+    };
+  }, [every]);
 
   const c = COVER[k];
   if (!c) return null;

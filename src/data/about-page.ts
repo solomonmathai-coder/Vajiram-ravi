@@ -129,6 +129,12 @@ export const aboutPlaces = {
   intro: "Classroom programmes run from our centre in New Delhi. Visit to meet a counsellor, see the classrooms and pick up the brochure.",
   centreLabel: "New Delhi centre",
   mapsCta: "View on maps",
+  /** The card's lines as the final site's homepage "Contact us" card sets them (21 Nov 2026). */
+  card: {
+    address: "1-B/7, Pusa Road, Old Rajinder Nagar, New Delhi 110060",
+    landmark: "Next to Gate 5 of Karol Bagh Metro Station, near pillar 103",
+    hours: "Mon – Sat, 9 am – 7 pm",
+  },
   photo: {
     src: "/images/about-page/campus-sunlit.webp",
     width: 864,

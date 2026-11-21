@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { getCanvasZoom } from "@/lib/canvas";
 import { COVER } from "./Book";
 
 /*
@@ -9,7 +10,9 @@ import { COVER } from "./Book";
  * colour. Hovering the lines (or tabbing to them) opens a list of every category, its cloth colour and its
  * number of courses; choosing one scrolls to it. Sections the filters have hidden are dimmed there. A tap
  * elsewhere closes it (his 2026-11-19 touch handling; his floating tablet and phone rail is not ported, the page
- * being laid out on the 1440px canvas).
+ * being laid out on the 1440px canvas). The open list stays between the sticky search bar and the bottom of the
+ * screen (his 10eea1b fit(): --py nudges it from its centred spot, --ph caps its height and it scrolls, .is-capped),
+ * fitted again as the page scrolls while it is open.
  */
 
 export type RailItem = { k: string; name: string; n: number; hidden: boolean };
@@ -82,6 +85,38 @@ export default function CategoryRail({ items, onGo }: { items: RailItem[]; onGo:
     return () => document.removeEventListener("pointerdown", down);
   }, [open, show]);
 
+  // the open list kept between the sticky search bar (or the nav) and the bottom of the screen (his 2026-11-21: it opened
+  // centred on the lines and its top half went under the bar). Measured in the canvas's own px: the rects and the
+  // window height are the zoomed screen's, the panel's offsets and --py / --ph its own
+  const panelRef = useRef<HTMLDivElement>(null);
+  const fit = useCallback(() => {
+    const panel = panelRef.current;
+    if (!panel || !panel.offsetParent) return;
+    panel.style.removeProperty("--ph");
+    panel.classList.remove("is-capped");
+    const z = getCanvasZoom();
+    const gap = 12;
+    const bar = document.getElementById("cfBar");
+    const nav = document.getElementById("nav");
+    const vh = innerHeight / z;
+    const top = Math.max(0, bar ? bar.getBoundingClientRect().bottom / z : 0, nav ? nav.getBoundingClientRect().bottom / z : 0) + gap;
+    const room = vh - gap - top;
+    const h = Math.min(panel.offsetHeight, room);
+    if (panel.offsetHeight > room) {
+      panel.style.setProperty("--ph", `${Math.max(160, room)}px`);
+      panel.classList.add("is-capped");
+    }
+    const mid = (panel.offsetParent as HTMLElement).getBoundingClientRect().top / z + panel.offsetTop; // where top: 50% puts its centre
+    const want = Math.min(Math.max(mid - h / 2, top), vh - gap - h);
+    panel.style.setProperty("--py", `${Math.round(want - (mid - h / 2))}px`);
+  }, []);
+  useLayoutEffect(() => {
+    if (!open) return;
+    fit();
+    addEventListener("scroll", fit, { passive: true });
+    return () => removeEventListener("scroll", fit);
+  }, [open, fit]);
+
   const now = items.find((x) => x.k === cur);
 
   return (
@@ -124,7 +159,7 @@ export default function CategoryRail({ items, onGo }: { items: RailItem[]; onGo:
             ))}
           </ol>
         </button>
-        <div className="cf-rail__panel" id="cfRailPanel">
+        <div className="cf-rail__panel" id="cfRailPanel" ref={panelRef}>
           <p className="cf-rail__h">Categories</p>
           <ul>
             {items.map((x) => (

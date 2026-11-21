@@ -150,9 +150,9 @@ export default function AboutPage() {
                 <iframe src={MAP_EMBED} title={`Map: ${centre.mapLabel}`} loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen />
               </div>
               <p className="ab-cu__tag">{aboutPlaces.centreLabel}</p>
-              <h3 className="ab-cu__addr">{centre.address}</h3>
-              {centre.landmark && <p className="ab-cu__note">{centre.landmark}</p>}
-              <p className="ab-cu__hours">{centre.hours}</p>
+              <h3 className="ab-cu__addr">{aboutPlaces.card.address}</h3>
+              <p className="ab-cu__note">{aboutPlaces.card.landmark}</p>
+              <p className="ab-cu__hours">{aboutPlaces.card.hours}</p>
               <ul className="ab-cu__rows">
                 <li>
                   <a href={centre.phoneHref} aria-label={`Call us on ${centre.phone}`}>

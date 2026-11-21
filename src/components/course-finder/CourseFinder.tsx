@@ -14,13 +14,14 @@ import { buildSections, DROPS, fold, passes, type FilterKey, type Filters } from
 import Pill from "./Pill";
 
 /*
- * The course finder (/courses): Kevin's course finder v2 (`kevin` branch, commit 58f580a: course-finder.html and
+ * The course finder (/courses): Kevin's course finder v2 (`kevin` branch, commit 10eea1b: course-finder.html and
  * js/course-finder.js) in React. The paper head (breadcrumb, title, the figures counting up); the bar of search
  * and dropdowns, sticky under the nav, which filters every category at once (a category with nothing left is
  * hidden, and after a change a stuck bar brings the list back to its start); the category rail; Our Top Picks
  * and one section per category (CategorySection); the counsellor banner after the last; and, when nothing
- * matches, a way back. On load the cards in view turn in one after another, and the cards tilt toward the
- * pointer with a glare. #cat=… in the address opens at that category.
+ * matches, a way back. On load the cards in view turn in one after another; under the pointer a card rises (since
+ * his 10eea1b without the tilt and glare, though the pointer still sets their variables, as his script does).
+ * #cat=… in the address opens at that category.
  *
  * The cards depend on today's date ("Starts" or "Started"), so the server renders them for the build's date
  * (buildDay, YYYY-MM-DD) and the client redraws them for the visitor's before the list is shown.

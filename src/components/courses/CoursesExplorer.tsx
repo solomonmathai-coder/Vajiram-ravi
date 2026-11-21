@@ -776,13 +776,7 @@ function Strip({ sec, book, name, cards }: { sec: Section; book: ShelfBook; name
         )}
         style={{ height: BOOK_H + 80, clipPath: "inset(0 0 0 -160px round 0 28px 28px 0)" }}
       >
-        {/* Our Top Picks' ground: Kevin's (.cf-feat): the Qutub Minar faint at its left, and a fine grain over it. */}
-        {lit && (
-          <>
-            <span aria-hidden="true" className="cb-feat__qutub pointer-events-none absolute inset-y-0 left-0 rounded-l-[28px]" />
-            <span aria-hidden="true" className="cb-feat__grain pointer-events-none absolute inset-0 rounded-[28px]" />
-          </>
-        )}
+        {/* Our Top Picks' ground is Kevin's (.cf-feat, 10eea1b): his flat orange with the white jaali, drawn by courses.css (.cb-feat). */}
 
         {/* The book's back board and pages, under the cards laid in it. */}
         <div aria-hidden="true" className="pointer-events-none absolute top-1/2 z-10 -translate-y-1/2" style={{ left: BOOK_X, width: BOOK_W, height: BOOK_H }}>
@@ -981,8 +975,6 @@ function PhoneStrip({ sec, book, name, cards }: { sec: Section; book: ShelfBook;
           dark ? "cb-feat shadow-[0_24px_40px_-30px_rgb(43_18_6/0.8)]" : "border border-[rgb(194_65_12/0.14)] bg-white shadow-[0_18px_34px_-28px_rgb(70_26_10/0.5)]",
         )}
       >
-        {dark && <span aria-hidden="true" className="cb-feat__grain pointer-events-none absolute inset-0" />}
-
         {/* The head: the book, small, and the category's name and count. */}
         <header className="relative z-[2] flex items-center gap-3.5 px-4 pt-4">
           <span aria-hidden="true" className="relative block shrink-0" style={{ width: Math.round(148 * PHONE_BOOK), height: Math.round(214 * PHONE_BOOK) }}>
@@ -997,7 +989,7 @@ function PhoneStrip({ sec, book, name, cards }: { sec: Section; book: ShelfBook;
             <h2 id={`${id}-h`} className={cx("font-[family-name:var(--font-news)] text-[24px]/[1.1] font-normal tracking-[-0.01em]", dark ? "text-white" : "text-[#1a1714]")}>
               {name}
             </h2>
-            <p className={cx("mt-1 text-[13.5px]/[18px] font-semibold", dark ? "text-[#ffd48a]" : "text-[#9a3412]")}>
+            <p className={cx("mt-1 text-[13.5px]/[18px] font-semibold", dark ? "text-[#ffe2a8]" : "text-[#9a3412]")}>
               {list.length} {list.length === 1 ? "course" : "courses"}
             </p>
           </div>

@@ -27,9 +27,9 @@ export const IClose = () => (
   </Ico>
 );
 
-/** The dropdowns' chevron. */
+/** The dropdowns' chevron (a 2 stroke since his 10eea1b; was 1.6). */
 export const IChevDown = () => (
-  <Ico width={1.6}>
+  <Ico width={2}>
     <path d="M6 9L12 15L18 9" />
   </Ico>
 );

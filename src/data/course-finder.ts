@@ -1,5 +1,5 @@
 /**
- * The course finder's data (/courses), ported from the `kevin` branch (commit 58f580a): js/data/courses.js
+ * The course finder's data (/courses), ported from the `kevin` branch (commit 10eea1b): js/data/courses.js
  * (window.CF_DATA) word for word, with every field kept, and the page's own content tables from
  * js/course-finder.js (what each category is and who it is for, the Top Picks, the badges and the DUMMY
  * stand-ins). Only the banner paths changed: assets/img/courses/… is now /images/course-finder/courses/….
@@ -117,8 +117,11 @@ export const cfAbout: Record<string, [string, string]> = {
   ],
 };
 
-/** Categories shown as new beside their heading (Kevin, 2026-11-17: "let's say Interview Guidance is a new course"). */
-export const cfNewCategories = new Set(["interview"]);
+/**
+ * Categories shown as new beside their heading: none now. Interview Guidance was (Kevin, 2026-11-17: "let's say
+ * Interview Guidance is a new course"); its heading badge came off in his 10eea1b (2026-11-21).
+ */
+export const cfNewCategories = new Set<string>([]);
 
 /**
  * Our Top Picks (Kevin, 2026-11-18): the courses the homepage puts forward: the flagship GS programme (both

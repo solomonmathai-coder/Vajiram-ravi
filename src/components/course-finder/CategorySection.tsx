@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { cfAbout, cfNewCategories } from "@/data/course-finder";
+import { getCanvasZoom } from "@/lib/canvas";
 import { prefersReducedMotion } from "@/lib/motion";
 import Book from "./Book";
 import { GoButton, IArw, ICal, IDur, ILive, IRoom, ITime } from "./icons";
@@ -11,17 +12,41 @@ import { BADGE, CHIPS, hasChip, type Card, type Filters, type Section } from "./
  * One category (Kevin's secHTML / TOP_HTML and layout() in js/course-finder.js): its book, heading, course count,
  * what it is and who it is for, the chips (All, New, Trending, Bestseller, Upcoming) and one sideways row of
  * course cards with round arrow buttons at its ends. Our Top Picks is the same, as a banner (since his
- * 2026-11-20 rework: a sunset gradient with slowly drifting colour clouds, .cf-feat__flow, the cards four across
- * under a centred head, its count in the headline, "Our 6 Top Picks", following the search and dropdowns). The
+ * 2026-11-20 rework: slowly drifting colour clouds, .cf-feat__flow, its count in the headline, "Our 6 Top Picks",
+ * following the search and dropdowns; since 10eea1b its introduction stacked beside the cards again). The
  * bar's search and dropdowns arrive as `ok` (the cards that pass them); a chip with nothing behind it is greyed
  * out, and if it was the chosen one, All is chosen again. Upcoming lists its courses soonest first; every other
  * chip puts the row back in its own order.
+ *
+ * His 10eea1b (2026-11-21): the banner is a flat orange under a white jaali, with a line under its headline; only the
+ * chips a category has courses for are shown (the row goes when none is left); every card in a row keeps the
+ * height of its tallest course whichever chip is chosen (--kh on the row); and in Top Picks the card cut by the
+ * row's right edge (.is-peek), or by its left once scrolled (.is-peek-l), fades out across the part showing (--vis).
  */
 
 const COLLAGE = "/images/course-finder/photos/collage.png";
 
+/** A Top Picks card cut by the row's edge: on the right ("r") or the left ("l"), and the px of it showing. */
+type Peek = ["r" | "l", number];
+
 /** One course card: picture, title, badge, duration, time with how often, mode; then the batch date and "View course" below a divider. */
-function CourseCard({ k, shown, flipDelay, onFlipEnd }: { k: Card; shown: boolean; flipDelay?: number; onFlipEnd: () => void }) {
+function CourseCard({
+  k,
+  shown,
+  flipDelay,
+  onFlipEnd,
+  peek,
+}: {
+  k: Card;
+  shown: boolean;
+  flipDelay?: number;
+  onFlipEnd: () => void;
+  /** Top Picks: the side the row's edge cuts this card on, and how much of it shows (px). */
+  peek?: Peek;
+}) {
+  const style: Record<string, string> = {};
+  if (flipDelay !== undefined) style["--fd"] = `${flipDelay}ms`;
+  if (peek) style["--vis"] = `${peek[1]}px`;
   const fact = (icon: ReactNode, txt: string) => (
     <span className={`cf-k__f${txt ? "" : " is-none"}`}>
       {icon}
@@ -30,7 +55,7 @@ function CourseCard({ k, shown, flipDelay, onFlipEnd }: { k: Card; shown: boolea
   );
   return (
     <li
-      className={`cf-k${flipDelay !== undefined ? " is-flipin" : ""}`}
+      className={`cf-k${flipDelay !== undefined ? " is-flipin" : ""}${peek ? (peek[0] === "r" ? " is-peek" : " is-peek-l") : ""}`}
       data-key={k.id}
       data-mode={k.mode}
       data-lang={k.lang}
@@ -43,7 +68,7 @@ function CourseCard({ k, shown, flipDelay, onFlipEnd }: { k: Card; shown: boolea
       data-q={k.q}
       data-i={k.i}
       hidden={!shown}
-      style={flipDelay !== undefined ? ({ "--fd": `${flipDelay}ms` } as CSSProperties) : undefined}
+      style={Object.keys(style).length ? (style as CSSProperties) : undefined}
     >
       <a className="cf-k__a" href={k.url} target="_blank" rel="noopener" onAnimationEnd={flipDelay !== undefined ? onFlipEnd : undefined}>
         <span className="cf-k__pic">
@@ -101,6 +126,7 @@ export default function CategorySection({
   const [chip, setChip] = useState("");
   const gridRef = useRef<HTMLUListElement>(null);
   const [arw, setArw] = useState({ prev: true, next: true }); // hidden, as his markup starts
+  const [peeks, setPeeks] = useState<Record<string, Peek>>({});
 
   // a chip with no such course left (after the search and dropdowns) is greyed out; if it was the chosen one, All again
   const disabled = useMemo(() => Object.fromEntries(CHIPS.map(([f]) => [f, !ok.some((k) => hasChip(k, f))])), [ok]);
@@ -115,7 +141,9 @@ export default function CategorySection({
     [sec.cards, f],
   );
 
-  // the round arrows at the row's two ends, each shown only while there is more that way
+  // the round arrows at the row's two ends, each shown only while there is more that way; in Top Picks, with them,
+  // the cards cut by the row's edges (his 2026-11-21: the card's own opacity through a gradient mask, no overlay)
+  const top = sec.top;
   const arrows = useCallback(() => {
     const tr = gridRef.current;
     if (!tr) return;
@@ -123,17 +151,62 @@ export default function CategorySection({
     const prev = tr.scrollLeft <= 2;
     const next = tr.scrollLeft >= max - 2;
     setArw((a) => (a.prev === prev && a.next === next ? a : { prev, next }));
-  }, []);
+    if (!top) return;
+    const z = getCanvasZoom(); // the rects are the zoomed canvas's; --vis is in the card's own px
+    const { left: L, right: R } = tr.getBoundingClientRect();
+    const got: Record<string, Peek> = {};
+    tr.querySelectorAll<HTMLElement>(".cf-k").forEach((k) => {
+      if (k.hidden) return;
+      const r = k.getBoundingClientRect();
+      const pr = r.left < R - 1 && r.right > R + 1;
+      const pl = !pr && r.left < L - 1 && r.right > L + 1;
+      if (pr || pl) got[k.dataset.key!] = [pr ? "r" : "l", Math.round((pr ? R - r.left : r.right - L) / z)];
+    });
+    setPeeks((p) => {
+      const a = Object.keys(p);
+      const b = Object.keys(got);
+      return a.length === b.length && b.every((x) => p[x] && p[x][0] === got[x][0] && p[x][1] === got[x][1]) ? p : got;
+    });
+  }, [top]);
+
+  // every card in the row as tall as its tallest course, shown or not (his 2026-11-21: switching chips in Top Picks
+  // changed the card height): measured with all the cards in, then the filter's hidden state put back; --kh is the
+  // min-height (course-finder.css)
+  const sectionHidden = !ok.length;
+  const even = useCallback(() => {
+    const grid = gridRef.current;
+    if (!grid || sectionHidden) return;
+    const all = [...grid.querySelectorAll<HTMLElement>(".cf-k")];
+    const was = all.map((k) => k.hidden);
+    grid.style.removeProperty("--kh");
+    all.forEach((k) => (k.hidden = false));
+    const z = getCanvasZoom();
+    const h = Math.max(0, ...all.map((k) => k.getBoundingClientRect().height / z));
+    all.forEach((k, i) => (k.hidden = was[i]));
+    if (h) grid.style.setProperty("--kh", `${Math.ceil(h)}px`);
+  }, [sectionHidden]);
+
   // after any change to the row, it goes back to its start
   useLayoutEffect(() => {
     const tr = gridRef.current;
     if (tr) tr.scrollLeft = 0;
+    even();
     arrows();
-  }, [filters, f, sec, arrows]);
+  }, [filters, f, sec, arrows, even]);
   useEffect(() => {
-    addEventListener("resize", arrows);
-    return () => removeEventListener("resize", arrows);
-  }, [arrows]);
+    const re = () => {
+      even();
+      arrows();
+    };
+    addEventListener("resize", re);
+    // the card heights settle once the web fonts are in
+    let live = true;
+    document.fonts?.ready.then(() => live && even());
+    return () => {
+      live = false;
+      removeEventListener("resize", re);
+    };
+  }, [arrows, even]);
 
   const go = (dir: number) => {
     const tr = gridRef.current;
@@ -145,13 +218,15 @@ export default function CategorySection({
   const countTxt = n === total ? `${total} ${total === 1 ? "course" : "courses"}` : `${n} of ${total} courses`;
   const label = sec.top ? "Our Top Picks" : sec.label;
 
+  // only the chips this category has courses for are shown (his 2026-11-21); with none left, "All" alone says nothing,
+  // so the row goes too
   const chips = (
-    <div className="cf-chips" role="group" aria-label={`Show ${label} courses`}>
+    <div className="cf-chips" role="group" aria-label={`Show ${label} courses`} hidden={CHIPS.every(([v]) => disabled[v])}>
       <button type="button" className="cf-chip" data-f="" aria-pressed={!f} onClick={() => setChip("")}>
         All
       </button>
       {CHIPS.map(([v, l]) => (
-        <button key={v} type="button" className="cf-chip" data-f={v} aria-pressed={f === v} disabled={disabled[v]} onClick={() => setChip(v)}>
+        <button key={v} type="button" className="cf-chip" data-f={v} aria-pressed={f === v} disabled={disabled[v]} hidden={disabled[v]} onClick={() => setChip(v)}>
           {l}
         </button>
       ))}
@@ -163,7 +238,7 @@ export default function CategorySection({
       <ul className="cf-grid" ref={gridRef} onScroll={arrows}>
         {order.map((k) => {
           const key = `${sec.k}:${k.id}`;
-          return <CourseCard key={key} k={k} shown={match.has(k)} flipDelay={flips.get(key)} onFlipEnd={() => onFlipEnd(key)} />;
+          return <CourseCard key={key} k={k} shown={match.has(k)} flipDelay={flips.get(key)} onFlipEnd={() => onFlipEnd(key)} peek={peeks[k.id]} />;
         })}
       </ul>
       <button type="button" className="cf-arw cf-arw--prev" data-dir="-1" aria-label={sec.top ? "Previous top picks" : `Previous ${sec.label} courses`} hidden={arw.prev} onClick={() => go(-1)}>
@@ -194,7 +269,7 @@ export default function CategorySection({
             <span className="lbl__t">Picked by Vajiram &amp; Ravi</span>
           </div>
           <div className="cf-feat__book">
-            <Book k="top" label="Top Picks" n={total} small />
+            <Book k="top" label="Top Picks" n={total} small every={4000} />
           </div>
           {/* the number in the headline, the picks the search and dropdowns leave (his 2026-11-20; the count pill and the line under it are gone) */}
           <h2 className="cf-sec__h cf-feat__h" id="cath-top" data-total={total}>
@@ -202,6 +277,7 @@ export default function CategorySection({
               Our <span className="cf-feat__num">{n}</span> Top <span className="cf-feat__pl">{n === 1 ? "Pick" : "Picks"}</span>
             </span>
           </h2>
+          <p className="cf-feat__sub">Our flagship GS programme, the most-joined test series and the batches starting soon, picked by our faculty.</p>
           {chips}
         </div>
         {car}

@@ -10,7 +10,9 @@ import { DROPS, type FilterKey } from "./model";
  * whose legend cuts the gap, .cf-sel__o, so nothing is painted behind the name). Each option shows how many courses it holds
  * (counted once, across the categories) and cannot be chosen when it holds none. A picked dropdown swaps its
  * chevron for a clear button that empties just that one; "Clear filters" appears while any is set. The bar
- * sticks under the nav (CourseFinder sets .is-stuck and --cf-navoff).
+ * sticks under the nav (CourseFinder sets .is-stuck and --cf-navoff). Since his 10eea1b the /courses page draws each
+ * dropdown as a split button instead ("Mode: Any", the chevron in a segment at the right; course-finder.css, not on
+ * /courses/books), and a click anywhere on a field opens its menu.
  */
 export default function FilterBar({
   barRef,
@@ -69,7 +71,24 @@ export default function FilterBar({
         </div>
         <div className="cf-filt" id="cfFilt" role="group" aria-label="Filter courses">
           {DROPS.map((f) => (
-            <label key={f.key} className={`cf-sel${drops[f.key] ? " is-on" : ""}`} data-key={f.key}>
+            <label
+              key={f.key}
+              className={`cf-sel${drops[f.key] ? " is-on" : ""}`}
+              data-key={f.key}
+              onClick={(e) => {
+                // the split-button field (his 10eea1b): a click anywhere on it, its name or its chevron segment, opens the
+                // menu, not only a click on the choice itself (the clear button and the select keep their own)
+                const t = e.target as HTMLElement;
+                if (t.tagName === "SELECT" || t.closest(".cf-sel__x")) return;
+                const s = selRefs.current[f.key];
+                if (!s) return;
+                try {
+                  s.showPicker();
+                } catch {
+                  s.focus();
+                }
+              }}
+            >
               {/* the field's outline with a gap cut for the name (a fieldset and its legend), so the name sits on the bar's own paper */}
               <fieldset className="cf-sel__o" aria-hidden="true">
                 <legend>{f.label}</legend>

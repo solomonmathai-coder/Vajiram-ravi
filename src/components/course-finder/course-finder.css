@@ -1,11 +1,13 @@
 /*
- * The course finder's own stylesheet (Kevin's css/course-finder.css, commit 58f580a), in full and in his order,
+ * The course finder's own stylesheet (Kevin's css/course-finder.css, commit 10eea1b), in full and in his order,
  * comments and all, so it can be diffed against his file. Every selector is scoped under .cf-page (his
  * body.cfp). Changes: the media queries were resolved for the 1440px canvas (those true at 1440px unwrapped,
  * the phone and tablet ones dropped, as the canvas zoom would make them fire on smaller windows); viewport
  * units read the canvas (--vw / --vh, base.css); asset paths point at /images/course-finder/; the fonts are
  * the site's next/font faces. Rules for parts his page no longer draws (the old tabs, fee, byline) are kept. His
  * footer rules on this page went to the shared footer (footer-ref/ref-footer.css, .vf--no-news / .vf--no-word).
+ * This sheet also loads on /about, /free-resources (their heads are .cf-hero) and /courses/books (Kevin's bar and
+ * card body, .cb-page): his 10eea1b head and dropdown rules are kept off those (:not(.ab-page), :not(.cb-page)).
  */
 /* ---- from course-finder.css ---- */
 /* Course finder page (course-finder.html, 2026-11-17): the "UPSC Course Finder" reference reworked in version 8's look. The page head
@@ -801,20 +803,7 @@
 .cf-page .cf-list__main { container: cflist / inline-size; --row-cols: 4; --row-gap: 24px; }
 .cf-page .cf-feat .cf-grid { grid-auto-columns: calc((100cqw - var(--row-gap) * (var(--row-cols) - 1)) / var(--row-cols)); }
 
-/* ---------- Top Picks laid out as the user's wireframe (2026-11-20, "lets try a layout like this for the Our Top Picks"): the book
-   tilted in the top left corner; the ribbon, headline, count, line and chips centred above; the cards in one row of four across the
-   whole banner (three under 1200px, two under 900px), with the arrows to scroll on to the rest. Phones keep their stacked layout. */
-.cf-page .cf-sec.cf-feat { grid-template-columns: minmax(0, 1fr); gap: 36px; padding: 48px 48px 40px; }
-.cf-page .cf-feat__intro { position: static; max-width: none; align-items: center; text-align: center; }
-.cf-page .cf-feat .cf-feat__lbl { justify-content: center; margin: 0 0 18px; }
-.cf-page .cf-feat .cf-feat__n { align-self: center; }
-.cf-page .cf-feat .cf-sec__d { max-width: 54ch; margin-inline: auto; }
-.cf-page .cf-feat .cf-chips { justify-content: center; flex-wrap: wrap; row-gap: 8px; }
-.cf-page .cf-feat__book { position: absolute; z-index: 4; top: 34px; left: 52px; margin: 0; rotate: -12deg; }
-.cf-page .cf-feat__book .cf-bk-mini { --s: .78; }
-.cf-page .cf-feat .cf-grid { --cols: 4; --gap: 20px; grid-auto-columns: calc((100% - var(--gap) * (var(--cols) - 1)) / var(--cols)); }
-.cf-page .cf-feat .cf-arw--prev { left: -24px; }
-.cf-page .cf-feat .cf-arw--next { right: -24px; }
+/* (the centred "wireframe" layout of Top Picks, 2026-11-20, was taken out in 10eea1b: the stacked introduction beside the cards is back) */
 
 /* the count inside the Top Picks headline, "Our 6 Top Picks" (user 2026-11-20): the number in the warm gold of the ribbon so it reads as the
    count; the old "6 courses" pill under the headline is gone */
@@ -1001,3 +990,223 @@
    "Programmes", "Faculty" and "Free resources" labels */
 .cf-page .cf-feat .cf-feat__lbl .lbl__t { border-image-source: url(/images/course-finder/brand/cartouche-brand.svg); }
 .cf-page #cat-top .cf-feat__lbl .lbl__t { color: #fff !important; }
+
+/* ---- his rules from 2026-11-21 (commit 10eea1b, "flat orange Top Picks with jaali, peek fades, equal cards, tighter page") ---- */
+
+/* the carousel arrows' resting state as the user's screenshot (2026-11-21, "this should be the default state of the arrow button"):
+   plain white with a thin, soft brand-orange outline and the brand-orange arrow, no fill tint and no shadow; hover still fills peach,
+   firms the outline and lifts it with a shadow */
+.cf-page .cf-arw { border: 1.5px solid rgb(194 65 12 / .32); background: #fff; color: var(--cf-brand); box-shadow: none; }
+.cf-page .cf-arw:hover { background: #FDE6D6; border-color: var(--cf-brand); box-shadow: 0 12px 24px -10px rgb(60 30 10 / .4); }
+/* the arrows' hover as the user's screenshot (2026-11-21, "this is the hover state"): a solid brand-orange disc with a white arrow, no
+   outline tint and no shadow; the slight grow and the arrow's slide-through stay */
+.cf-page .cf-arw:hover { background: var(--cf-brand); border-color: var(--cf-brand); color: #fff; box-shadow: none; }
+.cf-page .cf-arw { transition: background-color .2s, border-color .2s, color .2s, scale .2s, box-shadow .2s, opacity .2s; }
+
+/* the category sections without their books and "Who it's for" lines (user 2026-11-21, "lets remove the book lets keep it in the our
+   top picks, and also who its for"): each heading now opens with its name, count and one-line description; Our Top Picks keeps its
+   tilted book, and the category list at the left keeps its small books */
+.cf-page .cf-sec:not(.cf-feat) .cf-sec__top > .cf-bk { display: none; }
+.cf-page .cf-sec__who { display: none; }
+
+/* chips a category has no courses for are hidden, and a row with none left goes (CategorySection, user 2026-11-21) */
+.cf-page .cf-chips[hidden], .cf-page .cf-chip[hidden] { display: none; }
+
+/* Top Picks back to its stacked introduction beside the cards (user 2026-11-21, "lets use the stack we previously used for the our
+   toppicks"): the centred wireframe layout taken out, so the ribbon, the book, "Our 6 Top Picks" and the chips stand in a column at the
+   left and the cards run beside them, as wide as every other card with the next one peeking in at the edge */
+
+/* the hero stats' labels now one or two words (user 2026-11-21, "100 courses, 13 Categories, 16 Optional subjects"), so the label box fits
+   its words instead of the old 150px, keeping the figures and diamonds evenly spaced (not on /about and /free-resources, .ab-page,
+   whose labels are still two lines in 116px) */
+.cf-page:not(.ab-page) .cf-stat__t { width: auto; white-space: nowrap; }
+
+/* ---------- the cards' hover without the tilt and the glare (user 2026-11-21, "remove the skew and the glow effect when hovered from
+   the cards, retain the pop effect as well as the bg shadow"): the card still rises 8px and drops its soft shadow, now straight below it
+   rather than swinging with a tilt; no 3D turn toward the pointer and no light following it ---------- */
+@media (hover: hover) and (pointer: fine) {
+  .cf-page .cf-k:hover { transform: none; translate: 0 -8px;
+    filter: drop-shadow(0 22px 18px rgb(102 38 13 / .22)); }
+  .cf-page .cf-k:hover .cf-k__a::after { opacity: 0; }
+  .cf-page .cf-feat .cf-k:hover { filter: drop-shadow(0 22px 20px rgb(60 20 5 / .38)); }
+}
+
+/* ---------- the filter dropdowns as a split button (user 2026-11-21, a "Squash and merge" button as the reference for the looks, not its
+   colour: "should look like this Mode : Any"): one rounded field in the bar's cream with its brown hairline, the name and the choice on
+   one line ("Mode: Any"), and at the right a separate segment, cut off by a thin divider, holding the chevron (or, once a filter is
+   picked, its clear button). The notched outline and the floating name are gone. (Not on /courses/books, .cb-page, whose phone bar
+   sets three of these side by side: the name in the line would leave the choice no room there.) ---------- */
+.cf-page:not(.cb-page) .cf-sel__o { display: none; }
+.cf-page:not(.cb-page) .cf-sel, .cf-page:not(.cb-page) .cf-sel:hover, .cf-page:not(.cb-page) .cf-sel.is-on { --sel-fill: #FFFCF4; }
+.cf-page:not(.cb-page) .cf-sel { display: flex; align-items: center; gap: 6px; height: 48px; padding: 0 60px 0 16px; border: 1px solid rgb(110 66 18 / .26); border-radius: 10px;
+  background: var(--sel-fill); cursor: pointer; transition: border-color .2s, background-color .2s, box-shadow .2s; }
+.cf-page:not(.cb-page) .cf-sel:hover { border-color: #6E4212; }
+.cf-page:not(.cb-page) .cf-sel:focus-within { border-color: var(--cf-brand); box-shadow: 0 0 0 3px rgb(194 65 12 / .14); }
+.cf-page:not(.cb-page) .cf-sel.is-on { border-color: var(--cf-brand); }
+.cf-page:not(.cb-page) .cf-sel > .cf-sel__l, .cf-page:not(.cb-page) .cf-sel__l { position: static; transform: none; flex: none; margin: 0; padding: 0; background: none;
+  font: 600 15px/1 var(--f); letter-spacing: 0; text-transform: none; color: #5A4632; white-space: nowrap; }
+.cf-page:not(.cb-page) .cf-sel__l::after { content: ":"; }
+.cf-page:not(.cb-page) .cf-sel.is-on .cf-sel__l, .cf-page:not(.cb-page) .cf-sel:focus-within .cf-sel__l { color: #5A4632; }
+.cf-page:not(.cb-page) .cf-sel select { flex: 1 1 auto; min-width: 0; width: auto; height: 100%; padding: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font: 500 15px/1 var(--f); color: #2A2016; }
+.cf-page:not(.cb-page) .cf-sel.is-on select { color: var(--cf-brand); }
+/* the chevron's segment and its divider */
+.cf-page:not(.cb-page) .cf-sel::after { content: ""; position: absolute; top: 9px; bottom: 9px; right: 46px; width: 1px; background: rgb(110 66 18 / .22); pointer-events: none; }
+.cf-page:not(.cb-page) .cf-sel:hover::after, .cf-page:not(.cb-page) .cf-sel.is-on::after { background: rgb(110 66 18 / .4); }
+.cf-page:not(.cb-page) .cf-sel > svg { right: 15px; width: 16px; height: 16px; color: #5A4632; }
+.cf-page:not(.cb-page) .cf-sel__x { right: 9px; }
+/* (max-width 760px: not ported on the 1440px canvas) */
+.cf-page:not(.cb-page) .cf-sel > .cf-sel__x { position: absolute; z-index: 2; top: 50%; margin-top: -14px; }   /* the clear button back in the chevron segment (an earlier rule had put it in the line) */
+
+/* ---------- the Top Picks introduction re-ordered and spaced (user 2026-11-21, "add a sub text, and also fix the hierarchy and spacing"):
+   the book leads, as the section's mark; then the eyebrow and the headline as one group (10px apart); the sub text close under the
+   headline in a quieter cream; the chips after a clear pause, on tidy rows. One rhythm: 24 / 10 / 12 / 28. ---------- */
+.cf-page .cf-feat__intro { align-items: flex-start; }
+.cf-page .cf-feat__book { margin: 0 0 24px 2px; }
+.cf-page .cf-feat .cf-feat__lbl { margin: 0 0 10px; }
+.cf-page .cf-feat .cf-feat__h { margin: 0; line-height: 1.02; }
+.cf-page .cf-feat__sub { max-width: 32ch; margin: 12px 0 0; font: 400 16px/1.5 var(--f); color: rgb(255 246 236 / .9); text-wrap: pretty;
+  text-shadow: 0 1px 1px rgb(110 36 10 / .18); }
+.cf-page .cf-feat .cf-chips { margin-top: 28px; flex-wrap: wrap; gap: 8px; row-gap: 8px; }
+/* (max-width 760px: not ported) */
+/* a deeper terracotta pooled behind the introduction, so the cream headline and sub text read where the sunset turns to peach */
+.cf-page .cf-sec.cf-feat { background: radial-gradient(60% 85% at 14% 56%, rgb(170 66 30 / .55), rgb(170 66 30 / 0) 72%),
+  linear-gradient(180deg, #CF6E45 0%, #DE7E52 22%, #F0915F 44%, #F7A26E 60%, #FAB984 78%, #FDD49B 100%); }
+/* (max-width 1100px: not ported) */
+.cf-page .cf-feat__flow i:nth-child(3) { left: 40%; }   /* the palest cloud kept off the introduction */
+
+/* the dropdowns without the divider, and "Any" muted (user 2026-11-21, "remove the line and reduce the opacity of any, and when any
+   option is selected let it show 100% opacity"): an unpicked field's "Any" is the value ink at half strength; a picked one shows its
+   choice at full strength (in the brand orange, as before). The menu's own options keep full ink. */
+.cf-page:not(.cb-page) .cf-sel::after { content: none; }
+.cf-page:not(.cb-page) .cf-sel select { color: rgb(42 32 22 / .5); }
+.cf-page:not(.cb-page) .cf-sel.is-on select { color: var(--cf-brand); }
+.cf-page:not(.cb-page) .cf-sel select option { color: #2A2016; }
+.cf-page:not(.cb-page) .cf-sel select option:disabled { color: rgb(42 32 22 / .4); }
+
+/* ---------- the Top Picks peek cut to a fifth of a card (user 2026-11-21, "the sneak peek shows half a card, only show 20% of the cards
+   width"): the cards keep the width of every other row (--k, from the column of sections), and the introduction column takes up the
+   slack, so the card track holds two whole cards and 20% of the third (from 1201px; between 1101 and 1200, one card and 20% of the
+   next). The track's 20px of shadow room past its edge is part of what shows, hence the arithmetic. ---------- */
+.cf-page .cf-sec.cf-feat { --k: calc((100cqw - var(--row-gap) * (var(--row-cols) - 1)) / var(--row-cols));
+  grid-template-columns: minmax(0, 1fr) calc(var(--k) * 2.2 + 20px); }
+/* (min-width 1101px and max-width 1200px: not ported) */
+
+/* ---------- the Top Picks peek softened (user 2026-11-21, "instead of hard cut lets try a soft cut"): the row fades out over its last
+   96px, so the peeking card dissolves into the banner rather than stopping at a hard edge. Once the row has been scrolled, its start fades
+   the same way; at the end of the row (no next arrow) the right edge is clear again. The arrows sit outside the fade. ---------- */
+@property --cf-fl { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --cf-fr { syntax: "<length>"; inherits: false; initial-value: 96px; }
+.cf-page .cf-feat .cf-grid { --cf-fl: 0px; --cf-fr: 96px; transition: --cf-fl .3s, --cf-fr .3s;
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--cf-fl), #000 calc(100% - var(--cf-fr)), transparent 100%);
+          mask-image: linear-gradient(to right, transparent 0, #000 var(--cf-fl), #000 calc(100% - var(--cf-fr)), transparent 100%); }
+.cf-page .cf-feat .cf-car:has(.cf-arw--next[hidden]) .cf-grid { --cf-fr: 0px; }
+/* (max-width 760px: not ported) */
+
+/* category count pill centred on the heading's capitals, not its line box (user 2026-11-21): the serif's descender room
+   sat the pill ~.12em low; --cf-hem carries the heading's em (in px) down to the pill */
+@property --cf-hem { syntax: "<length>"; inherits: true; initial-value: 0px; }
+.cf-page .cf-sec__h { --cf-hem: 1em; }
+.cf-page .cf-sec__h > .cf-sec__n { translate: 0 calc(var(--cf-hem) * -.12); }
+
+/* hero stats: the numerals' line box keeps room for descenders, so the digits sat ~.125em above the labels and diamonds;
+   drop them onto the row's centre line (user 2026-11-21). Side-by-side layout only (his min-width 761px, true at 1440); phones
+   stack number over label. Not on /about and /free-resources (.ab-page), whose labels run to two lines. */
+.cf-page:not(.ab-page) .cf-stat__fig { translate: 0 .125em; }
+
+/* hero tightened (user 2026-11-21): less air above and below, a smaller title and closer rows, so the search bar comes up
+   the page; breadcrumb: Home steps back, the current page (Courses) carries the weight. (The course finder's own head only:
+   /about and /free-resources, .ab-page, keep theirs.) */
+.cf-page:not(.ab-page) .cf-hero { padding: 120px var(--px) 40px; }
+.cf-page:not(.ab-page) .cf-crumbs { margin-bottom: 14px; }
+.cf-page:not(.ab-page) .cf-h { font-size: clamp(40px, calc(4.2 * var(--vw)), 62px); }
+.cf-page:not(.ab-page) .cf-lede { margin-top: 12px; font-size: 17px; }
+.cf-page:not(.ab-page) .cf-stats { margin-top: 26px; padding-top: 20px; }
+.cf-page:not(.ab-page) .cf-stat__fig { font-size: clamp(36px, calc(3.3 * var(--vw)), 48px); }
+.cf-page:not(.ab-page) .cf-crumbs { color: rgb(42 26 12 / .4); }
+.cf-page:not(.ab-page) .cf-crumbs a { font-weight: 500; color: rgb(42 26 12 / .5); text-decoration-color: rgb(42 26 12 / .2); transition: color .2s, text-decoration-color .2s; }
+.cf-page:not(.ab-page) .cf-crumbs a:hover { color: #2A1A0C; text-decoration-color: rgb(42 26 12 / .5); }
+.cf-page:not(.ab-page) .cf-crumbs [aria-current] { font-weight: 600; color: #7A2E06; }
+/* (max-width 760px: not ported) */
+
+/* category chips: the selected chip in the brand orange, white text (user 2026-11-21, from the homepage's "All" filter);
+   hover borders follow. Top Picks keeps its cream chip, since orange would vanish on the sunset */
+.cf-page .cf-sec:not(.cf-feat) .cf-chip:hover { border-color: var(--cf-brand); }
+.cf-page .cf-sec:not(.cf-feat) .cf-chip[aria-pressed="true"] { border-color: var(--cf-brand); background: var(--cf-brand); color: #fff; }
+
+/* Top Picks text in dark brown (user 2026-11-21, the hero's colours): headline #2A1A0C, the count in the deep orange-brown,
+   sub text a warm dark brown; the terracotta pool behind the introduction becomes a soft peach glow so the dark text reads */
+.cf-page .cf-sec.cf-feat { background: radial-gradient(60% 85% at 14% 56%, rgb(253 200 150 / .5), rgb(253 200 150 / 0) 72%),
+  linear-gradient(180deg, #CF6E45 0%, #DE7E52 22%, #F0915F 44%, #F7A26E 60%, #FAB984 78%, #FDD49B 100%); }
+/* (max-width 1100px: not ported) */
+.cf-page .cf-feat .cf-sec__h, .cf-page .cf-feat .cf-feat__h { color: #2A1A0C; text-shadow: none; }
+.cf-page .cf-feat .cf-feat__num { color: #7A2E06; }
+.cf-page .cf-feat__sub { color: #3A230F; text-shadow: none; }
+.cf-page .cf-feat .cf-chip { border-color: rgb(42 26 12 / .35); background: rgb(255 246 236 / .22); color: #2A1A0C; }
+.cf-page .cf-feat .cf-chip:hover { border-color: #2A1A0C; background: rgb(255 246 236 / .35); }
+.cf-page .cf-feat .cf-chip[aria-pressed="true"] { border-color: #2A1A0C; background: #2A1A0C; color: #FFF3E1; }
+/* eyebrow first, then the book */
+.cf-page .cf-feat .cf-feat__lbl { margin: 0 0 22px; }
+.cf-page .cf-feat__book { margin: 0 0 22px 2px; }
+/* (max-width 760px: not ported) */
+
+/* Top Picks peek, take three (user 2026-11-21): no mask on the row; the card cut by the right edge lowers its own opacity
+   through a gradient mask, full at its left edge down to clear at the cut (--vis, set by CategorySection, is the part showing) */
+.cf-page .cf-feat .cf-grid { -webkit-mask-image: none; mask-image: none; }
+.cf-page .cf-feat .cf-k.is-peek { -webkit-mask-image: linear-gradient(to right, rgb(0 0 0 / .85), rgb(0 0 0 / .08) var(--vis, 100%));
+  mask-image: linear-gradient(to right, rgb(0 0 0 / .85), rgb(0 0 0 / .08) var(--vis, 100%)); }
+.cf-page .cf-feat .cf-k.is-peek-l { -webkit-mask-image: linear-gradient(to left, rgb(0 0 0 / .85), rgb(0 0 0 / .08) var(--vis, 100%));
+  mask-image: linear-gradient(to left, rgb(0 0 0 / .85), rgb(0 0 0 / .08) var(--vis, 100%)); }   /* the left-cut card, mirrored */
+
+/* Top Picks ground from the user's orange (2026-11-21): a near-flat #E87D39 lifting to #F08541 a little below centre, no peach
+   glow behind the intro; the drifting clouds retinted to the same oranges so the motion stays but the colour reads as one */
+.cf-page .cf-sec.cf-feat { background: radial-gradient(75% 65% at 42% 58%, #F08541 0%, #EE833F 38%, #EB803C 68%, #E87D39 100%); }
+/* (max-width 1100px: not ported) */
+.cf-page .cf-feat__flow i:nth-child(1) { background: #E57636; opacity: .45; }
+.cf-page .cf-feat__flow i:nth-child(2) { background: #F28C48; opacity: .45; }
+.cf-page .cf-feat__flow i:nth-child(3) { background: #F39250; opacity: .4; }
+.cf-page .cf-feat__flow i:nth-child(4) { background: #E97B37; opacity: .4; }
+
+/* Top Picks text in white on the flat orange (user 2026-11-21): headline and sub text white with a faint warm shadow to lift
+   them off the orange, the count in pale gold; chips white-outlined, the chosen one white with orange text */
+.cf-page .cf-feat .cf-sec__h, .cf-page .cf-feat .cf-feat__h { color: #fff; text-shadow: 0 1px 2px rgb(140 50 10 / .25); }
+.cf-page .cf-feat .cf-feat__num { color: #FFE2A8; }
+.cf-page .cf-feat__sub { color: #fff; text-shadow: 0 1px 1px rgb(140 50 10 / .3); }
+.cf-page .cf-feat .cf-chip { border-color: rgb(255 255 255 / .65); background: rgb(255 255 255 / .12); color: #fff; }
+.cf-page .cf-feat .cf-chip:hover { border-color: #fff; background: rgb(255 255 255 / .22); }
+.cf-page .cf-feat .cf-chip[aria-pressed="true"] { border-color: #fff; background: #fff; color: var(--cf-brand); }
+
+/* the page's jaali lattice inside Top Picks too (user 2026-11-21): the same 36px tile, drawn in white (bg-jaali-white.svg,
+   14%) so it shows on the orange, laid over the orange ground */
+.cf-page .cf-sec.cf-feat { background: url(/images/course-finder/patterns/bg-jaali-white.svg) 0 0 / 36px 36px repeat,
+  radial-gradient(75% 65% at 42% 58%, #F08541 0%, #EE833F 38%, #EB803C 68%, #E87D39 100%); }
+/* (max-width 1100px: not ported) */
+
+/* every card in a section as tall as its tallest course, whichever chip is chosen (--kh, set by CategorySection) */
+.cf-page .cf-sec .cf-k { min-height: var(--kh, 0px); }
+
+/* the category list keeps clear of the sticky search bar (user 2026-11-21): shifted by --py and capped by --ph (set when it
+   opens, CategoryRail), and the open rail sits above the bar */
+.cf-page .cf-rail.is-open .cf-rail__panel { translate: 0 calc(-50% + var(--py, 0px)); }
+.cf-page .cf-rail__panel.is-capped { max-height: var(--ph); overflow-y: auto; overscroll-behavior: contain; }   /* only when too tall: scrolling would clip the hover bridge */
+.cf-page .cf-rail.is-open { z-index: 32; }
+
+/* ===== page spacing pass (user 2026-11-21, "optimise the space for the whole page") ===== */
+/* rows: 113px from one row's cards to the next heading → ~73px (phones ~53px) */
+.cf-page .cf-sec { padding-bottom: 36px; }
+.cf-page .cf-sec + .cf-sec { padding-top: 36px; }
+/* (max-width 760px: not ported) */
+.cf-page .cf-sec.is-first, .cf-page .cf-sec.cf-feat + .cf-sec { padding-top: 0; }   /* (re-stated: the rules above outrank the earlier ones) */
+/* each row's heading block: description, chips and cards closer to the heading */
+.cf-page .cf-sec__about { margin-top: 8px; }
+.cf-page .cf-sec .cf-chips { margin-top: 14px; }
+.cf-page .cf-sec:not(.cf-feat) .cf-car { margin-top: 16px; }
+/* cards: tighter padding and line gaps in the details and footer, same content */
+.cf-page .cf-k__b { padding: 12px 4px 12px; gap: 6px; }
+.cf-page .cf-k__tags { margin-top: 0; }
+.cf-page .cf-k__facts { margin-top: 4px; }
+.cf-page .cf-k__ft { padding: 12px 12px 14px; }
+/* Top Picks and the space around the list */
+.cf-page .cf-sec.cf-feat { padding-top: 32px; padding-bottom: 28px; margin-bottom: 44px; }
+.cf-page .cf-list { padding-top: 28px; padding-bottom: 64px; }
+/* (max-width 760px: not ported) */

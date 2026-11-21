@@ -46,20 +46,18 @@
 .cb-page .cf-bar::after { display: none; }   /* (the course finder's paper grain, 58f580a: this bar has no ground of its own) */
 /* his card, drawn at his size and shown at 85% (CoursesExplorer, CARD_ZOOM), fills its place in the row */
 .cb-page .cs-card .cf-k__a { height: 100%; }
-/* Our Top Picks' band: Kevin's .cf-feat ground */
+/* Our Top Picks' band: Kevin's Top Picks ground (his course finder, 10eea1b, "flat orange Top Picks with jaali"): a near-flat
+   orange, #E87D39 lifting to #F08541 a little below the middle, with the page's jaali lattice over it drawn in white at 14%
+   (bg-jaali-white.svg, the same 36px tile). On a phone its chips sit on it: his white-outlined chips, the chosen one white
+   with orange words; the name white and the count pale gold (CoursesExplorer). */
 .cb-page .cb-feat {
-  background: linear-gradient(90deg, rgb(30 9 4 / .6) 0%, rgb(30 9 4 / .34) 40%, rgb(30 9 4 / .08) 66%, rgb(30 9 4 / 0) 100%),
-    radial-gradient(40% 55% at 78% 50%, rgb(226 96 30 / .5), transparent 72%),
-    radial-gradient(48% 42% at 6% 108%, rgb(240 112 40 / .5), transparent 70%),
-    linear-gradient(100deg, #4E1708 0%, #6E220B 34%, #8A2D0E 60%, #5C1A08 82%, #3A1006 100%);
+  background: url(/images/course-finder/patterns/bg-jaali-white.svg) 0 0 / 36px 36px repeat,
+    radial-gradient(75% 65% at 42% 58%, #F08541 0%, #EE833F 38%, #EB803C 68%, #E87D39 100%);
 }
-.cb-page .cb-feat__qutub { aspect-ratio: 720 / 1239; opacity: .07; background: url(/images/course-finder/photos/qutub-monument.webp) left bottom / cover no-repeat;
-  -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 22%, transparent 62%), linear-gradient(0deg, #000 0%, #000 55%, transparent 96%);
-  -webkit-mask-composite: source-in;
-  mask-image: linear-gradient(90deg, #000 0%, #000 22%, transparent 62%), linear-gradient(0deg, #000 0%, #000 55%, transparent 96%);
-  mask-composite: intersect; }
-.cb-page .cb-feat__grain { z-index: 1; opacity: .2; mix-blend-mode: overlay;
-  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E") 0 0 / 160px 160px; }
+.cf-page.cb-page .cb-feat .cf-chip { border-color: rgb(255 255 255 / .65); background: rgb(255 255 255 / .12); color: #fff; }
+.cf-page.cb-page .cb-feat .cf-chip:hover { border-color: #fff; background: rgb(255 255 255 / .22); }
+.cf-page.cb-page .cb-feat .cf-chip[aria-pressed="true"] { border-color: #fff; background: #fff; color: #C2410C; }
+.cf-page.cb-page .cb-feat .cf-chip:disabled { opacity: .45; }
 
 /* Kevin's dropdowns in white, like the search beside them (his 88af1a4, "white filter dropdowns") */
 .cf-page.cb-page .cf-sel, .cf-page.cb-page .cf-sel:hover, .cf-page.cb-page .cf-sel.is-on { --sel-fill: #fff; }

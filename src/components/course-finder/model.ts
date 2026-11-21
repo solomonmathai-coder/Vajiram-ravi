@@ -1,5 +1,5 @@
 /*
- * The course finder's model: Kevin's js/course-finder.js (commit 58f580a) up to the point where it writes the
+ * The course finder's model: Kevin's js/course-finder.js (commit 10eea1b) up to the point where it writes the
  * page, as pure functions. It reads src/data/course-finder.ts and gives the categories, their cards (with
  * every fact as the card shows it, real or DUMMY) and the head's figures. The cards depend on today's date
  * (a batch "Starts" or has "Started"), so the page builds it with the build's date on the server and again
@@ -154,11 +154,18 @@ const TESTS = new Set(["mains-ts", "prelims-ts", "optional-ts"]);
 
 /** The categories and their cards for a given day (Kevin's card(), secHTML and TOP_HTML, in his order). */
 export function buildSections(today: Date): Section[] {
-  // EVERY CATEGORY HAS ALL THREE BADGES AND AN UPCOMING BATCH (Kevin, 2026-11-18). The real badges come first;
-  // where a category still lacks New, Trending or Bestseller, a DUMMY one goes to a course in it with no badge
+  // CATEGORIES ARE TOPPED UP WITH STAND-IN BADGES AND AN UPCOMING BATCH (Kevin, 2026-11-18). The real badges come
+  // first; where a category still lacks a kind it wants (WANT), a DUMMY one goes to a course in it with no badge
   // yet, spread along its row (or, in a category with fewer courses than badges, a second badge on a course).
   // A category whose every batch has started gets a DUMMY next batch on its first course. NOT real: replace
   // them with the real ones before launch.
+  // TRIMMED (Kevin's 10eea1b, 2026-11-21, "trim the badges", with only the chips a category has courses for now
+  // shown): a category is topped up only with the kinds listed for it here, on top of its real ones, so the chip
+  // rows vary; one not listed gets none beyond its real badges. Our Top Picks still gets all three.
+  const WANT: Record<string, Badge[]> = {
+    gs: ["bestseller"], optional: ["bestseller"], csat: ["new"], "mains-ts": ["bestseller", "trending"],
+    "prelims-ts": ["bestseller"], "optional-ts": ["new"], enrichment: ["new"], postal: ["bestseller"],
+  }; // Trending taken off Mentorship and Module Courses (Kevin, 2026-11-21)
   const BADGES = new Map<string, Badge[]>();
   const FORCE_START = new Set<string>();
   const DUM_BADGE = new Set<string>();
@@ -166,8 +173,8 @@ export function buildSections(today: Date): Section[] {
     const b = badgeOf(c, v);
     BADGES.set(v.id, b ? [b] : []);
   }
-  const topUp = (vs: CfVariant[]) => {
-    const missing = KINDS.filter((k) => !vs.some((v) => BADGES.get(v.id)!.includes(k)));
+  const topUp = (vs: CfVariant[], want: Badge[] = KINDS) => {
+    const missing = want.filter((k) => !vs.some((v) => BADGES.get(v.id)!.includes(k)));
     missing.forEach((k, i) => {
       const free = vs.filter((v) => !BADGES.get(v.id)!.length);
       const pick = free.length
@@ -180,7 +187,7 @@ export function buildSections(today: Date): Section[] {
   for (const tr of TREE) {
     const vs = D.courses.filter((c) => tr.kids.includes(c.f)).flatMap((c) => c.v);
     if (!vs.length) continue;
-    topUp(vs);
+    topUp(vs, WANT[tr.k] || []);
     if (!vs.some((v) => { const s = startTxt(v, today); return !s || /^Starts/.test(s); })) FORCE_START.add(vs[0].id);
   }
   const allV = D.courses.flatMap((c) => c.v);
@@ -237,11 +244,14 @@ export function buildSections(today: Date): Section[] {
   return secs;
 }
 
-/** The head's figures, counted from the data: every version, the categories (GS's two lengths as one) and the optional subjects. */
+/**
+ * The head's figures, counted from the data: every version, the categories (GS's two lengths as one) and the optional
+ * subjects; their labels one or two words (Kevin's 10eea1b, 2026-11-21).
+ */
 export const STATS: [number, string][] = [
-  [D.courses.reduce((n, c) => n + c.v.length, 0), "Courses to choose from"],
-  [D.families.filter((f) => f.k !== "gs-2yr").length, "Categories, Prelims to Interview"],
-  [D.subjects.length, "Optional subjects taught"],
+  [D.courses.reduce((n, c) => n + c.v.length, 0), "Courses"],
+  [D.families.filter((f) => f.k !== "gs-2yr").length, "Categories"],
+  [D.subjects.length, "Optional subjects"],
 ];
 
 /** The bar's dropdowns (Mode, Medium, Target year), each option's test on a card. */
