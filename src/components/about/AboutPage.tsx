@@ -9,6 +9,7 @@ import AboutFigures from "./AboutFigures";
 import AboutReveal from "./AboutReveal";
 import AboutTilt from "./AboutTilt";
 import StoryChapters from "./StoryChapters";
+import ValuesList from "./ValuesList";
 import ValuesPanels from "./ValuesPanels";
 import "@/components/course-finder/base.css";
 import "@/components/course-finder/shared.css";
@@ -83,6 +84,9 @@ export default function AboutPage() {
 
         {/* 3. our values: all five on one screen, as photograph panels that open under the pointer */}
         <ValuesPanels />
+
+        {/* 3b. our values, the alternative layout (everything up front), for the client to compare with 3 and choose */}
+        <ValuesList />
 
         {/* 4. the people who lead Vajiram & Ravi */}
         <section className="ab-sec" aria-labelledby="abLeaders">
