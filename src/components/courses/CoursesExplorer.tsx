@@ -308,7 +308,6 @@ export default function CoursesExplorer() {
     setDrops(NO_DROPS);
   };
   const total = sections.filter((s) => !s.top).reduce((n, s) => n + s.cards.length, 0);
-  const left = sections.reduce((n, s, i) => n + (s.top ? 0 : oks[i].length), 0);
   const set = (query.trim() ? 1 : 0) + DROPS.filter((f) => drops[f.key]).length;
   const activeSec = sections.find((s) => s.k === active);
 
@@ -391,13 +390,22 @@ export default function CoursesExplorer() {
           the category in view, and how many filters are set. It opens the menu (below).
         */}
         {phone && (
-          <div ref={barRef} className={cx("sticky top-[60px] z-[38] -mx-4 px-4 py-2 [transition:background-color_300ms_ease,box-shadow_300ms_ease]", stuck && "bg-[#fffaf3]/95 shadow-[0_14px_24px_-20px_rgb(70_26_10/0.5)] backdrop-blur")}>
+          <div ref={barRef} className="sticky top-[60px] z-[38] -mx-4 px-4 py-2">
+            {/* Once it reaches the header, a cream ground runs from the top of the screen to under the bar, behind the
+                header's pills too (as the desktop bar's does). */}
+            <div
+              aria-hidden="true"
+              className={cx(
+                "pointer-events-none absolute inset-x-0 -top-[60px] bottom-0 border-b border-[rgb(194_65_12/0.12)] bg-[#fffaf3]/95 shadow-[0_14px_24px_-20px_rgb(70_26_10/0.5)] backdrop-blur [transition:opacity_300ms_ease]",
+                stuck ? "opacity-100" : "opacity-0",
+              )}
+            />
             <button
               type="button"
               aria-haspopup="dialog"
               aria-label={`Search, filters and course categories. In view: ${activeSec ? nameOf(activeSec) : ""}${set ? `. ${set} set` : ""}`}
               onClick={openMenu}
-              className="flex h-[52px] w-full items-center gap-3 rounded-full border border-[rgb(43_18_6/0.1)] bg-white pr-1.5 pl-1.5 text-left shadow-[0_14px_28px_-22px_rgb(70_26_10/0.6)]"
+              className="relative flex h-[52px] w-full items-center gap-3 rounded-full border border-[rgb(43_18_6/0.1)] bg-white pr-1.5 pl-1.5 text-left shadow-[0_14px_28px_-22px_rgb(70_26_10/0.6)]"
             >
               <span aria-hidden="true" className="grid size-10 shrink-0 place-items-center rounded-full bg-[linear-gradient(135deg,#f06a2c_0%,#e85020_45%,#c2410c_100%)] text-white">
                 <svg viewBox="0 0 18 18" width={18} height={18} fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round">
@@ -441,7 +449,8 @@ export default function CoursesExplorer() {
                   <IClose />
                 </button>
               </div>
-              <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pt-4 pb-6">
+              {/* data-lenis-prevent: the page's smooth scroll, held still while the menu is open, leaves this list's own scrolling alone */}
+              <div data-lenis-prevent className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-5 pt-4 pb-[max(24px,env(safe-area-inset-bottom))]">
                 <FilterBar
                   barRef={{ current: null }}
                   query={query}
@@ -477,20 +486,13 @@ export default function CoursesExplorer() {
                   })}
                 </ul>
               </div>
-              <div className="flex items-center gap-4 border-t border-[rgb(194_65_12/0.12)] bg-white px-5 pt-3 pb-[max(12px,env(safe-area-inset-bottom))]">
-                {set > 0 && (
-                  <button type="button" onClick={reset} className="h-12 shrink-0 text-[15px] font-semibold text-[#c2410c] underline decoration-[#c2410c]/30 underline-offset-4">
+              {set > 0 && (
+                <div className="border-t border-[rgb(194_65_12/0.12)] bg-white px-5 pt-1 pb-[max(4px,env(safe-area-inset-bottom))]">
+                  <button type="button" onClick={reset} className="h-11 text-[15px] font-semibold text-[#c2410c] underline decoration-[#c2410c]/30 underline-offset-4">
                     Clear all
                   </button>
-                )}
-                <button
-                  type="button"
-                  onClick={closeMenu}
-                  className="h-12 flex-1 rounded-full bg-[linear-gradient(135deg,#f06a2c_0%,#e85020_45%,#c2410c_100%)] text-[15.5px] font-semibold text-white shadow-[0_12px_24px_-12px_rgb(194_65_12/0.7)]"
-                >
-                  {left ? `Show ${left} ${left === 1 ? "course" : "courses"}` : "No courses match"}
-                </button>
-              </div>
+                </div>
+              )}
             </div>
           </dialog>
         )}
