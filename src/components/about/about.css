@@ -184,17 +184,23 @@ html.js .ab-page .ab-rv.in { opacity: 1; translate: none; }
 ::view-transition-new(ab-vb-0), ::view-transition-new(ab-vb-1), ::view-transition-new(ab-vb-2), ::view-transition-new(ab-vb-3), ::view-transition-new(ab-vb-4) {
   width: 100%; height: 100%; object-fit: cover; object-position: top; animation-duration: .5s; }
 ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
-/* every tile alike: the photograph above, a white panel below with the words in dark type */
+/* every tile alike: the photograph above, and below it the words on the manila of the homepage's folder cards (the
+   Free Resources folders' front: his cream-to-sand gradient with his paper grain over it, a lit top edge), in their
+   warm dark type */
 .ab-page .ab-vb__tile {
-  display: flex; flex-direction: column; min-width: 0; overflow: hidden; border-radius: 10px; background: #fff;
-  box-shadow: 0 0 0 1px var(--line), 0 24px 40px -34px rgb(120 50 10 / .45);
+  display: flex; flex-direction: column; min-width: 0; overflow: hidden; border-radius: 10px; background: #EFDFC0;
+  box-shadow: 0 0 0 1px rgb(110 66 18 / .2), 0 2px 3px rgb(60 30 5 / .12), 0 24px 40px -30px rgb(60 30 5 / .45);
 }
+.ab-page .ab-vb__tx { position: relative; isolation: isolate; background: linear-gradient(178deg, #F9EFDA, #F5E8CE 30%, #EFDFC0);
+  box-shadow: inset 0 1px 0 rgb(255 250 235 / .9), inset 0 2px 0 rgb(110 66 18 / .12); }
+.ab-page .ab-vb__tx::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .45; mix-blend-mode: soft-light;
+  background: url(/assets/img/patterns/grain.png) 0 0 / 200px repeat; }
 .ab-page .ab-vb__ph { position: relative; flex: 1 1 auto; min-height: 0; margin: 0; overflow: hidden; background: var(--sand); }
 .ab-page .ab-vb__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: scale 1s var(--ease); }
 .ab-page .ab-vb__tile:hover .ab-vb__img { scale: 1.05; }
 .ab-page .ab-vb__tx { flex: none; box-sizing: border-box; height: 156px; padding: 16px 20px 18px; }   /* the small ones all one height, so their photographs match */
-.ab-page .ab-vb__t { margin: 0; font: 400 21px/1.2 var(--f-title); letter-spacing: -.01em; color: var(--ink); }
-.ab-page .ab-vb__d { margin: 6px 0 0; font: 400 14.5px/1.5 var(--f); color: var(--body); text-wrap: pretty; }
+.ab-page .ab-vb__t { margin: 0; font: 400 21px/1.2 var(--f-title); letter-spacing: -.01em; color: #2A2016; }
+.ab-page .ab-vb__d { margin: 6px 0 0; font: 400 14.5px/1.5 var(--f); color: #5a4632; text-wrap: pretty; }
 /* the large one: the same, larger */
 .ab-page .ab-vb__tile[data-lead] .ab-vb__tx { height: auto; padding: 24px 30px 28px; }
 .ab-page .ab-vb__tile[data-lead] .ab-vb__t { font-size: 32px; line-height: 1.12; }
