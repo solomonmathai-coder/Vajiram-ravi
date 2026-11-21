@@ -215,8 +215,10 @@ html.js .ab-page .ab-rv.in { opacity: 1; translate: none; }
 .ab-page .ab-cu__map iframe { position: absolute; left: 0; right: 0; top: -64px; width: 100%; height: calc(100% + 64px); border: 0; }
 .ab-page .ab-cu__tag { align-self: flex-start; margin: 0; padding: 2px 9px; border: 1px solid rgb(204 85 0 / .45); border-radius: 999px; color: #9A3412;
   font: 700 10.5px/1.4 var(--f); letter-spacing: .1em; text-transform: uppercase; }
-.ab-page .ab-cu__addr { margin: 12px 0 0; font: 400 27px/1.22 var(--f-title); letter-spacing: -.02em; /* our Newsreader sets a touch wider than the reference's; this keeps its two lines */ color: var(--ink); text-wrap: balance; }
-.ab-page .ab-cu__note { margin: 10px 0 0; font: 400 14.5px/1.5 var(--f); color: var(--body); text-wrap: balance; }
+.ab-page .ab-cu__addr { margin: 12px 0 0; font: 400 27px/1.22 var(--f-title); letter-spacing: -.01em; color: var(--ink); text-wrap: balance; }
+.ab-page .ab-cu__note { margin: 10px 0 0; font: 400 14.5px/1.5 var(--f); color: var(--body); }
+/* the address and the landmark broken where the reference breaks them: each line kept whole (data/about-page, card) */
+.ab-page .ab-cu__addr span, .ab-page .ab-cu__note span { display: block; white-space: nowrap; }
 .ab-page .ab-cu__hours { margin: 6px 0 0; font: 500 14.5px/1.5 var(--f); color: var(--ink); }
 .ab-page .ab-cu__rows { display: flex; flex-direction: column; gap: 10px; margin: 18px 0 0; padding: 18px 0 0; border-top: 1px solid #EADBC4; list-style: none; }
 .ab-page .ab-cu__rows a { display: inline-flex; align-items: center; gap: 8px; padding-bottom: 1px; font: 500 14.5px/1.3 var(--f); color: var(--ink); text-decoration: none;

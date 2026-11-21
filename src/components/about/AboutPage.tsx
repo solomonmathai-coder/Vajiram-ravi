@@ -150,8 +150,18 @@ export default function AboutPage() {
                 <iframe src={MAP_EMBED} title={`Map: ${centre.mapLabel}`} loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen />
               </div>
               <p className="ab-cu__tag">{aboutPlaces.centreLabel}</p>
-              <h3 className="ab-cu__addr">{aboutPlaces.card.address}</h3>
-              <p className="ab-cu__note">{aboutPlaces.card.landmark}</p>
+              <h3 className="ab-cu__addr" aria-label={aboutPlaces.card.address.join(" ")}>
+                {aboutPlaces.card.address.map((l) => (
+                  <span key={l} aria-hidden="true">
+                    {l}
+                  </span>
+                ))}
+              </h3>
+              <p className="ab-cu__note">
+                {aboutPlaces.card.landmark.map((l) => (
+                  <span key={l}>{l} </span>
+                ))}
+              </p>
               <p className="ab-cu__hours">{aboutPlaces.card.hours}</p>
               <ul className="ab-cu__rows">
                 <li>

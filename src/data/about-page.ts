@@ -129,10 +129,13 @@ export const aboutPlaces = {
   intro: "Classroom programmes run from our centre in New Delhi. Visit to meet a counsellor, see the classrooms and pick up the brochure.",
   centreLabel: "New Delhi centre",
   mapsCta: "View on maps",
-  /** The card's lines as the final site's homepage "Contact us" card sets them (21 Nov 2026). */
+  /**
+   * The card's lines as the final site's homepage "Contact us" card sets them (21 Nov 2026), broken where it breaks
+   * them (the client's reference): each entry is one line, kept whole, so the card reads the same on every screen.
+   */
   card: {
-    address: "1-B/7, Pusa Road, Old Rajinder Nagar, New Delhi 110060",
-    landmark: "Next to Gate 5 of Karol Bagh Metro Station, near pillar 103",
+    address: ["1-B/7, Pusa Road, Old Rajinder", "Nagar, New Delhi 110060"],
+    landmark: ["Next to Gate 5 of Karol Bagh Metro Station, near pillar", "103"],
     hours: "Mon – Sat, 9 am – 7 pm",
   },
   photo: {
