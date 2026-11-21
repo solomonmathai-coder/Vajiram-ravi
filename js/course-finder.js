@@ -173,7 +173,7 @@
     // the course's length, on its own line with a clock (user 2026-11-18, "introduce course duration to the cards"), as its page gives it,
     // tidied: "02 Months" to "2 Months", "24 weeks" to "24 Weeks", date ranges shortened ("1 Oct – 30 Nov 2026"); where the page gives
     // none (48 courses) the card says so rather than guess
-    const CLOCK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6L12 12L18 12"/><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"/></svg>';
+    const CLOCK = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6L12 12L18 12"/><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"/></svg>';
     const MON = { january: 'Jan', february: 'Feb', march: 'Mar', april: 'Apr', may: 'May', june: 'Jun', july: 'Jul', august: 'Aug', september: 'Sep', october: 'Oct', november: 'Nov', december: 'Dec' };
     const durTxt = d => String(d || '').trim()
       .replace(/\b0(\d)\b/g, '$1')                                            // 02 Months, 01 October
@@ -187,7 +187,8 @@
     // the course page's facts box on the card (user 2026-11-18, "add these to the card and let's not show the price"): the date of
     // commencement, the mode, the duration and the course time, each with its Iconoir icon (calendar, presentation, hourglass, clock);
     // a fact the page does not give is said so in grey, never guessed
-    const ico = d => `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d.map(p => `<path d="${p}"/>`).join('')}</svg>`;
+    // the card icons at stroke 2 (user 2026-11-21, "we can update icon weight to 2"; was Iconoir's 1.5)
+    const ico = d => `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d.map(p => `<path d="${p}"/>`).join('')}</svg>`;
     const I_CAL = ico(['M15 4V2M15 4V6M15 4H10.5M3 10V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V10H3Z', 'M3 10V6C3 4.89543 3.89543 4 5 4H7', 'M7 2V6', 'M21 10V6C21 4.89543 20.1046 4 19 4H18.5']);
     const I_DUR = ico(['M12 12C15.866 12 19 8.86599 19 5H5C5 8.86599 8.13401 12 12 12ZM12 12C15.866 12 19 15.134 19 19H5C5 15.134 8.13401 12 12 12Z', 'M5 2L12 2L19 2', 'M5 22H12L19 22']);
     const MON3 = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];

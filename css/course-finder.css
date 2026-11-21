@@ -1124,3 +1124,37 @@ html.cf-locked { overflow: hidden; }
 .cf-feat__flow i:nth-child(2) { background: #FBE3A4; opacity: .6; }
 .cf-feat__flow i:nth-child(3) { background: #F1A93C; opacity: .45; }
 .cf-feat__flow i:nth-child(4) { background: #F6CF73; opacity: .55; }
+
+/* ---------- Top Picks in a sunset gradient (user 2026-11-21, "lets use a gradient like this for our top pick"): terracotta at the top
+   warming through coral to a soft peach at the bottom, as in the image; the drifting clouds in the same family (a lighter coral, a
+   deeper terracotta, peach) so they move without adding new colour ---------- */
+.cf-sec.cf-feat { background: linear-gradient(180deg, #CF6E45 0%, #DE7E52 22%, #F0915F 44%, #F7A26E 60%, #FAB984 78%, #FDD49B 100%); }
+.cf-feat__flow i:nth-child(1) { background: #C9663F; opacity: .45; }
+.cf-feat__flow i:nth-child(2) { background: #F6A777; opacity: .5; }
+.cf-feat__flow i:nth-child(3) { background: #FDD8A2; opacity: .55; }
+.cf-feat__flow i:nth-child(4) { background: #F29A68; opacity: .45; }
+
+/* the Top Picks headline and eyebrow recoloured for the sunset ground (user 2026-11-21, "give a different colour for the text and the eye
+   brow"): the dark brown sat muddy on the terracotta, so the headline turns warm cream with a faint shadow to hold it off the orange,
+   its count in the gold of the stats' diamonds; the eyebrow becomes a cream cartouche (assets/img/brand/cartouche-cream.svg) with deep
+   rust capitals */
+.cf-feat .cf-sec__h, .cf-feat .cf-feat__h { color: #FFF6EC; text-shadow: 0 1px 2px rgb(110 36 10 / .28), 0 0 18px rgb(140 50 16 / .18); }
+.cf-feat .cf-feat__num { color: #FFD48A; }
+.cf-feat .cf-feat__lbl .lbl__t { border-image-source: url("../assets/img/brand/cartouche-cream.svg"); color: #9A3412; }
+/* v49.css forces .lbl--w capitals white with !important; the cream eyebrow needs its rust capitals over that */
+#cat-top .cf-feat__lbl .lbl__t { color: #9A3412 !important; }
+
+/* the Top Picks chips in the headline's colours (user 2026-11-21, "update the chip too"): cream outlines and cream words on the
+   terracotta, a faint cream wash; hover firms the outline; the picked chip is the eyebrow's cream with its rust words */
+.cf-feat .cf-chip { border-color: rgb(255 246 236 / .55); background: rgb(255 246 236 / .12); color: #FFF6EC; }
+.cf-feat .cf-chip:hover { border-color: #FFF6EC; background: rgb(255 246 236 / .2); }
+.cf-feat .cf-chip[aria-pressed="true"] { border-color: #FFF3E1; background: #FFF3E1; color: #9A3412; }
+.cf-feat .cf-chip:disabled { opacity: .5; }
+.cf-feat .cf-chip:disabled:hover { border-color: rgb(255 246 236 / .55); background: rgb(255 246 236 / .12); }
+.cf-feat .cf-chip:focus-visible { outline: 2px solid #FFF6EC; outline-offset: 2px; }
+
+/* the Top Picks eyebrow as the homepage's (user 2026-11-21, "for the eyebrow lets use the dark orange the same we used in the home
+   page"): the brand cartouche, #C2410C (assets/img/brand/cartouche-brand.svg), with white capitals, as the reference build's
+   "Programmes", "Faculty" and "Free resources" labels */
+.cf-feat .cf-feat__lbl .lbl__t { border-image-source: url("../assets/img/brand/cartouche-brand.svg"); }
+#cat-top .cf-feat__lbl .lbl__t { color: #fff !important; }
