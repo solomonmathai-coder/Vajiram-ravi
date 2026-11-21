@@ -9,10 +9,14 @@ import { countIn, TOTAL } from "./model";
 import Pill from "./Pill";
 
 /*
- * The course finder's nav (Kevin's, from the reference build: css/ref-nav.css and js/site-nav.js, commit 39e7bc9).
- * - States: .is-open at the top of the page (no bar, white on the orange head); scrolling down closes it away
- *   from both ends to the middle (.is-away); scrolling up brings it back as the white bar (.is-scrolled). A few
- *   pixels of jitter are ignored; an open menu keeps it in place; focus inside brings it back.
+ * The course finder's nav (Kevin's, from the reference build: css/ref-nav.css and js/site-nav.js, commit 58f580a).
+ * - States (his 2026-11-20, "use the same nav behaviour as the nav in this link"): fixed at the top and never hidden,
+ *   its contents always dark (.is-scrolled: the dark logo, ink links, the orange "Let's talk"); within the first 48px
+ *   of the page the white panel behind it is clear (.is-top), and past that it fades in with its shadow.
+ * - variant="hiding" keeps his earlier behaviour (commit 39e7bc9), for the About page's orange head: .is-open at the
+ *   top of the page (no bar, white on the orange head); scrolling down closes it away from both ends to the middle
+ *   (.is-away); scrolling up brings it back as the white bar (.is-scrolled). A few pixels of jitter are ignored; an
+ *   open menu keeps it in place; focus inside brings it back.
  * - "All courses" and "Study materials" open the homepage's mega menus (hover with a mouse, click or Enter,
  *   ArrowDown into the first link; one at a time; an outside click, focus leaving or Escape closes them; the
  *   page blurs behind). A programme in "All courses" goes to that category on this page (catJump).
@@ -69,7 +73,7 @@ const SM: [string, [string, string, string?][]][] = [
   ["Study material", [["GS postal books", "Printed General Studies material"], ["NCERT notes", "The basics every paper builds on"], ["Government schemes", "Schemes and missions, summed up"], ["Ethics case studies", "GS Paper IV cases, with approaches"]]],
   ["Exam guide", [["Syllabus & exam pattern", "Each stage, and how it is marked"], ["UPSC Calendar 2027", "Every date, the age limit, eligibility"], ["Optional subjects list", "All optionals, and how to choose"], ["Interview guidance tips", "Preparing for the Personality Test"]]],
 ];
-/** Today's headlines: the first three of his footer's "Latest current affairs" (his menu read them from it). */
+/** Today's headlines (his menu read them from the footer's "Latest current affairs" card until 2026-11-20, when the card left that footer; they live in the menu now). */
 const HEADS: [string, string, string][] = [
   ["Mains", "Supreme Court redefines the meaning of ‘industry’", links.currentAffairsMains],
   ["Mains", "NITI Aayog flags gap between education and employment", links.currentAffairsMains],
@@ -81,7 +85,8 @@ const pad = (i: number) => String(i + 1).padStart(2, "0");
 
 type Mega = "all" | "study";
 
-export default function CourseFinderNav() {
+export default function CourseFinderNav({ variant = "fixed" }: { variant?: "fixed" | "hiding" }) {
+  const hiding = variant === "hiding";
   const navRef = useRef<HTMLElement>(null);
   const logoRef = useRef<HTMLAnchorElement>(null);
   const linksRef = useRef<HTMLElement>(null);
@@ -89,7 +94,9 @@ export default function CourseFinderNav() {
   const endRef = useRef<HTMLDivElement>(null);
   const wraps = { all: useRef<HTMLDivElement>(null), study: useRef<HTMLDivElement>(null) };
 
-  const [st, setSt] = useState({ open: true, away: false, scrolled: false });
+  // as his markup starts: "rn is-scrolled is-top" (the hiding variant: "rn is-open")
+  const [st, setSt] = useState(hiding ? { open: true, away: false, scrolled: false } : { open: false, away: false, scrolled: true });
+  const [top, setTop] = useState(true);
   const [mega, setMega] = useState<Mega | null>(null);
   const [more, setMore] = useState(false);
   const [lang, setLang] = useState<"en" | "hi">("en");
@@ -100,6 +107,24 @@ export default function CourseFinderNav() {
 
   /* ---------- the states, from the scroll ---------- */
   useEffect(() => {
+    if (hiding) return;
+    let tick = false;
+    const f = () => {
+      tick = false;
+      setTop(scrollY < 48);
+    };
+    const onScroll = () => {
+      if (!tick) {
+        tick = true;
+        requestAnimationFrame(f);
+      }
+    };
+    addEventListener("scroll", onScroll, { passive: true });
+    f();
+    return () => removeEventListener("scroll", onScroll);
+  }, [hiding]);
+  useEffect(() => {
+    if (!hiding) return;
     let last = scrollY;
     let tick = false;
     const f = () => {
@@ -131,7 +156,7 @@ export default function CourseFinderNav() {
     addEventListener("scroll", onScroll, { passive: true });
     put(scrollY < 40 ? { open: true, away: false, scrolled: false } : { open: false, away: false, scrolled: true });
     return () => removeEventListener("scroll", onScroll);
-  }, []);
+  }, [hiding]);
 
   /* ---------- the mega menus ---------- */
   const leave = useRef<Partial<Record<Mega, number>>>({});
@@ -266,7 +291,7 @@ export default function CourseFinderNav() {
   };
   const t = (en: string) => (lang === "hi" ? HI[en] || en : en);
 
-  const cls = ["rn", st.open && "is-open", st.away && "is-away", st.scrolled && "is-scrolled"].filter(Boolean).join(" ");
+  const cls = ["rn", st.open && "is-open", st.away && "is-away", st.scrolled && "is-scrolled", !hiding && top && "is-top"].filter(Boolean).join(" ");
 
   return (
     <>

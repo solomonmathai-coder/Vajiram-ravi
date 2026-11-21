@@ -1,5 +1,5 @@
 /**
- * The course finder's data (/courses), ported from the `kevin` branch (commit 39e7bc9): js/data/courses.js
+ * The course finder's data (/courses), ported from the `kevin` branch (commit 58f580a): js/data/courses.js
  * (window.CF_DATA) word for word, with every field kept, and the page's own content tables from
  * js/course-finder.js (what each category is and who it is for, the Top Picks, the badges and the DUMMY
  * stand-ins). Only the banner paths changed: assets/img/courses/… is now /images/course-finder/courses/….

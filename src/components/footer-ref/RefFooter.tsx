@@ -75,6 +75,9 @@ const ext = (href: string) => (href.startsWith("http") ? { target: "_blank", rel
  * The final site's footer (https://vajiram-ravi.abhishek-ps.workers.dev/, footer.vf), as Kevin ported it
  * (css/footer-ref.css and js/footer-ref.js, `kevin` branch 39e7bc9): the gold double frame, the logo and the social
  * links, four columns of links, the latest current affairs, the debossed "Vajiram & Ravi" and the legal line.
+ * His course finder (commit 58f580a, 2026-11-20, "remove these from the footer") drops the current affairs card
+ * (`news={false}`: the link columns take the full width) and the debossed name (`word={false}`: more room around
+ * the legal line, as his css/course-finder.css gives it there).
  *
  * Its curtain: the footer stays pinned to the bottom of the window behind the page (the page's <main> sits over
  * it) and is uncovered as the page scrolls up off it; --foot-p runs 0 to 1 as it is, the footer settling from 92%
@@ -82,7 +85,7 @@ const ext = (href: string) => (href.startsWith("http") ? { target: "_blank", rel
  * (--foot-off) so all of it can be reached. The gold frame fades in once the footer is in view. The window and the
  * page are measured in screen px and the offset is set in canvas px (the site's zoom, lib/canvas).
  */
-export default function RefFooter() {
+export default function RefFooter({ news = true, word = true }: { news?: boolean; word?: boolean } = {}) {
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -136,7 +139,7 @@ export default function RefFooter() {
   }, []);
 
   return (
-    <footer ref={ref} className="vf" style={{ "--foot-p": 0 } as CSSProperties}>
+    <footer ref={ref} className={`vf${news ? "" : " vf--no-news"}${word ? "" : " vf--no-word"}`} style={{ "--foot-p": 0 } as CSSProperties}>
       <span className="foot__frame fb-anim" aria-hidden="true" />
       <div className="vf__in">
         <div className="vf__bar">
@@ -173,62 +176,66 @@ export default function RefFooter() {
               </div>
             ))}
           </nav>
-          <section className="vf__news" aria-labelledby="vfNewsH">
-            <h2 className="vf__h vf__news-h" id="vfNewsH">
-              Latest current affairs{" "}
-              <span className="vf__live">
-                <i aria-hidden="true" />
-                Updated daily
-              </span>
-            </h2>
-            <ul className="vf__news-list">
-              {NEWS.map(([tag, title, href]) => (
-                <li key={title}>
-                  <a href={href} target="_blank" rel="noopener">
-                    <span className="vf__tag">{tag}</span>
-                    <span className="vf__nt">{title}</span>
-                    <svg className="vf__arw" viewBox="0 0 16 16" aria-hidden="true">
-                      <path d="M2.5 8h11" />
-                      <path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4" />
-                    </svg>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </section>
+          {news && (
+            <section className="vf__news" aria-labelledby="vfNewsH">
+              <h2 className="vf__h vf__news-h" id="vfNewsH">
+                Latest current affairs{" "}
+                <span className="vf__live">
+                  <i aria-hidden="true" />
+                  Updated daily
+                </span>
+              </h2>
+              <ul className="vf__news-list">
+                {NEWS.map(([tag, title, href]) => (
+                  <li key={title}>
+                    <a href={href} target="_blank" rel="noopener">
+                      <span className="vf__tag">{tag}</span>
+                      <span className="vf__nt">{title}</span>
+                      <svg className="vf__arw" viewBox="0 0 16 16" aria-hidden="true">
+                        <path d="M2.5 8h11" />
+                        <path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4" />
+                      </svg>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
         </div>
-        <div className="vf__word">
-          <span className="vh">Vajiram &amp; Ravi</span>
-          <svg aria-hidden="true" viewBox="0 0 1280 210" fill="none">
-            <defs>
-              <filter id="vf-deboss" x="-2%" y="-10%" width="104%" height="125%" colorInterpolationFilters="sRGB">
-                <feOffset in="SourceAlpha" dy="4" result="down" />
-                <feGaussianBlur in="down" stdDeviation="2.6" result="downSoft" />
-                <feComposite in="SourceAlpha" in2="downSoft" operator="out" result="topBand" />
-                <feFlood floodColor="#5a2a10" floodOpacity=".2" result="shadeInk" />
-                <feComposite in="shadeInk" in2="topBand" operator="in" result="innerShade" />
-                <feOffset in="SourceAlpha" dy="-2.2" result="up" />
-                <feGaussianBlur in="up" stdDeviation="1.1" result="upSoft" />
-                <feComposite in="SourceAlpha" in2="upSoft" operator="out" result="bottomBand" />
-                <feFlood floodColor="#ffffff" floodOpacity=".55" result="lightInk" />
-                <feComposite in="lightInk" in2="bottomBand" operator="in" result="innerLight" />
-                <feOffset in="SourceAlpha" dy="2" result="lipDown" />
-                <feComposite in="lipDown" in2="SourceAlpha" operator="out" result="lipBand" />
-                <feFlood floodColor="#ffffff" floodOpacity=".55" result="lipInk" />
-                <feComposite in="lipInk" in2="lipBand" operator="in" result="lip" />
-                <feMerge>
-                  <feMergeNode in="lip" />
-                  <feMergeNode in="SourceGraphic" />
-                  <feMergeNode in="innerShade" />
-                  <feMergeNode in="innerLight" />
-                </feMerge>
-              </filter>
-            </defs>
-            <text x="640" y="172" textAnchor="middle" textLength="1272" lengthAdjust="spacingAndGlyphs" filter="url(#vf-deboss)">
-              Vajiram &amp; Ravi
-            </text>
-          </svg>
-        </div>
+        {word && (
+          <div className="vf__word">
+            <span className="vh">Vajiram &amp; Ravi</span>
+            <svg aria-hidden="true" viewBox="0 0 1280 210" fill="none">
+              <defs>
+                <filter id="vf-deboss" x="-2%" y="-10%" width="104%" height="125%" colorInterpolationFilters="sRGB">
+                  <feOffset in="SourceAlpha" dy="4" result="down" />
+                  <feGaussianBlur in="down" stdDeviation="2.6" result="downSoft" />
+                  <feComposite in="SourceAlpha" in2="downSoft" operator="out" result="topBand" />
+                  <feFlood floodColor="#5a2a10" floodOpacity=".2" result="shadeInk" />
+                  <feComposite in="shadeInk" in2="topBand" operator="in" result="innerShade" />
+                  <feOffset in="SourceAlpha" dy="-2.2" result="up" />
+                  <feGaussianBlur in="up" stdDeviation="1.1" result="upSoft" />
+                  <feComposite in="SourceAlpha" in2="upSoft" operator="out" result="bottomBand" />
+                  <feFlood floodColor="#ffffff" floodOpacity=".55" result="lightInk" />
+                  <feComposite in="lightInk" in2="bottomBand" operator="in" result="innerLight" />
+                  <feOffset in="SourceAlpha" dy="2" result="lipDown" />
+                  <feComposite in="lipDown" in2="SourceAlpha" operator="out" result="lipBand" />
+                  <feFlood floodColor="#ffffff" floodOpacity=".55" result="lipInk" />
+                  <feComposite in="lipInk" in2="lipBand" operator="in" result="lip" />
+                  <feMerge>
+                    <feMergeNode in="lip" />
+                    <feMergeNode in="SourceGraphic" />
+                    <feMergeNode in="innerShade" />
+                    <feMergeNode in="innerLight" />
+                  </feMerge>
+                </filter>
+              </defs>
+              <text x="640" y="172" textAnchor="middle" textLength="1272" lengthAdjust="spacingAndGlyphs" filter="url(#vf-deboss)">
+                Vajiram &amp; Ravi
+              </text>
+            </svg>
+          </div>
+        )}
         <div className="vf__legal">
           <p>© 2026 Vajiram &amp; Ravi. All rights reserved.</p>
           <nav aria-label="Legal">

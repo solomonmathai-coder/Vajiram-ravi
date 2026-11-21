@@ -5,8 +5,9 @@ import { IChevDown, IClose, ISearch, IXCircle } from "./icons";
 import { DROPS, type FilterKey } from "./model";
 
 /*
- * The bar under the head (Kevin's #cfBar): the search, then Mode, Medium and Target year as outlined dropdowns
- * with a sand fill, their names in a notch on the top border. Each option shows how many courses it holds
+ * The bar under the head (Kevin's #cfBar, on his magazine-card paper since 2026-11-20): the search, then Mode,
+ * Medium and Target year as outlined dropdowns, their names in a gap in the top border (the outline is a fieldset
+ * whose legend cuts the gap, .cf-sel__o, so nothing is painted behind the name). Each option shows how many courses it holds
  * (counted once, across the categories) and cannot be chosen when it holds none. A picked dropdown swaps its
  * chevron for a clear button that empties just that one; "Clear filters" appears while any is set. The bar
  * sticks under the nav (CourseFinder sets .is-stuck and --cf-navoff).
@@ -69,6 +70,10 @@ export default function FilterBar({
         <div className="cf-filt" id="cfFilt" role="group" aria-label="Filter courses">
           {DROPS.map((f) => (
             <label key={f.key} className={`cf-sel${drops[f.key] ? " is-on" : ""}`} data-key={f.key}>
+              {/* the field's outline with a gap cut for the name (a fieldset and its legend), so the name sits on the bar's own paper */}
+              <fieldset className="cf-sel__o" aria-hidden="true">
+                <legend>{f.label}</legend>
+              </fieldset>
               <span className="cf-sel__l">{f.label}</span>
               <select
                 ref={(el) => {

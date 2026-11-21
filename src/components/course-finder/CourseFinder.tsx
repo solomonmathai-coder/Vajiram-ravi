@@ -14,8 +14,8 @@ import { buildSections, DROPS, fold, passes, type FilterKey, type Filters } from
 import Pill from "./Pill";
 
 /*
- * The course finder (/courses): Kevin's course finder v2 (`kevin` branch, commit 39e7bc9: course-finder.html and
- * js/course-finder.js) in React. The orange head (breadcrumb, title, the figures counting up); the bar of search
+ * The course finder (/courses): Kevin's course finder v2 (`kevin` branch, commit 58f580a: course-finder.html and
+ * js/course-finder.js) in React. The paper head (breadcrumb, title, the figures counting up); the bar of search
  * and dropdowns, sticky under the nav, which filters every category at once (a category with nothing left is
  * hidden, and after a change a stuck bar brings the list back to its start); the category rail; Our Top Picks
  * and one section per category (CategorySection); the counsellor banner after the last; and, when nothing

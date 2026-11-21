@@ -95,7 +95,7 @@ export const menus: Record<MenuId, Menu> = {
   courses: {
     columns: [COURSES, TEST_SERIES],
     // The courses page beside the homepage (/courses).
-    more: { label: "View all courses", href: "/courses" },
+    more: { label: "View all courses", href: "/courses/books" }, // our book-strip course finder; "All courses" itself opens Kevin's (/courses)
   },
   study: {
     columns: [

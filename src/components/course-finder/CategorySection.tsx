@@ -4,16 +4,18 @@ import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, typ
 import { cfAbout, cfNewCategories } from "@/data/course-finder";
 import { prefersReducedMotion } from "@/lib/motion";
 import Book from "./Book";
-import { ICal, IChev, IDur, ILive, IRoom, ITime } from "./icons";
+import { GoButton, IArw, ICal, IDur, ILive, IRoom, ITime } from "./icons";
 import { BADGE, CHIPS, hasChip, type Card, type Filters, type Section } from "./model";
 
 /*
  * One category (Kevin's secHTML / TOP_HTML and layout() in js/course-finder.js): its book, heading, course count,
  * what it is and who it is for, the chips (All, New, Trending, Bestseller, Upcoming) and one sideways row of
- * course cards with round arrow buttons at its ends. Our Top Picks is the same, as a banner on the homepage's
- * flagship ground. The bar's search and dropdowns arrive as `ok` (the cards that pass them); a chip with
- * nothing behind it is greyed out, and if it was the chosen one, All is chosen again. Upcoming lists its
- * courses soonest first; every other chip puts the row back in its own order.
+ * course cards with round arrow buttons at its ends. Our Top Picks is the same, as a banner (since his
+ * 2026-11-20 rework: a sunset gradient with slowly drifting colour clouds, .cf-feat__flow, the cards four across
+ * under a centred head, its count in the headline, "Our 6 Top Picks", following the search and dropdowns). The
+ * bar's search and dropdowns arrive as `ok` (the cards that pass them); a chip with nothing behind it is greyed
+ * out, and if it was the chosen one, All is chosen again. Upcoming lists its courses soonest first; every other
+ * chip puts the row back in its own order.
  */
 
 const COLLAGE = "/images/course-finder/photos/collage.png";
@@ -72,7 +74,7 @@ function CourseCard({ k, shown, flipDelay, onFlipEnd }: { k: Card; shown: boolea
               <b>{k.startValue}</b>
             </span>
           </span>
-          <span className="cf-k__go">View course</span>
+          <GoButton />
         </span>
       </a>
     </li>
@@ -165,10 +167,10 @@ export default function CategorySection({
         })}
       </ul>
       <button type="button" className="cf-arw cf-arw--prev" data-dir="-1" aria-label={sec.top ? "Previous top picks" : `Previous ${sec.label} courses`} hidden={arw.prev} onClick={() => go(-1)}>
-        <IChev dir={-1} />
+        <IArw dir={-1} />
       </button>
       <button type="button" className="cf-arw cf-arw--next" data-dir="1" aria-label={sec.top ? "More top picks" : `More ${sec.label} courses`} hidden={arw.next} onClick={() => go(1)}>
-        <IChev dir={1} />
+        <IArw dir={1} />
       </button>
     </div>
   );
@@ -176,6 +178,13 @@ export default function CategorySection({
   if (sec.top)
     return (
       <section className={`cf-sec cf-feat${first ? " is-first" : ""}`} id="cat-top" data-top="1" data-f={f} aria-labelledby="cath-top" hidden={!n}>
+        <div className="cf-feat__flow" aria-hidden="true">
+          <i />
+          <i />
+          <i />
+          <i />
+          <i />
+        </div>
         <div className="cf-feat__cuts" aria-hidden="true">
           <img className="cut--l" src={COLLAGE} alt="" decoding="async" />
           <img className="cut--r" src={COLLAGE} alt="" decoding="async" />
@@ -187,13 +196,12 @@ export default function CategorySection({
           <div className="cf-feat__book">
             <Book k="top" label="Top Picks" n={total} small />
           </div>
-          <h2 className="cf-sec__h cf-feat__h" id="cath-top">
-            <span className="cf-sec__name">Our Top Picks</span>
+          {/* the number in the headline, the picks the search and dropdowns leave (his 2026-11-20; the count pill and the line under it are gone) */}
+          <h2 className="cf-sec__h cf-feat__h" id="cath-top" data-total={total}>
+            <span className="cf-sec__name">
+              Our <span className="cf-feat__num">{n}</span> Top <span className="cf-feat__pl">{n === 1 ? "Pick" : "Picks"}</span>
+            </span>
           </h2>
-          <span className="cf-sec__n cf-feat__n" data-total={total}>
-            {countTxt}
-          </span>
-          <p className="cf-sec__d">Our flagship GS programme, what’s trending, and the batches starting soon.</p>
           {chips}
         </div>
         {car}

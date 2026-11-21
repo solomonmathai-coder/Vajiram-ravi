@@ -1,5 +1,5 @@
 /*
- * The course finder's model: Kevin's js/course-finder.js (commit 39e7bc9) up to the point where it writes the
+ * The course finder's model: Kevin's js/course-finder.js (commit 58f580a) up to the point where it writes the
  * page, as pure functions. It reads src/data/course-finder.ts and gives the categories, their cards (with
  * every fact as the card shows it, real or DUMMY) and the head's figures. The cards depend on today's date
  * (a batch "Starts" or has "Started"), so the page builds it with the build's date on the server and again

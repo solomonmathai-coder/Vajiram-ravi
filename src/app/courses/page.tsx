@@ -10,17 +10,17 @@ export const metadata: Metadata = {
 };
 
 /**
- * The courses page (/courses): Kevin's course finder v2 from the `kevin` branch (commit 39e7bc9), ported to
- * React in components/course-finder: his nav over an orange head with the figures, the sticky search and
+ * The courses page (/courses): Kevin's course finder v2 from the `kevin` branch (commit 58f580a), ported to
+ * React in components/course-finder: his fixed nav over a paper head with the figures, the sticky search and
  * Mode / Medium / Target year dropdowns, the category rail, Our Top Picks and a section per category (its
  * book, chips and a sideways row of course cards), and the counsellor banner; then the final site's footer
- * (footer-ref/RefFooter, as Kevin's page has it) and the WhatsApp button. Our earlier version (the books and their strips) is at /courses/books.
+ * (footer-ref/RefFooter, as Kevin's page has it: without the current affairs card and the debossed name) and the WhatsApp button. Our earlier version (the books and their strips) is at /courses/books.
  */
 export default function CoursesPage() {
   return (
     <>
       <CourseFinderPage />
-      <RefFooter />
+      <RefFooter news={false} word={false} />
       <WhatsAppButton />
     </>
   );

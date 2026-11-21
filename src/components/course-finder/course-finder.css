@@ -1,10 +1,11 @@
 /*
- * The course finder's own stylesheet (Kevin's css/course-finder.css, commit 39e7bc9), in full and in his order,
+ * The course finder's own stylesheet (Kevin's css/course-finder.css, commit 58f580a), in full and in his order,
  * comments and all, so it can be diffed against his file. Every selector is scoped under .cf-page (his
  * body.cfp). Changes: the media queries were resolved for the 1440px canvas (those true at 1440px unwrapped,
  * the phone and tablet ones dropped, as the canvas zoom would make them fire on smaller windows); viewport
  * units read the canvas (--vw / --vh, base.css); asset paths point at /images/course-finder/; the fonts are
- * the site's next/font faces. Rules for parts his page no longer draws (the old tabs, fee, byline) are kept.
+ * the site's next/font faces. Rules for parts his page no longer draws (the old tabs, fee, byline) are kept. His
+ * footer rules on this page went to the shared footer (footer-ref/ref-footer.css, .vf--no-news / .vf--no-word).
  */
 /* ---- from course-finder.css ---- */
 /* Course finder page (course-finder.html, 2026-11-17): the "UPSC Course Finder" reference reworked in version 8's look. The page head
@@ -691,3 +692,312 @@
 
 /* the breadcrumb in the hero's left corner (user 2026-11-18, "left corner"; it was at the right, and centred before that) */
 .cf-page .cf-crumbs { justify-content: flex-start; }
+
+/* ---- his rules from 2026-11-19 to 2026-11-21 (commits 5cdb55f to 58f580a) ---- */
+
+/* ---------- the line rail on tablets and phones (user 2026-11-19, "bring the same line indicator in mobile as well"): there is no
+   margin column, so the lines float at the screen's left edge, halfway down, on a small frosted tab, shown only while the course list
+   is being read (.is-shown, js/course-finder.js); a tap on them opens the same list of categories beside them ---------- */
+/* (max-width 1100px only, and its lighter tab after it: not ported on the 1440px canvas) */
+
+/* "View course" as the homepage's "See all programmes" (user 2026-11-20; the reference build's .btn--outline.btn--disc): an outlined
+   pill, a 1.5px orange edge at 45% on white, orange bold type, the arrow in a solid orange disc 4px from the right end. The whole card
+   is the link, so its behaviour plays when the card is hovered: a faint orange wash and a full-orange edge, the label rolls up to its
+   copy, the arrow slides out of the disc as a second slides in and the disc grows 6%; a press shrinks the button to 97%. Sized as the
+   reference's small button (36px, a 28px disc) so the date beside it is never cut on the narrow Top Picks cards. */
+.cf-page .cf-k__go { position: relative; isolation: isolate; overflow: hidden; display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 4px 0 14px;
+  border: 0; border-radius: 999px; background: #fff; color: var(--cf-brand); font: 700 13px/1.25 var(--f); letter-spacing: .005em; white-space: nowrap;
+  box-shadow: inset 0 0 0 1.5px rgb(194 65 12 / .45); transition: box-shadow .35s, color .35s, scale .15s; }
+.cf-page .cf-k__go::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: rgb(194 65 12 / .08); opacity: 0; transition: opacity .35s; pointer-events: none; }
+.cf-page .cf-go__l { position: relative; display: inline-grid; overflow: hidden; padding-top: 2px; }
+.cf-page .cf-go__t { grid-area: 1 / 1; display: block; transition: transform .5s cubic-bezier(.7, 0, .2, 1); }
+.cf-page .cf-go__t + .cf-go__t { transform: translateY(115%); }
+.cf-page .cf-go__d { position: relative; flex: none; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; overflow: hidden;
+  background: var(--cf-brand); color: #fff; transition: transform .45s cubic-bezier(.2, .8, .2, 1); }
+.cf-page .cf-go__d svg { grid-area: 1 / 1; width: 13px; height: 13px; stroke-width: 2.4; transition: transform .5s cubic-bezier(.7, 0, .2, 1); }
+.cf-page .cf-go__d svg + svg { transform: translateX(-220%); }
+.cf-page .cf-k__a:hover .cf-k__go { background: #fff; color: var(--cf-brand); box-shadow: inset 0 0 0 1.5px var(--cf-brand); }
+.cf-page .cf-k__a:focus-visible .cf-k__go { box-shadow: 0 0 0 3px #fff, 0 0 0 5.5px var(--cf-hot); }
+.cf-page .cf-k__a:hover .cf-k__go::before, .cf-page .cf-k__a:focus-visible .cf-k__go::before { opacity: 1; }
+@media (hover: hover) and (pointer: fine) {
+  .cf-page .cf-k__a:hover .cf-go__t { transform: translateY(-115%); }
+  .cf-page .cf-k__a:hover .cf-go__t + .cf-go__t { transform: translateY(0); }
+  .cf-page .cf-k__a:hover .cf-go__d { transform: scale(1.06); }
+  .cf-page .cf-k__a:hover .cf-go__d svg { transform: translateX(220%); }
+  .cf-page .cf-k__a:hover .cf-go__d svg + svg { transform: translateX(0); }
+}
+.cf-page .cf-k__a:active .cf-k__go { scale: .97; }
+@media (prefers-reduced-motion: reduce) { .cf-page .cf-k__go, .cf-page .cf-go__t, .cf-page .cf-go__d, .cf-page .cf-go__d svg { transition: none; } }
+/* the Top Picks cards keep the footer of every other card (user 2026-11-20: "make the card look like the rest"): the date on the left,
+   the button on the right. The introduction column narrows from 360px to 330px so the cards widen (229px to 239px), and on a card
+   this narrow (about 213px inside) the button is a shade smaller (12px type, a 26px disc) and the date 14px, with 10px sides.
+   Only on a card narrower still (under 206px inside, never at the usual widths) does the button drop to its own full-width row. */
+.cf-page .cf-sec.cf-feat { grid-template-columns: minmax(280px, 330px) minmax(0, 1fr); }
+/* below 1440px three cards would drop under that width (227px at 1400px, 191px at 1280px), so the row shows two, beside a 280px introduction; below
+   1100px two would too (217px at 1024px), so the introduction moves above the cards, as it already did below 1000px */
+/* (those max-width 1439px, 1100px and 760px rules: not ported on the 1440px canvas) */
+.cf-page .cf-k__a { container: cfk / inline-size; }
+@container cfk (max-width: 232px) {
+  .cf-page .cf-k__ft { gap: 6px; padding-left: 10px; padding-right: 10px; }
+  .cf-page .cf-k__ft::before { left: 10px; right: 10px; }
+  .cf-page .cf-k__ft .cf-k__start b { font-size: 14px; }
+  .cf-page .cf-k__ft .cf-k__go { gap: 6px; padding: 0 4px 0 12px; font-size: 12px; }
+  .cf-page .cf-k__ft .cf-go__d { width: 26px; height: 26px; }
+  .cf-page .cf-k__ft .cf-go__d svg { width: 12px; height: 12px; }
+}
+@container cfk (max-width: 205px) {
+  .cf-page .cf-k__ft { flex-wrap: wrap; row-gap: 12px; }
+  .cf-page .cf-k__ft .cf-k__go { display: grid; grid-template-columns: 26px minmax(0, 1fr) 26px; width: 100%; padding: 0 4px; gap: 0; }
+  .cf-page .cf-go__l { grid-column: 2; justify-self: center; }
+  .cf-page .cf-go__d { grid-area: 1 / 3; }
+}
+/* a long start ("To be announced", 118px) beside the button on a phone's card (about 111px left) breaks onto two lines rather than
+   being cut; the dates themselves always fit on one */
+.cf-page .cf-k__ft .cf-k__start b { white-space: normal; overflow-wrap: normal; text-wrap: balance; }
+
+/* the carousel buttons as the user's reference (2026-11-20): a straight arrow (Iconoir arrow-right / arrow-left) in place of the
+   chevron, orange on a pale peach disc with a soft orange rim; on hover the rim goes full orange and the disc a shade warmer */
+.cf-page .cf-arw { width: 48px; height: 48px; margin-top: -24px; border: 1.5px solid #F1C3A5; background: #FFF3EB; color: var(--cf-brand);
+  box-shadow: 0 8px 20px -10px rgb(60 30 10 / .35); }
+.cf-page .cf-arw svg { width: 20px; height: 20px; }
+.cf-page .cf-arw:hover { background: #FDE6D6; border-color: var(--cf-brand); box-shadow: 0 12px 24px -10px rgb(60 30 10 / .4); }
+.cf-page .cf-arw:focus-visible { outline: none; box-shadow: 0 0 0 3px #fff, 0 0 0 5.5px var(--cf-hot); }
+.cf-page .cf-arw--prev { left: -24px; }
+.cf-page .cf-arw--next { right: -24px; }
+.cf-page .cf-feat .cf-arw--next { right: -18px; }
+/* the disc's arrow is the carousel buttons' (Iconoir arrow-right on a 24-unit grid): a heavier stroke so it reads as boldly at 12-13px */
+.cf-page .cf-go__d svg { stroke-width: 2.8; }
+
+/* the reference build's arrow (user 2026-11-20) in the carousel buttons and the "View course" disc: 16px on its 16-unit grid with a
+   2.4 stroke, mirrored for "previous"; on hover the arrow slides out to the right as its copy slides in from the left */
+.cf-page .cf-arw__i { display: grid; place-items: center; width: 18px; height: 18px; overflow: hidden; }
+.cf-page .cf-arw__i--flip { scale: -1 1; }
+.cf-page .cf-arw .cf-arw__i svg { grid-area: 1 / 1; width: 16px; height: 16px; stroke-width: 2.4; transition: transform .5s cubic-bezier(.7, 0, .2, 1); }
+.cf-page .cf-arw .cf-arw__i svg + svg { transform: translateX(-220%); }
+@media (hover: hover) and (pointer: fine) {
+  .cf-page .cf-arw:hover .cf-arw__i svg { transform: translateX(220%); }
+  .cf-page .cf-arw:hover .cf-arw__i svg + svg { transform: translateX(0); }
+}
+.cf-page .cf-go__d svg { stroke-width: 2.4; }
+@media (prefers-reduced-motion: reduce) { .cf-page .cf-arw .cf-arw__i svg { transition: none; } }
+
+/* the dropdowns back to white (user 2026-11-20, "lets keep this white"), at rest, on hover and once picked; the border and the
+   orange edge on a picked filter still mark them, and the name's notch follows the white */
+.cf-page .cf-sel, .cf-page .cf-sel:hover, .cf-page .cf-sel.is-on { --sel-fill: #fff; }
+
+/* ---------- the page held to its 1440px layout (user 2026-11-20, "let the screen size to 1440px width"): on wider screens the content
+   stays the 1280px it is at 1440 (80px margins inside a centred 1440px frame) instead of growing to 1440px; the hero and bands still
+   run edge to edge. Only above 1440, so 1440 and below are unchanged ---------- */
+/* (min-width 1441px: never true on the 1440px canvas, which wider windows zoom up) */
+
+/* the footer without its "Latest current affairs" card (user 2026-11-20, "remove these from the footer"): the link columns take the
+   full width of the footer */
+/* (the footer is the shared RefFooter: news={false} on this page, footer-ref/ref-footer.css .vf--no-news) */
+
+/* ---------- Top Picks cards as wide as every other card (user 2026-11-20, "these cards look shrinked ... keep the same width as the
+   rest of the cards and for the 3rd card we will make it sneek peek"). The column of sections is a size container, so a Top Picks
+   card can take the width a card has in the category rows below (4 across, 3 at 1200px, 2 at 900px, from the same column width and
+   gaps); two fit beside the introduction and the third shows in part at the edge, inviting a scroll. Phones keep their 82% cards. */
+.cf-page .cf-list__main { container: cflist / inline-size; --row-cols: 4; --row-gap: 24px; }
+.cf-page .cf-feat .cf-grid { grid-auto-columns: calc((100cqw - var(--row-gap) * (var(--row-cols) - 1)) / var(--row-cols)); }
+
+/* ---------- Top Picks laid out as the user's wireframe (2026-11-20, "lets try a layout like this for the Our Top Picks"): the book
+   tilted in the top left corner; the ribbon, headline, count, line and chips centred above; the cards in one row of four across the
+   whole banner (three under 1200px, two under 900px), with the arrows to scroll on to the rest. Phones keep their stacked layout. */
+.cf-page .cf-sec.cf-feat { grid-template-columns: minmax(0, 1fr); gap: 36px; padding: 48px 48px 40px; }
+.cf-page .cf-feat__intro { position: static; max-width: none; align-items: center; text-align: center; }
+.cf-page .cf-feat .cf-feat__lbl { justify-content: center; margin: 0 0 18px; }
+.cf-page .cf-feat .cf-feat__n { align-self: center; }
+.cf-page .cf-feat .cf-sec__d { max-width: 54ch; margin-inline: auto; }
+.cf-page .cf-feat .cf-chips { justify-content: center; flex-wrap: wrap; row-gap: 8px; }
+.cf-page .cf-feat__book { position: absolute; z-index: 4; top: 34px; left: 52px; margin: 0; rotate: -12deg; }
+.cf-page .cf-feat__book .cf-bk-mini { --s: .78; }
+.cf-page .cf-feat .cf-grid { --cols: 4; --gap: 20px; grid-auto-columns: calc((100% - var(--gap) * (var(--cols) - 1)) / var(--cols)); }
+.cf-page .cf-feat .cf-arw--prev { left: -24px; }
+.cf-page .cf-feat .cf-arw--next { right: -24px; }
+
+/* the count inside the Top Picks headline, "Our 6 Top Picks" (user 2026-11-20): the number in the warm gold of the ribbon so it reads as the
+   count; the old "6 courses" pill under the headline is gone */
+.cf-page .cf-feat .cf-feat__num { color: #FFD48A; }
+
+/* ---------- the sticky search and filter bar in the homepage's magazine-card paper (user 2026-11-20, "lets use the colours from this
+   and updte the colour on the sticky bar", the reference build's Kurukshetra Magazine card): the warm paper gradient with its grain,
+   the card's brown hairline edges and light top edge; the fields take the card's button cream with the same brown hairline, and the
+   labels its brown ink. Orange stays the accent (focus, a picked filter, Clear filters). ---------- */
+.cf-page .cf-bar::before { background: linear-gradient(178deg, #F9EFDA, #F5E8CE 30%, #EFDFC0); -webkit-backdrop-filter: none; backdrop-filter: none;
+  box-shadow: inset 0 1px 0 rgb(255 250 235 / .9), 0 1px 0 rgb(110 66 18 / .2); }
+.cf-page .cf-bar.is-stuck::before { box-shadow: inset 0 1px 0 rgb(255 250 235 / .9), 0 1px 0 rgb(110 66 18 / .2), 0 16px 26px -18px rgb(60 30 5 / .45); }
+.cf-page .cf-bar::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: url(/images/course-finder/patterns/grain.png);
+  mix-blend-mode: soft-light; opacity: .45; }
+.cf-page .cf-bar.is-stuck::after { top: calc(var(--cf-navoff, 0px) * -1); }
+.cf-page .cf-search input { border-color: rgb(110 66 18 / .26); background: rgb(255 252 244 / .82); color: #2A2016; }
+.cf-page .cf-search input::placeholder, .cf-page .cf-search { color: #7A6045; }
+.cf-page .cf-sel, .cf-page .cf-sel:hover, .cf-page .cf-sel.is-on { --sel-fill: #FFFCF4; }
+.cf-page .cf-sel { border-color: rgb(110 66 18 / .26); }
+.cf-page .cf-sel select { color: #2A2016; }
+.cf-page .cf-sel__l { color: #5A4632; background: linear-gradient(#F7EBD4 50%, var(--sel-fill) 50%); }
+.cf-page .cf-sel > svg { color: #5A4632; }
+.cf-page .cf-search input:hover, .cf-page .cf-sel:hover { border-color: #6E4212; }
+.cf-page .cf-sel.is-on { border-color: var(--cf-brand); }
+
+/* the dropdowns' outline drawn by .cf-sel__o, a fieldset whose legend (the name, invisible, at the name's size) cuts the gap the name
+   sits in, so nothing is painted behind the name and the bar's grain runs on under it (user 2026-11-20, "there is some kind of box
+   behind the dropdown"); the field's own border is left transparent */
+.cf-page .cf-sel, .cf-page .cf-sel:hover, .cf-page .cf-sel:focus-within, .cf-page .cf-sel.is-on { border-color: transparent; }
+.cf-page .cf-sel__l { background: none; }
+.cf-page .cf-sel__o { position: absolute; inset: -7px -1px -1px; z-index: 0; margin: 0; padding: 0 12px; min-width: 0; border: 1px solid rgb(110 66 18 / .26);
+  border-radius: 12px; pointer-events: none; text-align: left; transition: border-color .2s; }
+.cf-page .cf-sel__o legend { display: block; float: none; width: auto; max-width: 100%; height: 12px; margin: 0; padding: 0 5px; overflow: hidden; visibility: hidden;
+  white-space: nowrap; font: 500 12px/12px var(--f); letter-spacing: normal; text-transform: none; }
+.cf-page .cf-sel:hover .cf-sel__o { border-color: #6E4212; }
+.cf-page .cf-sel:focus-within .cf-sel__o, .cf-page .cf-sel.is-on .cf-sel__o { border-color: var(--cf-brand); }
+.cf-page .cf-sel > select, .cf-page .cf-sel > .cf-sel__l, .cf-page .cf-sel > .cf-sel__x { position: relative; z-index: 1; }
+.cf-page .cf-sel > .cf-sel__l { position: absolute; }
+
+/* more room around the footer's legal line (user 2026-11-20, "add a bit more space"): a wider gap above its rule, more air between
+   the rule and the line, and more below it before the footer's edge */
+/* (the shared RefFooter: word={false} on this page, footer-ref/ref-footer.css .vf--no-word) */
+
+/* ---------- the hero in a golden gradient (user 2026-11-20, "lets use a gradient colour similar to the uploaded image ... for the hero
+   section"): saffron at the top and bottom, a pale gold band through the middle, with a fine grain over it, as in the image. On the
+   lighter ground the hero's words turn dark brown (white no longer reads on the gold); the stats' figures and diamonds take the burnt
+   orange. ---------- */
+.cf-page .cf-hero { color: #2A1A0C; background: linear-gradient(180deg, #EF9E2F 0%, #F2B044 22%, #F6CF73 44%, #F7D886 52%, #F4C463 66%, #F1A93C 84%, #EC982C 100%); }
+.cf-page .cf-hero::after { opacity: .14; mix-blend-mode: soft-light; background-size: 220px; }
+.cf-page .cf-h { color: #2A1A0C; }
+.cf-page .cf-lede { color: #4A2F14; }
+.cf-page .cf-crumbs { color: #5A3A18; }
+.cf-page .cf-crumbs a, .cf-page .cf-crumbs [aria-current] { color: #2A1A0C; text-decoration-color: rgb(42 26 12 / .4); }
+.cf-page .cf-crumbs a:hover { text-decoration-color: #2A1A0C; }
+.cf-page .cf-stats::before { background: linear-gradient(90deg, rgb(122 46 6 / 0), rgb(122 46 6 / .4) 30%, rgb(122 46 6 / .4) 70%, rgb(122 46 6 / 0)); }
+.cf-page .cf-stat__fig { color: #7A2E06; }
+.cf-page .cf-stat__t { color: #4A2F14; }
+.cf-page .cf-stat + .cf-stat::before { background: #C2410C; box-shadow: 0 0 0 3px rgb(194 65 12 / .16); }
+
+/* ---------- Top Picks on an orange-and-yellow watercolour wash (user 2026-11-20, "let use this as the bg colour for the our top pick
+   section", a watercolour of orange blooms over saffron fading to yellow): a saffron ground that warms to yellow towards the bottom,
+   with soft blooms laid over it (a coral one top left, deeper orange along the top and at the right, yellow pooling at the left and the
+   bottom), the paper grain kept over it. On the light wash the headline and chips turn dark brown, the count deep rust, and the ribbon
+   takes the dark cartouche so its white capitals still read. ---------- */
+.cf-page .cf-sec.cf-feat { color: #2A1A0C; background:
+    radial-gradient(26% 24% at 8% 2%, rgb(238 104 78 / .6), transparent 70%),
+    radial-gradient(34% 22% at 40% 6%, rgb(245 116 32 / .55), transparent 72%),
+    radial-gradient(22% 30% at 88% 36%, rgb(245 122 36 / .5), transparent 70%),
+    radial-gradient(24% 26% at 66% 70%, rgb(250 150 40 / .35), transparent 72%),
+    radial-gradient(30% 40% at 2% 72%, rgb(255 206 48 / .75), transparent 72%),
+    radial-gradient(70% 44% at 40% 104%, rgb(255 200 50 / .8), transparent 76%),
+    linear-gradient(172deg, #F8862C 0%, #FA9530 30%, #FCA834 62%, #FDBC38 100%); }
+.cf-page .cf-sec.cf-feat::after { opacity: .14; }
+.cf-page .cf-feat .cf-sec__h, .cf-page .cf-feat .cf-feat__h { color: #2A1A0C; }
+.cf-page .cf-feat .cf-feat__num { color: #8A2D0E; }
+.cf-page .cf-feat .cf-feat__lbl .lbl__t { border-image-source: url(/images/course-finder/brand/cartouche.svg); color: #FFF3E1; }
+.cf-page .cf-feat .cf-chip { border-color: rgb(42 26 12 / .35); background: rgb(255 248 236 / .28); color: #2A1A0C; }
+.cf-page .cf-feat .cf-chip:hover { border-color: #2A1A0C; }
+.cf-page .cf-feat .cf-chip[aria-pressed="true"] { border-color: #2A1A0C; background: #2A1A0C; color: #FFF3E1; }
+.cf-page .cf-feat .cf-chip:disabled:hover { border-color: rgb(42 26 12 / .35); }
+
+/* ---------- Top Picks on a slowly flowing gradient (user 2026-11-20, mixpanel.com/home's Session Replay panel as the reference, "a
+   similar animation ... the gradient should be in orange colour"): five large, heavily blurred colour clouds drift, swell and shrink on
+   long, out-of-step loops behind the content; the grain stays over it. Transforms only; held still for reduced motion. The colours and
+   timing are set further down (calmed, then the search bar's paper). ---------- */
+.cf-page .cf-feat__flow { position: absolute; inset: 0; z-index: -2; overflow: hidden; border-radius: inherit; pointer-events: none; }
+.cf-page .cf-feat__flow i { position: absolute; display: block; width: 62%; aspect-ratio: 1; border-radius: 50%; filter: blur(70px); opacity: .9;
+  will-change: transform; animation: 26s ease-in-out infinite alternate; }
+.cf-page .cf-feat__flow i:nth-child(1) { left: -14%; top: -38%; }
+.cf-page .cf-feat__flow i:nth-child(2) { right: -18%; top: -24%; width: 56%; }
+.cf-page .cf-feat__flow i:nth-child(3) { left: 22%; bottom: -46%; width: 58%; }
+.cf-page .cf-feat__flow i:nth-child(4) { right: -8%; bottom: -40%; width: 46%; }
+.cf-page .cf-feat__flow i:nth-child(2) { left: 26%; right: auto; top: -6%; width: 50%; }
+
+/* the nav's panel clear at the top of the page (user 2026-11-20, the reference build's nav, #nav[data-top]): js/site-nav.js sets .is-top
+   in the first 48px; the panel's existing .35s transition fades it in and out */
+.cf-page .rn.is-scrolled.is-top::after { background: transparent; box-shadow: none; }
+
+/* ---------- the flow calmed (user 2026-11-20, "the gradient has too much colour and is not working properly"): paler, more see-through
+   clouds moving slowly, a gentle drift on 14-20s loops; the fifth child (once a glossy ring of light) removed (user, "remove the glossy
+   ring") ---------- */
+.cf-page .cf-feat__flow i { filter: blur(80px); }
+.cf-page .cf-feat__flow i:nth-child(1) { animation: cf-flow-1c 16s ease-in-out infinite alternate; }
+.cf-page .cf-feat__flow i:nth-child(2) { animation: cf-flow-2c 19s ease-in-out infinite alternate; }
+.cf-page .cf-feat__flow i:nth-child(3) { animation: cf-flow-3c 14s ease-in-out infinite alternate; }
+.cf-page .cf-feat__flow i:nth-child(4) { animation: cf-flow-4c 20s ease-in-out infinite alternate; }
+.cf-page .cf-feat__flow i:nth-child(5) { display: none; }
+@keyframes cf-flow-1c { from { transform: translate(-6%, -4%) scale(1); } to { transform: translate(34%, 14%) scale(1.12); } }
+@keyframes cf-flow-2c { from { transform: translate(-18%, 6%) scale(1.05); } to { transform: translate(20%, 18%) scale(.92); } }
+@keyframes cf-flow-3c { from { transform: translate(16%, 0) scale(1); } to { transform: translate(-30%, -16%) scale(1.15); } }
+@keyframes cf-flow-4c { from { transform: translate(0, 0) scale(1); } to { transform: translate(-46%, -18%) scale(1.08); } }
+@media (prefers-reduced-motion: reduce) { .cf-page .cf-feat__flow i:nth-child(n) { animation: none; } }
+
+/* ---------- Top Picks cards in a wave (user 2026-11-20, "the card do a subtle jump and continue to the next card as a wave pattern"):
+   every 4.2s each card hops up 10px and settles with a small rebound, the next one 140ms later, so the jump ripples along the row. It
+   moves the card's position (top), not its transform or translate, so the hover lift and tilt and the flip-in entrance are untouched;
+   it waits for the entrance to finish, pauses while the pointer is on the row, and is off for reduced motion. ---------- */
+.cf-page .cf-feat .cf-k { position: relative; animation: cf-k-wave 4.2s cubic-bezier(.33, 0, .3, 1) infinite; animation-delay: calc(1.4s + var(--w, 0) * 140ms); }
+.cf-page .cf-feat .cf-k:nth-child(2) { --w: 1; } .cf-page .cf-feat .cf-k:nth-child(3) { --w: 2; } .cf-page .cf-feat .cf-k:nth-child(4) { --w: 3; }
+.cf-page .cf-feat .cf-k:nth-child(5) { --w: 4; } .cf-page .cf-feat .cf-k:nth-child(6) { --w: 5; } .cf-page .cf-feat .cf-k:nth-child(7) { --w: 6; } .cf-page .cf-feat .cf-k:nth-child(8) { --w: 7; }
+@keyframes cf-k-wave { 0% { top: 0; } 6% { top: -10px; } 12% { top: 0; } 15% { top: -2px; } 18%, 100% { top: 0; } }
+.cf-page .cf-feat .cf-grid:hover .cf-k { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .cf-page .cf-feat .cf-k { animation: none; } }
+
+/* ---------- Top Picks in the search bar's paper (user 2026-11-20, "lets use the same colour as this for our top pick"): the bar's warm
+   paper gradient and its grain (.cf-bar::before / ::after) with the same brown hairline edge; the drifting clouds in the paper's own
+   lighter and deeper tones, so the surface still breathes faintly without adding colour; the monument ghosts fainter so the paper isn't
+   greyed ---------- */
+.cf-page .cf-sec.cf-feat { background: linear-gradient(178deg, #F9EFDA, #F5E8CE 30%, #EFDFC0);
+  box-shadow: inset 0 1px 0 rgb(255 250 235 / .9), inset 0 0 0 1px rgb(110 66 18 / .16); }
+.cf-page .cf-sec.cf-feat::after { background: url(/images/course-finder/patterns/grain.png); mix-blend-mode: soft-light; opacity: .45; }
+.cf-page .cf-feat__flow i:nth-child(1) { background: #F3E4C8; opacity: .5; }
+.cf-page .cf-feat__flow i:nth-child(2) { background: #FFF6E6; opacity: .75; }
+.cf-page .cf-feat__flow i:nth-child(3) { background: #F1E0C0; opacity: .45; }
+.cf-page .cf-feat__flow i:nth-child(4) { background: #FBF0DC; opacity: .7; }
+.cf-page .cf-feat__cuts { opacity: .14; }
+.cf-page .cf-sec.cf-feat::before { opacity: .04; }
+
+/* ---------- the hero and Top Picks colours swapped (user 2026-11-21, "lets flip the colour we used in the hero and our top picks"):
+   the hero takes the search bar's warm paper and its grain; Top Picks takes the hero's golden gradient (saffron at the top and bottom,
+   pale gold through the middle) with the hero's fine grain, its drifting clouds now in lighter and deeper golds. Both keep their dark
+   brown words, which read on either. ---------- */
+.cf-page .cf-hero { background: linear-gradient(178deg, #F9EFDA, #F5E8CE 30%, #EFDFC0); }
+.cf-page .cf-hero::after { background: url(/images/course-finder/patterns/grain.png); background-size: auto; mix-blend-mode: soft-light; opacity: .45; }
+.cf-page .cf-sec.cf-feat { background: linear-gradient(180deg, #EF9E2F 0%, #F2B044 22%, #F6CF73 44%, #F7D886 52%, #F4C463 66%, #F1A93C 84%, #EC982C 100%);
+  box-shadow: none; }
+.cf-page .cf-sec.cf-feat::after { background: url(/images/course-finder/patterns/grain.png); background-size: 220px; mix-blend-mode: soft-light; opacity: .14; }
+.cf-page .cf-feat__flow i:nth-child(1) { background: #F7D886; opacity: .55; }
+.cf-page .cf-feat__flow i:nth-child(2) { background: #FBE3A4; opacity: .6; }
+.cf-page .cf-feat__flow i:nth-child(3) { background: #F1A93C; opacity: .45; }
+.cf-page .cf-feat__flow i:nth-child(4) { background: #F6CF73; opacity: .55; }
+
+/* ---------- Top Picks in a sunset gradient (user 2026-11-21, "lets use a gradient like this for our top pick"): terracotta at the top
+   warming through coral to a soft peach at the bottom, as in the image; the drifting clouds in the same family (a lighter coral, a
+   deeper terracotta, peach) so they move without adding new colour ---------- */
+.cf-page .cf-sec.cf-feat { background: linear-gradient(180deg, #CF6E45 0%, #DE7E52 22%, #F0915F 44%, #F7A26E 60%, #FAB984 78%, #FDD49B 100%); }
+.cf-page .cf-feat__flow i:nth-child(1) { background: #C9663F; opacity: .45; }
+.cf-page .cf-feat__flow i:nth-child(2) { background: #F6A777; opacity: .5; }
+.cf-page .cf-feat__flow i:nth-child(3) { background: #FDD8A2; opacity: .55; }
+.cf-page .cf-feat__flow i:nth-child(4) { background: #F29A68; opacity: .45; }
+
+/* the Top Picks headline and eyebrow recoloured for the sunset ground (user 2026-11-21, "give a different colour for the text and the eye
+   brow"): the dark brown sat muddy on the terracotta, so the headline turns warm cream with a faint shadow to hold it off the orange,
+   its count in the gold of the stats' diamonds; the eyebrow becomes a cream cartouche (assets/img/brand/cartouche-cream.svg) with deep
+   rust capitals */
+.cf-page .cf-feat .cf-sec__h, .cf-page .cf-feat .cf-feat__h { color: #FFF6EC; text-shadow: 0 1px 2px rgb(110 36 10 / .28), 0 0 18px rgb(140 50 16 / .18); }
+.cf-page .cf-feat .cf-feat__num { color: #FFD48A; }
+/* (his cartouche-cream.svg is not in his assets; the brand cartouche below replaces it, so it is never fetched) */
+.cf-page .cf-feat .cf-feat__lbl .lbl__t { border-image-source: url(/images/course-finder/brand/cartouche-cream.svg); color: #9A3412; }
+/* v49.css forces .lbl--w capitals white with !important; the cream eyebrow needs its rust capitals over that */
+.cf-page #cat-top .cf-feat__lbl .lbl__t { color: #9A3412 !important; }
+
+/* the Top Picks chips in the headline's colours (user 2026-11-21, "update the chip too"): cream outlines and cream words on the
+   terracotta, a faint cream wash; hover firms the outline; the picked chip is the eyebrow's cream with its rust words */
+.cf-page .cf-feat .cf-chip { border-color: rgb(255 246 236 / .55); background: rgb(255 246 236 / .12); color: #FFF6EC; }
+.cf-page .cf-feat .cf-chip:hover { border-color: #FFF6EC; background: rgb(255 246 236 / .2); }
+.cf-page .cf-feat .cf-chip[aria-pressed="true"] { border-color: #FFF3E1; background: #FFF3E1; color: #9A3412; }
+.cf-page .cf-feat .cf-chip:disabled { opacity: .5; }
+.cf-page .cf-feat .cf-chip:disabled:hover { border-color: rgb(255 246 236 / .55); background: rgb(255 246 236 / .12); }
+.cf-page .cf-feat .cf-chip:focus-visible { outline: 2px solid #FFF6EC; outline-offset: 2px; }
+
+/* the Top Picks eyebrow as the homepage's (user 2026-11-21, "for the eyebrow lets use the dark orange the same we used in the home
+   page"): the brand cartouche, #C2410C (assets/img/brand/cartouche-brand.svg), with white capitals, as the reference build's
+   "Programmes", "Faculty" and "Free resources" labels */
+.cf-page .cf-feat .cf-feat__lbl .lbl__t { border-image-source: url(/images/course-finder/brand/cartouche-brand.svg); }
+.cf-page #cat-top .cf-feat__lbl .lbl__t { color: #fff !important; }

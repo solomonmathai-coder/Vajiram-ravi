@@ -1,8 +1,12 @@
 /*
- * The course finder's icons, inline as on Kevin's page: Iconoir's (search, xmark, nav-arrow, clock, calendar,
- * hourglass, presentation, video-camera, headset-help, xmark-circle) and the site's hand-drawn arrow.
+ * The course finder's icons, inline as on Kevin's page: Iconoir's (search, xmark, nav-arrow-down, clock, calendar,
+ * hourglass, presentation, video-camera, headset-help, xmark-circle) and the site's hand-drawn arrow (the reference
+ * build's "TEER", also on the carousel buttons and in the "View course" disc).
  */
 import type { ReactNode } from "react";
+
+/** The card icons' stroke: 2 (his 2026-11-21, "we can update icon weight to 2"; was Iconoir's 1.5). */
+const CARD = 2;
 
 const Ico = ({ size = 16, width = 1.5, children }: { size?: number; width?: number; children: ReactNode }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={width} strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -20,13 +24,6 @@ export const ISearch = () => (
 export const IClose = () => (
   <Ico size={18}>
     <path d="M6.758 17.243L12.001 12M17.244 6.757L12.001 12M12.001 12L6.758 6.757M12.001 12L17.244 17.243" />
-  </Ico>
-);
-
-/** Iconoir's nav-arrow-left (-1) and nav-arrow-right (1). */
-export const IChev = ({ dir }: { dir: -1 | 1 }) => (
-  <Ico size={24}>
-    <path d={dir < 0 ? "M15 6L9 12L15 18" : "M9 6L15 12L9 18"} />
   </Ico>
 );
 
@@ -51,7 +48,7 @@ export const IXCircle = () => (
 
 /** Iconoir's clock: the course time. */
 export const ITime = () => (
-  <Ico>
+  <Ico width={CARD}>
     <path d="M12 6L12 12L18 12" />
     <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" />
   </Ico>
@@ -59,7 +56,7 @@ export const ITime = () => (
 
 /** Iconoir's calendar: the batch date. */
 export const ICal = () => (
-  <Ico>
+  <Ico width={CARD}>
     <path d="M15 4V2M15 4V6M15 4H10.5M3 10V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V10H3Z" />
     <path d="M3 10V6C3 4.89543 3.89543 4 5 4H7" />
     <path d="M7 2V6" />
@@ -69,7 +66,7 @@ export const ICal = () => (
 
 /** Iconoir's hourglass: the duration. */
 export const IDur = () => (
-  <Ico>
+  <Ico width={CARD}>
     <path d="M12 12C15.866 12 19 8.86599 19 5H5C5 8.86599 8.13401 12 12 12ZM12 12C15.866 12 19 15.134 19 19H5C5 15.134 8.13401 12 12 12Z" />
     <path d="M5 2L12 2L19 2" />
     <path d="M5 22H12L19 22" />
@@ -78,7 +75,7 @@ export const IDur = () => (
 
 /** Iconoir's presentation board: Classroom (and courses run both ways). */
 export const IRoom = () => (
-  <Ico>
+  <Ico width={CARD}>
     <path d="M22 4.6V17.4C22 17.7314 21.7314 18 21.4 18H2.6C2.26863 18 2 17.7314 2 17.4V4.6C2 4.26863 2.26863 4 2.6 4H21.4C21.7314 4 22 4.26863 22 4.6Z" />
     <path d="M8.5 21.5L12 18L15.5 21.5" />
     <path d="M12 2V4" />
@@ -90,7 +87,7 @@ export const IRoom = () => (
 
 /** Iconoir's video camera: LIVE-Online. */
 export const ILive = () => (
-  <Ico>
+  <Ico width={CARD}>
     <path d="M15 12V16.4C15 16.7314 14.7314 17 14.4 17H3.6C3.26863 17 3 16.7314 3 16.4V7.6C3 7.26863 3.26863 7 3.6 7H14.4C14.7314 7 15 7.26863 15 7.6V12ZM15 12L20.0159 7.82009C20.4067 7.49443 21 7.77232 21 8.28103V15.719C21 16.2277 20.4067 16.5056 20.0159 16.1799L15 12Z" />
   </Ico>
 );
@@ -122,4 +119,39 @@ export const IMore = () => (
   <svg viewBox="0 0 16 16" aria-hidden="true">
     <path d="M4 6l4 4 4-4" />
   </svg>
+);
+
+/** The reference build's arrow (his TEER): a straight shaft with a gently curved head on a 16-unit grid. */
+const Teer = () => (
+  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" focusable="false">
+    <path d="M2.5 8h11" />
+    <path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4" />
+  </svg>
+);
+
+/** The carousel buttons' arrow (his CHEV since 2026-11-20): two TEERs, one sliding out as the other slides in on hover; mirrored for "previous". */
+export const IArw = ({ dir }: { dir: -1 | 1 }) => (
+  <span className={`cf-arw__i${dir < 0 ? " cf-arw__i--flip" : ""}`} aria-hidden="true">
+    <Teer />
+    <Teer />
+  </span>
+);
+
+/**
+ * The card's "View course" (his 2026-11-20, the reference build's outlined disc button): the label and its copy, which
+ * rolls up into its place on hover, and the arrow in an orange disc, sliding out as its copy slides in.
+ */
+export const GoButton = () => (
+  <span className="cf-k__go">
+    <span className="cf-go__l">
+      <span className="cf-go__t">View course</span>
+      <span className="cf-go__t" aria-hidden="true">
+        View course
+      </span>
+    </span>
+    <span className="cf-go__d" aria-hidden="true">
+      <Teer />
+      <Teer />
+    </span>
+  </span>
 );

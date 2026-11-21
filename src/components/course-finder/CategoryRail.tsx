@@ -7,7 +7,9 @@ import { COVER } from "./Book";
  * The category rail (Kevin's, 2026-11-18, after a wireframe): a slim column on the left of the course list, held
  * near the middle of the screen. A short line for every section, the one being read longer and in the brand
  * colour. Hovering the lines (or tabbing to them) opens a list of every category, its cloth colour and its
- * number of courses; choosing one scrolls to it. Sections the filters have hidden are dimmed there.
+ * number of courses; choosing one scrolls to it. Sections the filters have hidden are dimmed there. A tap
+ * elsewhere closes it (his 2026-11-19 touch handling; his floating tablet and phone rail is not ported, the page
+ * being laid out on the 1440px canvas).
  */
 
 export type RailItem = { k: string; name: string; n: number; hidden: boolean };
@@ -39,6 +41,11 @@ export default function CategoryRail({ items, onGo }: { items: RailItem[]; onGo:
       else break;
     }
     setCur(k);
+    // the list closes while the course list is not what's being read (his .is-shown, which also floats the rail on
+    // tablets and phones; on the 1440px canvas only the closing applies)
+    const lr = railRef.current?.closest(".cf-list")?.getBoundingClientRect();
+    const mid = innerHeight / 2;
+    if (lr && !(lr.top < mid && lr.bottom > mid)) setOpen(false);
   }, []);
 
   useEffect(() => {
@@ -57,6 +64,24 @@ export default function CategoryRail({ items, onGo }: { items: RailItem[]; onGo:
     spy();
   }, [hiddenKey, spy]);
 
+  // (openedAt: a tap fires focus, which opens the list, and then click; the click must not close it again straight away)
+  const openedAt = useRef(0);
+  const openRef = useRef(open);
+  openRef.current = open;
+  const show = useCallback((on: boolean) => {
+    if (on && !openRef.current) openedAt.current = performance.now();
+    setOpen(on);
+  }, []);
+  // a tap anywhere else closes it (touch screens have no pointer leaving the rail)
+  useEffect(() => {
+    if (!open) return;
+    const down = (e: PointerEvent) => {
+      if (!railRef.current?.contains(e.target as Node)) show(false);
+    };
+    document.addEventListener("pointerdown", down);
+    return () => document.removeEventListener("pointerdown", down);
+  }, [open, show]);
+
   const now = items.find((x) => x.k === cur);
 
   return (
@@ -65,13 +90,14 @@ export default function CategoryRail({ items, onGo }: { items: RailItem[]; onGo:
       className={`cf-rail${ready ? " is-ready" : ""}${open ? " is-open" : ""}`}
       id="cfRail"
       aria-label="Course categories"
-      onMouseLeave={() => setOpen(false)}
+      onMouseLeave={() => show(false)}
       onBlur={(e) => {
-        if (!railRef.current?.contains(e.relatedTarget as Node | null)) setOpen(false);
+        // only when focus moves to something else on the page: the window losing focus is no reason to close it
+        if (e.relatedTarget && !railRef.current?.contains(e.relatedTarget as Node)) show(false);
       }}
       onKeyDown={(e) => {
         if (e.key === "Escape") {
-          setOpen(false);
+          show(false);
           btnRef.current?.focus();
         }
       }}
@@ -84,9 +110,11 @@ export default function CategoryRail({ items, onGo }: { items: RailItem[]; onGo:
           className="cf-rail__btn"
           aria-expanded={open}
           aria-controls="cfRailPanel"
-          onMouseEnter={() => setOpen(true)}
-          onFocus={() => setOpen(true)}
-          onClick={() => setOpen((o) => !o)}
+          onMouseEnter={() => show(true)}
+          onFocus={() => show(true)}
+          onClick={() => {
+            if (performance.now() - openedAt.current > 400) show(!openRef.current);
+          }}
         >
           <span className="vh">Categories, now showing: </span>
           <span className="cf-rail__now">{now?.name}</span>
@@ -108,7 +136,7 @@ export default function CategoryRail({ items, onGo }: { items: RailItem[]; onGo:
                   aria-current={x.k === cur ? "true" : undefined}
                   disabled={x.hidden}
                   onClick={() => {
-                    setOpen(false);
+                    show(false);
                     onGo(x.k);
                   }}
                 >

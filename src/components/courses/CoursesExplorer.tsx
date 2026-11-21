@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import FilterBar from "@/components/course-finder/FilterBar";
-import { ICal, IClose, IDur, ILive, IRoom, ISearch, ITime } from "@/components/course-finder/icons";
+import { GoButton, ICal, IClose, IDur, ILive, IRoom, ISearch, ITime } from "@/components/course-finder/icons";
 import { BADGE, CHIPS, DROPS, buildSections, fold, hasChip, passes, type Card, type FilterKey, type Filters, type Section } from "@/components/course-finder/model";
 import CoverArt from "@/components/sections/Programmes/CoverArt";
 import GeoArt from "@/components/sections/Programmes/GeoArt";
@@ -945,7 +945,7 @@ function CardBody({ k, illus, zoom }: { k: Card; illus: string; zoom: number }) 
               <b>{k.startValue}</b>
             </span>
           </span>
-          <span className="cf-k__go">View course</span>
+          <GoButton />
         </span>
       </a>
     </div>

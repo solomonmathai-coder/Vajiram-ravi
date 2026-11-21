@@ -47,7 +47,7 @@ export default function AboutPage() {
   const centre = campuses[0];
   return (
     <div className="cf-page ab-page">
-      <CourseFinderNav />
+      <CourseFinderNav variant="hiding" />
       <main id="main" className="ab">
         {/* 1. the head */}
         <section className="cf-hero ab-hero" aria-labelledby="abH">

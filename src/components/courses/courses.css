@@ -43,6 +43,7 @@
 /* his bar sits in our sticky wrapper, which already holds it under the header */
 .cb-page .cf-bar { position: static; padding: 0; }
 .cb-page .cf-bar::before { display: none; }
+.cb-page .cf-bar::after { display: none; }   /* (the course finder's paper grain, 58f580a: this bar has no ground of its own) */
 /* his card, drawn at his size and shown at 85% (CoursesExplorer, CARD_ZOOM), fills its place in the row */
 .cb-page .cs-card .cf-k__a { height: 100%; }
 /* Our Top Picks' band: Kevin's .cf-feat ground */
@@ -62,6 +63,8 @@
 
 /* Kevin's dropdowns in white, like the search beside them (his 88af1a4, "white filter dropdowns") */
 .cf-page.cb-page .cf-sel, .cf-page.cb-page .cf-sel:hover, .cf-page.cb-page .cf-sel.is-on { --sel-fill: #fff; }
+/* and the search white too: Kevin's later paper bar (58f580a) tints it, but this page keeps it white beside the dropdowns */
+.cf-page.cb-page .cf-search input { background: #fff; }
 
 /* the card's picture: the line illustration on a warm paper, printed onto it (multiply), whole and centred */
 .cf-page.cb-page .cb-illus { background: radial-gradient(70% 80% at 50% 60%, #fff 0%, #fff6ec 70%), #fff6ec; }
