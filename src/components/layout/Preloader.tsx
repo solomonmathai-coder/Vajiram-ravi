@@ -23,11 +23,11 @@ import PreloaderCurtain from "./PreloaderCurtain";
 const HERO_AT = INTRO_OUT + 450;
 
 /**
- * Inline <head> script: marks <html> with `intro` before the first paint (on every load of the homepage
- * only; the courses page has no intro) and sets
+ * Inline <head> script: marks <html> with `intro` before the first paint (on every load of our homepage,
+ * now at /home-v2, only; "/" is Kevin's homepage, public/index.html, and the other pages have no intro) and sets
  * `--intro` to the hero's start time (none with reduced motion, where nothing waits).
  */
-export const introScript = `(function(){try{var p=location.pathname;if(p!=="/"&&p!=="/index.html")return;var r=document.documentElement;r.classList.add("intro");if(!matchMedia("(prefers-reduced-motion: reduce)").matches)r.style.setProperty("--intro","${HERO_AT}ms")}catch(e){}})();`;
+export const introScript = `(function(){try{var p=location.pathname;if(p!=="/home-v2"&&p!=="/home-v2/")return;var r=document.documentElement;r.classList.add("intro");if(!matchMedia("(prefers-reduced-motion: reduce)").matches)r.style.setProperty("--intro","${HERO_AT}ms")}catch(e){}})();`;
 
 export default function Preloader() {
   return (

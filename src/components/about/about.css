@@ -55,6 +55,7 @@ html.js .ab-page .ab-rv.in { opacity: 1; translate: none; }
 .ab-page .ab-arrow:hover { background: var(--brand); color: #fff; }
 .ab-page .ab-arrow:active { scale: .96; }
 .ab-page .ab-arrow svg { width: 18px; height: 18px; }
+.ab-page .ab-ctrl__arrows { display: flex; gap: 10px; }
 .ab-page .ab-dots { display: flex; align-items: center; gap: 8px; }
 .ab-page .ab-dot { position: relative; width: 8px; height: 8px; border-radius: 99px; background: rgb(194 65 12 / .25); overflow: hidden; cursor: pointer; transition: width .4s var(--ease), background-color .25s; }
 .ab-page .ab-dot[aria-current="true"] { width: 32px; background: rgb(194 65 12 / .22); }
@@ -68,93 +69,104 @@ html.js .ab-page .ab-rv.in { opacity: 1; translate: none; }
 .ab-page .ab-hero .cf-lede { max-width: 760px; }
 .ab-page .ab-hero .cf-stats { --sg: 48px; max-width: 1280px; flex-wrap: nowrap; }
 .ab-page .ab-hero .cf-stat__t { width: 116px; }
-/* the head keeps the course finder's orange of commit 39e7bc9: since 58f580a his course finder's head is paper with dark words
-   (course-finder.css), which this page does not take; its nav keeps the matching behaviour (CourseFinderNav variant="hiding") */
-.cf-page.ab-page .cf-hero { color: #fff; background:
-  radial-gradient(48% 70% at 88% 10%, rgba(255, 170, 90, .45), transparent 70%),
-  radial-gradient(45% 60% at 6% 110%, rgba(150, 40, 8, .5), transparent 70%),
-  linear-gradient(135deg, #E85020 0%, #C2410C 55%, #A8380A 100%); }
-.cf-page.ab-page .cf-hero::after { background: url(/images/course-finder/patterns/grain.png) repeat; background-size: 200px; mix-blend-mode: soft-light; opacity: .28; }
-.cf-page.ab-page .cf-h { color: #fff; }
-.cf-page.ab-page .cf-lede { color: rgba(255, 255, 255, .9); }
-.cf-page.ab-page .cf-crumbs { color: rgba(255, 255, 255, .78); }
-.cf-page.ab-page .cf-crumbs a, .cf-page.ab-page .cf-crumbs [aria-current] { color: #fff; text-decoration-color: rgba(255, 255, 255, .4); }
-.cf-page.ab-page .cf-crumbs a:hover { text-decoration-color: #fff; }
-.cf-page.ab-page .cf-stats::before { background: linear-gradient(90deg, rgb(255 212 138 / 0), rgb(255 212 138 / .8) 30%, rgb(255 212 138 / .8) 70%, rgb(255 212 138 / 0)); }
-.cf-page.ab-page .cf-stat__fig { color: #FFF3E1; }
-.cf-page.ab-page .cf-stat__t { color: rgba(255, 255, 255, .9); }
-.cf-page.ab-page .cf-stat + .cf-stat::before { background: #FFD48A; box-shadow: 0 0 0 3px rgba(255, 212, 138, .18); }
+/* The head's ground and the values band's (21 Nov 2026, the client's reference): a warm wash from a deep orange at the
+   top left, through peach, to a pale cream at the bottom right, under a faint grain. The words on it are dark, as on Kevin's
+   latest course finder head (course-finder.css, 58f580a: brown title and text, rust figures and diamonds), so they stay
+   readable on its light end. Its nav keeps the behaviour it had (CourseFinderNav variant="hiding"). */
+.cf-page.ab-page .cf-hero, .ab-page .ab-vals { --ab-ground: linear-gradient(155deg, #FF6A3D 0%, #FF8C5A 22%, #FFB07C 48%, #FFCE9A 72%, #FFF6BE 100%); }
+.cf-page.ab-page .cf-hero { background: var(--ab-ground); }
+.cf-page.ab-page .cf-hero::after { background: url(/images/course-finder/patterns/grain.png) repeat; background-size: 200px; mix-blend-mode: soft-light; opacity: .18; }
 .ab-page .ab-photo {
   position: relative; z-index: 2; height: 540px; margin: -160px var(--px) 0; padding: 10px; border-radius: 32px; background: #fff;
   box-shadow: 0 40px 80px -50px rgb(43 18 6 / .65), 0 0 0 1px var(--line);
 }
 .ab-page .ab-photo img { width: 100%; height: 100%; object-fit: cover; border-radius: 24px; }
 
-/* ---------- 2. how it started: the story beside the photographs ---------- */
-.ab-page .ab-story { display: grid; grid-template-columns: minmax(0, 1fr) 600px; gap: 72px; align-items: center; }
-.ab-page .ab-story__p { margin: 18px 0 0; font: 400 17px/1.7 var(--f); color: var(--body); }
-.ab-page .ab-story__p + .ab-story__p { margin-top: 14px; }
-.ab-page .ab-frame { padding: 10px; border-radius: 26px; background: #fff; box-shadow: 0 30px 60px -44px rgb(43 18 6 / .6), 0 0 0 1px var(--line); }
-.ab-page .ab-slides { position: relative; height: 500px; overflow: hidden; border-radius: 18px; background: var(--sand); }
-.ab-page .ab-slide { position: absolute; inset: 0; opacity: 0; transition: opacity .9s var(--ease); }
-.ab-page .ab-slide[data-on] { opacity: 1; }
-.ab-page .ab-slide img { width: 100%; height: 100%; object-fit: cover; scale: 1; transition: scale 6s linear; }
-.ab-page .ab-slide[data-on] img { scale: 1.06; }
-.ab-page .ab-ctrl { display: flex; align-items: center; justify-content: space-between; padding: 16px 8px 6px; }
-.ab-page .ab-ctrl__arrows { display: flex; gap: 10px; }
+/* ---------- 2. how it started: one fixed card, the slides moving inside it (StoryCarousel) ---------- */
+.ab-page .ab-tale { max-width: 1120px; margin: 44px auto 0; }
+/* the card: white, 1120 wide and centred, fixed in place; it clips the slides as they move through it */
+.ab-page .ab-tale__card { overflow: hidden; border-radius: 28px; background: #fff; box-shadow: 0 0 0 1px var(--line), 0 30px 60px -44px rgb(43 18 6 / .6); }
+.ab-page .ab-tale__track { display: flex; margin: 0; padding: 0; list-style: none;
+  transform: translateX(calc(var(--i, 0) * -100%)); transition: transform .9s var(--ease); }
+/* a slide: its words on the left, set in the middle of the card's height, and its photograph filling the right; the
+   card's 12px margin is each slide's own, so no edge of the next or last slide shows in it */
+.ab-page .ab-tale__slide { flex: 0 0 100%; display: grid; grid-template-columns: minmax(0, 1fr) 600px; height: 500px; padding: 12px; transition: opacity .6s var(--ease); }
+/* the loop's jump from a copy back to the slide it copies (StoryCarousel): instant, nothing moving or fading */
+.ab-page .ab-tale__track[data-still], .ab-page .ab-tale__track[data-still] .ab-tale__slide, .ab-page .ab-tale__track[data-still] .ab-tale__ph img { transition: none; }
+.ab-page .ab-tale__slide:not([data-on]) { opacity: .35; }
+.ab-page .ab-tale__tx { display: flex; flex-direction: column; justify-content: center; min-width: 0; padding: 36px 56px 36px 44px; }
+.ab-page .ab-tale__t { margin: 0; padding-bottom: 20px; border-bottom: 1px solid var(--line); font: 400 54px/1.02 var(--f-title); letter-spacing: -.02em; color: var(--ink); }
+.ab-page .ab-tale__p { margin: 20px 0 0; font: 400 18.5px/1.65 var(--f); color: var(--body); text-wrap: pretty; }
+.ab-page .ab-tale__ph { margin: 0; overflow: hidden; border-radius: 20px; background: var(--sand); }
+.ab-page .ab-tale__ph img { width: 100%; height: 100%; object-fit: cover; scale: 1.06; transition: scale 1.4s var(--ease); }
+.ab-page .ab-tale__slide[data-on] .ab-tale__ph img { scale: 1; }
+/* under the card, centred: the arrows either side of the dots */
+.ab-page .ab-tale__ctrl { display: flex; align-items: center; justify-content: center; gap: 22px; margin-top: 28px; }
+@media (prefers-reduced-motion: reduce) { .ab-page .ab-tale__track, .ab-page .ab-tale__slide, .ab-page .ab-tale__ph img { transition: none; } }
 
-/* ---------- 3. our values: the final site's "Why Vajiram & Ravi?" (#story), pinned on the burnt band (ValuesRun) ---------- */
-.ab-page .ab-run { position: relative; margin-top: 112px; }
-.ab-page .ab-run[data-run] { height: calc(100svh / var(--canvas-zoom, 1) + (var(--n) - 1) * var(--step)); }
-.ab-page .ab-run__stage {
-  position: relative; isolation: isolate; overflow: hidden; color: #fff;
-  background: radial-gradient(48% 60% at 85% 20%, rgb(255 170 90 / .45), transparent 70%), radial-gradient(45% 55% at 8% 100%, rgb(150 40 8 / .5), transparent 70%),
-    linear-gradient(135deg, #e85020 0%, #c2410c 55%, #a8380a 100%);
-}
-.ab-page .ab-run__stage::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
-  background: url(/images/course-finder/patterns/grain.png) repeat; background-size: 200px; mix-blend-mode: soft-light; opacity: .28; }
-.ab-page .ab-run[data-run] .ab-run__stage { position: sticky; top: 0; height: calc(100svh / var(--canvas-zoom, 1)); }
-/* the head: the label and the heading on the left, the introduction on the right */
-.ab-page .ab-run__hd { display: flex; align-items: flex-start; justify-content: space-between; gap: 64px; padding: 102px var(--px) 0; }
-.ab-page .ab-run__h2 { margin: 6px 0 0; font: 400 64px/1.02 var(--f-title); letter-spacing: -.025em; color: #fff; }
-.ab-page .ab-run__intro { max-width: 460px; margin: 56px 0 0; font: 400 16.5px/1.55 var(--f); color: rgb(255 255 255 / .88); text-wrap: pretty; }
-/* the row: a panel a screen wide, the photograph on the left, the number, title and sentence on the right */
-.ab-page .ab-run__track { list-style: none; margin: 0; padding: 0; }
-/*
- * Pinned, the stage is a screen tall (--H, in canvas px) and fits it: the head at the top (its top padding clearing the
- * floating nav), then the row filling what is left. On a screen 900 tall or more it is as drawn (the row 352 from the
- * top, the panels 486 tall); on a shorter one the gaps close up first and the panels then grow shorter, so the whole
- * panel, its sentence included, always shows.
- */
-.ab-page .ab-run[data-run] .ab-run__stage { --H: calc(100svh / var(--canvas-zoom, 1)); display: flex; flex-direction: column; }
-.ab-page .ab-run[data-run] .ab-run__hd { flex: none; padding-top: clamp(92px, calc(92px + (var(--H) - 800px) * .1), 102px); }
-.ab-page .ab-run[data-run] .ab-run__track {
-  position: relative; flex: 1 1 auto; min-height: 0; display: flex; will-change: transform;
-  margin: clamp(28px, calc(28px + (var(--H) - 640px) * .3), 83px) 0 clamp(28px, calc(28px + (var(--H) - 640px) * .2), 56px);
-}
-.ab-page .ab-run[data-run] .ab-run__p { align-self: flex-start; height: min(486px, 100%); }
-.ab-page .ab-run:not([data-run]) .ab-run__track { display: flex; flex-direction: column; gap: 72px; padding: 72px 0 104px; }
-.ab-page .ab-run__p { flex: 0 0 100%; display: grid; grid-template-columns: 605px minmax(0, 1fr); gap: 78px; height: 486px; padding: 0 var(--px) 0 calc(var(--px) + 10px); transform-origin: 0 100%; }
-.ab-page .ab-run__ph { margin: 0; overflow: hidden; border-radius: 8px; box-shadow: 0 40px 70px -40px rgb(43 18 6 / .7); }
-.ab-page .ab-run__ph img { width: 100%; height: 100%; object-fit: cover; }
-.ab-page .ab-run__tx { display: flex; flex-direction: column; min-width: 0; padding-bottom: 6px; }
-.ab-page .ab-run__no { margin: -18px 0 0; font: 400 115px/.9 var(--f-title); letter-spacing: -.03em; color: #fff3e1; font-variant-numeric: lining-nums; }
-.ab-page .ab-run__no small { margin-left: 8px; font: 600 13px/1 var(--f); letter-spacing: .14em; color: #fff; vertical-align: top; position: relative; top: 14px; }
-.ab-page .ab-run__t { margin: auto 0 0; font: 400 42px/1.05 var(--f-title); letter-spacing: -.01em; color: #fff; }
-.ab-page .ab-run__t span { display: block; }
-.ab-page .ab-run__t i { display: block; height: 1px; margin-top: 22px; background: rgb(255 255 255 / .55); }
-.ab-page .ab-run__d { max-width: 420px; margin: 22px 0 0; font: 400 16.5px/1.6 var(--f); color: rgb(255 255 255 / .92); }
+/* ---------- 3. our values: all five on one screen, photograph panels that open under the pointer (ValuesPanels) ---------- */
+.ab-page .ab-vals { position: relative; isolation: isolate; margin-top: 112px; padding: 104px var(--px) 112px; color: #2A1A0C; background: var(--ab-ground); }
+.ab-page .ab-vals::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: url(/images/course-finder/patterns/grain.png) repeat; background-size: 200px; mix-blend-mode: soft-light; opacity: .18; }
+.ab-page .ab-vals__hd { display: flex; align-items: flex-end; justify-content: space-between; gap: 64px; }
+.ab-page .ab-vals__h2 { margin: 22px 0 0; max-width: 640px; font: 400 64px/1.02 var(--f-title); letter-spacing: -.025em; color: #2A1A0C; }
+.ab-page .ab-vals__intro { max-width: 460px; margin: 0 0 6px; font: 400 16.5px/1.55 var(--f); color: #4A2F14; text-wrap: pretty; }
+.ab-page .ab-vals__row { display: flex; gap: 12px; height: 480px; margin: 52px 0 0; padding: 0; list-style: none; }
+/* a panel: narrow, or open (flex-grow); the photograph under a dark wash that deepens to the foot */
+.ab-page .ab-val { position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; border-radius: 16px; background: #3a1608;
+  box-shadow: 0 30px 60px -40px rgb(30 9 4 / .7); transition: flex-grow .7s var(--ease); }
+.ab-page .ab-val[data-on] { flex-grow: 3.6; }
+.ab-page .ab-val > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; scale: 1.08; filter: saturate(.85); transition: scale 1.2s var(--ease), filter .6s; }
+.ab-page .ab-val[data-on] > img { scale: 1; filter: none; }
+.ab-page .ab-val::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(180deg, rgb(30 10 4 / .35) 0%, rgb(30 10 4 / .2) 35%, rgb(30 10 4 / .88) 100%); transition: background-color .6s; }
+.ab-page .ab-val:not([data-on])::after { background-color: rgb(60 18 6 / .35); }
+/* a closed panel: its number at the top, its title running up the side; the whole panel is its button */
+.ab-page .ab-val__btn { position: absolute; inset: 0; z-index: 2; display: block; width: 100%; padding: 0; border: 0; background: none; color: #fff; text-align: left; cursor: pointer; }
+.ab-page .ab-val[data-on] .ab-val__btn { cursor: default; }
+.ab-page .ab-val__btn:focus-visible { outline: 2px solid #FFD48A; outline-offset: -4px; border-radius: 16px; }
+.ab-page .ab-val__no { position: absolute; top: 22px; left: 24px; font: 400 30px/1 var(--f-title); color: #FFF3E1; transition: opacity .35s; }
+.ab-page .ab-val__side { position: absolute; left: 22px; bottom: 26px; max-height: calc(100% - 96px); overflow: hidden; writing-mode: vertical-rl; rotate: 180deg;
+  font: 400 24px/1.1 var(--f-title); letter-spacing: -.005em; white-space: nowrap; text-overflow: ellipsis; transition: opacity .35s; }
+.ab-page .ab-val[data-on] .ab-val__no, .ab-page .ab-val[data-on] .ab-val__side { opacity: 0; }
+/* the open panel's words, set at a fixed width so they don't reflow as it opens, coming in once it has */
+.ab-page .ab-val__body { position: absolute; left: 34px; bottom: 32px; z-index: 1; width: 470px; pointer-events: none; opacity: 0; translate: 0 16px;
+  transition: opacity .3s, translate .3s; }
+.ab-page .ab-val[data-on] .ab-val__body { opacity: 1; translate: none; transition: opacity .6s var(--ease) .3s, translate .6s var(--ease) .3s; }
+.ab-page .ab-val__big { margin: 0; font: 400 76px/.9 var(--f-title); letter-spacing: -.03em; color: #FFF3E1; font-variant-numeric: lining-nums; }
+.ab-page .ab-val__big small { margin-left: 8px; font: 600 13px/1 var(--f); letter-spacing: .14em; color: #fff; vertical-align: top; position: relative; top: 10px; }
+.ab-page .ab-val__t { margin: 18px 0 0; padding-bottom: 16px; border-bottom: 1px solid rgb(255 255 255 / .5); font: 400 36px/1.08 var(--f-title); letter-spacing: -.01em; color: #fff; }
+.ab-page .ab-val__d { margin: 16px 0 0; max-width: 430px; font: 400 16.5px/1.6 var(--f); color: rgb(255 255 255 / .92); }
+@media (prefers-reduced-motion: reduce) { .ab-page .ab-val, .ab-page .ab-val > img, .ab-page .ab-val__body { transition: none; } }
 
 /* ---------- 4. the people who lead Vajiram & Ravi ---------- */
 .ab-page .ab-leaders { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 56px; list-style: none; padding: 0; }
-.ab-page .ab-leader {
-  display: flex; flex-direction: column; padding: 12px; border-radius: 24px; background: #fff; box-shadow: 0 0 0 1px var(--line), 0 26px 50px -42px rgb(43 18 6 / .6);
-  transition: translate .45s var(--ease), box-shadow .45s var(--ease);
+.ab-page .ab-leader { display: flex; }
+/*
+ * The card: Kevin's homepage batch tickets' hover (his v49.css .inv--ticket, js/content.js; AboutTilt sets the variables):
+ * it tilts toward the pointer in 3D and rises 8px, a soft glare follows the pointer across it, and its shadow swings
+ * opposite the tilt. (It sits inside the list item, whose own translate is the reveal's.)
+ */
+.ab-page .ab-leader__card {
+  position: relative; display: flex; flex-direction: column; width: 100%; padding: 12px; border-radius: 24px; background: #fff;
+  box-shadow: 0 0 0 1px var(--line), 0 26px 50px -42px rgb(43 18 6 / .6);
+  transform-style: preserve-3d; will-change: translate;
+  transition: translate .45s var(--ease), transform .5s var(--ease), box-shadow .4s;
 }
-.ab-page .ab-leader:hover { translate: 0 -6px; box-shadow: 0 0 0 1px var(--rule), 0 36px 60px -40px rgb(43 18 6 / .7); }
+.ab-page .ab-leader__card::after { content: ""; position: absolute; inset: 0; z-index: 4; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity .3s;
+  background: radial-gradient(circle at var(--gx, 50%) var(--gy, 30%), rgb(255 255 255 / .6), rgb(255 255 255 / .14) 34%, transparent 62%); mix-blend-mode: soft-light; }
+@media (hover: hover) and (pointer: fine) {
+  .ab-page .ab-leader__card:hover {
+    transform: perspective(1000px) rotateX(calc(var(--ty, 0) * -7deg)) rotateY(calc(var(--tx, 0) * 9deg)); translate: 0 -8px;
+    box-shadow: 0 0 0 1px var(--rule), calc(var(--tx, 0) * -14px) calc(34px - var(--ty, 0) * 10px) 46px -22px rgb(102 38 13 / .42);
+    transition: translate .45s var(--ease), transform .14s linear, box-shadow .2s;
+  }
+  .ab-page .ab-leader__card:hover::after { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) { .ab-page .ab-leader__card { transition: none; } .ab-page .ab-leader__card:hover { transform: none; } }
 .ab-page .ab-leader__ph { height: 360px; overflow: hidden; border-radius: 16px; background: var(--sand); }
 .ab-page .ab-leader__ph img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; transition: scale .8s var(--ease); }
-.ab-page .ab-leader:hover .ab-leader__ph img { scale: 1.04; }
+.ab-page .ab-leader__card:hover .ab-leader__ph img { scale: 1.04; }
 .ab-page .ab-leader__b { padding: 24px 12px 14px; }
 .ab-page .ab-leader__role { font: 600 12.5px/1 var(--f); letter-spacing: .1em; text-transform: uppercase; color: var(--brand); }
 .ab-page .ab-leader__n { margin: 10px 0 0; font: 400 32px/1.1 var(--f-title); letter-spacing: -.015em; color: var(--ink); }

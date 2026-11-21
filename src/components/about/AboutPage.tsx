@@ -7,8 +7,9 @@ import { educators } from "@/data/faculty";
 import { contact } from "@/data/site";
 import AboutFigures from "./AboutFigures";
 import AboutReveal from "./AboutReveal";
-import StorySlides from "./StorySlides";
-import ValuesRun from "./ValuesRun";
+import AboutTilt from "./AboutTilt";
+import StoryCarousel from "./StoryCarousel";
+import ValuesPanels from "./ValuesPanels";
 import "@/components/course-finder/base.css";
 import "@/components/course-finder/shared.css";
 import "@/components/course-finder/course-finder.css";
@@ -36,9 +37,9 @@ const MAIL = "M4 6h16v12H4zM4 7l8 6 8-6";
  * band, white cards with his warm hairline.
  *   1. the head: breadcrumb, label, title, introduction and four figures; the institute's photograph rising
  *      over its foot
- *   2. how it started, beside the institute's photographs
- *   3. our values, pinned on the burnt band, sliding a value at a time (the final site's "Why Vajiram & Ravi?")
- *   4. the people who lead Vajiram & Ravi
+ *   2. how it started: one carousel, each part of the story with its photograph (StoryCarousel)
+ *   3. our values: all five on one screen as photograph panels (ValuesPanels), on Kevin's toppers ground
+ *   4. the people who lead Vajiram & Ravi, their cards tilting toward the pointer (AboutTilt)
  *   5. the educators (the homepage's carousel)
  *   6. where we teach (his "Contact us" card), and the note that there are no other branches
  * The site's footer and WhatsApp button follow outside it (app/about).
@@ -72,30 +73,19 @@ export default function AboutPage() {
 
         {/* 2. how it started */}
         <section className="ab-sec" aria-labelledby="abStory">
-          <div className="ab-story">
-            <div>
-              <span {...rv()}>
-                <span className="ab-lbl">{aboutStory.label}</span>
-              </span>
-              <h2 id="abStory" {...rv(0.06)} className="ab-h2 ab-rv">
-                {aboutStory.heading}
-              </h2>
-              <div {...rv(0.12)}>
-                {aboutStory.paragraphs.map((p) => (
-                  <p key={p.slice(0, 24)} className="ab-story__p">
-                    {p}
-                  </p>
-                ))}
-              </div>
-            </div>
-            <div {...rv(0.1)}>
-              <StorySlides slides={aboutStory.slides} />
-            </div>
+          <span {...rv()}>
+            <span className="ab-lbl">{aboutStory.label}</span>
+          </span>
+          <h2 id="abStory" {...rv(0.06)} className="ab-h2 ab-rv">
+            {aboutStory.heading}
+          </h2>
+          <div {...rv(0.12)}>
+            <StoryCarousel chapters={aboutStory.chapters} />
           </div>
         </section>
 
-        {/* 3. our values: pinned on the burnt band, the row sliding a value at a time (the final site's "Why Vajiram & Ravi?") */}
-        <ValuesRun />
+        {/* 3. our values: all five on one screen, as photograph panels that open under the pointer */}
+        <ValuesPanels />
 
         {/* 4. the people who lead Vajiram & Ravi */}
         <section className="ab-sec" aria-labelledby="abLeaders">
@@ -110,13 +100,15 @@ export default function AboutPage() {
           <ul className="ab-leaders">
             {aboutLeaders.leaders.map((l, i) => (
               <li key={l.name} {...rv(0.08 + i * 0.08)} className="ab-leader ab-rv">
-                <div className="ab-leader__ph">
-                  <img src={l.photo.src} alt={l.photo.alt} width={l.photo.width} height={l.photo.height} loading="lazy" />
-                </div>
-                <div className="ab-leader__b">
-                  <span className="ab-leader__role">{l.role}</span>
-                  <h3 className="ab-leader__n">{l.name}</h3>
-                  <p className="ab-leader__d">{l.bio}</p>
+                <div className="ab-leader__card ab-tilt">
+                  <div className="ab-leader__ph">
+                    <img src={l.photo.src} alt={l.photo.alt} width={l.photo.width} height={l.photo.height} loading="lazy" />
+                  </div>
+                  <div className="ab-leader__b">
+                    <span className="ab-leader__role">{l.role}</span>
+                    <h3 className="ab-leader__n">{l.name}</h3>
+                    <p className="ab-leader__d">{l.bio}</p>
+                  </div>
                 </div>
               </li>
             ))}
@@ -190,6 +182,7 @@ export default function AboutPage() {
         <div className="ab-end" />
       </main>
       <AboutReveal />
+      <AboutTilt />
     </div>
   );
 }

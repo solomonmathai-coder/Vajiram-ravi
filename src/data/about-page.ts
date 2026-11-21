@@ -38,20 +38,33 @@ export const aboutHero = {
 export const aboutStory = {
   label: "Since 1976",
   heading: "How it started.",
-  paragraphs: [
-    "Since its establishment in 1976 by the distinguished Professor P. Velayutham, Vajiram & Ravi has been synonymous with excellence in Civil Services Examination coaching. Professor Velayutham’s impressive academic background, including a diploma in International Law from the International Court of Justice, The Hague, laid the foundation for an institute dedicated to preparing aspirants for all three levels of the UPSC exam — Preliminary Test, Main Examination and Personality Test.",
-    "With nearly five decades of experience, Vajiram & Ravi has shaped the careers of countless IAS, IFS, IPS and other Central Services officers. The institute boasts a remarkable track record, with many students consistently securing top ranks, often within the first ten positions.",
-  ],
-  /** The photo carousel's slides, in the design's order. */
-  slides: [
-    { src: "/images/about-page/slide-building.webp", width: 1200, height: 903, alt: "The Vajiram & Ravi building" },
-    { src: "/images/about-page/slide-library.webp", width: 1200, height: 805, alt: "Students in the library" },
-    { src: "/images/about-page/slide-lecture.webp", width: 1024, height: 461, alt: "A classroom lecture" },
-    { src: "/images/about-page/slide-felicitation.webp", width: 900, height: 900, alt: "A topper’s felicitation" },
-    { src: "/images/about-page/slide-campus.webp", width: 1200, height: 805, alt: "The campus building" },
-    { src: "/images/about-page/slide-hall.webp", width: 400, height: 240, alt: "A lecture hall" },
-    { src: "/images/about-page/slide-felicitation-2.webp", width: 387, height: 516, alt: "A topper’s felicitation" },
-  ] satisfies AboutPhoto[],
+  /**
+   * The section's carousel (StoryCarousel, 21 Nov 2026): the design's two paragraphs told a sentence at a time,
+   * each with its photograph, so the words and the pictures can be changed together. The words are the design's
+   * own; the short labels name each part.
+   */
+  chapters: [
+    {
+      label: "1976",
+      text: "Since its establishment in 1976 by the distinguished Professor P. Velayutham, Vajiram & Ravi has been synonymous with excellence in Civil Services Examination coaching.",
+      photo: { src: "/images/about-page/slide-building.webp", width: 1200, height: 903, alt: "The Vajiram & Ravi building" },
+    },
+    {
+      label: "The founder",
+      text: "Professor Velayutham’s impressive academic background, including a diploma in International Law from the International Court of Justice, The Hague, laid the foundation for an institute dedicated to preparing aspirants for all three levels of the UPSC exam — Preliminary Test, Main Examination and Personality Test.",
+      photo: { src: "/images/about-page/slide-lecture.webp", width: 1024, height: 461, alt: "A classroom lecture" },
+    },
+    {
+      label: "Five decades",
+      text: "With nearly five decades of experience, Vajiram & Ravi has shaped the careers of countless IAS, IFS, IPS and other Central Services officers.",
+      photo: { src: "/images/about-page/slide-library.webp", width: 1200, height: 805, alt: "Students in the library" },
+    },
+    {
+      label: "The record",
+      text: "The institute boasts a remarkable track record, with many students consistently securing top ranks, often within the first ten positions.",
+      photo: { src: "/images/about-page/slide-felicitation.webp", width: 900, height: 900, alt: "A topper’s felicitation" },
+    },
+  ] satisfies { label: string; text: string; photo: AboutPhoto }[],
 };
 
 /** Figma "03b Our values" (1008:38345). */
