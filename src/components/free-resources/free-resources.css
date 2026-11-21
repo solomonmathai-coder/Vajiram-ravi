@@ -12,6 +12,11 @@
 .fr-page .fr-hero .cf-h { max-width: 980px; }
 .fr-page .fr-hero .cf-lede { max-width: 780px; }
 
+/* the homepage's side margin (his --px): 80px at 1440 and below the canvas, and on a wider screen the content stays
+   1280px wide in the middle, the extra width going to both sides equally (the plain vw, not --vw: under the
+   canvas zoom the window is narrower than 1440 and this part is 0) */
+.fr-page .fr-hero, .fr-page .kv { --px: calc(max(0px, (100vw - 1440px) / 2) + 80px); }
+
 /* ---------- Kevin's values, at 1440 ---------- */
 .fr-page .kv {
   --f: var(--font-heading-face), "Nirmala UI", "Helvetica Neue", Arial, sans-serif;
@@ -25,11 +30,14 @@
   --ease: cubic-bezier(.2, .7, .2, 1);
   --ground: linear-gradient(180deg, #fff7ee, #fffbf5);
   --card-gap: 28px; --h2: 64px; --hd-gap: 48px; --hd-in: 16px; --hd-lbl: 24px;
-  --pb: 90px; --px: 80px; --sec-y: 90px; --sec-gap: 0px; --r-card: 8px;
+  --pb: 90px; --sec-y: 90px; --sec-gap: 0px; --r-card: 8px;
   color: var(--ink); font-family: var(--f);
 }
 .fr-page .kv h2, .fr-page .kv h3, .fr-page .kv p { margin: 0; }
 .fr-page .kv ul, .fr-page .kv ol { margin: 0; padding: 0; list-style: none; }
+/* a section's introduction sits 18px under its heading, as on the About page (the reset above had taken it to 0; the
+   materials' head and the FAQ have their own gaps, 18px and 24px, from his stylesheet) */
+.fr-page .kv .fr-sec .h2 + .intro { margin-top: 18px; }
 
 /* a section on the page's ground; its head, left or centred */
 .fr-page .kv .fr-sec { padding: 104px var(--px) 0; }
@@ -51,55 +59,72 @@
 .fr-page .kv .fr-doc i:nth-of-type(2) { width: 82%; }
 .fr-page .kv .fr-doc i:nth-of-type(3) { width: 90%; }
 .fr-page .kv .fr-doc i:nth-of-type(4) { width: 64%; }
+/* under the pointer a folder only lifts a little (no growing) and eases there slowly */
+.fr-page .kv .kv-res .sm__card--res { transition: opacity .7s var(--ease), translate .9s var(--ease), scale .9s var(--ease), transform .9s cubic-bezier(.22, .61, .36, 1), box-shadow .9s cubic-bezier(.22, .61, .36, 1);
+  transition-delay: calc(var(--i, 0) * 90ms), calc(var(--i, 0) * 90ms), calc(var(--i, 0) * 90ms), 0s, 0s; }
+.fr-page .kv .kv-res .sm__card--res:hover { transform: translateY(-2px); }
+.fr-page .kv .kv-res .rf__front { transition: box-shadow .9s cubic-bezier(.22, .61, .36, 1); }
 
-/* ---------- 3. the sources: on his dotted sand sheet ---------- */
-.fr-page .kv .fr-srcs-sec { margin-top: 112px; }
-.fr-page .kv .fr-cols { columns: 2; column-gap: 56px; margin-top: 28px; }
-.fr-page .kv .fr-cols p { margin: 0 0 14px; break-inside: avoid; font: 400 16.5px/1.65 var(--f); color: var(--body); }
-.fr-page .kv .fr-srcs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--card-gap); margin-top: 40px; }
+/* ---------- 3. the sources: on the About page's orange band (Kevin's Top Picks orange) with its jaali at half strength ---------- */
+.fr-page .kv .fr-orange { position: relative; isolation: isolate; margin-top: 112px; padding: 72px var(--px) 80px; color: #fff;
+  background: radial-gradient(75% 65% at 42% 58%, #F08541 0%, #EE833F 38%, #EB803C 68%, #E87D39 100%); }
+.fr-page .kv .fr-orange::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .5;
+  background: url(/images/course-finder/patterns/bg-jaali-white.svg) 0 0 / 36px 36px repeat; }
+/* the words in a reading column on the left, the four sources two by two on the right */
+.fr-page .kv .fr-orange { display: grid; grid-template-columns: 470px minmax(0, 1fr); gap: 56px; align-items: start; }
+.fr-page .kv .fr-orange__copy { padding-top: 4px; }
+.fr-page .kv .fr-orange .h2 { color: #fff; }
+.fr-page .kv .fr-orange__lede { margin: 20px 0 0; font: 400 17px/1.55 var(--f); color: #fff; text-wrap: pretty; }
+.fr-page .kv .fr-orange__more { margin-top: 18px; padding-top: 18px; border-top: 1px solid rgb(255 255 255 / .35); }
+.fr-page .kv .fr-orange__more p { margin: 0 0 10px; font: 400 14.5px/1.6 var(--f); color: rgb(255 255 255 / .88); text-wrap: pretty; }
+.fr-page .kv .fr-orange__more p:last-child { margin-bottom: 0; }
+/* a source: white card, the photograph above, its title, sentence and the orange button below */
+.fr-page .kv .fr-srcs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
 .fr-page .kv .fr-src {
-  display: grid; grid-template-columns: 176px minmax(0, 1fr); gap: 26px; min-height: 236px; padding: 10px; border-radius: var(--r-card); background: #fff;
-  box-shadow: inset 0 0 0 1px var(--line), 0 24px 40px -34px rgb(120 50 10 / .45); transition: box-shadow .35s var(--ease), translate .45s var(--ease);
+  display: flex; flex-direction: column; padding: 8px; border-radius: 10px; background: #fff;
+  box-shadow: 0 28px 50px -30px rgb(120 40 5 / .55); transition: translate .45s var(--ease), box-shadow .45s var(--ease);
 }
-.fr-page .kv .fr-src:hover { translate: 0 -4px; box-shadow: inset 0 0 0 1px var(--line-2), 0 30px 50px -32px rgb(120 50 10 / .5); }
-.fr-page .kv .fr-src__ph { overflow: hidden; border-radius: 4px; background: var(--sand); }
+.fr-page .kv .fr-src:hover { translate: 0 -4px; box-shadow: 0 34px 60px -30px rgb(120 40 5 / .65); }
+.fr-page .kv .fr-src__ph { aspect-ratio: 12 / 5; overflow: hidden; border-radius: 6px; background: var(--sand); }
 .fr-page .kv .fr-src__ph img { width: 100%; height: 100%; object-fit: cover; transition: scale .8s var(--ease); }
 .fr-page .kv .fr-src:hover .fr-src__ph img { scale: 1.05; }
-.fr-page .kv .fr-src__b { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; padding: 18px 18px 8px 0; }
-.fr-page .kv .fr-src__t { font: 600 24px/1.2 var(--f-d); letter-spacing: -.01em; color: var(--ink); }
-.fr-page .kv .fr-src__d { flex: 1; margin-top: 10px; font: 400 16px/1.6 var(--f); color: var(--body); text-wrap: pretty; }
-.fr-page .kv .fr-src .btn { margin-top: 18px; }
+.fr-page .kv .fr-src__b { display: flex; flex: 1; flex-direction: column; align-items: flex-start; padding: 16px 12px 8px; }
+.fr-page .kv .fr-src__t { font: 500 21px/1.2 var(--f-d); letter-spacing: -.01em; color: var(--ink); }
+.fr-page .kv .fr-src__d { flex: 1; margin-top: 8px; font: 400 14.5px/1.55 var(--f); color: var(--body); text-wrap: pretty; }
+.fr-page .kv .fr-src .btn { margin-top: 14px; }
 
-/* ---------- 4. why it matters: six cards on his hairline, turning orange under the pointer (the design's hover) ---------- */
-.fr-page .kv .fr-whys { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--card-gap); margin-top: var(--hd-gap); }
+/* ---------- 4. why it matters: the homepage contact card's frame (a warm edge, a fine orange frame 6px inside), an orange
+   disc with each icon in white; under the pointer it tilts toward it with a soft glare, as the About page's leadership
+   cards (AboutTilt sets --tx, --ty, --gx, --gy): no colour change, as it is not a link ---------- */
+.fr-page .kv .fr-whys { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: var(--hd-gap); }
 .fr-page .kv .fr-why {
-  position: relative; isolation: isolate; overflow: hidden; min-height: 262px; padding: 32px; border-radius: var(--r-card); background: #fff;
-  box-shadow: inset 0 0 0 1px var(--line), 0 24px 40px -34px rgb(120 50 10 / .45); transition: box-shadow .25s ease-out;
+  position: relative; min-height: 262px; padding: 36px 34px 34px; border: 1px solid #EADBC4; border-radius: 8px;
+  background: rgb(255 255 255 / .85); box-shadow: 0 24px 40px -34px rgb(120 50 10 / .45);
+  transform-style: preserve-3d; will-change: translate; transition: translate .45s var(--ease), transform .5s var(--ease), box-shadow .4s;
 }
-.fr-page .kv .fr-why::before { content: ""; position: absolute; inset: 0; z-index: -1; opacity: 0; transition: opacity .25s ease-out;
-  background: radial-gradient(60% 55% at 92% 0%, rgb(255 190 120 / .55), transparent 70%), linear-gradient(150deg, #E57512 0%, #C2410C 55%, #AE3B0F 100%); }
-.fr-page .kv .fr-why__ic { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 12px; background: #FCEAC9; transition: background-color .25s; }
-.fr-page .kv .fr-why__ic img { width: 24px; height: 24px; }
-.fr-page .kv .fr-why__t { margin-top: 26px; font: 600 24px/1.2 var(--f-d); letter-spacing: -.01em; color: var(--ink); transition: color .25s; }
-.fr-page .kv .fr-why__d { margin-top: 12px; font: 400 16px/1.6 var(--f); color: var(--body); transition: color .25s; }
-@media (hover: hover) {
+.fr-page .kv .fr-why::after { content: ""; position: absolute; inset: 6px; border: 1px solid rgb(225 120 60 / .55); border-radius: 4px; pointer-events: none; }
+.fr-page .kv .fr-why::before { content: ""; position: absolute; inset: 0; z-index: 4; border-radius: inherit; pointer-events: none; opacity: 0; transition: opacity .3s;
+  background: radial-gradient(circle at var(--gx, 50%) var(--gy, 30%), rgb(255 255 255 / .6), rgb(255 255 255 / .14) 34%, transparent 62%); mix-blend-mode: soft-light; }
+.fr-page .kv .fr-why__ic { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%;
+  background: linear-gradient(135deg, #F06A2C 0%, #E85020 45%, #C2410C 100%); box-shadow: 0 10px 20px -10px rgb(194 65 12 / .8); }
+.fr-page .kv .fr-why__ic i { display: block; width: 26px; height: 26px; background: #fff;
+  -webkit-mask: var(--ic) center / contain no-repeat; mask: var(--ic) center / contain no-repeat; }
+.fr-page .kv .fr-why__t { margin-top: 26px; font: 500 25px/1.2 var(--f-d); letter-spacing: -.01em; color: var(--ink); }
+.fr-page .kv .fr-why__d { margin-top: 12px; font: 400 16px/1.6 var(--f); color: var(--body); }
+@media (hover: hover) and (pointer: fine) {
+  .fr-page .kv .fr-why:hover {
+    transform: perspective(1000px) rotateX(calc(var(--ty, 0) * -7deg)) rotateY(calc(var(--tx, 0) * 9deg)); translate: 0 -8px;
+    box-shadow: calc(var(--tx, 0) * -14px) calc(34px - var(--ty, 0) * 10px) 46px -22px rgb(102 38 13 / .42);
+    transition: translate .45s var(--ease), transform .14s linear, box-shadow .2s;
+  }
   .fr-page .kv .fr-why:hover::before { opacity: 1; }
-  .fr-page .kv .fr-why:hover { box-shadow: 0 30px 60px -34px rgb(174 59 15 / .7); }
-  .fr-page .kv .fr-why:hover .fr-why__ic { background: #fff; }
-  .fr-page .kv .fr-why:hover .fr-why__t { color: #fff; }
-  .fr-page .kv .fr-why:hover .fr-why__d { color: rgb(255 255 255 / .92); }
 }
+@media (prefers-reduced-motion: reduce) { .fr-page .kv .fr-why { transition: none; } .fr-page .kv .fr-why:hover { transform: none; } }
 
-/* ---------- 5. the role of study material: on his sheet, the heading held on the left, three numbered points ---------- */
-.fr-page .kv .fr-role { display: grid; grid-template-columns: 500px minmax(0, 1fr); gap: 96px; align-items: start; margin-top: 112px; overflow: visible; }
-.fr-page .kv .fr-role__l { position: sticky; top: 120px; display: flex; flex-direction: column; align-items: flex-start; }
-.fr-page .kv .fr-role__l .btn { margin-top: 32px; }
-.fr-page .kv .fr-pt { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 8px; padding: 34px 0; border-bottom: 1px solid var(--rule); }
-.fr-page .kv .fr-pt:first-child { padding-top: 6px; }
-.fr-page .kv .fr-pt:last-child { border-bottom: 0; }
-.fr-page .kv .fr-pt__n { font: 500 30px/1 var(--f-d); color: var(--brand); font-variant-numeric: lining-nums; }
-.fr-page .kv .fr-pt__t { font: 600 26px/1.2 var(--f-d); letter-spacing: -.01em; color: var(--ink); }
-.fr-page .kv .fr-pt__d { margin-top: 12px; max-width: 620px; font: 400 16.5px/1.65 var(--f); color: var(--body); }
+/* ---------- 5. the role of study material: the About page's story list (StoryChapters, its styles in about.css) under
+   the heading, the button at the right ---------- */
+.fr-page .kv .fr-role2__hd { display: flex; align-items: flex-end; justify-content: space-between; gap: 48px; }
+.fr-page .kv .fr-role2__hd .h2 { max-width: 720px; }
 
 /* ---------- 6. FAQs: his, with room before the footer ---------- */
 .fr-page .kv .kv-faq { margin-top: 112px; }

@@ -172,7 +172,7 @@ export const frBenefits = {
   ],
 };
 
-/** Figma "05 Role in preparation" (1361:38775). */
+/** Figma "05 Role in preparation" (1361:38775). Each point with a photograph from the site's "why" set, as the About page's story list shows them (StoryChapters). */
 export const frRole = {
   label: "Role in preparation",
   heading: "Role of UPSC Study Material in Preparation",
@@ -180,14 +180,17 @@ export const frRole = {
   points: [
     {
       title: "Keeps your preparation current and relevant.",
+      photo: { src: "/images/about/why/why-2-faculty.webp", width: 1100, height: 733, alt: "An educator teaching at the board" },
       text: "Quality study material keeps content up to date with what the exam asks, and helps aspirants organise their study instead of reading everything that comes their way.",
     },
     {
       title: "Connects current affairs to the syllabus.",
+      photo: { src: "/images/about/why/why-3-guidance.webp", width: 1100, height: 733, alt: "An aspirant in a guidance session" },
       text: "Structured notes let you link the news to syllabus topics, spot recurring trends and critically assess policies — the skills that Mains answers and the interview reward.",
     },
     {
       title: "Makes revision systematic.",
+      photo: { src: "/images/about/why/why-4-study-material.webp", width: 1100, height: 733, alt: "Vajiram & Ravi study material and notes" },
       text: "Topic-wise and subject-wise notes support systematic revision and let you track your progress subject by subject.",
     },
   ],

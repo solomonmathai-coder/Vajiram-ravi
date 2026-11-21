@@ -1,5 +1,8 @@
 import type { CSSProperties, ReactNode } from "react";
 import AboutReveal from "@/components/about/AboutReveal";
+import AboutTilt from "@/components/about/AboutTilt";
+import StoryChapters from "@/components/about/StoryChapters";
+import FolderFloat from "./FolderFloat";
 import CourseFinderNav from "@/components/course-finder/CourseFinderNav";
 import { frBenefits, frFaq, frHero, frMaterials, frRole, frSources } from "@/data/free-resources";
 import "@/components/course-finder/base.css";
@@ -58,9 +61,9 @@ function Btn({ href, children, kind = "primary", size = "md", onDark, external, 
 }
 
 /** Kevin's section label (his .lbl): the small cartouche with its dotted line and ornament. */
-function Lbl({ children, delay = 0.05 }: { children: ReactNode; delay?: number }) {
+function Lbl({ children, delay = 0.05, light }: { children: ReactNode; delay?: number; light?: boolean }) {
   return (
-    <div className="lbl rv" style={d(delay)}>
+    <div className={`lbl rv${light ? " lbl--w" : ""}`} style={d(delay)}>
       <span className="lbl__t">{children}</span>
       <i />
       <span className="lbl__orn" aria-hidden="true" />
@@ -75,9 +78,12 @@ function Lbl({ children, delay = 0.05 }: { children: ReactNode; delay?: number }
  *   2. all study materials: his Free resources section, the manila folders with the material standing in each
  *      (his photographs where he has one, else the design's icon on a sheet of paper), its tag, title, sentence
  *      and his white pill button
- *   3. the sources: on his dotted sand sheet, the introduction in two columns, four cards with their photographs
- *   4. why it matters: six cards on his warm hairline, turning orange under the pointer (the design's hover)
- *   5. the role of study material: the heading held on the left with his button, three numbered points on the right
+ *   3. the sources: on the About page's orange band with its faint jaali, the introduction white, four white cards with
+ *      their photographs and the orange button
+ *   4. why it matters: six cards in the homepage contact card's frame (a warm edge and a fine orange frame inside),
+ *      each icon white on an orange disc, tilting toward the pointer as the About page's leadership cards do (AboutTilt)
+ *   5. the role of study material: the About page's story list (StoryChapters): a photograph beside the three
+ *      numbered points, one open at a time and moving on by itself
  *   6. FAQs: his FAQ (his accordion rows, one open at a time, "Talk to a counsellor")
  * The final site's footer and the WhatsApp button follow outside it (app/free-resources).
  */
@@ -155,19 +161,26 @@ export default function FreeResourcesPage() {
             </div>
           </section>
 
-          {/* 3. the sources: on Kevin's dotted sand sheet */}
-          <section className="sheet sheet--pad fr-srcs-sec" aria-labelledby="frSrc">
-            <div className="fr-head">
-              <Lbl>{frSources.label}</Lbl>
+          {/* 3. the sources: on the About page's orange band with its faint jaali, white cards with their photographs */}
+          <section className="fr-orange" aria-labelledby="frSrc">
+            {/* the words in a reading column on the left: the label, the heading, the first paragraph as a lead and the rest under it */}
+            <div className="fr-orange__copy">
+              <Lbl delay={0.05} light>
+                {frSources.label}
+              </Lbl>
               <h2 id="frSrc" className="h2 h2--sec rv" style={d(0.12)}>
                 {frSources.heading}
               </h2>
+              <p className="fr-orange__lede rv" style={d(0.2)}>
+                {frSources.paragraphs[0]}
+              </p>
+              <div className="fr-orange__more rv" style={d(0.26)}>
+                {frSources.paragraphs.slice(1).map((p) => (
+                  <p key={p.slice(0, 24)}>{p}</p>
+                ))}
+              </div>
             </div>
-            <div className="fr-cols rv" style={d(0.2)}>
-              {frSources.paragraphs.map((p) => (
-                <p key={p.slice(0, 24)}>{p}</p>
-              ))}
-            </div>
+            {/* the four sources beside it, two by two: each photograph above its words and button */}
             <ul className="fr-srcs sg">
               {frSources.items.map((s, i) => (
                 <li key={s.title} className="fr-src" style={{ "--i": i } as CSSProperties}>
@@ -177,7 +190,7 @@ export default function FreeResourcesPage() {
                   <span className="fr-src__b">
                     <h3 className="fr-src__t">{s.title}</h3>
                     <p className="fr-src__d">{s.text}</p>
-                    <Btn href={s.href} kind="secondary" size="sm" external>
+                    <Btn href={s.href} size="sm" external>
                       {s.cta}
                     </Btn>
                   </span>
@@ -186,7 +199,7 @@ export default function FreeResourcesPage() {
             </ul>
           </section>
 
-          {/* 4. why it matters */}
+          {/* 4. why it matters: the homepage contact card's framed cards, an orange disc with each icon */}
           <section className="fr-sec fr-sec--c" aria-labelledby="frWhy">
             <div className="fr-head fr-head--c">
               <Lbl>{frBenefits.label}</Lbl>
@@ -199,9 +212,9 @@ export default function FreeResourcesPage() {
             </div>
             <ul className="fr-whys sg">
               {frBenefits.items.map((b, i) => (
-                <li key={b.title} className="fr-why" style={{ "--i": i } as CSSProperties}>
-                  <span className="fr-why__ic">
-                    <img src={b.icon} alt="" width={24} height={24} />
+                <li key={b.title} className="fr-why ab-tilt" style={{ "--i": i } as CSSProperties}>
+                  <span className="fr-why__ic" aria-hidden="true">
+                    <i style={{ "--ic": `url(${b.icon})` } as CSSProperties} />
                   </span>
                   <h3 className="fr-why__t">{b.title}</h3>
                   <p className="fr-why__d">{b.text}</p>
@@ -210,30 +223,22 @@ export default function FreeResourcesPage() {
             </ul>
           </section>
 
-          {/* 5. the role of study material */}
-          <section className="sheet sheet--pad fr-role" aria-labelledby="frRole">
-            <div className="fr-role__l">
-              <Lbl>{frRole.label}</Lbl>
-              <h2 id="frRole" className="h2 h2--sec rv" style={d(0.12)}>
-                {frRole.heading}
-              </h2>
+          {/* 5. the role of study material: the About page's story list (a photograph beside the numbered points, moving on by itself) */}
+          <section className="fr-sec fr-role2" aria-labelledby="frRole">
+            <div className="fr-role2__hd">
+              <div>
+                <Lbl>{frRole.label}</Lbl>
+                <h2 id="frRole" className="h2 h2--sec rv" style={d(0.12)}>
+                  {frRole.heading}
+                </h2>
+              </div>
               <div className="rv" style={d(0.2)}>
                 <Btn href="#materials">{frRole.cta}</Btn>
               </div>
             </div>
-            <ol className="fr-pts sg">
-              {frRole.points.map((p, i) => (
-                <li key={p.title} className="fr-pt" style={{ "--i": i } as CSSProperties}>
-                  <span className="fr-pt__n" aria-hidden="true">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <div>
-                    <h3 className="fr-pt__t">{p.title}</h3>
-                    <p className="fr-pt__d">{p.text}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
+            <div className="rv" style={d(0.16)}>
+              <StoryChapters chapters={frRole.points.map((p) => ({ label: p.title, text: p.text, photo: p.photo }))} />
+            </div>
           </section>
 
           {/* 6. FAQs: Kevin's FAQ */}
@@ -266,6 +271,8 @@ export default function FreeResourcesPage() {
         </div>
       </main>
       <AboutReveal />
+      <AboutTilt />
+      <FolderFloat />
     </div>
   );
 }

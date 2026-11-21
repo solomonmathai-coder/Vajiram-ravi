@@ -156,9 +156,6 @@ gap: 0; padding: 0; min-width: var(--btn-h); justify-content: flex-start; }
 @media (prefers-reduced-motion: reduce) { .kv .btn:hover .btn__disc svg + svg, .kv .btn:hover .btn__icon--swap > svg + svg { transform: translateX(-220%); } }
 @media (prefers-reduced-motion: reduce) { .kv .btn:active { scale: 1; } }
 @media (prefers-reduced-motion: reduce) { .kv .btn__spin { animation-duration: 1.6s; } }
-.kv .btn { border: 1px solid ButtonText; }
-.kv .btn:focus-visible { outline: 2px solid Highlight; outline-offset: 2px; }
-.kv .btn:disabled, .kv .btn[aria-disabled="true"] { border-color: GrayText; color: GrayText; }
 .kv .sheet { position: relative; margin: 24px 12px 0; border-radius: 28px; overflow: hidden; background: var(--sand) radial-gradient(rgba(194, 65, 12, .12) 1px, transparent 1.5px) 0 0 / 24px 24px; }
 .kv .sheet--pad { padding: var(--pb) var(--px); }
 .kv .lbl { display: flex; align-items: center; gap: 20px; }
