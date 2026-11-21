@@ -104,7 +104,19 @@ html.js .ab-page .ab-rv.in { opacity: 1; translate: none; }
 .ab-page .ab-run__intro { max-width: 460px; margin: 56px 0 0; font: 400 16.5px/1.55 var(--f); color: rgb(255 255 255 / .88); text-wrap: pretty; }
 /* the row: a panel a screen wide, the photograph on the left, the number, title and sentence on the right */
 .ab-page .ab-run__track { list-style: none; margin: 0; padding: 0; }
-.ab-page .ab-run[data-run] .ab-run__track { position: absolute; left: 0; right: 0; top: 352px; display: flex; will-change: transform; }
+/*
+ * Pinned, the stage is a screen tall (--H, in canvas px) and fits it: the head at the top (its top padding clearing the
+ * floating nav), then the row filling what is left. On a screen 900 tall or more it is as drawn (the row 352 from the
+ * top, the panels 486 tall); on a shorter one the gaps close up first and the panels then grow shorter, so the whole
+ * panel, its sentence included, always shows.
+ */
+.ab-page .ab-run[data-run] .ab-run__stage { --H: calc(100svh / var(--canvas-zoom, 1)); display: flex; flex-direction: column; }
+.ab-page .ab-run[data-run] .ab-run__hd { flex: none; padding-top: clamp(92px, calc(92px + (var(--H) - 800px) * .1), 102px); }
+.ab-page .ab-run[data-run] .ab-run__track {
+  position: relative; flex: 1 1 auto; min-height: 0; display: flex; will-change: transform;
+  margin: clamp(28px, calc(28px + (var(--H) - 640px) * .3), 83px) 0 clamp(28px, calc(28px + (var(--H) - 640px) * .2), 56px);
+}
+.ab-page .ab-run[data-run] .ab-run__p { align-self: flex-start; height: min(486px, 100%); }
 .ab-page .ab-run:not([data-run]) .ab-run__track { display: flex; flex-direction: column; gap: 72px; padding: 72px 0 104px; }
 .ab-page .ab-run__p { flex: 0 0 100%; display: grid; grid-template-columns: 605px minmax(0, 1fr); gap: 78px; height: 486px; padding: 0 var(--px) 0 calc(var(--px) + 10px); transform-origin: 0 100%; }
 .ab-page .ab-run__ph { margin: 0; overflow: hidden; border-radius: 8px; box-shadow: 0 40px 70px -40px rgb(43 18 6 / .7); }
