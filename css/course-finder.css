@@ -1370,3 +1370,202 @@ html.cf-locked { overflow: hidden; }
 .cf-sec.cf-feat { padding-top: 32px; padding-bottom: 28px; margin-bottom: 44px; }
 .cf-list { padding-top: 28px; padding-bottom: 64px; }
 @media (max-width: 760px) { .cf-sec.cf-feat { padding-top: 28px; padding-bottom: 24px; margin-bottom: 36px; } .cf-list { padding-bottom: 48px; } }
+
+/* hero illustration stronger on the paper (user 2026-11-21, "too light"): the monument collage as warm sepia multiplied into the
+   paper instead of a brightened soft-light wash; the centre stays quieter behind the title (same mask) */
+.cf-hero__bg { filter: grayscale(1) sepia(.5) contrast(1.05) brightness(1.02); mix-blend-mode: multiply; opacity: .16; }
+
+/* hero illustration on both sides, the middle left clear for the text (user 2026-11-21): two crops of the monument collage,
+   Rashtrapati Bhavan on the left and India Gate on the right, each in the space beside the ~820px text column and fading out
+   toward it; sepia multiplied into the paper as before */
+.cf-hero__bg { background: none; -webkit-mask: none; mask: none; opacity: .3; }
+.cf-hero__bg::before, .cf-hero__bg::after { content: ""; position: absolute; top: 0; bottom: 0; width: max(0px, calc((100% - 820px) / 2));
+  background: url(../assets/img/photos/collage.png) no-repeat; background-size: auto 175%; }
+.cf-hero__bg::before { left: 0; background-position: 52% 78%;
+  -webkit-mask: linear-gradient(90deg, #000 55%, transparent); mask: linear-gradient(90deg, #000 55%, transparent); }
+.cf-hero__bg::after { right: 0; background-position: 74% 52%;
+  -webkit-mask: linear-gradient(270deg, #000 55%, transparent); mask: linear-gradient(270deg, #000 55%, transparent); }
+@media (max-width: 900px) { .cf-hero__bg { display: none; } }   /* no room beside the text on narrow screens */
+/* framed: both crops start under the breadcrumb (top 140px) so the nav and "Home / Courses" stay clear; each building whole in
+   its panel (Rashtrapati Bhavan on the left, India Gate and North Block on the right, anchored to the outer edge) */
+.cf-hero__bg::before, .cf-hero__bg::after { top: 140px; }
+.cf-hero__bg::before { background-size: 1144px auto; background-position: left -460px top -290px; }
+.cf-hero__bg::after { background-size: 906px auto; background-position: right 0 top -118px; }
+@media (max-width: 1100px) { .cf-hero__bg { display: none; } }
+/* each panel also fades in from its top edge (no visible box line under the breadcrumb) */
+.cf-hero__bg::before { -webkit-mask: linear-gradient(90deg, #000 55%, transparent), linear-gradient(180deg, transparent, #000 48px); -webkit-mask-composite: source-in;
+  mask: linear-gradient(90deg, #000 55%, transparent), linear-gradient(180deg, transparent, #000 48px); mask-composite: intersect; }
+.cf-hero__bg::after { -webkit-mask: linear-gradient(270deg, #000 55%, transparent), linear-gradient(180deg, transparent, #000 48px); -webkit-mask-composite: source-in;
+  mask: linear-gradient(270deg, #000 55%, transparent), linear-gradient(180deg, transparent, #000 48px); mask-composite: intersect; }
+.cf-hero__bg { opacity: .22; }   /* a touch lighter (user 2026-11-21) */
+.cf-feat .cf-k__tags { display: none; }   /* no badges on the Top Picks cards (user 2026-11-21) */
+/* Top Picks eyebrow: the homepage's black cartouche (assets/img/brand/cartouche.svg, #2B1206) with white capitals (user 2026-11-21) */
+.cf-feat .cf-feat__lbl .lbl__t { border-image-source: url("../assets/img/brand/cartouche.svg"); }
+/* more air between the eyebrow, the book and the headline (user 2026-11-21): 22 → 30px (phones 18/16 → 24/22) */
+.cf-feat .cf-feat__lbl { margin-bottom: 30px; }
+.cf-feat__book { margin-bottom: 30px; }
+@media (max-width: 760px) { .cf-feat .cf-feat__lbl { margin-bottom: 24px; } .cf-feat__book { margin-bottom: 22px; } }
+
+/* the category rail sits in the left page margin, outside the content padding (user 2026-11-21, "the alignment feels off"):
+   out of the row, so the course rows start on the same edge as the search bar, breadcrumb and hero; the lines end 28px
+   short of that edge (never closer than 8px to the screen edge) */
+@media (min-width: 1101px) {
+  .cf-list { position: relative; }
+  .cf-rail { position: absolute; top: 0; bottom: 0; left: max(8px, calc(var(--px) - 58px)); width: 30px; }
+}
+
+/* ===== Top Picks cards, premium finish (user 2026-11-21) =====
+   espresso card with a fine gold gradient edge (the book's black and gold), ivory type, gold icons and labels, a gold
+   hairline over the footer, and an outlined gold "View course" with a gold disc */
+.cf-feat .cf-k__a {
+  border: 1px solid transparent;
+  background: linear-gradient(165deg, #2E1C11 0%, #22140C 55%, #1A0F08 100%) padding-box,
+              linear-gradient(140deg, #F6DC9C 0%, #B07D3A 28%, #E9C77E 52%, #8C5B25 78%, #F0D08A 100%) border-box;
+  box-shadow: inset 0 1px 0 rgb(255 232 190 / .14), 0 20px 34px -16px rgb(50 16 2 / .6);
+}
+.cf-feat .cf-k__a::after { background: radial-gradient(circle at var(--gx, 30%) var(--gy, 20%), rgb(255 226 170 / .22), rgb(255 226 170 / .05) 34%, transparent 62%); }
+.cf-feat .cf-k__pic { box-shadow: 0 0 0 1px rgb(233 199 126 / .4); }
+.cf-feat .cf-k__t { color: #FFF4E2; }
+.cf-feat .cf-k__f { color: rgb(255 240 220 / .74); }
+.cf-feat .cf-k__f svg, .cf-feat .cf-k__start svg { color: #D9B26A; stroke: #D9B26A; }
+.cf-feat .cf-k__ft::before { border: 0; background: linear-gradient(90deg, rgb(233 199 126 / 0), rgb(233 199 126 / .55) 20%, rgb(233 199 126 / .55) 80%, rgb(233 199 126 / 0)); }
+.cf-feat .cf-k__start small { color: #C9A25C; }
+.cf-feat .cf-k__start b { color: #FFF4E2; }
+.cf-feat .cf-k__go, .cf-feat .cf-k__a:hover .cf-k__go { border: 0; background: transparent; color: #F3D28B; box-shadow: inset 0 0 0 1.5px rgb(233 199 126 / .6); }
+.cf-feat .cf-k__go::before { background: rgb(233 199 126 / .14); }
+.cf-feat .cf-go__d { background: linear-gradient(140deg, #F6DC9C, #C9944A); color: #2B1206; }
+.cf-feat .cf-k__a:hover .cf-k__go { box-shadow: inset 0 0 0 1.5px #E9C77E; }
+.cf-feat .cf-k__a:focus-visible .cf-k__go { box-shadow: 0 0 0 3px #2B1206, 0 0 0 5px #F3D28B; }
+/* the premium cards' accents in orange instead of gold (user 2026-11-21): edge, image ring, icons, labels, footer line, button */
+.cf-feat .cf-k__a {
+  background: linear-gradient(165deg, #2E1C11 0%, #22140C 55%, #1A0F08 100%) padding-box,
+              linear-gradient(140deg, #FDBA74 0%, #C2410C 28%, #FB923C 52%, #9A3412 78%, #FDBA74 100%) border-box;
+  box-shadow: inset 0 1px 0 rgb(255 200 150 / .14), 0 20px 34px -16px rgb(50 16 2 / .6);
+}
+.cf-feat .cf-k__a::after { background: radial-gradient(circle at var(--gx, 30%) var(--gy, 20%), rgb(251 146 60 / .22), rgb(251 146 60 / .05) 34%, transparent 62%); }
+.cf-feat .cf-k__pic { box-shadow: 0 0 0 1px rgb(251 146 60 / .45); }
+.cf-feat .cf-k__f svg, .cf-feat .cf-k__start svg { color: #FB923C; stroke: #FB923C; }
+.cf-feat .cf-k__ft::before { background: linear-gradient(90deg, rgb(251 146 60 / 0), rgb(251 146 60 / .55) 20%, rgb(251 146 60 / .55) 80%, rgb(251 146 60 / 0)); }
+.cf-feat .cf-k__start small { color: #F59E5B; }
+.cf-feat .cf-k__go, .cf-feat .cf-k__a:hover .cf-k__go { color: #FDBA74; box-shadow: inset 0 0 0 1.5px rgb(251 146 60 / .6); }
+.cf-feat .cf-k__go::before { background: rgb(251 146 60 / .14); }
+.cf-feat .cf-go__d { background: linear-gradient(140deg, #FB923C, #EA580C); color: #fff; }
+.cf-feat .cf-k__a:hover .cf-k__go { box-shadow: inset 0 0 0 1.5px #FB923C; }
+.cf-feat .cf-k__a:focus-visible .cf-k__go { box-shadow: 0 0 0 3px #2B1206, 0 0 0 5px #FB923C; }
+/* premium cards, light (user 2026-11-21, "the black is not working"): warm ivory instead of espresso, keeping the orange
+   gradient edge and orange details; dark ink type */
+.cf-feat .cf-k__a {
+  background: linear-gradient(165deg, #FFFDF9 0%, #FFF6EA 60%, #FDEBD6 100%) padding-box,
+              linear-gradient(140deg, #FDBA74 0%, #C2410C 28%, #FB923C 52%, #9A3412 78%, #FDBA74 100%) border-box;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / .9), 0 20px 34px -16px rgb(80 26 4 / .5);
+}
+.cf-feat .cf-k__a::after { background: radial-gradient(circle at var(--gx, 30%) var(--gy, 20%), rgb(255 255 255 / .55), rgb(255 255 255 / .12) 34%, transparent 62%); }
+.cf-feat .cf-k__t { color: #1D1712; }
+.cf-feat .cf-k__f { color: #4F463E; }
+.cf-feat .cf-k__f svg, .cf-feat .cf-k__start svg { color: #EA580C; stroke: #EA580C; }
+.cf-feat .cf-k__start small { color: #C2410C; }
+.cf-feat .cf-k__start b { color: #1D1712; }
+.cf-feat .cf-k__go, .cf-feat .cf-k__a:hover .cf-k__go { background: #fff; color: #C2410C; box-shadow: inset 0 0 0 1.5px rgb(194 65 12 / .5); }
+.cf-feat .cf-k__go::before { background: rgb(234 88 12 / .1); }
+.cf-feat .cf-k__a:hover .cf-k__go { box-shadow: inset 0 0 0 1.5px #C2410C; }
+.cf-feat .cf-k__a:focus-visible .cf-k__go { box-shadow: 0 0 0 3px #fff, 0 0 0 5px #EA580C; }
+/* premium cards: plain white fill (user 2026-11-21), the orange edge and details kept */
+.cf-feat .cf-k__a {
+  background: linear-gradient(#fff, #fff) padding-box,
+              linear-gradient(140deg, #FDBA74 0%, #C2410C 28%, #FB923C 52%, #9A3412 78%, #FDBA74 100%) border-box;
+}
+/* the footer line was the ::before's 1px border; without it the box had no height, so the orange line vanished */
+.cf-feat .cf-k__ft::before { box-sizing: content-box; height: 1px; }
+/* the footer line back to the category cards' plain hairline (user 2026-11-21) */
+.cf-feat .cf-k__ft::before { background: none; border-top: 1px solid #EADBC4; height: 0; box-sizing: content-box; }
+/* Top Picks cards: icons and the "Batch starts" label in the category cards' muted brown (#8A776A) (user 2026-11-21) */
+.cf-feat .cf-k__f svg { color: #8A776A; stroke: #8A776A; }
+.cf-feat .cf-k__start small { color: #8A776A; }
+/* a second, inner frame line inside the Top Picks cards, close to the padding (user 2026-11-21), like the frame on the
+   Top Picks book: 1px orange hairline, 6px in from the orange edge, following the corners */
+.cf-feat .cf-k__a { position: relative; }
+.cf-feat .cf-k__a::before { content: ""; position: absolute; inset: 5px; z-index: 0; pointer-events: none;
+  border: 1px solid rgb(234 88 12 / .28); border-radius: 7px; background: none; box-shadow: none; }
+/* Top Picks cards in butter cream #FFF2CD (user 2026-11-21), orange edge and inner frame kept */
+.cf-feat .cf-k__a {
+  background: linear-gradient(#FFF2CD, #FFF2CD) padding-box,
+              linear-gradient(140deg, #FDBA74 0%, #C2410C 28%, #FB923C 52%, #9A3412 78%, #FDBA74 100%) border-box;
+}
+/* a light paper texture on the Top Picks cards (user 2026-11-21): warm fibre noise (paper-fibre.svg) and the page grain,
+   over the butter cream; the orange edge stays clean */
+.cf-feat .cf-k__a {
+  background: url("../assets/img/patterns/paper-fibre.svg?v=3") 0 0 / 240px padding-box,
+              url("../assets/img/patterns/grain.png") 0 0 / 160px padding-box,
+              linear-gradient(#FFF2CD, #FFF2CD) padding-box,
+              linear-gradient(140deg, #FDBA74 0%, #C2410C 28%, #FB923C 52%, #9A3412 78%, #FDBA74 100%) border-box;
+  background-blend-mode: multiply, soft-light, normal, normal;
+}
+/* Top Picks "View course" styled like the nav's "Let's talk" (user 2026-11-21): orange gradient pill, white label, white disc
+   with an orange arrow, warm drop shadow */
+.cf-feat .cf-k__go, .cf-feat .cf-k__a:hover .cf-k__go {
+  background: linear-gradient(135deg, #F06A2C 0%, #E85020 45%, #C2410C 100%); color: #fff;
+  box-shadow: 0 10px 20px -12px rgb(194 65 12 / .7);
+}
+.cf-feat .cf-k__go::before { background: rgb(255 255 255 / .12); }
+.cf-feat .cf-go__d { background: #fff; color: #C2410C; }
+.cf-feat .cf-k__a:hover .cf-k__go { box-shadow: 0 12px 22px -10px rgb(194 65 12 / .75); }
+.cf-feat .cf-k__a:focus-visible .cf-k__go { box-shadow: 0 0 0 3px #FFF2CD, 0 0 0 5px #C2410C; }
+/* Top Picks cards: paper fibre and grain off; a fine linen weave instead (user 2026-11-21): faint warm threads, 3px apart,
+   across and down */
+.cf-feat .cf-k__a {
+  background: repeating-linear-gradient(0deg, rgb(154 52 18 / .045) 0 1px, transparent 1px 3px) padding-box,
+              repeating-linear-gradient(90deg, rgb(154 52 18 / .035) 0 1px, transparent 1px 3px) padding-box,
+              linear-gradient(#FFF2CD, #FFF2CD) padding-box,
+              linear-gradient(140deg, #FDBA74 0%, #C2410C 28%, #FB923C 52%, #9A3412 78%, #FDBA74 100%) border-box;
+  background-blend-mode: normal;
+}
+/* Top Picks cards: linen off; the page's jaali lattice instead (user 2026-11-21, "different texture"): the same 36px tile as the
+   page background (bg-jaali.svg, brown at 6%) over the butter cream */
+.cf-feat .cf-k__a {
+  background: url("../assets/img/patterns/bg-jaali.svg") 0 0 / 36px 36px repeat padding-box,
+              linear-gradient(#FFF2CD, #FFF2CD) padding-box,
+              linear-gradient(140deg, #FDBA74 0%, #C2410C 28%, #FB923C 52%, #9A3412 78%, #FDBA74 100%) border-box;
+}
+/* Top Picks cards: no texture (user 2026-11-21), plain butter cream with the orange edge */
+.cf-feat .cf-k__a {
+  background: linear-gradient(#FFF2CD, #FFF2CD) padding-box,
+              linear-gradient(140deg, #FDBA74 0%, #C2410C 28%, #FB923C 52%, #9A3412 78%, #FDBA74 100%) border-box;
+  background-blend-mode: normal;
+}
+/* the divider above the CTA in the same soft orange as the card's inner frame line (user 2026-11-21) */
+.cf-feat .cf-k__ft::before { border-top-color: rgb(234 88 12 / .28); }
+/* Top Picks "View course" like the homepage's "Browse papers" (user 2026-11-21): ivory pill #FCF6EA, dark bold label, brand
+   orange disc with a white arrow; a faint edge and shadow so it holds on the butter-cream card */
+.cf-feat .cf-k__go, .cf-feat .cf-k__a:hover .cf-k__go {
+  background: #FCF6EA; color: #2A1A0C; font-weight: 700;
+  box-shadow: inset 0 0 0 1px rgb(154 52 18 / .12), 0 2px 6px -2px rgb(90 40 8 / .18);
+}
+.cf-feat .cf-k__go::before { background: rgb(194 65 12 / .06); }
+.cf-feat .cf-go__d { background: #C2410C; color: #fff; }
+.cf-feat .cf-k__a:hover .cf-k__go { box-shadow: inset 0 0 0 1px rgb(154 52 18 / .2), 0 4px 10px -3px rgb(90 40 8 / .24); }
+.cf-feat .cf-k__a:focus-visible .cf-k__go { box-shadow: 0 0 0 3px #FFF2CD, 0 0 0 5px #C2410C; }
+/* Top Picks cards in white (user 2026-11-21), orange edge, inner frame and ivory CTA kept */
+.cf-feat .cf-k__a {
+  background: linear-gradient(#fff, #fff) padding-box,
+              linear-gradient(140deg, #FDBA74 0%, #C2410C 28%, #FB923C 52%, #9A3412 78%, #FDBA74 100%) border-box;
+}
+.cf-feat .cf-k__a:focus-visible .cf-k__go { box-shadow: 0 0 0 3px #fff, 0 0 0 5px #C2410C; }
+/* Top Picks "View course" back to the nav's "Let's talk" style (user 2026-11-21): orange gradient pill, white bold label,
+   white disc with an orange arrow, warm drop shadow */
+.cf-feat .cf-k__go, .cf-feat .cf-k__a:hover .cf-k__go {
+  background: linear-gradient(135deg, #F06A2C 0%, #E85020 45%, #C2410C 100%); color: #fff; font-weight: 700;
+  box-shadow: 0 10px 20px -12px rgb(194 65 12 / .7);
+}
+.cf-feat .cf-k__go::before { background: rgb(255 255 255 / .12); }
+.cf-feat .cf-go__d { background: #fff; color: #C2410C; }
+.cf-feat .cf-k__a:hover .cf-k__go { box-shadow: 0 12px 22px -10px rgb(194 65 12 / .75); }
+.cf-feat .cf-k__a:focus-visible .cf-k__go { box-shadow: 0 0 0 3px #fff, 0 0 0 5px #C2410C; }
+/* paper texture back on the (white) Top Picks cards (user 2026-11-21): the subtle fibre (paper-fibre.svg, the lighter v3) and
+   the page grain over white; the orange edge stays clean */
+.cf-feat .cf-k__a {
+  background: url("../assets/img/patterns/paper-fibre.svg?v=3") 0 0 / 240px padding-box,
+              url("../assets/img/patterns/grain.png") 0 0 / 160px padding-box,
+              linear-gradient(#fff, #fff) padding-box,
+              linear-gradient(140deg, #FDBA74 0%, #C2410C 28%, #FB923C 52%, #9A3412 78%, #FDBA74 100%) border-box;
+  background-blend-mode: multiply, soft-light, normal, normal;
+}

@@ -365,8 +365,7 @@
           <div class="lbl lbl--w cf-feat__lbl"><span class="lbl__t">Picked by Vajiram &amp; Ravi</span></div>   <!-- eyebrow first, then the book (user 2026-11-21) -->
           <div class="cf-feat__book">${bookFor('top', 'Top Picks', tops.length, true)}</div>
           <h2 class="cf-sec__h cf-feat__h" id="cath-top" data-total="${tops.length}"><span class="cf-sec__name">Our <span class="cf-feat__num">${tops.length}</span> Top <span class="cf-feat__pl">${tops.length === 1 ? 'Pick' : 'Picks'}</span></span></h2>
-          <p class="cf-feat__sub">Our flagship GS programme, the most-joined test series and the batches starting soon, picked by our faculty.</p>
-          ${chipRow(TOP_T)}
+          <p class="cf-feat__sub">Our most popular courses, the ones aspirants join year after year.</p>
         </div>
         <div class="cf-car">
           <ul class="cf-grid">${tops.map(([c, v]) => card(c, v, famOf(c.f) || TOP_T)).join('')}</ul>
