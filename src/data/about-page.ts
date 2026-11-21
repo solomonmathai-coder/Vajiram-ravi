@@ -79,13 +79,15 @@ export const aboutValues = {
     height: 461,
     alt: "A full classroom of aspirants listening to a lecture",
   } satisfies AboutPhoto,
-  /** Each value with a photograph from the site's "why" set (public/images/about/why), as the final site's panels have. */
+  /** Each value with a photograph from the site's "why" set (public/images/about/why), as the final site's panels have,
+   and a line icon of ours (public/images/about/values: an open book, a flag on a peak, a notebook and pen, a teaching
+   board, a medal) for the alternative layout. */
   items: [
-    { title: "Knowledge, taught in depth", text: "Every subject is taught by specialists, so aspirants build a clear understanding of the syllabus for every stage of the exam.", photo: { src: "/images/about/why/why-2-faculty.webp", width: 1100, height: 733, alt: "An educator teaching at the board" } },
-    { title: "Inspiration and motivation", text: "We inspire and motivate students to reach their highest potential, through a preparation that can run for months and years.", photo: { src: "/images/about/why/why-3-guidance.webp", width: 1100, height: 733, alt: "An aspirant in a guidance session" } },
-    { title: "Engaging study material", text: "Our faculty write study material that keeps students engaged with the syllabus, rather than buried in it.", photo: { src: "/images/about/why/why-4-study-material.webp", width: 1100, height: 733, alt: "Vajiram & Ravi study material and notes" } },
-    { title: "A stimulating learning environment", text: "Classrooms and mentoring built so students stay focused, ask questions and keep improving.", photo: { src: "/images/about/why/why-6-classroom-online.webp", width: 1100, height: 733, alt: "A classroom of aspirants in a lecture" } },
-    { title: "Excellence and innovation", text: "An unwavering commitment to quality that has guided aspirants towards the civil services for nearly five decades.", photo: { src: "/images/about/why/why-1-track-record.webp", width: 1100, height: 733, alt: "The Vajiram & Ravi building" } },
+    { title: "Knowledge, taught in depth", icon: "/images/about/values/knowledge.svg", text: "Every subject is taught by specialists, so aspirants build a clear understanding of the syllabus for every stage of the exam.", photo: { src: "/images/about/why/why-2-faculty.webp", width: 1100, height: 733, alt: "An educator teaching at the board" } },
+    { title: "Inspiration and motivation", icon: "/images/about/values/inspiration.svg", text: "We inspire and motivate students to reach their highest potential, through a preparation that can run for months and years.", photo: { src: "/images/about/why/why-3-guidance.webp", width: 1100, height: 733, alt: "An aspirant in a guidance session" } },
+    { title: "Engaging study material", icon: "/images/about/values/material.svg", text: "Our faculty write study material that keeps students engaged with the syllabus, rather than buried in it.", photo: { src: "/images/about/why/why-4-study-material.webp", width: 1100, height: 733, alt: "Vajiram & Ravi study material and notes" } },
+    { title: "A stimulating learning environment", icon: "/images/about/values/environment.svg", text: "Classrooms and mentoring built so students stay focused, ask questions and keep improving.", photo: { src: "/images/about/why/why-6-classroom-online.webp", width: 1100, height: 733, alt: "A classroom of aspirants in a lecture" } },
+    { title: "Excellence and innovation", icon: "/images/about/values/excellence.svg", text: "An unwavering commitment to quality that has guided aspirants towards the civil services for nearly five decades.", photo: { src: "/images/about/why/why-1-track-record.webp", width: 1100, height: 733, alt: "The Vajiram & Ravi building" } },
   ],
 };
 

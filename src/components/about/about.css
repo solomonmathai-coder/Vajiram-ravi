@@ -168,44 +168,30 @@ html.js .ab-page .ab-rv.in { opacity: 1; translate: none; }
 .ab-page .ab-val__d { margin: 16px 0 0; max-width: 430px; font: 400 16.5px/1.6 var(--f); color: rgb(255 255 255 / .92); }
 @media (prefers-reduced-motion: reduce) { .ab-page .ab-val, .ab-page .ab-val > img, .ab-page .ab-val__body { transition: none; } }
 
-/* ---------- 3b. our values, the alternative layout: everything up front, a bento grid of one kind of tile (ValuesList) ---------- */
+/* ---------- 3b. our values, the alternative layout: everything up front, a still bento grid of one kind of card with icons (ValuesList) ---------- */
 .ab-page .ab-vb__hd { display: flex; align-items: flex-end; justify-content: space-between; gap: 64px; }
 .ab-page .ab-vb__hd .ab-h2 { max-width: 640px; }
 .ab-page .ab-vb__intro { max-width: 460px; margin: 0 0 6px; font: 400 16.5px/1.55 var(--f); color: var(--body); text-wrap: pretty; }
-/* four columns by two rows, one gap each way: the first value large (two by two), the other four beside it */
-.ab-page .ab-vb__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: repeat(2, 300px); gap: 16px; margin: 48px 0 0; padding: 0; list-style: none; }
-/* (the places are set on each tile by ValuesList, the large one taking turns) */
-.ab-page .ab-vb__tile:not([data-lead]) { cursor: pointer; }
-/* the turn: each tile morphs to its new size and place (a view transition); the rest of the page stays still, and the
-   tiles' pictures keep their shape as they resize (cover, not stretched) */
-::view-transition-group(ab-vb-0), ::view-transition-group(ab-vb-1), ::view-transition-group(ab-vb-2), ::view-transition-group(ab-vb-3),
-::view-transition-group(ab-vb-4) { animation-duration: .75s; animation-timing-function: cubic-bezier(.65, 0, .25, 1); }
-::view-transition-old(ab-vb-0), ::view-transition-old(ab-vb-1), ::view-transition-old(ab-vb-2), ::view-transition-old(ab-vb-3), ::view-transition-old(ab-vb-4),
-::view-transition-new(ab-vb-0), ::view-transition-new(ab-vb-1), ::view-transition-new(ab-vb-2), ::view-transition-new(ab-vb-3), ::view-transition-new(ab-vb-4) {
-  width: 100%; height: 100%; object-fit: cover; object-position: top; animation-duration: .5s; }
-::view-transition-old(root), ::view-transition-new(root) { animation: none; }
-/* every tile alike: the photograph above, and below it the words on the manila of the homepage's folder cards (the
-   Free Resources folders' front: his cream-to-sand gradient with his paper grain over it, a lit top edge), in their
-   warm dark type */
+/* the five values side by side, one row of five equal cards (all one height); still */
+.ab-page .ab-vb__grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; margin: 48px 0 0; padding: 0; list-style: none; }
+/* every card alike, on the manila of the homepage's folder cards (the Free Resources folders' front: his cream-to-sand
+   gradient with his paper grain over it, a lit top edge): its icon white on an orange disc, then the title and sentence
+   in their warm dark type */
 .ab-page .ab-vb__tile {
-  display: flex; flex-direction: column; min-width: 0; overflow: hidden; border-radius: 10px; background: #EFDFC0;
-  box-shadow: 0 0 0 1px rgb(110 66 18 / .2), 0 2px 3px rgb(60 30 5 / .12), 0 24px 40px -30px rgb(60 30 5 / .45);
+  position: relative; isolation: isolate; display: flex; flex-direction: column; gap: 22px; min-width: 0; overflow: hidden;
+  box-sizing: border-box; padding: 28px 24px 30px; border-radius: 10px;
+  background: linear-gradient(178deg, #F9EFDA, #F5E8CE 30%, #EFDFC0);
+  box-shadow: inset 0 1px 0 rgb(255 250 235 / .9), inset 0 2px 0 rgb(110 66 18 / .12),
+    0 0 0 1px rgb(110 66 18 / .2), 0 2px 3px rgb(60 30 5 / .12), 0 24px 40px -30px rgb(60 30 5 / .45);
 }
-.ab-page .ab-vb__tx { position: relative; isolation: isolate; background: linear-gradient(178deg, #F9EFDA, #F5E8CE 30%, #EFDFC0);
-  box-shadow: inset 0 1px 0 rgb(255 250 235 / .9), inset 0 2px 0 rgb(110 66 18 / .12); }
-.ab-page .ab-vb__tx::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .45; mix-blend-mode: soft-light;
+.ab-page .ab-vb__tile::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .45; mix-blend-mode: soft-light;
   background: url(/assets/img/patterns/grain.png) 0 0 / 200px repeat; }
-.ab-page .ab-vb__ph { position: relative; flex: 1 1 auto; min-height: 0; margin: 0; overflow: hidden; background: var(--sand); }
-.ab-page .ab-vb__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: scale 1s var(--ease); }
-.ab-page .ab-vb__tile:hover .ab-vb__img { scale: 1.05; }
-.ab-page .ab-vb__tx { flex: none; box-sizing: border-box; height: 156px; padding: 16px 20px 18px; }   /* the small ones all one height, so their photographs match */
+.ab-page .ab-vb__ic { flex: none; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%;
+  background: linear-gradient(135deg, #F06A2C 0%, #E85020 45%, #C2410C 100%); box-shadow: 0 10px 20px -10px rgb(194 65 12 / .8); }
+.ab-page .ab-vb__ic i { display: block; width: 26px; height: 26px; background: #fff;
+  -webkit-mask: var(--ic) center / contain no-repeat; mask: var(--ic) center / contain no-repeat; }
 .ab-page .ab-vb__t { margin: 0; font: 400 21px/1.2 var(--f-title); letter-spacing: -.01em; color: #2A2016; }
 .ab-page .ab-vb__d { margin: 6px 0 0; font: 400 14.5px/1.5 var(--f); color: #5a4632; text-wrap: pretty; }
-/* the large one: the same, larger */
-.ab-page .ab-vb__tile[data-lead] .ab-vb__tx { height: auto; padding: 24px 30px 28px; }
-.ab-page .ab-vb__tile[data-lead] .ab-vb__t { font-size: 32px; line-height: 1.12; }
-.ab-page .ab-vb__tile[data-lead] .ab-vb__d { max-width: 520px; margin-top: 10px; font-size: 16.5px; }
-@media (prefers-reduced-motion: reduce) { .ab-page .ab-vb__img { transition: none; } }
 
 /* ---------- 4. the people who lead Vajiram & Ravi ---------- */
 .ab-page .ab-leaders { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 56px; list-style: none; padding: 0; }
