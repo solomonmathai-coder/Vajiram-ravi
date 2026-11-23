@@ -123,13 +123,15 @@ The Figma workfile's "UPSC Study Materials – consistent – 22 Oct" (1361:3871
 (`data/free-resources.ts`), in the language of Kevin's homepage. Its parts are his own: `kevin-parts.css` holds the
 rules for his folder cards, buttons, section labels, headings, sand sheets and FAQ, pulled from his stylesheet and
 scoped under `.kv` (the extraction script kept the 1440 canvas rules, as for his course finder, and leaves out his
-high-contrast, dark-mode and print rules); `free-resources.css`
+high-contrast, dark-mode and print rules; one rule of his, the rising grid's start, is split in two there, because
+this site's CSS minifier folds its `transform: none`, `translate` and `scale` into one transform that is never cleared,
+which left every folder 4% small and 40px low and made the hover jump); `free-resources.css`
 gives `.kv` his stylesheet's values at 1440 and his fonts as ours, and draws the rest in his tokens. The head is the
 About page's head (the plain Top Picks orange). Then: the nine study materials as his manila folders (his photographs where he
 has one, otherwise the design's icon on a sheet of paper), each with its tag and his white pill button ("Explore",
-opening the material on the live site; a click anywhere on a folder follows it). Under the pointer a folder lifts 2px
-and the material in it rises slowly out by 5px and sways slightly (FolderFloat, after the final site's homepage
-script, at a quarter of its movement so it stays quiet). Then the sources on the About page's orange band with its faint jaali: the words in a
+opening the material on the live site; a click anywhere on a folder follows it). Under the pointer a folder behaves exactly as
+the homepage's Free resources folders: it lifts 6px and grows a little, and the material in it rises out and bobs
+(FolderFloat, the homepage's own script and amounts). Then the sources on the About page's orange band with its faint jaali: the words in a
 reading column on the left (the heading, the first paragraph as a lead, the rest smaller under a white rule, staying
 in view while the cards pass), the four sources two by two beside it as white cards, the photograph above the words
 and his orange button; six "why it matters" cards in the homepage contact card's frame, each icon white on an orange

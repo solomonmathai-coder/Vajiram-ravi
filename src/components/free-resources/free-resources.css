@@ -59,11 +59,12 @@
 .fr-page .kv .fr-doc i:nth-of-type(2) { width: 82%; }
 .fr-page .kv .fr-doc i:nth-of-type(3) { width: 90%; }
 .fr-page .kv .fr-doc i:nth-of-type(4) { width: 64%; }
-/* under the pointer a folder only lifts a little (no growing) and eases there slowly */
-.fr-page .kv .kv-res .sm__card--res { transition: opacity .7s var(--ease), translate .9s var(--ease), scale .9s var(--ease), transform .9s cubic-bezier(.22, .61, .36, 1), box-shadow .9s cubic-bezier(.22, .61, .36, 1);
-  transition-delay: calc(var(--i, 0) * 90ms), calc(var(--i, 0) * 90ms), calc(var(--i, 0) * 90ms), 0s, 0s; }
-.fr-page .kv .kv-res .sm__card--res:hover { transform: translateY(-2px); }
-.fr-page .kv .kv-res .rf__front { transition: box-shadow .9s cubic-bezier(.22, .61, .36, 1); }
+/* the folders' own easing, as on the homepage: there his "#resources .rf" outranks the rising grid's rule by its id; here,
+   scoped by classes, it would lose to ".sm__grid.rise > .sm__card" (whose lift eases in .4s), so it is given again */
+.fr-page .kv .kv-res .sm__grid.rise > .rf { transition: opacity .7s var(--ease), translate .9s var(--ease), scale .9s var(--ease),
+  transform .6s cubic-bezier(.33, 0, .2, 1), box-shadow .6s cubic-bezier(.33, 0, .2, 1), rotate .6s cubic-bezier(.33, 0, .2, 1);
+  transition-delay: calc(var(--i, 0) * 90ms), calc(var(--i, 0) * 90ms), calc(var(--i, 0) * 90ms), 0s, 0s, 0s; }
+@media (prefers-reduced-motion: reduce) { .fr-page .kv .kv-res .sm__grid.rise > .rf { transition: none; } }
 
 /* ---------- 3. the sources: on the About page's orange band (Kevin's Top Picks orange) with its jaali at half strength ---------- */
 .fr-page .kv .fr-orange { position: relative; isolation: isolate; margin-top: 112px; padding: 72px var(--px) 80px; color: #fff;

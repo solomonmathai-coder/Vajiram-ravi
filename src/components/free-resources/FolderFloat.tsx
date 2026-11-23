@@ -6,8 +6,8 @@ import { prefersReducedMotion } from "@/lib/motion";
 /**
  * The folder cards' hover, as the final site's homepage Free resources section does it (its script, read from
  * vajiram-ravi.abhishek-ps.workers.dev, 21 Nov 2026): while the pointer is on a folder (or the keyboard is in it) the
- * material standing in it rises out (k eases to 1, slowly: up 5px and tilted 0.6deg back), then sways slightly there (a slow
- * sine, 1.2px and 0.15deg; a quarter of the reference's, which was too loud here), and settles back down when the pointer leaves. Each folder starts its bob at its own point. Only
+ * material standing in it rises out (k eases to 1: up 20px and tilted 2.4deg back), then bobs gently there (a slow sine,
+ * 7px and 0.8deg; the homepage's own amounts, so both folder sections behave alike), and settles back down when the pointer leaves. Each folder starts its bob at its own point. Only
  * with a mouse, and not with reduced motion. As there, a click anywhere on a folder follows its button's link.
  */
 export default function FolderFloat() {
@@ -34,16 +34,16 @@ export default function FolderFloat() {
       last = now;
       let moving = false;
       for (const t of items) {
-        t.k += (t.goal - t.k) * (1 - Math.exp(-dt * (t.goal ? 2.6 : 2.2)));
+        t.k += (t.goal - t.k) * (1 - Math.exp(-dt * (t.goal ? 7 : 5)));
         if (Math.abs(t.goal - t.k) < 0.001) t.k = t.goal;
-        if (t.goal) t.phase += 1.1 * dt;
+        if (t.goal) t.phase += 2.1 * dt;
         if (t.k === 0 && !t.goal) {
           t.obj.style.transform = "";
           continue;
         }
         moving = true;
         const s = Math.sin(t.phase);
-        t.obj.style.transform = `translate3d(0, ${(-5 * t.k - 1.2 * s * t.k).toFixed(2)}px, 0) rotate(${(-0.6 * t.k + 0.15 * s * t.k).toFixed(2)}deg)`;
+        t.obj.style.transform = `translate3d(0, ${(-20 * t.k - 7 * s * t.k).toFixed(2)}px, 0) rotate(${(-2.4 * t.k + 0.8 * s * t.k).toFixed(2)}deg)`;
       }
       if (moving) raf = requestAnimationFrame(tick);
       else {

@@ -325,7 +325,10 @@ background: none; color: #fff !important; font: 500 12px/16px "Geist", var(--f),
 .kv .qa summary { font-weight: 500; }
 .kv .kv-faq.faq { max-width: none; padding-left: var(--px); padding-right: var(--px); box-sizing: border-box; }
 .kv .kv-faq .qas { margin-left: 0; margin-right: 0; width: 100%; }
-.kv .sm__grid.rise > .sm__card { opacity: 0; transform: none; translate: 0 40px; scale: .96;
+/* (his "transform: none" is a rule of its own here: in one rule with translate and scale, this site's CSS minifier folds
+   the three into one transform that the rising grid's "in" never clears, leaving every card 4% small and 40px low) */
+.kv .sm__grid.rise > .sm__card { transform: none; }
+.kv .sm__grid.rise > .sm__card:where(*) { opacity: 0; translate: 0 40px; scale: .96;
 transition: opacity .7s var(--ease), translate .9s var(--ease), scale .9s var(--ease), transform .4s var(--ease), box-shadow .4s var(--ease);
 transition-delay: calc(var(--i, 0) * 90ms), calc(var(--i, 0) * 90ms), calc(var(--i, 0) * 90ms), 0s, 0s; }
 .kv .sm__grid.rise.in > .sm__card { opacity: 1; translate: 0 0; scale: 1; }
