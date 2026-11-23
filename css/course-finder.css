@@ -1582,3 +1582,176 @@ html.cf-locked { overflow: hidden; }
 .cf-sec.cf-feat > .cf-feat__intro { align-self: start; }
 /* Top Picks eyebrow back to the dark-orange brand cartouche (#C2410C, cartouche-brand.svg) with white capitals (user 2026-11-21) */
 .cf-feat .cf-feat__lbl .lbl__t { border-image-source: url("../assets/img/brand/cartouche-brand.svg"); }
+/* Top Picks: no book (user 2026-11-21); the eyebrow sits straight over the headline */
+.cf-feat .cf-feat__lbl { margin-bottom: 20px; }
+@media (max-width: 760px) { .cf-feat .cf-feat__lbl { margin-bottom: 16px; } }
+
+/* Top Picks shows exactly two whole cards beside the intro (user 2026-11-21): the card column is two cards plus one gap, so the
+   row clips where the third card starts; no peeking card, so no fades; the arrows page through the rest.
+   >1200: the cards keep the category rows' width (--k); 1101–1200: the two cards share the column so the intro keeps 280px */
+@media (min-width: 1201px) {
+  .cf-sec.cf-feat { grid-template-columns: minmax(0, 1fr) calc(var(--k) * 2 + 20px); }
+}
+@media (min-width: 1101px) and (max-width: 1200px) {
+  .cf-sec.cf-feat { grid-template-columns: 280px minmax(0, 1fr); }
+  .cf-feat .cf-grid { grid-auto-columns: calc((100% - 20px) / 2); }
+}
+@media (min-width: 1101px) {
+  .cf-feat .cf-k.is-peek, .cf-feat .cf-k.is-peek-l { -webkit-mask-image: none; mask-image: none; }
+}
+/* Top Picks arrows fully on the orange, not half over a white card (user 2026-11-21, "looks like there is a clip"): the banner
+   gets 72px on the right so the next arrow sits clear of the second card; the back arrow sits in the gap before the first */
+@media (min-width: 1101px) {
+  .cf-sec.cf-feat { padding-right: 72px; }
+  .cf-feat .cf-arw--next { right: -60px; }
+  .cf-feat .cf-arw--prev { left: -60px; }
+}
+/* Top Picks: the hover lift's shadow kept inside the row (user 2026-11-21): the 20px-blur drop-shadow reached the row's clip line
+   20px out and was cut off in a hard vertical edge; a tighter, softer shadow fades out well before it */
+@media (hover: hover) and (pointer: fine) {
+  .cf-feat .cf-k:hover { filter: drop-shadow(0 16px 10px rgb(60 20 5 / .28)); }
+}
+.cf-feat .cf-k__a { box-shadow: inset 0 1px 0 rgb(255 255 255 / .9), 0 14px 20px -14px rgb(80 26 4 / .45); }
+/* a bit more room above and below inside the Top Picks banner (user 2026-11-21): 32/28 → 44/40 (phones 28/24 → 36/32) */
+.cf-sec.cf-feat { padding-top: 44px; padding-bottom: 40px; }
+@media (max-width: 760px) { .cf-sec.cf-feat { padding-top: 36px; padding-bottom: 32px; } }
+/* help box: a divider between the text and the button (user 2026-11-21), in the box's inner-frame tan-orange (#E9B48A); a
+   vertical rule beside the text on wide screens, a rule under the text once the button wraps to its own line */
+@media (min-width: 901px) { .cf-help__tx { align-self: stretch; justify-content: center; padding-right: 28px; border-right: 1px solid #E9B48A; } }
+@media (max-width: 900px) { .cf-help__tx { padding-bottom: 18px; border-bottom: 1px solid #E9B48A; } }
+/* the Vajiram & Ravi emblem at the top of the Top Picks intro (user 2026-11-21); a soft shadow lifts it off the orange */
+.cf-feat__logo { display: block; width: 64px; height: auto; margin: 0 0 18px; filter: drop-shadow(0 6px 10px rgb(80 26 4 / .28)); }
+@media (max-width: 760px) { .cf-feat__logo { width: 52px; margin-bottom: 14px; } }
+/* the help box gets the rows' divider above it (user 2026-11-21, "a divider line like this"): the same full-width 1px #EADBC4
+   rule as between category rows, 36px clear on each side; the rule inside the box (text | button) comes out again */
+.cf-list__main > .cf-help { position: relative; margin-top: 37px; }
+.cf-list__main > .cf-help::after { content: ""; position: absolute; top: -37px; left: 50%; width: 100cqw; height: 1px; translate: -50% 0; background: #EADBC4; pointer-events: none; }
+.cf-help__tx { border: 0; padding-right: 0; padding-bottom: 0; }
+@media (max-width: 760px) { .cf-list__main > .cf-help { margin-top: 29px; } .cf-list__main > .cf-help::after { top: -29px; } }
+/* Top Picks: right padding equal to the left (48px) (user 2026-11-23); the arrows go back over the row's two ends, centred on the
+   card edge, with a firmer orange outline and a soft shadow so they read as floating, not clipped */
+@media (min-width: 1101px) {
+  .cf-sec.cf-feat { padding-right: 48px; }
+  .cf-feat .cf-arw--next { right: -24px; }
+  .cf-feat .cf-arw--prev { left: -24px; }
+}
+.cf-feat .cf-arw { border-color: rgb(194 65 12 / .55); box-shadow: 0 6px 14px -4px rgb(80 26 4 / .35); }
+.cf-feat .cf-arw:hover { box-shadow: 0 8px 18px -4px rgb(80 26 4 / .4); }
+/* Top Picks arrows level with the middle of the course image, not the titles (user 2026-11-23, readability): the row's top
+   padding (10px) + the card's inner padding (12px) + half the 16:9 image (card width - 24px, × 9/16, ÷ 2) */
+@media (min-width: 1201px) {
+  .cf-feat .cf-arw { top: calc(12px + (var(--k) - 24px) * 9 / 32); margin-top: -24px; }
+}
+@media (min-width: 1101px) and (max-width: 1200px) {
+  .cf-feat .cf-arw { top: calc(12px + ((100cqw - 436px) / 2 - 24px) * 9 / 32); margin-top: -24px; }
+}
+/* Top Picks arrows as a conventional pair (user 2026-11-23, "unconventional design"): both at the foot of the intro column,
+   bottom-aligned with the cards, side by side; the one with nowhere to go stays in place, dimmed and inert, instead of vanishing.
+   Positioned against the section (the card row stays where it is in the markup, so the click handler is unchanged) */
+@media (min-width: 1101px) {
+  .cf-feat .cf-car { position: static; }
+  .cf-feat .cf-arw { top: auto; bottom: 40px; margin-top: 0; right: auto; z-index: 4; }
+  .cf-feat .cf-arw--prev { left: 48px; }
+  .cf-feat .cf-arw--next { left: 108px; }
+  .cf-feat .cf-arw[hidden] { display: grid; opacity: .45; pointer-events: none; box-shadow: none; }
+}
+/* Top Picks arrows back at the vertical centre of the cards, at the row's two ends (user 2026-11-23, "as the previous design"),
+   but fully on the orange so they cover no card text: equal 72px side padding and a 72px gap before the cards give each arrow
+   its own lane, 12px clear of the cards and the banner edge */
+@media (min-width: 1101px) {
+  .cf-sec.cf-feat { padding-left: 72px; padding-right: 72px; column-gap: 72px; }
+  .cf-feat .cf-car { position: relative; }
+  .cf-feat .cf-arw { top: calc(50% - 10px); bottom: auto; margin-top: -24px; z-index: 4; }
+  .cf-feat .cf-arw--prev { left: -60px; right: auto; }
+  .cf-feat .cf-arw--next { right: -60px; left: auto; }
+  .cf-feat .cf-arw[hidden] { display: none; }
+}
+@media (min-width: 1101px) { .cf-feat .cf-arw { top: 50%; } }   /* exactly on the cards' vertical centre */
+/* the full Vajiram & Ravi logo (emblem + name, white lettering for the orange) instead of the emblem alone (user 2026-11-23) */
+.cf-feat__logo { width: auto; height: 52px; margin-bottom: 20px; }
+@media (max-width: 760px) { .cf-feat__logo { height: 42px; width: auto; } }
+/* Top Picks: no eyebrow (user 2026-11-23); the logo sits straight over the headline */
+.cf-feat__logo { margin-bottom: 22px; }
+/* the Vajiram & Ravi logo in the popular-courses banner: a subtle idle motion (user 2026-11-23): a slow 4px float and a soft
+   warm glow that breathes with it; off for reduced motion */
+.cf-feat__logo { animation: cf-logo-float 5s ease-in-out infinite; }
+@keyframes cf-logo-float {
+  0%, 100% { translate: 0 0; filter: drop-shadow(0 6px 10px rgb(80 26 4 / .24)); }
+  50% { translate: 0 -4px; filter: drop-shadow(0 10px 14px rgb(80 26 4 / .18)) drop-shadow(0 0 10px rgb(255 214 160 / .35)); }
+}
+@media (prefers-reduced-motion: reduce) { .cf-feat__logo { animation: none; } }
+/* the logo: float/glow off; a shine instead (user 2026-11-23): a soft light band sweeps across every few seconds, masked to the
+   logo's own shape so it only lights the emblem and lettering; still for reduced motion */
+.cf-feat__logo { animation: none; filter: none; margin: 0; }
+.cf-feat__brand { position: relative; display: block; width: max-content; margin: 0 0 22px; overflow: hidden;
+  -webkit-mask: url("../assets/img/brand/logo-white.png") 0 0 / 100% 100% no-repeat; mask: url("../assets/img/brand/logo-white.png") 0 0 / 100% 100% no-repeat; }
+.cf-feat__brand::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(105deg, transparent 38%, rgb(255 255 255 / .85) 50%, transparent 62%);
+  translate: -110% 0; animation: cf-logo-shine 4.5s cubic-bezier(.45, 0, .2, 1) 1.2s infinite; }
+@keyframes cf-logo-shine { 0% { translate: -110% 0; } 32%, 100% { translate: 110% 0; } }
+@media (max-width: 760px) { .cf-feat__brand { margin-bottom: 16px; } }
+@media (prefers-reduced-motion: reduce) { .cf-feat__brand::after { animation: none; opacity: 0; } }
+/* slower shine (user 2026-11-23, "moves too fast"): the sweep now takes about 3s (was ~1.5s), then rests; a 7s cycle, softer ease */
+.cf-feat__brand::after { animation: cf-logo-shine-slow 7s ease-in-out 1.2s infinite; }
+@keyframes cf-logo-shine-slow { 0% { translate: -110% 0; } 45%, 100% { translate: 110% 0; } }
+@media (prefers-reduced-motion: reduce) { .cf-feat__brand::after { animation: none; opacity: 0; } }
+/* shine around the logo too (user 2026-11-23): a point of light circles the round emblem on a thin ring just outside it
+   (a rotating conic gradient, masked to a 2px ring), alongside the sweep across the logo. Ring centred on the emblem:
+   at 52px tall the emblem's circle sits ~25px from the left, ~22px from the top, radius ~24px */
+@property --cf-halo { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+.cf-feat__lockup { position: relative; display: block; width: max-content; margin: 0 0 22px; }
+.cf-feat__lockup .cf-feat__brand { margin: 0; }
+.cf-feat__halo { position: absolute; left: -5px; top: -8px; width: 60px; height: 60px; border-radius: 50%; pointer-events: none;
+  background: conic-gradient(from var(--cf-halo), rgb(255 255 255 / 0) 0deg, rgb(255 255 255 / 0) 250deg, rgb(255 236 200 / .55) 320deg, rgb(255 255 255 / .95) 350deg, rgb(255 255 255 / 0) 360deg);
+  -webkit-mask: radial-gradient(circle, transparent 27px, #000 28px, #000 29.5px, transparent 30.5px);
+          mask: radial-gradient(circle, transparent 27px, #000 28px, #000 29.5px, transparent 30.5px);
+  animation: cf-halo-spin 5s linear infinite; }
+@keyframes cf-halo-spin { to { --cf-halo: 360deg; } }
+@media (max-width: 760px) { .cf-feat__lockup { margin-bottom: 16px; } .cf-feat__halo { left: -4px; top: -7px; width: 50px; height: 50px;
+  -webkit-mask: radial-gradient(circle, transparent 22px, #000 23px, #000 24.5px, transparent 25.5px); mask: radial-gradient(circle, transparent 22px, #000 23px, #000 24.5px, transparent 25.5px); } }
+@media (prefers-reduced-motion: reduce) { .cf-feat__halo { animation: none; opacity: 0; } }
+/* light ring re-centred on the emblem (measured from logo-white.png: circle centre x 110.5 / y 113 of 227, radius ~110 → at
+   52px tall: centre 25.3 / 25.9, radius 25.2; at 42px: 20.4 / 20.9) (user 2026-11-23, "fix this") */
+.cf-feat__halo { left: -4.7px; top: -4.1px; }
+@media (max-width: 760px) { .cf-feat__halo { left: -4.6px; top: -4.1px; } }
+.cf-feat__halo { display: none; }   /* the circling light around the emblem removed (user 2026-11-23); the sweep across the logo stays */
+
+/* arrow buttons 40×40 (was 48×48) (user 2026-11-23); centred on the row ends as before; the popular-courses pair stays centred in
+   its 72px lane (16px either side) */
+.cf-arw { width: 40px; height: 40px; margin-top: -20px; }
+.cf-arw--prev { left: -20px; }
+.cf-arw--next { right: -20px; }
+@media (min-width: 1101px) {
+  .cf-feat .cf-arw { margin-top: -20px; }
+  .cf-feat .cf-arw--prev { left: -56px; }
+  .cf-feat .cf-arw--next { right: -56px; }
+}
+/* the emblem alone again, a little bigger (user 2026-11-23): 72px tall (phones 58px); the shine is masked to the emblem's shape */
+.cf-feat__logo { height: 72px; width: auto; }
+@media (max-width: 760px) { .cf-feat__logo { height: 58px; } }
+.cf-feat__brand { -webkit-mask-image: url("../assets/img/brand/emblem.png"); mask-image: url("../assets/img/brand/emblem.png"); }
+/* popular courses: side padding back to 48px each side (gap before the cards 40px), and the 40px arrows overlay the card edges
+   like every other row (user 2026-11-23): centred on the row's two ends, at the category rows' height */
+@media (min-width: 1101px) {
+  .cf-sec.cf-feat { padding-left: 48px; padding-right: 48px; column-gap: 40px; }
+  .cf-feat .cf-arw { top: calc(50% - 10px); margin-top: -20px; }
+  .cf-feat .cf-arw--prev { left: -20px; right: auto; }
+  .cf-feat .cf-arw--next { right: -20px; left: auto; }
+}
+@media (min-width: 1101px) { .cf-feat .cf-arw { top: calc(50% + 5px); } }   /* same height against the cards as the category rows' arrows */
+/* the emblem as a 3D coin (user 2026-11-23): an extruded rim (stacked 1px drop-shadows in deepening orange-brown) and a soft
+   cast shadow give it thickness, and it rocks gently on its upright axis in perspective; the shine sweep rides on top.
+   Still (but keeps its depth) for reduced motion */
+.cf-feat__lockup { perspective: 420px;
+  filter: drop-shadow(1px 1px 0 #C2410C) drop-shadow(1px 1px 0 #A8380B) drop-shadow(1px 1px 0 #8F300A) drop-shadow(1px 1px 0 #762808)
+          drop-shadow(4px 8px 8px rgb(60 18 2 / .38)); }
+.cf-feat__brand { transform-origin: 50% 50%; animation: cf-coin-rock 6s ease-in-out infinite alternate; will-change: transform; }
+@keyframes cf-coin-rock { from { transform: rotateX(8deg) rotateY(-22deg); } to { transform: rotateX(8deg) rotateY(22deg); } }
+@media (prefers-reduced-motion: reduce) { .cf-feat__brand { animation: none; transform: rotateX(8deg) rotateY(-14deg); } }
+/* trial (user 2026-11-23, "see how it looks at 360"): the coin turns a full circle on its upright axis, slowly and steadily */
+.cf-feat__brand { animation: cf-coin-spin 8s linear infinite; }
+@keyframes cf-coin-spin { from { transform: rotateX(8deg) rotateY(0deg); } to { transform: rotateX(8deg) rotateY(360deg); } }
+@media (prefers-reduced-motion: reduce) { .cf-feat__brand { animation: none; transform: rotateX(8deg) rotateY(-14deg); } }
+/* emblem flat and still again (user 2026-11-23): no 3D rim, shadow, tilt or spin; the slow shine sweep stays */
+.cf-feat__lockup { perspective: none; filter: none; }
+.cf-feat__brand { animation: none; transform: none; will-change: auto; }

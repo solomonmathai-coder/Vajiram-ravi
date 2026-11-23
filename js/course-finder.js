@@ -357,20 +357,19 @@
     // (TOP_IDS is set with the badges, above the cards, so Our Top Picks gets all three badges too)
     const famOf = f => TREE.find(x => x.kids.includes(f));
     const tops = TOP_IDS.map(id => { for (const c of D.courses) { const v = c.v.find(x => x.id === id); if (v) return [c, v]; } return null; }).filter(Boolean);
-    const TOP_T = { k: 'top', label: 'Our Top Picks' };   // was "Vajiram's Top Picks" (2026-11-18), "Our Top Picks"; heading "Top Picks" with a count badge (user 2026-11-21)
+    const TOP_T = { k: 'top', label: 'Our Popular Courses' };   // was "Vajiram's Top Picks" (2026-11-18), "Our Top Picks"; heading "Top Picks" with a count badge (user 2026-11-21)
     const TOP_HTML = tops.length ? `<section class="cf-sec cf-feat" id="cat-top" data-top="1" aria-labelledby="cath-top">
         <div class="cf-feat__flow" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
         <div class="cf-feat__cuts" aria-hidden="true"><img class="cut--l" src="assets/img/photos/collage.png" alt="" decoding="async"><img class="cut--r" src="assets/img/photos/collage.png" alt="" decoding="async"></div>
         <div class="cf-feat__intro">
-          <div class="lbl lbl--w cf-feat__lbl"><span class="lbl__t">Most popular courses</span></div>   <!-- eyebrow first, then the book (user 2026-11-21) -->
-          <div class="cf-feat__book">${bookFor('top', 'Top Picks', tops.length, true)}</div>
-          <h2 class="cf-sec__h cf-feat__h" id="cath-top"><span class="cf-sec__name">Our Top Picks</span><span class="cf-sec__n" data-total="${tops.length}">${tops.length} ${tops.length === 1 ? 'course' : 'courses'}</span></h2>
-          <p class="cf-feat__sub">The courses aspirants join year after year, from our flagship GS Foundation to the test series that sharpen your Prelims and Mains. Start here if you are not sure where to begin.</p>
+          <span class="cf-feat__lockup"><span class="cf-feat__brand"><img class="cf-feat__logo" src="assets/img/brand/emblem.png" alt="Vajiram &amp; Ravi" width="222" height="227" decoding="async"></span></span>   <!-- the Vajiram & Ravi emblem over the eyebrow (user 2026-11-21) -->
+          <h2 class="cf-sec__h cf-feat__h" id="cath-top"><span class="cf-sec__name">Our Popular Courses</span></h2>
+          <p class="cf-feat__sub">Our best and most popular courses, the ones aspirants join year after year. Unsure where to begin your UPSC preparation? Start here.</p>
         </div>
         <div class="cf-car">
           <ul class="cf-grid">${tops.map(([c, v]) => card(c, v, famOf(c.f) || TOP_T)).join('')}</ul>
-          <button type="button" class="cf-arw cf-arw--prev" data-dir="-1" aria-label="Previous top picks" hidden>${CHEV(-1)}</button>
-          <button type="button" class="cf-arw cf-arw--next" data-dir="1" aria-label="More top picks" hidden>${CHEV(1)}</button>
+          <button type="button" class="cf-arw cf-arw--prev" data-dir="-1" aria-label="Previous popular courses" hidden>${CHEV(-1)}</button>
+          <button type="button" class="cf-arw cf-arw--next" data-dir="1" aria-label="More popular courses" hidden>${CHEV(1)}</button>
         </div>
       </section>` : '';
     list.innerHTML = '<nav class="cf-rail" id="cfRail" aria-label="Course categories"></nav><div class="cf-list__main">'
@@ -646,7 +645,7 @@
     const rail = $('#cfRail');
     if (rail) {
       const secs = $$('.cf-sec', list).map(s => {
-        const k = s.id.slice(4), name = k === 'top' ? 'Our Top Picks' : $('.cf-sec__name', s).textContent.trim(), n = +($('.cf-sec__n', s) || {}).dataset?.total || $$('.cf-k', s).length;
+        const k = s.id.slice(4), name = k === 'top' ? 'Our Popular Courses' : $('.cf-sec__name', s).textContent.trim(), n = +($('.cf-sec__n', s) || {}).dataset?.total || $$('.cf-k', s).length;
         return { k, s, name, n, book: k === 'top' ? 'Top Picks' : (TREE.find(t => t.k === k) || {}).label || name };
       });
       rail.innerHTML = `<div class="cf-rail__in">
