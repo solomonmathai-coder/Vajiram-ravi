@@ -193,6 +193,47 @@ html.js .ab-page .ab-rv.in { opacity: 1; translate: none; }
 .ab-page .ab-vb__t { margin: 0; font: 400 21px/1.2 var(--f-title); letter-spacing: -.01em; color: #2A2016; }
 .ab-page .ab-vb__d { margin: 6px 0 0; font: 400 14.5px/1.5 var(--f); color: #5a4632; text-wrap: pretty; }
 
+/* ---------- 3c. our values, a third layout: the five values as stops on one path (ValuesPath); its head is 3b's ---------- */
+/* three rows: the cards above the line, the line with its stops, the cards below; each value's parts are placed in
+   them by its stop (--c, a share of the width) */
+.ab-page .ab-vp__track { margin-top: 56px; }
+.ab-page .ab-vp__list { --w: 28.125%; --h: 168px; --disc: 60px; display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto 120px auto; margin: 0; padding: 0; list-style: none; }
+.ab-page .ab-vp__item { display: contents; }
+/* the line: orange dots across the width, fading out at both ends */
+.ab-page .ab-vp__list::before { content: ""; grid-row: 2; grid-column: 1; align-self: center; height: 4px;
+  background: radial-gradient(circle, #E1782F 1.6px, transparent 2px) 0 50% / 12px 4px repeat-x;
+  -webkit-mask: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+/* a stop: the value's icon white on an orange disc, ringed in the page's cream so it sits on the line */
+.ab-page .ab-vp__stop { grid-row: 2; grid-column: 1; align-self: center; justify-self: start; z-index: 1; display: grid; place-items: center;
+  width: var(--disc); height: var(--disc); margin-left: calc(var(--c) - var(--disc) / 2); border-radius: 50%;
+  background: linear-gradient(135deg, #F06A2C 0%, #E85020 45%, #C2410C 100%);
+  box-shadow: 0 0 0 6px #FFF8F1, 0 0 0 7px rgb(225 120 60 / .35), 0 12px 22px -10px rgb(194 65 12 / .8); }
+.ab-page .ab-vp__stop i { display: block; width: 28px; height: 28px; background: #fff;
+  -webkit-mask: var(--ic) center / contain no-repeat; mask: var(--ic) center / contain no-repeat; }
+/* the stem from the stop towards its card, a fine solid line ending in a small whole dot 8px short of the card */
+.ab-page .ab-vp__stem { position: relative; grid-row: 2; grid-column: 1; justify-self: start; width: 1.5px; height: calc(50% - var(--disc) / 2 - 7px - 8px);
+  margin-left: calc(var(--c) - .75px); background: rgb(194 65 12 / .55); }
+.ab-page .ab-vp__stem::after { content: ""; position: absolute; left: 50%; width: 7px; height: 7px; margin-left: -3.5px; border-radius: 50%; background: #C2410C; }
+.ab-page .ab-vp__item[data-side="above"] .ab-vp__stem { align-self: start; margin-top: 8px; }
+.ab-page .ab-vp__item[data-side="above"] .ab-vp__stem::after { top: -3.5px; }
+.ab-page .ab-vp__item[data-side="below"] .ab-vp__stem { align-self: end; margin-bottom: 8px; }
+.ab-page .ab-vp__item[data-side="below"] .ab-vp__stem::after { bottom: -3.5px; }
+/* a card: all one size (one width, and one height that holds the longest, a two-line title over two lines) on the manila of the homepage's folder cards (his cream-to-sand gradient, his paper grain, a lit
+   top edge), the outer two flush with the edges and the others centred on their stops */
+.ab-page .ab-vp__card {
+  position: relative; isolation: isolate; grid-column: 1; justify-self: start; box-sizing: border-box; width: var(--w); height: var(--h);
+  margin-left: clamp(0%, calc(var(--c) - var(--w) / 2), calc(100% - var(--w))); padding: 24px 28px 26px; border-radius: 10px;
+  background: linear-gradient(178deg, #F9EFDA, #F5E8CE 30%, #EFDFC0);
+  box-shadow: inset 0 1px 0 rgb(255 250 235 / .9), inset 0 2px 0 rgb(110 66 18 / .12),
+    0 0 0 1px rgb(110 66 18 / .2), 0 2px 3px rgb(60 30 5 / .12), 0 24px 40px -30px rgb(60 30 5 / .45);
+}
+.ab-page .ab-vp__card::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; pointer-events: none; opacity: .45; mix-blend-mode: soft-light;
+  background: url(/assets/img/patterns/grain.png) 0 0 / 200px repeat; }
+.ab-page .ab-vp__item[data-side="above"] .ab-vp__card { grid-row: 1; align-self: end; }
+.ab-page .ab-vp__item[data-side="below"] .ab-vp__card { grid-row: 3; align-self: start; }
+.ab-page .ab-vp__t { margin: 0; font: 400 22px/1.2 var(--f-title); letter-spacing: -.01em; color: #2A2016; }
+.ab-page .ab-vp__d { margin: 8px 0 0; font: 400 15px/1.55 var(--f); color: #5a4632; text-wrap: pretty; }
+
 /* ---------- 4. the people who lead Vajiram & Ravi ---------- */
 .ab-page .ab-leaders { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 56px; list-style: none; padding: 0; }
 .ab-page .ab-leader { display: flex; }

@@ -11,6 +11,7 @@ import AboutTilt from "./AboutTilt";
 import StoryChapters from "./StoryChapters";
 import ValuesList from "./ValuesList";
 import ValuesPanels from "./ValuesPanels";
+import ValuesPath from "./ValuesPath";
 import "@/components/course-finder/base.css";
 import "@/components/course-finder/shared.css";
 import "@/components/course-finder/course-finder.css";
@@ -37,6 +38,8 @@ const MAP_EMBED =
  *      over its foot
  *   2. how it started: the photograph beside the story's parts as a quiet numbered list, one open (StoryChapters)
  *   3. our values: all five on one screen as photograph panels (ValuesPanels), on Kevin's toppers ground
+ *      and two alternatives under it to compare and choose: a still row of five icon cards (ValuesList) and the five
+ *      as stops on one path, the cards above and below it by turns (ValuesPath)
  *   4. the people who lead Vajiram & Ravi, their cards tilting toward the pointer (AboutTilt)
  *   5. the educators (the homepage's carousel)
  *   6. where we teach (his "Contact us" card), and the note that there are no other branches
@@ -87,6 +90,9 @@ export default function AboutPage() {
 
         {/* 3b. our values, the alternative layout (everything up front), for the client to compare with 3 and choose */}
         <ValuesList />
+
+        {/* 3c. our values, a third layout (the five as stops on one path), also to compare and choose */}
+        <ValuesPath />
 
         {/* 4. the people who lead Vajiram & Ravi */}
         <section className="ab-sec" aria-labelledby="abLeaders">
