@@ -1755,3 +1755,74 @@ html.cf-locked { overflow: hidden; }
 /* emblem flat and still again (user 2026-11-23): no 3D rim, shadow, tilt or spin; the slow shine sweep stays */
 .cf-feat__lockup { perspective: none; filter: none; }
 .cf-feat__brand { animation: none; transform: none; will-change: auto; }
+/* ASCII stream canvas behind the popular-courses banner's content (js/cf-ascii-stream.js, trial) */
+.cf-feat__stream { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; pointer-events: none; }
+
+/* popular courses: a glow that runs around the edge of one card at a time (user 2026-11-23, after React Bits' Pipeline nodes):
+   a bright orange segment rides a 2px ring on the card's outline (a rotating conic gradient masked to the ring), with a soft
+   bloom; it fades in on a card, makes its laps, fades out, and the next card takes over (js/cf-card-beam.js) */
+@property --cf-beam { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+.cf-feat .cf-k::after { content: ""; position: absolute; inset: 0; z-index: 2; border-radius: 12px; padding: 2px; pointer-events: none;
+  background: conic-gradient(from var(--cf-beam), rgb(251 146 60 / 0) 0deg, rgb(251 146 60 / 0) 250deg, rgb(249 115 22 / .55) 310deg,
+    rgb(255 190 130 / 1) 345deg, rgb(255 226 196 / 1) 354deg, rgb(251 146 60 / 0) 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  filter: drop-shadow(0 0 5px rgb(249 115 22 / .7)) drop-shadow(0 0 2px rgb(255 190 130 / .9));
+  opacity: 0; transition: opacity .6s ease; animation: cf-beam-run 2.6s linear infinite; animation-play-state: paused; }
+.cf-feat .cf-k.is-beam::after { opacity: 1; animation-play-state: running; }
+@keyframes cf-beam-run { to { --cf-beam: 360deg; } }
+@media (prefers-reduced-motion: reduce) { .cf-feat .cf-k::after { display: none; } }
+/* the running glow made easier to see (user 2026-11-23, "I don't see the glow"): it was orange on an orange edge, 2px thin; now
+   a 3px track, a longer tail, a near-white hot tip and a wider bloom */
+.cf-feat .cf-k::after { inset: -1px; border-radius: 13px; padding: 3px;
+  background: conic-gradient(from var(--cf-beam), rgb(255 160 80 / 0) 0deg, rgb(255 160 80 / 0) 220deg, rgb(249 115 22 / .7) 290deg,
+    rgb(255 196 140 / 1) 332deg, rgb(255 246 236 / 1) 350deg, rgb(255 255 255 / 1) 355deg, rgb(255 160 80 / 0) 360deg);
+  filter: drop-shadow(0 0 3px rgb(255 236 214 / .95)) drop-shadow(0 0 9px rgb(255 150 70 / .9)) drop-shadow(0 0 18px rgb(249 115 22 / .55)); }
+/* running glow, take two: drawn just OUTSIDE the card, behind it, so it shows against the banner (on the card's own edge it
+   matched the orange border and white face and vanished, and the ring mask clipped its bloom). The card face covers the middle,
+   so no mask is needed: ::after is the sharp 3px rim, ::before a blurred copy for the bloom */
+.cf-feat .cf-k::before, .cf-feat .cf-k::after { content: ""; position: absolute; z-index: -1; pointer-events: none; padding: 0;
+  -webkit-mask: none; mask: none;
+  background: conic-gradient(from var(--cf-beam), rgb(255 170 90 / 0) 0deg, rgb(255 170 90 / 0) 220deg, rgb(255 196 130 / .75) 290deg,
+    rgb(255 226 190 / 1) 330deg, rgb(255 250 242 / 1) 350deg, rgb(255 255 255 / 1) 355deg, rgb(255 170 90 / 0) 360deg);
+  opacity: 0; transition: opacity .6s ease; animation: cf-beam-run 2.6s linear infinite; animation-play-state: paused; }
+.cf-feat .cf-k::after { inset: -3px; border-radius: 15px; filter: none; }
+.cf-feat .cf-k::before { inset: -7px; border-radius: 19px; filter: blur(7px); }
+.cf-feat .cf-k.is-beam::before { opacity: .9; animation-play-state: running; }
+.cf-feat .cf-k.is-beam::after { opacity: 1; animation-play-state: running; }
+@media (prefers-reduced-motion: reduce) { .cf-feat .cf-k::before, .cf-feat .cf-k::after { display: none; } }
+/* the running glow wider so it reads (user 2026-11-23): a 5px rim outside the card and a 10px soft bloom */
+.cf-feat .cf-k::after { inset: -5px; border-radius: 17px; }
+.cf-feat .cf-k::before { inset: -11px; border-radius: 23px; filter: blur(9px); }
+/* running glow: slower and stronger (user 2026-11-23): one lap now takes 5s (was 2.6s); the lit stretch is longer and fully
+   opaque, the rim gets its own tight halo, and the bloom is wider and brighter */
+.cf-feat .cf-k::before, .cf-feat .cf-k::after { animation-duration: 5s;
+  background: conic-gradient(from var(--cf-beam), rgb(255 170 90 / 0) 0deg, rgb(255 170 90 / 0) 190deg, rgb(255 190 120 / .9) 270deg,
+    rgb(255 226 190 / 1) 320deg, rgb(255 250 240 / 1) 345deg, rgb(255 255 255 / 1) 356deg, rgb(255 170 90 / 0) 360deg); }
+.cf-feat .cf-k::after { filter: drop-shadow(0 0 4px rgb(255 240 220 / .95)) drop-shadow(0 0 10px rgb(255 170 90 / .8)); }
+.cf-feat .cf-k::before { inset: -16px; border-radius: 28px; filter: blur(12px) saturate(1.2); }
+.cf-feat .cf-k.is-beam::before { opacity: 1; }
+
+/* body font: Mukta instead of IBM Plex Sans (user 2026-11-23), the same family as the nav; Newsreader stays for headings */
+:root { --f: Mukta, "Nirmala UI", "Helvetica Neue", Arial, sans-serif; }
+body { font-family: var(--f); }
+.ps-face__foot, .ps-face__cat { font-family: var(--f); }   /* the book-cover labels hard-coded IBM Plex Sans */
+/* running glow: a touch softer, and kept inside the row so it isn't sliced (user 2026-11-23): the card row only shows 10px above
+   the cards and 20px either side (the next card starts there), so the bloom was cut off in straight edges. The row now shows
+   28px above the cards (pulled up by the same amount, so nothing moves), and the bloom and halo are tightened to stay within
+   ~18px of the card */
+.cf-feat .cf-grid { padding-top: 28px; margin-top: -28px; }
+.cf-feat .cf-k::before { inset: -8px; border-radius: 20px; filter: blur(7px) saturate(1.15); }
+.cf-feat .cf-k.is-beam::before { opacity: .8; }
+.cf-feat .cf-k::after { filter: drop-shadow(0 0 3px rgb(255 240 220 / .85)) drop-shadow(0 0 6px rgb(255 170 90 / .65)); }
+.cf-feat .cf-k.is-beam::after { opacity: .92; }
+/* the glow never covers a card (user 2026-11-23, "an overlay appears while loading"): while the cards flip in they are see-through,
+   and the glow layers were whole shapes behind them. Both are now cut to the band just OUTSIDE the card (padding = how far out
+   they reach, the middle masked away), so the card's face is never tinted whatever state it is in */
+.cf-feat .cf-k::after { inset: -5px; padding: 5px; }
+.cf-feat .cf-k::before { inset: -9px; padding: 9px; }
+.cf-feat .cf-k::before, .cf-feat .cf-k::after {
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
+/* no jump wave on the popular-courses cards (user 2026-11-23) */
+.cf-feat .cf-k { animation: none; top: 0; }
