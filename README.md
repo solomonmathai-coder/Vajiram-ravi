@@ -106,16 +106,44 @@ To change content, edit the files in `src/data`. To change a section's look, edi
 
 ## How it behaves
 
-### The homepage (/): Kevin's, as it is (21 Nov 2026)
+### The homepage (/): Kevin's, as it is (updated 24 Nov 2026)
 
-"/" is Kevin's latest homepage (the `kevin` branch, 3e288bc), which is the reference build's finished page
-(vajiram-ravi.abhishek-ps.workers.dev) rather than source code, kept as it is in `public/index.html`: its Next.js
-scripts in `public/kevin-home/static/chunks/` (moved from `/_next/`, which our own Next.js reserves; the page's paths
-and the scripts' chunk base path changed to match), its stylesheet `public/css/base.bundle.css`, and the 161 images
-and patterns it uses under `public/assets/`. One change: the footer's "About Us" opens our /about (in the markup and
-in the page's data). The built site serves it at "/" (vercel.json `cleanUrls`); the dev server sends "/" to
-`/index.html` (a development-only redirect in next.config.ts). To bring in a newer version of his homepage, re-run the
-same copy from his branch. Our own homepage (v2, below) is now at /home-v2, its intro playing there.
+"/" is Kevin's latest homepage (the `kevin` branch, 6e17b7e "copy of Abhishek's staging homepage", in place of 3e288bc
+from 21 Nov), a finished page rather than source code, kept as it is in `public/index.html`: its Next.js scripts in
+`public/kevin-home/static/chunks/` (moved from `/_next/`, which our own Next.js reserves; the page's paths and the
+scripts' chunk base path changed to match, but not the runtime's `/_next/image` and `/_next/static/immutable` checks),
+its stylesheet `public/css/base.bundle.css`, and the images it uses under `public/assets/` (those named in the page,
+its scripts and its stylesheet, and the few its scripts build: the educators' black-and-white portraits, its icons and
+banners). Our changes to it: the footer's "About Us" opens /about (in the markup and in the page's data), the Study
+materials menu's "Explore free resources" opens /free-resources (in his script), and his course finder links
+(`/course-finder.html`, with their `#cat=`) open our /courses, which is his course finder and reads the same `#cat=`.
+One addition of ours: the toppers section in a new version that replaces his on desktop
+(`public/css/toppers-oneview.css` and `public/js/toppers-years.js`, both linked in `index.html`; 24 Nov 2026). His
+section was two showcases one above the other, the 2025 carousel (silver shields, cut-out
+portraits, big AIR numbers, moving by itself) and the decade panel (year tabs, one topper large in laurels beside a
+list of names that runs by itself), 1574px at 1440 because the two stand one under the other. The new version keeps
+both, each as he drew it and at his size, and shows them in one frame as two scenes: under his heading (with "For a
+decade, we've been shaping India's civil servants." as its line) a segmented switch ("2025 results" /
+"A decade of ranks"), the orange gliding between the two halves; the scene slides
+in the way the switch moves. Scene 1 is his 2025 carousel; scene 2 his decade panel exactly as on his section (his
+year tabs over his framed panel, the caption with its rules), its list a little shorter (290px for his 406) and its
+shield 206px for his 225, so the section fits one screen: the heading on one line ("For a decade…" left to the
+switch), 843px at 1440 x 900, 809px at 1700 x 830 (96%), stepping down in scale on shorter screens (87% at 1366 x 768). Earlier tries (side by side, a split screen with a year
+timeline, a dark "hall of fame" band) were removed on 24 Nov 2026.
+His scripts do not reach the copy, so ours runs its parts: the carousel (sliding by CSS, pausing under the pointer),
+the year tabs, the list (click a name, or let it move on every 4.5s, a fine line filling across the name shown,
+pausing under the pointer) and the topper shown large, with the real photograph we hold for each earlier topper
+(`assets/img/toppers/YYYY-rank-name`; his list gives them all one placeholder portrait of a man), laid on cream so the
+shield holds no stark white, or the institute's emblem where we have none (2015, whose names in his data are only
+"Rank holder 1" to "6": to be replaced when the client sends them). Desktop widths only; phones see his section alone.
+On 24 Nov 2026 the new version was chosen: on desktop his section is now set aside (hidden, its id
+given up so the nav's "Toppers" link lands on the new one, and its SVG shield shapes moved out to the page first, as
+a hidden section would stop drawing them); phones keep his section.
+The built site serves it at "/" (vercel.json `cleanUrls`); the dev server sends "/" to `/index.html` (a
+development-only redirect in next.config.ts). To bring in a newer version, extract `index.html`, `_next` and `css` from
+his branch (`git archive origin/kevin index.html _next css`) and repeat those steps, including the links to
+`toppers-oneview.css` and `toppers-years.js`. Our own homepage (v2, below) is at
+/home-v2, its intro playing there.
 
 ### The Free Resources page (/free-resources, 21 Nov 2026)
 
