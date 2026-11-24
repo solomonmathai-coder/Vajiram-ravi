@@ -1,0 +1,234 @@
+/* the homepage footer's stylesheet, copied from abhishekps-web/vajiram-ravi (staging, public/css/footer-v6.css) on 2026-11-23 so the
+   course finder's footer matches the homepage's; loaded after css/footer-ref.css, which keeps the curtain and gold-frame reveal */
+/* Footer: ported from Kevin's build (user 2026-11-16; eclectic-alfajores-975fab.netlify.app, css/footer-v6.css), declared by
+   components/layout/Footer/Footer.jsx. The gold frame (.foot__frame) and its reveal are the site's own (v49.css, page-motion.js). */
+/* =====================================================================================================================================
+   Footer (user 2026-11-16: "use the footer style from v6"): version 6's SiteFooter (Figma "Footer – v5 (minimal)" 2567:4286), set
+   here for the static page and made to reflow on smaller screens (version 6 was fixed at 1280px).
+   - The cream paper (#FFF8EC); everything in a warm grey (#6E655C) with the hairlines in ink at 12%.
+   - The logo row: the logo on the left, the six social icons opposite on the right (the brand marks as masks, painted in the text colour,
+     burnt orange on a soft burnt disc on hover), over a hairline.
+   - Four link columns (Vajiram & Ravi, Courses & Test Series, UPSC Exam, Free Resources) and the latest current affairs beside them (the
+     content of version 8's own footer, user 2026-11-16); heads in Mukta semibold capitals
+     at 16px, spaced a little, in ink; links at 16px. A link turns burnt as a line draws in under it from the left (a background line, so it
+     follows a wrapped label onto its second line).
+   - The giant "Vajiram & Ravi" pressed into the paper: version 6's deboss filter (index.html #vf-deboss) on Mukta Bold, a shade deeper
+     than the cream.
+   - The legal bar over a hairline. It stays parked under the page, which slides up off it (js/footer-curtain.js).
+   ===================================================================================================================================== */
+.vf { --vf-paper: #FFF8EC; --vf-text: #6E655C; --vf-ink: #1A1714; --vf-burnt: #CC5500; --vf-rule: rgba(26, 23, 20, .12);
+  position: relative; background: var(--vf-paper); color: var(--vf-text); font-family: var(--f, "IBM Plex Sans", system-ui, sans-serif); }
+/* the gold frame (user 2026-11-16): version 8's double gold rule with a diamond on each corner (css/v49.css .foot__frame, its reveal in
+   js/page-motion.js), here on the cream; the content keeps clear of the inner rule (30px in) */
+.vf { isolation: isolate; }
+.vf .foot__frame { z-index: 0; }
+/* smaller corner diamonds, as on the "Book your free session" form (user 2026-11-16; patterns/frame.svg: 8px, on the outer rule's
+   corner): 8px instead of 18px, still centred where the outer rule's corners meet (9px into the frame's box) */
+.vf .foot__frame { background-size: 8px; background-position: 5px 5px, calc(100% - 5px) 5px, 5px calc(100% - 5px), calc(100% - 5px) calc(100% - 5px); }
+html.foot-curtain footer.vf { position: sticky; bottom: var(--foot-off, 0px); z-index: 0; margin-top: 0; }
+.vf__in { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; gap: 48px; max-width: 1280px; margin: 0 auto;
+  padding: 72px max(var(--px, 24px), 48px) 56px; box-sizing: content-box; }   /* clear of the gold frame's inner rule (30px in) */
+
+/* the logo row */
+.vf__socials { display: flex; align-items: center; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.vf__socials a { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; color: var(--vf-text);
+  transition: color .2s ease, background-color .2s ease; }
+.vf__socials a:hover, .vf__socials a:focus-visible { color: var(--vf-burnt); background: rgba(204, 85, 0, .1); }
+.vf__soc { display: block; width: 20px; height: 20px; background: currentColor; -webkit-mask: var(--m) center / contain no-repeat; mask: var(--m) center / contain no-repeat; }
+
+/* the four link columns, and the latest current affairs beside them (the content of version 8's own footer, user 2026-11-16) */
+.vf__cols { display: grid; grid-template-columns: .8fr 1.15fr 1.15fr 1fr; align-items: start; column-gap: 32px; row-gap: 40px; width: 100%; }
+.vf__col { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; min-width: 0; }
+.vf__h { margin: 0; font: 600 16px/22px "IBM Plex Sans", var(--f), sans-serif; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap; color: var(--vf-ink); }
+.vf__col ul { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; margin: 0; padding: 0; list-style: none; }
+.vf__col a, .vf__legal a { font: 500 16px/22px var(--f, "IBM Plex Sans"), sans-serif; color: var(--vf-text); text-decoration: none; text-wrap: pretty;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  transition: color .2s ease, background-size .25s ease; }
+.vf__col a:hover, .vf__col a:focus-visible, .vf__legal a:hover, .vf__legal a:focus-visible { color: var(--vf-burnt); background-size: 100% 1px; }
+.vf a:focus-visible { outline: 2px solid var(--vf-burnt); outline-offset: 3px; border-radius: 2px; }
+
+
+/* the name, pressed into the paper */
+.vf__word { width: 100%; user-select: none; }
+.vf__word svg { display: block; width: 100%; height: auto; overflow: visible; }
+.vf__word text { font: 700 224px "IBM Plex Sans", var(--f), sans-serif; letter-spacing: -.03em; fill: #F6EAD8; }
+
+/* the legal bar */
+.vf__legal { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px 24px; flex-wrap: wrap; width: 100%; padding-top: 24px; border-top: 1px solid var(--vf-rule);
+  font-size: 14px; line-height: 20px; }
+.vf__legal p { margin: 0; }
+.vf__legal nav { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+.vf__legal a, .vf__legal span { font-size: 14px; line-height: 20px; }
+
+/* ---------- smaller screens ---------- */
+@media (max-width: 860px) { .vf__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) {
+  .vf__in { gap: 36px; padding: 52px 30px 44px; }
+  .vf__socials { gap: 6px; margin-left: -6px; }
+  .vf__cols { column-gap: 20px; row-gap: 32px; }
+  .vf__h { white-space: normal; font-size: 14px; line-height: 20px; }
+  .vf__col, .vf__col ul { gap: 11px; }
+  .vf__col a { font-size: 15px; line-height: 21px; }
+  .vf__legal { flex-direction: column; }
+}
+
+/* the footer in the site's own type (user 2026-11-16, "the footer font should match the website font style"): the body face (--f) for
+   links, news and the legal bar, and the column heads and the pressed-in name in it too, instead of Kevin's IBM Plex Sans */
+.vf .vf__h { font-family: var(--f); }
+.vf__word text { font-family: var(--f); }
+
+/* compact (user 2026-11-16, "compact the footer"): the same content and layout, tighter: less padding inside the frame, smaller gaps
+   between the rows, the links and the columns closer, a smaller news card, and the pressed-in name about two thirds of its size */
+.vf__in { gap: 28px; padding-top: 52px; padding-bottom: 40px; }
+.vf__col, .vf__col ul { gap: 9px; }
+.vf__col a { line-height: 20px; }
+.vf__word { max-width: 860px; margin: -6px auto -10px; }
+.vf__legal { padding-top: 18px; }
+@media (max-width: 640px) {
+  .vf__in { gap: 26px; padding: 40px 28px 34px; }
+  .vf__col, .vf__col ul { gap: 8px; }
+}
+
+/* compact, one step further (user 2026-11-16, "need to one more compact the footer"): tighter again, the same content and layout */
+.vf__in { gap: 22px; padding-top: 42px; padding-bottom: 32px; }
+.vf__cols { row-gap: 28px; }
+.vf__col { gap: 10px; }
+.vf__col ul { gap: 6px; }
+.vf__h { font-size: 14px; line-height: 20px; }
+.vf__col a { font-size: 15px; line-height: 19px; }
+.vf__word { max-width: 700px; margin: -10px auto -14px; }
+.vf__legal { padding-top: 14px; }
+@media (max-width: 640px) {
+  .vf__in { gap: 22px; padding: 34px 26px 28px; }
+  .vf__col ul { gap: 6px; }
+}
+
+/* the reveal zooms in (user 2026-11-17, the mirror of the hero's zoom-out as Programmes covers it): while the page slides up off the
+   footer, the frame and everything in it grow from 92% to full size about the footer's middle, and a shade over the cream lifts from 35%
+   to nothing (--foot-p, 0..1, footer-curtain.js). Only the transform and the shade's opacity change, so the browser composites it. */
+html.foot-curtain .vf > .foot__frame, html.foot-curtain .vf > .vf__in { transform: scale(calc(.92 + var(--foot-p, 1) * .08)); transform-origin: 50% 50%; }
+/* the frame keeps its fade-in (v49.css .fb-anim) but its transform now follows the scroll, so it does not ease after it */
+html.foot-curtain .vf > .foot__frame { transition: opacity .9s var(--ease); }
+html.foot-curtain .vf::after { content: ""; position: absolute; inset: 0; z-index: 3; pointer-events: none; background: #1a0a02;
+  opacity: calc((1 - var(--foot-p, 1)) * .35); }
+@media (prefers-reduced-motion: reduce) {
+  html.foot-curtain .vf > .foot__frame, html.foot-curtain .vf > .vf__in { transform: none; }
+  html.foot-curtain .vf::after { display: none; }
+}
+
+/* Phones (760px and narrower, user 2026-11-17, "remove the sticky behaviour for the footer on mobile only"): the footer is not parked
+   under the page there; it simply follows the last section and scrolls with the page. Its reveal zoom and shade (footer-curtain.js) go
+   with it. Wider screens keep the curtain. */
+@media (max-width: 760px) {
+  html.foot-curtain footer.vf { position: relative; bottom: auto; z-index: auto; }
+  html.foot-curtain .vf > .foot__frame, html.foot-curtain .vf > .vf__in { transform: none; }
+  html.foot-curtain .vf::after { display: none; }
+}
+
+/* a larger logo (user 2026-11-17, "large the Vajiram logo in the footer"): 220px wide (was 136px), 180px on phones; the full-size file on
+   high-density screens (srcSet, Footer.jsx) */
+/* phones (user 2026-11-17, "make the logo fill 100% width"): the logo spans the footer's content column */
+/* phones only (user 2026-11-17, "remove latest current affairs from the mobile footer only"): the news card is not shown there */
+/* phones only (user 2026-11-17, "remove the large Vajiram & Ravi text in the footer, only on mobile"): the giant pressed-in name is not shown */
+@media (max-width: 760px) { .vf__word { display: none; } }
+
+/* the line under the logo (user 2026-11-17, "under that logo add 'Understanding India. Shaping its Future.'"): the site's serif, italic,
+   in the footer's ink; the logo and the line are one block (.vf__brand), opposite the social icons, above them on phones */
+.vf__brand { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; min-width: 0; }
+.vf__tagline { margin: 0; font: italic 400 18px/1.35 var(--f-title, Georgia), serif; letter-spacing: -.005em; color: var(--vf-ink); text-wrap: balance; }
+@media (max-width: 760px) { .vf__brand { width: 100%; } .vf__tagline { font-size: 19px; } }
+/* phones (user 2026-11-17, "under that add the socials in the centre"): the social icons under the logo and its line, centred */
+
+/* the line under the logo, set as on the Bragg footer (user 2026-11-17, footer.design/sites/bragg): upright (not italic), and on phones
+   the brand block centred: the logo, then with clear space under it the line, larger, centred, as a two-line statement (one sentence
+   to a line), then the social icons centred */
+.vf__tagline { font-style: normal; }
+@media (max-width: 760px) {
+  .vf__brand { align-items: center; gap: 22px; text-align: center; }
+  .vf__tagline { font-size: 24px; line-height: 1.25; letter-spacing: -.01em; }
+  .vf__tagline > span { display: block; }
+}
+
+
+/* the legal bar on phones, tidied (user 2026-11-17, "optimise this section too"): centred, the copyright on its own line and the three
+   items centred under it, wrapping evenly; each link at least 24px tall to tap */
+@media (max-width: 760px) {
+  .vf__legal { flex-direction: column; align-items: center; gap: 8px; text-align: center; }
+  .vf__legal p { font-size: 13px; line-height: 20px; opacity: .85; }
+  .vf__legal nav { justify-content: center; gap: 4px 20px; }
+  .vf__legal nav > * { padding-block: 2px; }
+  /* no separator dots: the three items cannot share one line on a phone, and a dot left at the start of the wrapped line read as a stray */
+}
+
+/* social icons sized for Fitts's law (user 2026-11-17, "check Fitts's law for the social icons"): the targets were 32px round, 6px apart on
+   phones, small and close for a thumb. Now 44px targets (the touch guideline) 8px apart on phones, the six still in one row (304px), and
+   40px with a mouse; the glyphs a touch larger. The hover/focus disc is the whole target, so the larger area shows. */
+.vf__socials { gap: 8px; }
+.vf__socials a { width: 40px; height: 40px; }
+.vf__socials a .vf__soc { width: 20px; height: 20px; }
+@media (max-width: 760px) {
+  .vf__socials { gap: 8px; }
+  .vf__socials a { width: 44px; height: 44px; }
+  .vf__socials a .vf__soc { width: 22px; height: 22px; }
+}
+
+/* the line under the logo set as in the preloader (user 2026-11-17, "same style as in the preloader"; intro.css .vrv__tag): Newsreader
+   400, clamp(22px, 2.2vw, 34px)/1.2, -.01em, upright, the second half in the accent. The preloader's white and pale gold sit on its
+   orange ground; on the footer's cream they would not read, so the halves take the footer's ink and its burnt orange. Each half rises
+   in (.rv, the second .15s later, as in the preloader) */
+.vf .vf__tagline { font: 400 clamp(22px, 2.2vw, 34px)/1.2 var(--f-title, "Newsreader"), Georgia, serif; letter-spacing: -.01em; color: var(--vf-ink); }
+.vf .vf__tagline > span { display: inline-block; }
+.vf .vf__tagline > span + span { color: var(--vf-burnt); }
+@media (max-width: 760px) { .vf .vf__tagline { font-size: 26px; } .vf .vf__tagline > span { display: block; } }
+
+/* while the footer zooms in (footer-curtain.js .vf--zooming, 0 < --foot-p < 1) its content is one composited layer, scaled whole: drawn
+   again at every step, the social icons (20px masks) snapped to the pixel grid differently each frame and jumped (user 2026-11-17) */
+html.foot-curtain .vf.vf--zooming > .vf__in, html.foot-curtain .vf.vf--zooming > .foot__frame { will-change: transform; }
+
+/* desktop and tablet (wider than 760px): the legal bar 28px clear of the frame's inner gold rule, which is drawn 24px in from the
+   footer's edge (it sat 8px above it; user 2026-11-17, "fix the spacing here"); and no line under the logo ("not needed in desktop") */
+@media (min-width: 761px) {
+  .vf .vf__in { padding-bottom: 52px; }
+  .vf .vf__tagline { display: none; }
+}
+
+/* the legal line at the link columns' size (user 2026-11-17, "this text size looks different from the footer links"): 15px on every
+   screen (it was 14px, the copyright 13px on phones); the links and "Grievance redressal" medium like the column links */
+.vf .vf__legal p, .vf .vf__legal a, .vf .vf__legal nav > span { font-size: 15px; line-height: 20px; }
+.vf .vf__legal nav > span { font-weight: 500; }
+
+/* user 2026-11-20: no logo and no news; the social icons close the legal bar (right on desktop, centred under the links on phones);
+   the brand block holds only the phone tagline, so it is hidden on wider screens */
+.vf .vf__legal { align-items: center; }
+.vf__legal .vf__socials { margin: -8px -8px -8px 0; }
+@media (min-width: 761px) { .vf .vf__brand { display: none; } }
+@media (max-width: 760px) { .vf__legal .vf__socials { margin: 6px 0 0; justify-content: center; } }
+
+/* The logo back (user 2026-11-21, "same as we used earlier"): the emblem and the wordmark as before 2026-11-20. Desktop and tablet: side
+   by side, 72px tall, at the top of the footer with the rule under it (the tagline stays hidden there); phones: stacked and centred, the
+   emblem over the wordmark (40% of the screen), the tagline under them. Hover: the emblem turns a little. */
+.vf__logo { display: flex; align-items: center; gap: 11px; width: max-content; }
+.vf__logo img { display: block; }
+.vf__logo img.vf__mark { width: auto; height: 72px; transition: rotate .5s var(--ease, ease); }
+.vf__logo img.vf__wordmark { width: 138px; height: auto; }
+.vf__logo:focus-visible { outline: 2px solid var(--vf-burnt); outline-offset: 6px; border-radius: 8px; }
+@media (hover: hover) and (pointer: fine) { .vf__logo:hover img.vf__mark { rotate: -8deg; } }
+@media (prefers-reduced-motion: reduce) { .vf__logo img.vf__mark { transition: none; } }
+@media (min-width: 761px) {
+  .vf .vf__brand { display: flex; width: 100%; padding-bottom: 24px; border-bottom: 1px solid var(--vf-rule); }
+}
+@media (max-width: 760px) {
+  .vf__logo { flex-direction: column; gap: 14px; width: 100%; }
+  .vf__logo img.vf__mark { height: 112px; }
+  .vf__logo img.vf__wordmark { width: 40vw; max-width: none; }
+}
+
+/* The social icons beside the logo (user 2026-11-21, "show the social links along with the logo"): out of the legal bar and into the
+   brand row. Desktop and tablet: the logo left, the icons right, on one line above the rule. Phones: centred under the logo and the
+   tagline. */
+.vf .vf__brand > .vf__socials { margin: 0; }
+@media (min-width: 761px) {
+  .vf .vf__brand { flex-direction: row; align-items: center; justify-content: space-between; gap: 24px; }
+  .vf .vf__brand > .vf__socials { margin-right: -8px; }
+}
+@media (max-width: 760px) { .vf .vf__brand > .vf__socials { justify-content: center; } }

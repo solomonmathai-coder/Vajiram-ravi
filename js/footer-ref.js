@@ -40,3 +40,14 @@
     }
   }
 })();
+
+/* the homepage footer's reveal items (logo, tagline halves: .rv) rise in once the footer comes into view, as the homepage's
+   own reveal observer does (user 2026-11-23: the course finder now uses the homepage's footer markup) */
+(() => {
+  const items = document.querySelectorAll('footer.vf .rv');
+  if (!items.length) return;
+  const show = () => items.forEach(e => e.classList.add('in'));
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) { show(); return; }
+  const io = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { show(); io.disconnect(); } }, { threshold: .05 });
+  io.observe(document.querySelector('footer.vf'));
+})();

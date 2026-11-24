@@ -988,7 +988,7 @@ html.cf-locked { overflow: hidden; }
 
 /* more room around the footer's legal line (user 2026-11-20, "add a bit more space"): a wider gap above its rule, more air between
    the rule and the line, and more below it before the footer's edge */
-.vf .vf__legal { margin-top: 18px; padding-top: 22px; margin-bottom: 16px; }
+/* (the legal row's extra spacing removed 2026-11-23: the footer is now the homepage's, spaced as there) */
 
 /* ---------- the hero in a golden gradient (user 2026-11-20, "lets use a gradient colour similar to the uploaded image ... for the hero
    section"): saffron at the top and bottom, a pale gold band through the middle, with a fine grain over it, as in the image. On the
@@ -1755,8 +1755,6 @@ html.cf-locked { overflow: hidden; }
 /* emblem flat and still again (user 2026-11-23): no 3D rim, shadow, tilt or spin; the slow shine sweep stays */
 .cf-feat__lockup { perspective: none; filter: none; }
 .cf-feat__brand { animation: none; transform: none; will-change: auto; }
-/* ASCII stream canvas behind the popular-courses banner's content (js/cf-ascii-stream.js, trial) */
-.cf-feat__stream { position: absolute; inset: 0; z-index: 1; width: 100%; height: 100%; pointer-events: none; }
 
 /* popular courses: a glow that runs around the edge of one card at a time (user 2026-11-23, after React Bits' Pipeline nodes):
    a bright orange segment rides a 2px ring on the card's outline (a rotating conic gradient masked to the ring), with a soft
@@ -1826,3 +1824,85 @@ body { font-family: var(--f); }
           mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
 /* no jump wave on the popular-courses cards (user 2026-11-23) */
 .cf-feat .cf-k { animation: none; top: 0; }
+/* glow relay: a slower, eased cross-fade, and the outgoing glow keeps moving while it fades instead of freezing (user 2026-11-23) */
+.cf-feat .cf-k::before, .cf-feat .cf-k::after { transition: opacity .9s cubic-bezier(.4, 0, .2, 1); }
+.cf-feat .cf-k.is-beam-out::before, .cf-feat .cf-k.is-beam-out::after { animation-play-state: running; }
+/* frame border canvas round the popular-courses banner (js/cf-frame-border.js, trial): above the banner's ground, below its content */
+.cf-feat__frame { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; pointer-events: none; }
+/* Our Popular Courses heading and sub text in white (user 2026-11-23), a soft warm shadow to lift them off the orange */
+.cf-feat .cf-sec__h, .cf-feat .cf-feat__h { color: #fff; text-shadow: 0 1px 2px rgb(120 40 8 / .3); }
+.cf-feat__sub { color: #fff; text-shadow: 0 1px 1px rgb(120 40 8 / .35); }
+/* no shadow where the page's bottom edge meets the footer (user 2026-11-23); v49.css gives the curtain's page a drop shadow */
+html.foot-curtain main { box-shadow: none; }
+/* Our Popular Courses intro (logo, heading, text) centred top-to-bottom against the cards (user 2026-11-23); it was top-aligned.
+   Desktop only: on tablets and phones the intro sits above the cards */
+@media (min-width: 1101px) { .cf-sec.cf-feat > .cf-feat__intro { align-self: center; } }
+
+/* ---------- the page head without the breadcrumb and the figures, its title and line set to the left (user 2026-11-23) ---------- */
+.cf-hero__in { text-align: left; }
+.cf-h, .cf-lede { margin-inline: 0; }
+
+/* ---------- hero illustration on the right only (user 2026-11-23): Rashtrapati Bhavan on the left removed, the India Gate panel
+   made more prominent — wider (the text now sits on the left), from the hero's top, darker and less faded ---------- */
+.cf-hero__bg::before { content: none; }
+.cf-hero__bg { opacity: .42; }
+.cf-hero__bg::after { top: 0; width: 46%; background-size: 1040px auto; background-position: right 0 top -150px;
+  -webkit-mask: linear-gradient(270deg, #000 62%, transparent), linear-gradient(180deg, transparent, #000 40px); -webkit-mask-composite: source-in;
+  mask: linear-gradient(270deg, #000 62%, transparent), linear-gradient(180deg, transparent, #000 40px); mask-composite: intersect; }
+
+/* ---------- Popular Courses (review 2026-11-24): no glow running round the cards' outlines (js/cf-card-beam.js no longer loaded;
+   the section already sets these courses apart), and carousel dots under the cards, the current page a white pill ---------- */
+.cf-feat .cf-k::before, .cf-feat .cf-k::after { content: none; }
+.cf-dots { display: flex; justify-content: center; align-items: center; gap: 8px; margin-top: 20px; }
+.cf-dots[hidden] { display: none; }
+.cf-dot { width: 8px; height: 8px; padding: 0; border: 0; border-radius: 999px; background: rgb(255 255 255 / .45); cursor: pointer;
+  transition: width .3s var(--ease-out, ease), background-color .3s; }
+.cf-dot:hover { background: rgb(255 255 255 / .75); }
+.cf-dot[aria-current="true"] { width: 24px; background: #fff; }
+.cf-dot:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+/* the course cards' fact icons (duration, time, mode) in the same colour as their text (user 2026-11-24); they were a lighter grey */
+.cf-k__f svg, .cf-feat .cf-k__f svg { color: inherit; stroke: currentColor; }
+
+/* no badges (Trending, Bestseller, New) on any course card (user 2026-11-24); the Popular Courses cards already had none */
+.cf-k__tags { display: none; }
+
+/* the fee line on the course cards (user 2026-11-24): the amount a touch bolder, "incl. GST" small and lighter after it */
+.cf-k__f--fee > span { font-weight: 600; }
+.cf-k__f--fee.is-none > span { font-weight: inherit; }
+.cf-k__gst { font-size: .82em; font-weight: 400; opacity: .75; margin-left: 2px; }
+/* the rupee icon at 14px (user 2026-11-24, "looks a bit big"), centred in the 16px icon column so the amount still lines up with the
+   text above it */
+.cf-k__f--fee svg { width: 14px; height: 14px; margin: 2px 1px 0; }
+
+/* ---------- grounds swapped (user 2026-11-24): the hero takes the page's cream ground (#FFFAF3 with the homepage's jaali lattice, clear
+   through the middle: the --ground-jaali of base.bundle.css), its beige paper and grain gone; the sticky search bar under it takes the
+   same cream so the two still read as one; the course list below goes plain white ---------- */
+.cf-hero { background: linear-gradient(90deg, rgba(255, 250, 243, 0) 0%, rgba(255, 250, 243, .94) 30%, rgba(255, 250, 243, .94) 70%, rgba(255, 250, 243, 0) 100%),
+  url("../assets/img/patterns/bg-jaali.svg") 0 0 / 36px 36px repeat, #FFFAF3; }
+.cf-hero::after { content: none; }
+.cf-bar::before { background: #FFFAF3; }
+.cf-bar::after { content: none; }
+main.cf, html.foot-curtain main.cf { background: #fff; }
+
+/* the hero's ground in a neutral shade (user 2026-11-24): the same jaali lattice and the same clear middle, over a neutral off-white
+   (#F6F5F2) instead of the cream; the sticky bar under it follows */
+.cf-hero { background: linear-gradient(90deg, rgba(246, 245, 242, 0) 0%, rgba(246, 245, 242, .94) 30%, rgba(246, 245, 242, .94) 70%, rgba(246, 245, 242, 0) 100%),
+  url("../assets/img/patterns/bg-jaali.svg") 0 0 / 36px 36px repeat, #F6F5F2; }
+.cf-bar::before { background: #F6F5F2; }
+
+/* the course list's white ground gets the same jaali lattice as the hero (user 2026-11-24, "add the pattern here as well"): the 36px
+   tile at the sides, clear through the middle, over white */
+main.cf, html.foot-curtain main.cf { background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, .94) 30%, rgba(255, 255, 255, .94) 70%, rgba(255, 255, 255, 0) 100%),
+  url("../assets/img/patterns/bg-jaali.svg") 0 0 / 36px 36px repeat, #fff; }
+
+/* the hero's beige paper back (user 2026-11-24, "bring back the beige colour"): the warm paper gradient and its grain, as before the
+   neutral shade, with the jaali lattice kept at the sides (its own layer, faded out through the middle); the sticky bar back to the
+   same beige paper and grain */
+.cf-hero { background: linear-gradient(178deg, #F9EFDA, #F5E8CE 30%, #EFDFC0); }
+.cf-hero::after { content: ""; }
+.cf-hero::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: url("../assets/img/patterns/bg-jaali.svg") 0 0 / 36px 36px repeat;
+  -webkit-mask: linear-gradient(90deg, #000, rgb(0 0 0 / .06) 30%, rgb(0 0 0 / .06) 70%, #000); mask: linear-gradient(90deg, #000, rgb(0 0 0 / .06) 30%, rgb(0 0 0 / .06) 70%, #000); }
+.cf-bar::before { background: linear-gradient(178deg, #F9EFDA, #F5E8CE 30%, #EFDFC0); }
+.cf-bar::after { content: ""; }

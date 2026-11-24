@@ -211,6 +211,14 @@
     // the mode under the time (user 2026-11-18, "the card should also mention if it's live or classroom under the time"): Iconoir's
     // presentation board for Classroom (and for courses run both ways), its video camera for LIVE-Online
     const I_ROOM = ico(['M22 4.6V17.4C22 17.7314 21.7314 18 21.4 18H2.6C2.26863 18 2 17.7314 2 17.4V4.6C2 4.26863 2.26863 4 2.6 4H21.4C21.7314 4 22 4.26863 22 4.6Z', 'M8.5 21.5L12 18L15.5 21.5', 'M12 2V4', 'M9 12V14', 'M12 10V14', 'M15 8V14']);
+    // the fee (user 2026-11-24, "add an icon for fees and add fees in every card"; it was left off on 2026-11-18): the course page's
+    // short fee ("₹1,80,000"), "incl. GST" when the page says so; a course whose page gives none says "Fee on request".
+    // Its icon is the Indian rupee sign (user 2026-11-24; was Iconoir's coins). Iconoir has no rupee, so this is Lucide's
+    // indian-rupee (ISC licence), drawn on the same 24px grid with the same round 2px stroke as the other card icons
+    // scaled up from Lucide's 12x18 to 13x20 so it stands as tall as the hourglass (y 2-22) and reads the same size as the others
+    const I_FEE = ico(['M5.5 2h13', 'M5.5 7.56h13', 'M5.5 13.11l9.21 8.89', 'M5.5 13.11h3.25', 'M8.75 13.11c7.22 0 7.22-11.11 0-11.11']);
+    // the ₹ in the amount is left to screen readers (.vh): the icon already shows it
+    const feeTxt = v => v.feeShort ? `${esc(v.feeShort).replace(/^₹\s*/, '<span class="vh">₹</span>')}${/gst/i.test(v.fee || '') ? ' <small class="cf-k__gst">incl. GST</small>' : ''}` : '';
     const I_LIVE = ico(['M15 12V16.4C15 16.7314 14.7314 17 14.4 17H3.6C3.26863 17 3 16.7314 3 16.4V7.6C3 7.26863 3.26863 7 3.6 7H14.4C14.7314 7 15 7.26863 15 7.6V12ZM15 12L20.0159 7.82009C20.4067 7.49443 21 7.77232 21 8.28103V15.719C21 16.2277 20.4067 16.5056 20.0159 16.1799L15 12Z']);
     // how often the classes meet (user 2026-11-18, "the time should also mention if it is weekly or daily"), read from the course's page:
     // "6 days a week" is Mon–Sat, "every day" / "per class, daily" is Daily, weekends, weekly; DUMMY.freq stands in where it says nothing
@@ -308,6 +316,7 @@
             ${fact(I_DUR, esc(du), '')}
             ${fact(I_TIME, esc(tm), '')}
             ${fact(v.k === 'online' ? I_LIVE : I_ROOM, modeTxt(v), '')}
+            ${fact(I_FEE, feeTxt(v), 'Fee on request', ' cf-k__f--fee')}
           </span>
         </span>
         <span class="cf-k__ft"><span class="cf-k__start">${I_CAL}<span><small>${sLbl}</small><b>${esc(sVal)}</b></span></span><span class="cf-k__go"><span class="cf-go__l"><span class="cf-go__t">View course</span><span class="cf-go__t" aria-hidden="true">View course</span></span><span class="cf-go__d" aria-hidden="true">${GO_ARW}${GO_ARW}</span></span></span>
@@ -370,12 +379,16 @@
           <ul class="cf-grid">${tops.map(([c, v]) => card(c, v, famOf(c.f) || TOP_T)).join('')}</ul>
           <button type="button" class="cf-arw cf-arw--prev" data-dir="-1" aria-label="Previous popular courses" hidden>${CHEV(-1)}</button>
           <button type="button" class="cf-arw cf-arw--next" data-dir="1" aria-label="More popular courses" hidden>${CHEV(1)}</button>
+          <div class="cf-dots" aria-label="Popular courses pages" hidden></div>   <!-- carousel dots under the cards (review 2026-11-24) -->
         </div>
       </section>` : '';
     list.innerHTML = '<nav class="cf-rail" id="cfRail" aria-label="Course categories"></nav><div class="cf-list__main">'
       + TOP_HTML + secHTML.filter(Boolean).join('') + HELP + '</div>';   // the counsellor banner after the last category (user 2026-11-18, "move this banner to the bottom"; it sat after the 6th)
     // each card's place in its row, so a chip can put the row back after Upcoming has sorted it
     list.querySelectorAll('.cf-grid').forEach(g => [...g.children].forEach((k, i) => { k.dataset.i = i; }));
+    // no All / New / Trending / Bestseller / Upcoming chips in any category (user 2026-11-24, "just remove it from all"); the
+    // search and the mode, medium and target-year filters in the bar still narrow every category
+    list.querySelectorAll('.cf-chips').forEach(row => row.remove());
 
     // the bar's search and tabs filter every category; a category with nothing left is hidden, and its subject chips with nothing left too
     // (Duration, Class time and Fee were filters too, removed by the user on 2026-11-18; Mode and Medium are dropdowns beside Target year)
@@ -389,10 +402,27 @@
       && FILTERS.every(f => !state[f.key] || f.test(k, state[f.key]));
     // each section's courses sit in one row that scrolls sideways (user 2026-11-18, a udemy.com course row as the reference): round
     // arrow buttons at its two ends, each shown only while there is more that way
+    // how far one dot moves the row: as many whole cards as fit (two on desktop, one on phones), from the cards' spacing
+    const pageStep = tr => {
+      const ks = $$('.cf-k:not([hidden])', tr), pitch = ks.length > 1 ? ks[1].offsetLeft - ks[0].offsetLeft : tr.clientWidth;
+      const per = Math.max(1, Math.floor((tr.clientWidth + 8) / pitch));
+      return { pitch, w: per * pitch };
+    };
     const arrows = sec => {
       const tr = $('.cf-grid', sec), max = tr.scrollWidth - tr.clientWidth;
       $('.cf-arw--prev', sec).hidden = tr.scrollLeft <= 2;
       $('.cf-arw--next', sec).hidden = tr.scrollLeft >= max - 2;
+      // carousel dots (Popular Courses): one per screenful the arrows step through, the current one drawn as a pill
+      const dots = $('.cf-dots', sec);
+      if (dots) {
+        const step = pageStep(tr), shown = $$('.cf-k:not([hidden])', tr).length;
+        const pages = max <= 2 ? 1 : Math.max(2, Math.ceil(shown * step.pitch / step.w - .05));
+        const at = tr.scrollLeft >= max - 2 ? pages - 1 : Math.min(pages - 1, Math.round(tr.scrollLeft / step.w));
+        if (dots.children.length !== pages) dots.innerHTML = Array.from({ length: pages }, (_, i) =>
+          `<button type="button" class="cf-dot" data-page="${i}" aria-label="Page ${i + 1} of ${pages}"></button>`).join('');
+        dots.hidden = pages < 2;
+        [...dots.children].forEach((d, i) => d.setAttribute('aria-current', String(i === at)));
+      }
       // Top Picks: the card cut by the row's right edge fades out across the part still showing (user 2026-11-21, the card's
       // own opacity through a gradient mask, no overlay); --vis is how much of it shows. The card cut by the left edge once the
       // row is scrolled does the same, mirrored (.is-peek-l)
@@ -516,6 +546,12 @@
         $$('.cf-chip', sec).forEach(c => c.setAttribute('aria-pressed', String(c === chip)));
         sec.dataset.f = chip.dataset.f; layout(sec); return;
       }
+      const dot = e.target.closest('.cf-dot');
+      if (dot) {   // a dot scrolls the row to that screenful
+        const tr = $('.cf-grid', dot.closest('.cf-sec'));
+        tr.scrollTo({ left: Math.min(+dot.dataset.page * pageStep(tr).w, tr.scrollWidth - tr.clientWidth), behavior: reduce ? 'auto' : 'smooth' });
+        return;
+      }
       const arw = e.target.closest('.cf-arw');
       if (arw) {   // one screenful of cards at a time
         const tr = $('.cf-grid', arw.closest('.cf-sec'));
@@ -629,13 +665,25 @@
       const id = k === 'all' ? null : (k === 'gs-11' || k === 'gs-2yr') ? 'gs' : k;   // GS Foundation is its own section again
       const el = id ? $(`#cat-${id}`) : list;
       if (!el || el.hidden) return;
-      const y = el.getBoundingClientRect().top + scrollY, down = y > scrollY;
-      const top = y - (bar ? bar.offsetHeight : 0) - (down ? 0 : 70) - 24;   // going up the nav comes back above the bar
-      scrollTo({ top, behavior: smooth && !reduce ? 'smooth' : 'auto' });
+      const y = el.getBoundingClientRect().top + scrollY;
+      // clear of the fixed nav AND the sticky search bar under it (the bar's sticky top is the nav's height)
+      const off = bar ? (parseFloat(getComputedStyle(bar).top) || 0) + bar.offsetHeight : 0;
+      const top = y - off - 24;
+      // 'instant', not 'auto': the page sets scroll-behavior: smooth, which made link jumps a slow glide that stopped short
+      scrollTo({ top, behavior: smooth && !reduce ? 'smooth' : 'instant' });
     };
     window.__cfSetCat = k => { history.replaceState(null, '', `#cat=${k}`); go(k); };
     const m = location.hash.match(/^#cat=([\w-]+)/);
-    if (m) setTimeout(() => go(m[1], false), 0);
+    // a #cat= link from another page: jump now, then again once images and fonts have settled the layout (they push sections down),
+    // unless the visitor has scrolled in between (user 2026-11-23: links from the homepage nav landed past their section)
+    if (m) {
+      let moved = false; const mark = () => { moved = true; };
+      setTimeout(() => { go(m[1], false); setTimeout(() => addEventListener('wheel', mark, { once: true, passive: true }), 50); }, 0);
+      const again = () => { if (!moved) go(m[1], false); };
+      addEventListener('load', again, { once: true });
+      if (document.fonts) document.fonts.ready.then(again);
+      setTimeout(again, 900); setTimeout(again, 1800);
+    }
 
     /* ---------- the category rail (user 2026-11-18, a wireframe: "an indicator for the user to find the categories ... when the user
        hovers over it they can see all the other categories, and by clicking on one they can go to it"): a slim column on the left of
