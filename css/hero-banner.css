@@ -1,0 +1,360 @@
+/* The hero banner, Kevin's in layout and spacing (user 2026-11-16: "https://eclectic-alfajores-975fab.netlify.app/ check this link and
+   do", the banner only; branch `kevin` of github.com/solomonmathai-coder/Vajiram-ravi, css/hero-v6.css and css/mobile.css). Markup
+   components/sections/Hero/HeroBanner.jsx, which also runs the slides (initHeroCarousel) and lays the arrows' layer over the card.
+   - The card (.dl__stick, Kevin's .hx__panel): on the 1280px column (80px in at 1440, the page margin on phones), 24px corners (20px
+     from 900px down) and his deep shadow; the screen less the header and the stats row tall, 520 to 820px. Tablets and phones: no
+     taller than 760px and 24px short of the screen, growing if the copy needs more.
+   - The copy (.dl__in, Kevin's .hx__copy): clamp(24px, 4vw, 64px) in, left aligned in the card; pill -> headline 22px, headline -> lead
+     24px (lead up to 760px), lead -> buttons 28px. Tablets and phones: at the card's foot under the portrait; phones keep it left aligned too.
+   - The slides: the top three of UPSC CSE 2025 in turn, 6.5 s each with a 1 s crossfade, each portrait pushing in slowly.
+   - The AIR card: top right (7% / 3%); tablets and phones small in the top left corner.
+   - The dots centred at the card's foot in a dark pill; previous / next centred on the card's two side edges, half outside it.
+   Loaded after the base layers (precedence "sections"), so it wins over the hero's earlier rules in v49.css. */
+
+/* ---------- the column and the card ---------- */
+.dl { --hx-side: calc(var(--cap) + clamp(16px, 5.5vw, 40px)); --hx-in: clamp(24px, 4vw, 64px); --hx-foot: 8px; }
+html body .dl--pin .dl__frame { padding-left: var(--hx-side); padding-right: var(--hx-side); }
+html body .dl--pin .dl__frame > .dl__stick { border-radius: 24px; box-shadow: 0 30px 60px -34px rgba(60, 15, 0, .7); }
+@media (min-width: 901px) {
+  html .dl { --card-h: clamp(max(520px, var(--card-min)), calc(100svh - var(--hdr-h) - var(--hdr-gap) - var(--stats-h)), 680px); }   /* 680px cap (user 2026-11-20: it grew to 820px and read too tall on large screens) */
+}
+@media (max-width: 900px) {
+  html .dl { --card-h: min(760px, calc(100svh - var(--hdr-h) - var(--hdr-gap) - 24px)); --hx-in: 24px; --hx-foot: 84px; }
+  html body .dl--pin .dl__frame > .dl__stick { height: auto; min-height: var(--card-h); border-radius: 20px; }
+  html body .dl--pin .dl__in { min-height: var(--card-h); box-sizing: border-box; justify-content: flex-end; padding-top: 120px; }
+}
+@media (max-width: 560px) {
+  html .dl { --hx-in: 18px; --hx-foot: 80px; }
+  html body .dl--pin .dl__in { padding-top: 140px; }
+}
+
+/* ---------- the copy ---------- */
+html body .dl .hx__tick { margin: 0 0 22px; }
+html body .dl .hx__lead { max-width: 760px; margin: 24px 0 0; font-size: 17px; line-height: 1.6; }
+html body .dl .hx__btns { margin: 28px 0 0; gap: 12px; }
+@media (max-width: 900px) {
+  html body .dl .hx__h { font-size: clamp(34px, 6.4vw, 44px); line-height: 1.08; }
+  html body .dl .hx__lead { font-size: 16px; }
+}
+@media (max-width: 640px) { html body .dl .hx__tick { margin-bottom: 16px; } }
+@media (max-width: 560px) { html body .dl .hx__h { font-size: 32px; } }
+/* phones: left aligned like the larger screens (user 2026-11-17; Kevin's mobile.css centred it) */
+@media (max-width: 760px) {
+  html body .dl--pin .dl__in { align-items: flex-start; text-align: left; }
+  html body .dl .hx__tick { display: flex; justify-content: flex-start; }
+  html body .dl .hx__lead { margin-left: 0; margin-right: 0; }
+  html body .dl .hx__btns { justify-content: flex-start; }
+}
+
+/* ---------- the slides: crossfade and a slow push-in ---------- */
+#dlSlides > .dl__topper { transition: opacity 1s ease-out; }
+#dlSlides > .dl__topper img { object-position: 80% 18%; transform: none; scale: 1; transition: scale 0s linear 1s; }
+#dlSlides > .dl__topper.on img { transform: none; scale: 1.07; transition: scale 7.5s linear; }
+
+/* ---------- the wash: warm brown from the left for the type, a light one along the foot for the dots (never pitch black, so each
+   portrait keeps the tone of its room) ---------- */
+#dlPin.dl--pin .dl__bg::after, #dlPin.dl--pin[data-s] .dl__bg::after {
+  background:
+    linear-gradient(0deg, rgba(46, 17, 6, .42), transparent 112px),
+    linear-gradient(90deg, rgba(46, 17, 6, .72), rgba(46, 17, 6, .34) 50%, transparent); }
+/* tablets and phones: the portrait fills the top of the card and fades into the brown under the type, so the topper's face stays in
+   view; the type sits over a wash from below */
+@media (max-width: 900px) {
+  html body .dl--pin .dl__stick { background: #2b1206; }
+  #dlSlides > .dl__topper img { height: 64%; object-position: 74% 12%;
+    -webkit-mask: linear-gradient(180deg, #000 60%, transparent 100%); mask: linear-gradient(180deg, #000 60%, transparent 100%); }
+  #dlPin.dl--pin .dl__bg::after, #dlPin.dl--pin[data-s] .dl__bg::after {
+    background: linear-gradient(0deg, rgba(46, 17, 6, .55) 0%, rgba(46, 17, 6, .45) 40%, rgba(46, 17, 6, .1) 62%, transparent 75%); }
+}
+
+/* ---------- the AIR card ---------- */
+html body .dl .hx__mark { top: 7%; right: 3%; }
+.dl .hx__mark-card { padding: 28px 28px 24px; }
+.dl .hx__mark-air span { font-size: 34px; }
+.dl .hx__mark-air b { font-size: 124px; }
+.dl .hx__mark-name { margin-top: 16px; font-size: 21px; line-height: 26px; }
+.dl .hx__mark-exam { font-size: 15px; line-height: 20px; }
+@media (max-width: 1180px) {
+  .dl .hx__mark-card { padding: 22px 22px 20px; }
+  .dl .hx__mark-air span { font-size: 26px; }
+  .dl .hx__mark-air b { font-size: 92px; }
+  .dl .hx__mark-name { margin-top: 12px; font-size: 18px; line-height: 23px; }
+}
+@media (max-width: 900px) {
+  html body .dl .hx__mark { display: flex; top: 18px; right: auto; left: 18px; }
+  .dl .hx__mark-card { padding: 16px 16px 14px; border-radius: 16px; text-align: left; }
+  .dl .hx__mark-air { justify-content: flex-start; gap: 8px; }
+  .dl .hx__mark-air span { font-size: 18px; }
+  .dl .hx__mark-air b { font-size: 56px; }
+  .dl .hx__mark-name { margin-top: 8px; font-size: 15px; line-height: 19px; }
+  .dl .hx__mark-exam { font-size: 12px; line-height: 16px; }
+}
+
+/* ---------- the controls' layer (Hero.jsx .hx__navs): the card clips its contents, so the layer is outside it (a sibling in
+   .dl__frame) and initHeroCarousel (HeroBanner.jsx) lays it exactly over the card; it shrinks with the card as Programmes slides over the hero (the
+   card's scale, v49.css). Previous / next inside the card, at its two bottom corners level with the dots (user 2026-11-17: the side edges would cover the headline); the dots centred at its foot ---------- */
+.dl .hx__navs { position: absolute; top: 0; left: 0; z-index: 7; pointer-events: none;
+  transform: scale(calc(1 - var(--cover, 0) * .2)); transform-origin: 50% 35%; }
+.dl .hx__dots { position: absolute; left: 50%; bottom: 28px; display: flex; align-items: center; gap: 8px; margin: 0; padding: 10px 12px;
+  border-radius: 999px; translate: -50% 0; background: rgba(0, 0, 0, .25); pointer-events: auto; }
+@media (max-width: 900px) { .dl .hx__dots { bottom: 22px; } }
+.dl .hx__nav { position: absolute; top: 50%; display: flex; translate: -50% -50%; pointer-events: auto; transition: opacity .3s ease; }
+.dl .hx__nav--prev { left: var(--hx-in); top: auto; bottom: 20px; translate: none; }
+.dl .hx__nav--next { left: auto; right: var(--hx-in); top: auto; bottom: 20px; translate: none; }
+.dl .hx__nav .btn { --btn-shadow: 0 12px 24px -12px rgba(58, 20, 6, .55); }
+@media (hover: hover) and (pointer: fine) {
+  .dl .hx__nav { opacity: 0; pointer-events: none; }
+  .dl:has(.dl__stick:hover) .hx__nav, .dl .hx__navs:hover .hx__nav, .dl .hx__navs:focus-within .hx__nav { opacity: 1; pointer-events: auto; }
+}
+/* touch screens wider than a phone: a swipe changes the slide, so no arrows (the dots stay) */
+@media (hover: none), (pointer: coarse) { .dl .hx__nav { display: none; } }
+
+/* ---------- phones (user 2026-11-16, "make the hero full width and height and the controls move under the hero banner"): the card
+   edge to edge with square corners, the screen less the header and the controls' row tall (taller only if its copy needs it); the
+   controls one row under it on the hero's ground: previous, the dots, next (64px: the 44px arrows on 10px) ---------- */
+@media (max-width: 760px) {
+  html .dl { --hx-ctrl: 0px; --hx-foot: 84px; }
+  html .dl { --card-h: calc(100svh - var(--hdr-h) - var(--hdr-gap) - var(--hx-ctrl)); }
+  html body .dl--pin .dl__frame > .dl__stick { margin-left: calc(-1 * var(--hx-side)); margin-right: calc(-1 * var(--hx-side));
+    border-radius: 0; box-shadow: none; }
+  /* the controls stay inside the card (user 2026-11-17): the layer lies over it as on larger screens, the arrows at its bottom
+     corners and the dots between them; arrows always shown (no hover on a phone) */
+  .dl .hx__navs { transform: none; }
+  .dl .hx__nav { display: flex; opacity: 1; pointer-events: auto; }
+  .dl .hx__nav--prev, .dl .hx__nav--next { bottom: 18px; }
+  .dl .hx__navs { padding-bottom: 18px; }
+}
+
+/* reduced motion: the slides do not run (initHeroCarousel), so neither do their controls */
+@media (prefers-reduced-motion: reduce) {
+  #dlSlides > .dl__topper.on img { scale: 1; transition: none; }
+  .dl .hx__navs, .dl .hx__dots { display: none; }
+}
+
+/* ---------- fit (measured against Kevin's at 1440, 1280 and 390 wide) ---------- */
+@media (min-width: 901px) { .dl { --hx-side: calc(var(--cap) + 40px); } }
+@media (min-width: 761px) { html body .dl--pin .dl__frame > .dl__stick { margin-left: 0; margin-right: 0; } }
+.dl .hx__mark-air b { line-height: .7; }
+
+/* ---------- the results pill (user 2026-11-16, screenshot: the dark gap left of the orange tag): the tag nests into the pill's pointed
+   left end, its tip 8px from the pill's (6px on phones), so the dark rim reads evenly round it, as it does above and below (6px) ---------- */
+html body .dl .hx__ticker { padding-left: 0; }
+html body .dl .hx__tag { margin-left: -10px; }
+
+/* AIR 1's photo on tablets and phones (user 2026-11-17: "the portrait looks off, make it the same as the other toppers"): Anuj sits at
+   a desk, so his face is 43% of the way down his photo where the others stand with theirs at about 21%; under 900px that put his face
+   behind the results ticker and the headline. His photo alone is raised by the difference, so his face sits where theirs do; the
+   brown under the photo's faded foot fills the gap left below. */
+@media (max-width: 900px) {
+  #dlSlides > .dl__topper[data-rank="1"] img { translate: 0 -22%; }
+}
+
+/* ---------- the controls as one group (user 2026-11-17, desktop and phones) ----------
+   previous / next close beside the dots, not at the card's corners: one centred group at the card's foot, 10px apart (the layer is a
+   flex box laid over the card; one wrapping line so it can sit at the foot, centred). On desktop the arrows still show on hover. */
+.dl .hx__navs { display: flex; flex-wrap: wrap; align-content: flex-end; align-items: center; justify-content: center; gap: 10px;
+  padding-bottom: 24px; box-sizing: border-box; }
+.dl .hx__navs > .hx__nav, .dl .hx__navs > .hx__dots { position: static; left: auto; right: auto; bottom: auto; translate: none; }
+@media (max-width: 900px) { .dl .hx__navs { padding-bottom: 20px; } }
+@media (max-width: 760px) { .dl .hx__navs { padding-bottom: 18px; } }
+/* the dots' spacing (user 2026-11-17, "the space between the indicators looks off"): each dot's invisible 8px tap border plus the
+   pill's 8px gap left the marks 24px apart, loose beside 9px dots. Now 10px between the marks (their 8px tap borders overlapped 3px each side, no gap) and
+   12px from the marks to the pill's ends, the same as above and below them. */
+.dl .hx__dots { gap: 0; padding: 10px 7px; }
+.dl .hx__dots > button { margin: -8px -3px; }   /* the 8px tap border kept on every side (an even border keeps the dots round), overlapped 3px each side */
+/* reduced motion: the slides do not run, so the controls stay hidden (restated after the group's display above) */
+@media (prefers-reduced-motion: reduce) { .dl .hx__navs { display: none; } }
+
+/* phones (user 2026-11-17, accessibility: "add a gradient to the top so the title reads properly"): the copy (results ticker, title,
+   lead, buttons) fills the card from its foot to about 80% of its height, over the photo, and the old wash had faded to nothing by the
+   title (55-70% up), leaving white type on light parts of the photos (a white shirt). The wash now holds strong from the foot up through
+   the ticker and only then fades, so the face at the top stays clear; a soft shadow under the title's letters as well. */
+@media (max-width: 760px) {
+  #dlPin.dl--pin .dl__bg::after, #dlPin.dl--pin[data-s] .dl__bg::after {
+    background: linear-gradient(0deg, rgba(46, 17, 6, .88) 0%, rgba(46, 17, 6, .8) 50%, rgba(46, 17, 6, .7) 74%, rgba(46, 17, 6, .25) 88%, transparent 100%); }
+  html body .dl .hx__h { text-shadow: 0 2px 18px rgba(30, 10, 2, .55); }
+}
+
+/* Hero chevrons on larger screens (user 2026-11-17, "keep the chevron positions like on vajiram-ravi-kevin.netlify.app"): as on Kevin's,
+   previous / next are each centred on one side edge of the card, halfway up, half outside it, shown while the pointer is over the hero
+   (the dots stay centred at the foot). Phones keep the arrows beside the dots, as on his. */
+@media (min-width: 761px) {
+  .dl .hx__navs { display: block; padding: 0; }
+  .dl .hx__navs > .hx__nav { position: absolute; top: 50%; bottom: auto; translate: -50% -50%; }
+  .dl .hx__navs > .hx__nav--prev { left: 0; right: auto; }
+  .dl .hx__navs > .hx__nav--next { left: 100%; right: auto; }
+  .dl .hx__navs > .hx__dots { position: absolute; left: 50%; bottom: 28px; translate: -50% 0; }
+}
+@media (min-width: 761px) and (max-width: 900px) { .dl .hx__navs > .hx__dots { bottom: 22px; } }
+
+
+/* The eyebrow (user 2026-11-21, after the results pill with the running names went): the site's SectionLabel, light on the card, where
+   the pill was, with its gap to the headline. */
+html body .dl .dl__in > .lbl { margin: 0 0 22px; justify-content: flex-start; }
+@media (max-width: 640px) { html body .dl .dl__in > .lbl { margin-bottom: 16px; } }
+
+/* Shorter hero (user 2026-11-21, "reduce the height of the hero section"): the card 100px further short of the screen and capped at 560px
+   (was 680px) on desktop, never below its copy (--card-min); tablets and phones capped at 620px (was 760px), still growing if the copy
+   needs more. */
+@media (min-width: 901px) {
+  html .dl { --card-h: clamp(var(--card-min), calc(100svh - var(--hdr-h) - var(--hdr-gap) - var(--stats-h) - 100px), 560px); }
+}
+@media (max-width: 900px) {
+  html .dl { --card-h: min(620px, calc(100svh - var(--hdr-h) - var(--hdr-gap) - 140px)); }
+}
+
+/* Programme slides (user 2026-11-21, "create a Programmes banner type too"): after the three toppers, a slide for each of three
+   programmes (Hero.jsx PROGRAMME_SLIDES). Where a topper's portrait stands, the programme's book from the Programmes shelf: its cloth
+   (--pl / --pb / --pd, the cover's light, base and deep tones), the spine, a gold double frame, the name, a foil rule, the emblem
+   (CoverArt) and the category, turned a little towards the copy, on a ground in the same cloth deepening into the hero's brown. The
+   book swings in as its slide comes on and a band of light crosses it; it then floats slowly. Built at one size and zoomed: smaller,
+   top right, on tablets and phones, clear of the copy at the card's foot. The AIR card is hidden on these slides (.is-topper off). */
+#dlSlides > .dl__prog { overflow: hidden; }
+.hx__prog-art { position: absolute; inset: 0; perspective: 1400px;
+  background: radial-gradient(42% 70% at 80% 48%, color-mix(in srgb, var(--pl) 32%, transparent), transparent 72%),
+    linear-gradient(115deg, #2b1206 0%, color-mix(in srgb, var(--pd) 62%, #2b1206) 55%, var(--pd) 100%); }
+.hx__prog-art::before { content: ""; position: absolute; inset: 0; background: url(/assets/img/patterns/bg-jaali.svg) 0 0 / 72px repeat; opacity: .07; }
+.hx__book { position: absolute; top: 50%; right: clamp(56px, 13%, 210px); width: 220px; height: 260px; margin-top: -130px; box-sizing: border-box;
+  border-radius: 4px 10px 10px 4px; overflow: hidden; text-align: center;
+  background: linear-gradient(140deg, var(--pl) 0%, var(--pb) 48%, var(--pd) 100%);
+  box-shadow: 34px 44px 60px -24px rgba(10, 3, 0, .7), inset -2px 0 0 rgba(255, 240, 210, .25);
+  transform: rotateY(-18deg) rotateX(3deg); opacity: 0; translate: 40px 0;
+  transition: opacity .9s ease, translate 1.2s cubic-bezier(.2, .7, .2, 1), transform 1.4s cubic-bezier(.2, .7, .2, 1); }
+.dl__prog:not(.on) .hx__book { transform: rotateY(-34deg) rotateX(3deg); transition-duration: .5s; }
+.dl__prog.on .hx__book { opacity: 1; translate: 0 0; animation: hxBookFloat 6s ease-in-out 1.2s infinite alternate; }
+@keyframes hxBookFloat { to { translate: 0 -8px; } }
+.hx__book::after { content: ""; position: absolute; inset: 0 auto 0 -70%; width: 50%; pointer-events: none; skew: -12deg;
+  background: linear-gradient(90deg, transparent, rgba(255, 235, 200, .35), transparent); }
+.dl__prog.on .hx__book::after { animation: hxBookShine 1.4s cubic-bezier(.2, .7, .2, 1) .5s both; }
+@keyframes hxBookShine { to { left: 130%; } }
+.hx__book-spine { position: absolute; inset: 0 auto 0 0; width: 16px; background: linear-gradient(90deg, rgba(0, 0, 0, .4), var(--pd) 40%, var(--pb) 85%, rgba(0, 0, 0, .2)); }
+.hx__book-spine::after { content: ""; position: absolute; inset: 0 -3px 0 auto; width: 3px; background: linear-gradient(90deg, rgba(0, 0, 0, .32), rgba(255, 255, 255, .12)); }
+.hx__book-frame { position: absolute; inset: 12px 12px 12px 28px; border: 1px solid #e8b96a; border-radius: 2px; opacity: .65; }
+.hx__book-frame::before { content: ""; position: absolute; inset: 3px; border: 1px solid #e8b96a; border-radius: 1px; opacity: .5; }
+.hx__book-in { position: absolute; inset: 12px 12px 12px 28px; display: flex; flex-direction: column; align-items: center; padding: 18px 12px 14px; box-sizing: border-box; }
+.hx__book-name { display: flex; align-items: center; justify-content: center; height: 3.3em; font: 500 21px/1.1 Newsreader, Georgia, serif; color: #ffe3b0; text-wrap: balance; }
+.hx__book-rule { display: flex; align-items: center; gap: 6px; margin-top: 8px; color: #e8b96a; }
+.hx__book-rule i { width: 22px; height: 1px; background: currentColor; opacity: .7; }
+.hx__book-rule b { width: 5px; height: 5px; background: currentColor; rotate: 45deg; }
+.hx__book-emblem { display: flex; flex: 1; align-items: center; justify-content: center; min-height: 0; color: #f6c77a; }
+.hx__book-emblem svg { color: #f6c77a; }
+.hx__book-cat { font: 600 10px/13px var(--f); letter-spacing: .18em; text-transform: uppercase; color: #e8b96a; }
+@media (max-width: 1180px) { .hx__book { zoom: .85; } }
+@media (max-width: 900px) {
+  .hx__prog-art { background: radial-gradient(70% 45% at 80% 12%, color-mix(in srgb, var(--pl) 55%, transparent), transparent 75%),
+    linear-gradient(200deg, var(--pd) 0%, color-mix(in srgb, var(--pd) 55%, #2b1206) 40%, #2b1206 75%); }
+  .hx__book { zoom: .52; top: 34px; right: 34px; margin-top: 0; }
+}
+@media (max-width: 560px) { .hx__book { zoom: .44; } }
+@media (prefers-reduced-motion: reduce) {
+  .hx__book, .dl__prog .hx__book { opacity: 1; translate: none; transition: none; animation: none; }
+  .hx__book::after { display: none; }
+}
+
+/* A minimal AIR card (user 2026-11-21, "the AIR card with the name should be minimal"): no longer a large frosted box with a 124px rank,
+   but a slim caption pill in the card's bottom right corner, beside the portrait: a small gold "AIR 2" badge, then the name over the exam
+   in a short column, on a dark glass. Phones: the same pill, smaller, top left. It still draws in as each topper's slide comes on. */
+html body .dl .hx__mark { top: auto; bottom: 28px; right: var(--hx-in); left: auto; }
+html body .dl .hx__mark-card { display: grid; grid-template-columns: auto auto; align-items: center; column-gap: 12px; padding: 7px 18px 7px 7px;
+  border-radius: 999px; border: 1px solid rgba(255, 255, 255, .16); text-align: left; background: rgba(30, 12, 2, .42);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 12px 28px -14px rgba(0, 0, 0, .6); }
+html body .dl .hx__mark-air { grid-row: 1 / span 2; justify-content: center; gap: 5px; height: 40px; padding: 0 14px; border-radius: 999px;
+  background: #FFD48A; color: #2b1206; font-family: var(--f); }
+html body .dl .hx__mark-air span, html body .dl .hx__mark-air b { font-size: 15px; line-height: 1; letter-spacing: .02em; }
+html body .dl .hx__mark-air span { font-weight: 600; }
+html body .dl .hx__mark-air b { font-weight: 700; }
+html body .dl .hx__mark-name { grid-column: 2; margin: 0; font: 600 15px/19px var(--f); color: #fff; white-space: nowrap; }
+html body .dl .hx__mark-exam { grid-column: 2; margin: 0; font: 500 12px/16px var(--f); color: rgba(255, 233, 194, .8); white-space: nowrap; }
+@media (max-width: 900px) {
+  html body .dl .hx__mark { top: 18px; bottom: auto; left: 18px; right: auto; }
+  html body .dl .hx__mark-card { column-gap: 10px; padding: 5px 14px 5px 5px; }
+  html body .dl .hx__mark-air { height: 34px; padding: 0 11px; }
+  html body .dl .hx__mark-air span, html body .dl .hx__mark-air b { font-size: 13px; }
+  html body .dl .hx__mark-name { font-size: 13px; line-height: 17px; }
+  html body .dl .hx__mark-exam { font-size: 11px; line-height: 14px; }
+}
+
+/* A programme slide with its own photo (user 2026-11-21: the GS foundation slide, the study desk with the GS book; Hero.jsx
+   PROGRAMME_IMAGE): the photo pushes in like a topper's; its left half is a bright cream wall, so this slide adds its own wash, the
+   hero's brown from the left, deeper than the shared one, so the white headline and lead read; the book on the right stays clear.
+   Tablets and phones: the photo only fills the card's top 40%, cropped to the book, so the book sits above the copy, not behind it. */
+.dl__prog--photo .hx__prog-wash { position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(90deg, rgba(43, 18, 6, .9) 0%, rgba(43, 18, 6, .78) 34%, rgba(43, 18, 6, .35) 56%, transparent 70%); }
+@media (max-width: 900px) {
+  #dlSlides > .dl__prog--photo img { height: 40%; object-position: var(--mpos, 88% 40%) !important; }
+  .dl__prog--photo .hx__prog-wash { background: linear-gradient(0deg, rgba(43, 18, 6, .6) 0%, rgba(43, 18, 6, .2) 45%, transparent 64%); }
+}
+
+/* The results and upcoming-batch slides (user 2026-11-21; Hero.jsx ResultsArt, BatchArt), drawn until their photos come (a slide's
+   `image` replaces its drawing). Both stand where a topper's portrait would, on the programme slides' ground (.hx__prog-art), come in
+   with their slide and are zoomed down to the card's top right on tablets and phones, clear of the copy.
+   Results: a dark glass panel with the CSE 2025 top 10 (round portraits, a gold rank badge each; they pop in one by one) and "36 of the
+   top 50" in the title face. Batch: a cream ticket, the date in a brand block, the batch's name and target, its chip, and under a
+   perforation the next two batches. */
+.hx__res, .hx__ticket { position: absolute; top: 50%; right: clamp(48px, 9%, 150px); box-sizing: border-box; opacity: 0; translate: 40px -50%;
+  transition: opacity .9s ease, translate 1.2s cubic-bezier(.2, .7, .2, 1); }
+.dl__prog.on .hx__res, .dl__prog.on .hx__ticket { opacity: 1; translate: 0 -50%; }
+.hx__res { width: 452px; padding: 22px 24px 20px; border-radius: 22px; border: 1px solid rgba(255, 255, 255, .14);
+  background: rgba(30, 12, 2, .45); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .7); }
+.hx__res-k { margin: 0 0 16px; font: 600 12px/16px var(--f); letter-spacing: .14em; text-transform: uppercase; color: #FFD48A; }
+.hx__res-faces { display: grid; grid-template-columns: repeat(5, 72px); gap: 14px 12px; margin: 0; padding: 0; list-style: none; }
+.hx__res-faces li { position: relative; width: 72px; height: 72px; opacity: 0; scale: .6;
+  transition: opacity .4s ease, scale .6s cubic-bezier(.34, 1.4, .5, 1); transition-delay: calc(.35s + var(--i) * 60ms); }
+.dl__prog.on .hx__res-faces li { opacity: 1; scale: 1; }
+.hx__res-faces img { display: block; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2px #FFD48A, 0 8px 18px -8px rgba(0, 0, 0, .6); }
+.hx__res-faces b { position: absolute; right: -4px; bottom: -4px; display: grid; place-items: center; min-width: 24px; height: 24px; padding: 0 5px; box-sizing: border-box;
+  border-radius: 999px; background: #FFD48A; color: #2b1206; font: 700 12px/1 var(--f); box-shadow: 0 0 0 2px rgba(30, 12, 2, .8); }
+.hx__res-fig { display: flex; align-items: baseline; gap: 12px; margin: 18px 0 0; padding-top: 14px; border-top: 1px solid rgba(255, 212, 138, .25); color: #fff; }
+.hx__res-fig b { font: 500 52px/1 var(--f-title, Georgia), serif; color: #FFD48A; letter-spacing: -.02em; }
+.hx__res-fig span { font: 500 16px/1.3 var(--f); color: rgba(255, 255, 255, .85); }
+
+.hx__ticket { width: 360px; padding: 0; border-radius: 18px; background: #FFF8EE; color: var(--ink, #1D1712); box-shadow: 0 34px 60px -26px rgba(10, 3, 0, .7);
+  transform: perspective(1200px) rotateY(-12deg) rotate(2deg); }
+.hx__ticket::before, .hx__ticket::after { content: ""; position: absolute; top: 118px; width: 22px; height: 22px; border-radius: 50%; background: var(--pd); }
+.hx__ticket::before { left: -11px; } .hx__ticket::after { right: -11px; }
+.hx__ticket-main { display: flex; gap: 18px; align-items: center; padding: 22px 22px 22px; border-bottom: 2px dashed rgba(120, 80, 40, .25); min-height: 129px; box-sizing: border-box; }
+.hx__ticket-date { display: grid; place-items: center; flex: none; width: 84px; height: 84px; margin: 0; border-radius: 14px; background: var(--brand, #C2410C); color: #fff; text-align: center; }
+.hx__ticket-date b { font: 500 40px/1 var(--f-title, Georgia), serif; }
+.hx__ticket-date span { margin-top: -18px; font: 700 12px/1 var(--f); letter-spacing: .14em; text-transform: uppercase; }
+.hx__ticket-body { min-width: 0; }
+.hx__ticket-chip { display: inline-block; margin-bottom: 8px; padding: 3px 10px; border-radius: 999px; background: #FFE9D6; color: var(--brand, #C2410C); font: 700 11px/16px var(--f); letter-spacing: .06em; text-transform: uppercase; }
+.hx__ticket-name { margin: 0; font: 500 22px/1.15 var(--f-title, Georgia), serif; }
+.hx__ticket-tgt { margin: 6px 0 0; font: 500 13px/18px var(--f); color: #7a6a58; }
+.hx__ticket-k { margin: 0; padding: 16px 22px 6px; font: 600 11px/14px var(--f); letter-spacing: .14em; text-transform: uppercase; color: #9a8670; }
+.hx__ticket-also { margin: 0; padding: 0 22px 18px; list-style: none; }
+.hx__ticket-also li { display: flex; gap: 14px; padding: 7px 0; font: 500 14px/18px var(--f); }
+.hx__ticket-also li + li { border-top: 1px solid rgba(120, 80, 40, .12); }
+.hx__ticket-also b { flex: none; width: 52px; color: var(--brand, #C2410C); font-weight: 700; }
+.dl__prog.on .hx__ticket { animation: hxBookFloat 6s ease-in-out 1.2s infinite alternate; }
+
+@media (max-width: 1180px) { .hx__res, .hx__ticket { zoom: .85; } }
+@media (max-width: 900px) {
+  .hx__res, .hx__ticket { top: 30px; right: 30px; zoom: .52; translate: 40px 0; }
+  .dl__prog.on .hx__res, .dl__prog.on .hx__ticket { translate: 0 0; }
+}
+@media (max-width: 560px) { .hx__res { zoom: .5; } .hx__ticket { zoom: .48; } }
+@media (prefers-reduced-motion: reduce) {
+  .hx__res, .hx__ticket, .hx__res-faces li { opacity: 1; scale: 1; transition: none; animation: none; }
+  .hx__res, .hx__ticket { translate: 0 -50%; }
+}
+/* the faces are images inside a slide, so the slides' photo rules (absolute, push-in, the phones' 64% height and fade) are undone here */
+#dlSlides > .dl__topper .hx__res-faces img { position: static; inset: auto; width: 100%; height: 100%; opacity: 1; transform: none; scale: 1; translate: none;
+  object-position: 50% 30%; transition: none; -webkit-mask: none; mask: none; }
+@media (max-width: 900px) { .hx__res-fig { display: none; } }
+
+/* The campus slide (user 2026-11-21; Hero.jsx `campus`, the photo of the institute's sign): the sign spans the middle of the photo, where
+   the headline sits, so on wider screens the photo is drawn at 125% width from its left edge, which moves the sign into the card's right
+   half; its wash stops a little sooner so the sign stays clear. Tablets and phones: the photo at its own width, cropped to the sign. */
+#dlSlides > .dl__prog--wide img { width: 125%; max-width: none; }
+.dl__prog--wide .hx__prog-wash { background: linear-gradient(90deg, rgba(43, 18, 6, .9) 0%, rgba(43, 18, 6, .76) 32%, rgba(43, 18, 6, .25) 48%, transparent 58%); }
+@media (max-width: 900px) {
+  #dlSlides > .dl__prog--wide img { width: 100%; }
+  .dl__prog--wide .hx__prog-wash { background: linear-gradient(0deg, rgba(43, 18, 6, .6) 0%, rgba(43, 18, 6, .2) 45%, transparent 64%); }
+}
+/* the campus slide's lead on a narrower measure on wider screens, so its lines end before the light sign (#dlPin[data-kind], initHeroCarousel) */
+@media (min-width: 901px) { #dlPin[data-kind="campus"] .hx__lead { max-width: 400px; } }
+
+@media (min-width: 901px) {
+  html body .dl .dl__in > * { max-width: 50%; }
+  html body .dl .dl__in > .hx__lead { max-width: min(50%, 36em); }
+}

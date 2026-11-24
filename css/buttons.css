@@ -1,0 +1,315 @@
+/* =====================================================================================================================
+   BUTTONS: the site's one button system (single source of truth)
+   Markup:    components/ui/Button/Button.jsx (<Button>) and buttonHTML() in components/ui/Button/button-core.js
+   Reference: components/ui/Button/README.md (variants, sizes, states, props)
+
+   Built from the audit of the existing buttons (2026-11-13): the brand CTA (gradient pill + round arrow disc + rolling
+   label), the white pill for dark/photo/orange grounds, the ink pill (Closing, Why), the brand outline (Visit, Toppers),
+   the serif text link (.tlink), the round carousel arrows, the dialog close and the WhatsApp floating button.
+   Every value below is one of those buttons' values, gathered into tokens; nothing new except the destructive colour.
+
+   Loaded BEFORE the base cascade (app/layout.jsx), every selector at class specificity: a section's placement rule
+   (margin, position, display, width) always wins over the system, so sections place buttons without restyling them.
+   Sections change a button's look only through its tokens (--btn-*), never by restating properties.
+   ===================================================================================================================== */
+
+:root {
+  /* typography */
+  --btn-font: var(--f);                /* Mukta (the site's UI face) */
+  --btn-font-link: var(--f-d);         /* Newsreader: the text-link variant */
+  --btn-weight: 700;
+  --btn-weight-link: 600;
+  --btn-lh: 1.25;
+  --btn-ls: .005em;
+  --btn-case: none;                    /* sentence case, never upper */
+  /* shape */
+  --btn-radius: 999px;                 /* every button is a pill; icon-only buttons are circles */
+  /* colour */
+  --btn-brand-grad: linear-gradient(135deg, #F06A2C 0%, #E85020 45%, #C2410C 100%);
+  --btn-brand-deep: linear-gradient(180deg, #D9480F, #A8380A);
+  --btn-ink: #161412;
+  --btn-flame: #E57512;
+  --btn-danger: #B42318;               /* the one colour the audit did not find: destructive actions (none on the page today) */
+  --btn-danger-deep: #8F1D13;
+  /* focus ring: a white gap then a flame ring, readable on light, photo and orange grounds */
+  --btn-ring: 0 0 0 3px #fff, 0 0 0 5.5px #E85020;
+  /* motion (site-motion skill tokens) */
+  --btn-dur: .35s;                     /* fill, shadow, colour */
+  --btn-dur-press: .15s;               /* press scale */
+  --btn-dur-roll: .5s;                 /* label roll, arrow swap */
+  --btn-roll: cubic-bezier(.7, 0, .2, 1);
+  --btn-pop: cubic-bezier(.2, .8, .2, 1);
+  /* disabled */
+  --btn-disabled-opacity: .45;
+}
+
+/* ---------------------------------------------------------------- base ---------------------------------------------------------------- */
+.btn {
+  /* size tokens (md); the size classes below set them */
+  --btn-h: 48px; --btn-px: 22px; --btn-pe: 5px; --btn-fs: 16px; --btn-gap: 14px; --btn-disc: 38px; --btn-glyph: 16px; --btn-ic: 20px;
+  /* colour tokens (primary); the variant classes below set them */
+  --btn-bg: var(--btn-brand-grad); --btn-bg-hover: var(--btn-brand-deep); --btn-fg: #fff; --btn-fg-hover: var(--btn-fg);
+  --btn-edge: 0 0 0 0 transparent; --btn-edge-hover: var(--btn-edge);
+  --btn-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), 0 12px 24px -12px rgba(194, 65, 12, .65);
+  --btn-shadow-hover: inset 0 1px 0 rgba(255, 255, 255, .22), inset 0 -2px 0 rgba(110, 30, 0, .2), 0 16px 30px -12px rgba(168, 56, 10, .65);
+  --btn-text-shadow: 0 1px 1px rgba(110, 30, 0, .25);
+  --btn-disc-bg: #fff; --btn-disc-fg: #C2410C; --btn-disc-shadow: 0 1px 2px rgba(120, 30, 0, .2), 0 3px 8px rgba(120, 30, 0, .12);
+
+  position: relative; isolation: isolate; box-sizing: border-box;
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--btn-gap);
+  height: var(--btn-h); min-width: 0; min-height: 0; margin: 0; padding: 0 var(--btn-px);
+  border: 0; border-radius: var(--btn-radius); overflow: hidden; vertical-align: middle;
+  font: var(--btn-weight) var(--btn-fs)/var(--btn-lh) var(--btn-font); letter-spacing: var(--btn-ls); text-transform: var(--btn-case);
+  text-decoration: none; text-align: center; white-space: nowrap; text-shadow: var(--btn-text-shadow);
+  color: var(--btn-fg); background: var(--btn-bg); box-shadow: var(--btn-edge), var(--btn-shadow);
+  cursor: pointer; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+  transition: box-shadow var(--btn-dur), color var(--btn-dur), scale var(--btn-dur-press);
+}
+.btn[hidden] { display: none; }
+/* the hover fill fades in over the base fill (a gradient cannot transition, an overlay's opacity can) */
+.btn::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit; background: var(--btn-bg-hover); opacity: 0; transition: opacity var(--btn-dur); pointer-events: none; }
+.btn--disc { padding-right: var(--btn-pe); }   /* the disc sits close to the right edge, the label keeps the full left padding */
+
+/* label: two stacked copies; on hover the first rolls up and out as the second rolls in */
+.btn__label { position: relative; display: inline-grid; min-width: 0; overflow: hidden; padding-top: 2px; }
+.btn__t { grid-area: 1 / 1; display: block; transition: transform var(--btn-dur-roll) var(--btn-roll); }
+.btn__t + .btn__t { transform: translateY(115%); }
+
+/* the arrow disc (brand CTA): two arrows, one slides out through the circle as the other slides in */
+.btn__disc { position: relative; flex: none; display: grid; place-items: center; width: var(--btn-disc); height: var(--btn-disc); border-radius: 50%; overflow: hidden;
+  background: var(--btn-disc-bg); color: var(--btn-disc-fg); box-shadow: var(--btn-disc-shadow); text-shadow: none; transition: transform .45s var(--btn-pop), background-color var(--btn-dur), color var(--btn-dur); }
+.btn__disc svg { grid-area: 1 / 1; width: var(--btn-glyph); height: var(--btn-glyph); stroke-width: 2.4; transition: transform var(--btn-dur-roll) var(--btn-roll), opacity .2s; }
+.btn__disc svg + svg { transform: translateX(-220%); }
+
+/* bare icons (leading, trailing, icon-only): fixed box, so nothing shifts when the label or state changes */
+.btn__icon { position: relative; flex: none; display: grid; place-items: center; width: var(--btn-ic); height: var(--btn-ic); overflow: hidden; transition: transform .35s var(--btn-pop), opacity .2s; }
+.btn__icon > svg, .btn__icon > img { grid-area: 1 / 1; width: 100%; height: 100%; }
+.btn__icon > svg[stroke] { stroke-width: 2.2; }
+.btn__icon--swap > svg { width: 90%; height: 90%; transition: transform var(--btn-dur-roll) var(--btn-roll); }
+.btn__icon--swap > svg + svg { transform: translateX(-220%); }
+.btn__icon--flip { scale: -1 1; }
+.btn--icon .btn__icon > svg[stroke] { stroke-width: 2.4; }
+
+/* ---------------------------------------------------------------- sizes ---------------------------------------------------------------- */
+/*            height  padding-x  disc-side  font  gap   disc  disc-glyph  icon        (all from existing buttons)             */
+.btn--xs { --btn-h: 36px; --btn-px: 16px; --btn-pe: 4px; --btn-fs: 16px; --btn-gap: 8px;  --btn-disc: 28px; --btn-glyph: 13px; --btn-ic: 16px; }
+.btn--sm { --btn-h: 44px; --btn-px: 18px; --btn-pe: 4px; --btn-fs: 16px; --btn-gap: 10px; --btn-disc: 36px; --btn-glyph: 15px; --btn-ic: 18px; }
+.btn--md { --btn-h: 48px; --btn-px: 22px; --btn-pe: 5px; --btn-fs: 16px; --btn-gap: 14px; --btn-disc: 38px; --btn-glyph: 16px; --btn-ic: 20px; }
+.btn--lg { --btn-h: 54px; --btn-px: 24px; --btn-pe: 6px; --btn-fs: 16px; --btn-gap: 16px; --btn-disc: 42px; --btn-glyph: 18px; --btn-ic: 22px; }
+.btn--xl { --btn-h: 60px; --btn-px: 30px; --btn-pe: 7px; --btn-fs: 16px; --btn-gap: 18px; --btn-disc: 46px; --btn-glyph: 19px; --btn-ic: 24px; }
+/* tablet and phone: XL steps down to LG (the hero CTA did this at 900px) */
+@media (max-width: 900px) { .btn--xl { --btn-h: 54px; --btn-px: 24px; --btn-pe: 6px; --btn-fs: 16px; --btn-gap: 16px; --btn-disc: 42px; --btn-glyph: 18px; --btn-ic: 22px; } }
+/* touch: no target under 40px; SM and up already meet 44px */
+@media (pointer: coarse) { .btn--xs { --btn-h: 40px; } }
+
+/* icon-only: a circle the size of the height, the icon centred */
+.btn--icon { width: var(--btn-h); padding: 0; gap: 0; flex: none; }
+
+/* full width: the label centres in the button; with a disc, a spacer column the disc's width balances it */
+.btn--full { display: flex; width: 100%; }
+.btn--full.btn--disc { display: grid; grid-template-columns: var(--btn-disc) minmax(0, 1fr) var(--btn-disc); padding: 0 var(--btn-pe); gap: 0; }
+.btn--full.btn--disc > .btn__label { grid-column: 2; justify-self: center; }
+.btn--full.btn--disc > .btn__disc { grid-column: 3; grid-row: 1; }
+.btn--full.btn--disc > .btn__icon--start { grid-column: 1; grid-row: 1; justify-self: center; }
+/* phones: every arrow-disc CTA is full width with the label centred and the disc at the right, the same everywhere on the page (user
+   2026-11-16: "consistent across the page"). The header's compact "Let's talk" (.talk) and the old hero CTA (.dl__cta) keep their own shape. */
+@media (max-width: 640px) {
+  .btn.btn--disc:not(.btn--full):not(.btn--icon):not(.btn--link):not(.btn--fab):not(.talk):not(.dl__cta) { display: grid; width: 100%; box-sizing: border-box;
+    grid-template-columns: var(--btn-disc) minmax(0, 1fr) var(--btn-disc); padding: 0 var(--btn-pe); gap: 0; }
+  .btn.btn--disc:not(.btn--full):not(.btn--icon):not(.btn--link):not(.btn--fab):not(.talk):not(.dl__cta) > .btn__label { grid-column: 2; justify-self: center; }
+  .btn.btn--disc:not(.btn--full):not(.btn--icon):not(.btn--link):not(.btn--fab):not(.talk):not(.dl__cta) > .btn__disc { grid-column: 3; grid-row: 1; }
+}
+/* ...and a CTA without a disc (the white "Talk to a counsellor" and the like) is full width with its label centred too, so every CTA has one shape. */
+@media (max-width: 640px) {
+  .btn:not(.btn--disc):not(.btn--full):not(.btn--icon):not(.btn--link):not(.btn--fab):not(.btn--ghost):not(.talk):not(.dl__cta):not(.cx__go):not(.cbtn) { width: 100%; justify-content: center; box-sizing: border-box; }
+}
+/* long labels may wrap rather than overflow a narrow screen */
+@media (max-width: 480px) { .btn--full .btn__t { white-space: normal; } }
+
+/* ---------------------------------------------------------------- variants ---------------------------------------------------------------- */
+/* PRIMARY: the brand CTA. Gradient pill, white disc with a brand arrow. On dark, photo or orange grounds (onDark) it is the
+   white pill with a brand disc (the hero, GS and flagship-ticket buttons), since an orange pill disappears there. */
+.btn--primary.btn--on-dark {
+  --btn-bg: #fff; --btn-bg-hover: var(--sand); --btn-fg: var(--ink); --btn-text-shadow: none;
+  --btn-shadow: 0 12px 24px -14px rgba(60, 20, 0, .5); --btn-shadow-hover: 0 16px 30px -14px rgba(60, 20, 0, .55);
+  --btn-disc-bg: #C2410C; --btn-disc-fg: #fff; --btn-disc-shadow: none;
+}
+
+/* WHITE: the primary CTA in white instead of the brand colour (user 2026-11-20): a white pill, ink text, the brand disc; hover sand.
+   On light grounds a faint brand edge keeps the pill's outline; on dark, photo or orange grounds (onDark) it needs none. */
+.btn--white {
+  --btn-bg: #fff; --btn-bg-hover: var(--sand); --btn-fg: var(--ink); --btn-fg-hover: var(--ink); --btn-text-shadow: none;
+  --btn-edge: inset 0 0 0 1px rgba(194, 65, 12, .18); --btn-edge-hover: inset 0 0 0 1px rgba(194, 65, 12, .3);
+  --btn-shadow: 0 12px 24px -14px rgba(60, 20, 0, .35); --btn-shadow-hover: 0 16px 30px -14px rgba(60, 20, 0, .45);
+  --btn-disc-bg: #C2410C; --btn-disc-fg: #fff; --btn-disc-shadow: none;
+}
+.btn--white.btn--on-dark {
+  --btn-edge: inset 0 0 0 0 transparent; --btn-edge-hover: inset 0 0 0 0 transparent;
+  --btn-shadow: 0 12px 24px -14px rgba(60, 20, 0, .5); --btn-shadow-hover: 0 16px 30px -14px rgba(60, 20, 0, .55);
+}
+
+/* SECONDARY: the ink pill with a flame disc (Closing, Why). Reads on light and on orange grounds alike. */
+.btn--secondary {
+  --btn-bg: var(--btn-ink); --btn-bg-hover: #000; --btn-fg: #fff; --btn-text-shadow: none;
+  --btn-shadow: 0 12px 24px -14px rgba(22, 20, 18, .55); --btn-shadow-hover: 0 16px 30px -14px rgba(22, 20, 18, .6);
+  --btn-disc-bg: var(--btn-flame); --btn-disc-fg: #fff; --btn-disc-shadow: none;
+}
+
+/* OUTLINE: brand edge, brand text (Visit, Toppers "Show all"). On dark grounds: a white edge, white text. */
+.btn--outline {
+  --btn-bg: transparent; --btn-bg-hover: rgba(194, 65, 12, .08); --btn-fg: var(--brand); --btn-text-shadow: none;
+  --btn-edge: inset 0 0 0 1.5px rgba(194, 65, 12, .45); --btn-edge-hover: inset 0 0 0 1.5px var(--brand);
+  --btn-shadow: 0 0 0 0 transparent; --btn-shadow-hover: 0 0 0 0 transparent;
+  --btn-disc-bg: var(--brand); --btn-disc-fg: #fff; --btn-disc-shadow: none;
+}
+.btn--outline.btn--on-dark {
+  --btn-bg: rgba(120, 40, 5, .25); --btn-bg-hover: rgba(255, 255, 255, .14); --btn-fg: #fff;
+  --btn-edge: inset 0 0 0 1.5px rgba(255, 255, 255, .55); --btn-edge-hover: inset 0 0 0 1.5px #fff;
+  --btn-disc-bg: #fff; --btn-disc-fg: #C2410C;
+}
+
+/* Carousel arrows (Batches `.cbtn`, Faculty `.carousel-arrow`): no override of their own; like every icon-only button they fill with
+   the brand colour on hover (user 2026-11-16, "the icon only btn should follow the brand color when hover"; they were black). */
+
+/* GHOST: no fill until hover (menu, toolbar and quiet actions) */
+.btn--ghost {
+  --btn-bg: transparent; --btn-bg-hover: rgba(194, 65, 12, .08); --btn-fg: var(--ink); --btn-fg-hover: var(--brand); --btn-text-shadow: none;
+  --btn-shadow: 0 0 0 0 transparent; --btn-shadow-hover: 0 0 0 0 transparent;
+}
+.btn--ghost.btn--on-dark { --btn-bg-hover: rgba(255, 255, 255, .14); --btn-fg: #fff; --btn-fg-hover: #fff; }
+
+/* LINK: the serif text link (brand text, arrow, an underline that draws in on hover). No fill, no pill, no label roll. */
+.btn--link {
+  --btn-bg: none; --btn-fg: var(--brand); --btn-fg-hover: var(--brand-d, #A8380A); --btn-text-shadow: none;
+  --btn-shadow: 0 0 0 0 transparent; --btn-shadow-hover: 0 0 0 0 transparent;
+  --btn-h: auto; --btn-px: 0; --btn-gap: 10px; --btn-ic: 18px;
+  padding: 6px 0; border-radius: 4px; overflow: visible; font-family: var(--btn-font-link); font-weight: var(--btn-weight-link); line-height: 1.3;
+}
+.btn--link::before { content: none; }
+/* the underline is drawn on the label itself (a background line), so the link needs no positioning box of its own and a
+   section can stretch it over a whole card (::before, see the Free resources cards) */
+.btn--link .btn__label { padding-top: 0; padding-bottom: 2px; overflow: visible;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1.5px no-repeat; transition: background-size .4s var(--btn-pop); }
+.btn--link .btn__icon { overflow: visible; }
+.btn--link .btn__icon--swap > svg + svg { display: none; }
+.btn--link .btn__icon--swap > svg { width: 100%; height: 100%; }
+.btn--link.btn--on-dark { --btn-fg: #FFD48A; --btn-fg-hover: #fff; }
+.btn--link.btn--xs, .btn--link.btn--sm { --btn-ic: 16px; }
+
+/* DESTRUCTIVE: deletes, cancels, removes. Same shape as primary, in the danger red. */
+.btn--destructive {
+  --btn-bg: var(--btn-danger); --btn-bg-hover: var(--btn-danger-deep); --btn-fg: #fff; --btn-text-shadow: none;
+  --btn-shadow: 0 12px 24px -14px rgba(180, 35, 24, .6); --btn-shadow-hover: 0 16px 30px -14px rgba(143, 29, 19, .65);
+  --btn-disc-bg: #fff; --btn-disc-fg: var(--btn-danger);
+}
+.btn--destructive.btn--on-dark { --btn-bg: #fff; --btn-bg-hover: #FDECEA; --btn-fg: var(--btn-danger); --btn-disc-bg: var(--btn-danger); --btn-disc-fg: #fff; }
+
+/* FAB: the floating action button. A raised circle (56px, 52px on phones) holding one icon; its label stays hidden and
+   slides out beside the icon on hover or keyboard focus (the extended FAB). Placement (position: fixed …) belongs to the
+   instance, and so does a colour other than brand (WhatsApp sets its green through the tokens). */
+.btn--fab {
+  --btn-h: 56px; --btn-ic: 28px; --btn-text-shadow: none;
+  --btn-shadow: 0 10px 24px -8px rgba(168, 56, 10, .55), 0 2px 6px rgba(0, 0, 0, .1);
+  --btn-shadow-hover: 0 16px 30px -10px rgba(168, 56, 10, .6), 0 2px 6px rgba(0, 0, 0, .12);
+  gap: 0; padding: 0; min-width: var(--btn-h); justify-content: flex-start;
+}
+.btn--fab > .btn__icon--start, .btn--fab > .btn__icon--only { width: var(--btn-h); height: var(--btn-h); }
+.btn--fab > .btn__icon--start > svg, .btn--fab > .btn__icon--only > svg { width: var(--btn-ic); height: var(--btn-ic); }
+.btn--fab > .btn__label { max-width: 0; padding-top: 0; opacity: 0; transition: max-width .45s var(--ease), padding .45s var(--ease), opacity .3s; }
+@media (max-width: 600px) { .btn--fab { --btn-h: 52px; --btn-ic: 26px; } }
+
+/* ICON-ONLY hover (user 2026-11-16): every icon-only button fills with the brand colour on hover / keyboard focus, the icon turning
+   white, on light and dark grounds alike (the resting look stays its variant's: outline, sm). */
+.btn.btn--icon, .btn.btn--icon.btn--on-dark { --btn-bg-hover: var(--brand); --btn-fg-hover: #fff; --btn-edge-hover: inset 0 0 0 1.5px var(--brand); }
+/* ...and rests on a white fill (user 2026-11-16), the icon in the brand colour, on light and dark grounds alike */
+.btn.btn--icon, .btn.btn--icon.btn--on-dark { --btn-bg: #fff; --btn-fg: var(--brand); --btn-edge: inset 0 0 0 1.5px rgba(194, 65, 12, .3); }
+/* GHOST icon-only: the bare icon (no disc, no edge), muted ink, a soft tint and ink on hover (quiet close and toolbar icons) */
+.btn.btn--ghost.btn--icon, .btn.btn--ghost.btn--icon.btn--on-dark { --btn-bg: transparent; --btn-fg: rgba(29, 23, 18, .55); --btn-edge: inset 0 0 0 0 transparent;
+  --btn-bg-hover: rgba(29, 23, 18, .08); --btn-fg-hover: var(--ink); --btn-edge-hover: inset 0 0 0 0 transparent; }
+.btn.btn--ghost.btn--icon.btn--on-dark { --btn-fg: rgba(255, 255, 255, .7); --btn-bg-hover: rgba(255, 255, 255, .14); --btn-fg-hover: #fff; }
+/* PRIMARY icon-only (user 2026-11-21: the hero's previous / next): the brand fill and a white icon, no edge at rest; hover deepens to
+   --brand-d with a soft white edge */
+.btn.btn--primary.btn--icon, .btn.btn--primary.btn--icon.btn--on-dark { --btn-bg: var(--brand); --btn-fg: #fff; --btn-edge: inset 0 0 0 0 transparent;
+  --btn-bg-hover: var(--brand-d, #A8380A); --btn-fg-hover: #fff; --btn-edge-hover: inset 0 0 0 1px rgba(255, 255, 255, .55); }
+
+/* ---------------------------------------------------------------- states ---------------------------------------------------------------- */
+/* HOVER: real pointers only (touch gets the resting look, and the press). Fill deepens, shadow lifts, label rolls, arrow swaps. */
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover { color: var(--btn-fg-hover); box-shadow: var(--btn-edge-hover), var(--btn-shadow-hover); }
+  .btn:hover::before { opacity: 1; }
+  .btn:hover .btn__t { transform: translateY(-115%); }
+  .btn:hover .btn__t + .btn__t { transform: translateY(0); }
+  .btn:hover .btn__disc { transform: scale(1.06); }
+  .btn:hover .btn__disc svg, .btn:hover .btn__icon--swap > svg { transform: translateX(220%); }
+  .btn:hover .btn__disc svg + svg, .btn:hover .btn__icon--swap > svg + svg { transform: translateX(0); }
+  .btn--link:hover .btn__label { background-size: 100% 1.5px; }
+  .btn--link:hover .btn__icon--end { transform: translateX(5px); }
+  .btn--link:hover .btn__icon--swap > svg { transform: none; }
+  .btn--fab:hover > .btn__label { max-width: 220px; padding-right: 22px; opacity: 1; }
+  .btn--fab:hover > .btn__icon svg { transform: rotate(-10deg) scale(1.08); }
+}
+.btn__t:only-child, .btn:hover .btn__t:only-child { transform: none; }   /* a single copy (link, FAB, script-written labels) never rolls away */
+
+/* FOCUS: no ring for mouse clicks; FOCUS-VISIBLE (keyboard): the white-gap flame ring, plus the hover look */
+.btn:focus { outline: none; }
+.btn:focus-visible { outline: none; box-shadow: var(--btn-ring), var(--btn-shadow-hover); }
+.btn:focus-visible::before { opacity: 1; }
+.btn--link:focus-visible { box-shadow: none; outline: 2px solid currentColor; outline-offset: 4px; }
+.btn--link:focus-visible .btn__label { background-size: 100% 1.5px; }
+.btn--fab:focus-visible > .btn__label { max-width: 220px; padding-right: 22px; opacity: 1; }
+
+/* ACTIVE / PRESSED: a small press */
+.btn:active { scale: .97; }
+.btn--link:active { scale: 1; opacity: .8; }
+
+/* SELECTED (toggle buttons, aria-pressed or .is-selected): the hover fill held; outline and ghost take a brand tint */
+.btn[aria-pressed="true"]::before, .btn.is-selected::before { opacity: 1; }
+.btn--outline[aria-pressed="true"], .btn--outline.is-selected { --btn-bg: rgba(194, 65, 12, .12); --btn-edge: inset 0 0 0 1.5px var(--brand); --btn-fg: var(--brand-d, #A8380A); }
+.btn--ghost[aria-pressed="true"], .btn--ghost.is-selected { --btn-fg: var(--brand); }
+.btn--link[aria-pressed="true"], .btn--link.is-selected { --btn-fg: var(--brand-d, #A8380A); }
+.btn--link[aria-pressed="true"] .btn__label, .btn--link.is-selected .btn__label { background-size: 100% 1.5px; }
+
+/* DISABLED: faded, flat, no pointer feedback; a link without href cannot be followed (aria-disabled) */
+.btn:disabled, .btn[aria-disabled="true"] { opacity: var(--btn-disabled-opacity); cursor: not-allowed; box-shadow: var(--btn-edge); scale: 1; }
+.btn[aria-disabled="true"] { pointer-events: none; }
+.btn:disabled::before, .btn[aria-disabled="true"]::before { opacity: 0; }
+.btn:disabled .btn__t, .btn[aria-disabled="true"] .btn__t { transform: none; }
+.btn:disabled .btn__t + .btn__t, .btn[aria-disabled="true"] .btn__t + .btn__t { transform: translateY(115%); }
+.btn:disabled .btn__disc, .btn:disabled .btn__disc svg, .btn:disabled .btn__icon, .btn:disabled .btn__icon svg { transform: none; }
+.btn:disabled .btn__disc svg + svg, .btn:disabled .btn__icon--swap > svg + svg { transform: translateX(-220%); }
+
+/* LOADING (aria-busy): blocks clicks (the button is also disabled), keeps the button's size.
+   - with a disc: the spinner takes the arrow's place inside the disc; the label stays (or shows the loading label)
+   - without a disc: the spinner centres over the button and the label and icons keep their space, invisible
+   - without a disc, WITH a loading label (data-busy-label): the spinner stands before the label */
+.btn__spin { display: none; box-sizing: border-box; width: 1em; height: 1em; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: btnSpin .7s linear infinite; }
+.btn[aria-busy="true"] { cursor: progress; opacity: 1; box-shadow: var(--btn-edge), var(--btn-shadow); }
+.btn[aria-busy="true"] .btn__spin { display: block; }
+.btn__disc .btn__spin { grid-area: 1 / 1; width: var(--btn-glyph); height: var(--btn-glyph); }
+.btn[aria-busy="true"] .btn__disc svg { opacity: 0; }
+.btn[aria-busy="true"]:not(.btn--disc):not([data-busy-label]) > .btn__spin { position: absolute; inset: 0; margin: auto; }
+.btn[aria-busy="true"]:not(.btn--disc):not([data-busy-label]) > :not(.btn__spin) { visibility: hidden; }
+.btn[aria-busy="true"][data-busy-label]:not(.btn--disc) > .btn__spin { order: -1; flex: none; }
+.btn[aria-busy="true"][data-busy-label]:not(.btn--disc) > .btn__icon--start { display: none; }
+@keyframes btnSpin { to { rotate: 360deg; } }
+
+/* REDUCED MOTION: states change without travel; the spinner turns slowly */
+@media (prefers-reduced-motion: reduce) {
+  .btn, .btn::before, .btn__label, .btn__t, .btn__disc, .btn__disc svg, .btn__icon, .btn__icon svg, .btn--fab > .btn__label { transition: none; }
+  .btn:hover .btn__t, .btn:hover .btn__disc, .btn:hover .btn__disc svg, .btn:hover .btn__icon--swap > svg, .btn--link:hover .btn__icon--end { transform: none; }
+  .btn:hover .btn__t + .btn__t { transform: translateY(115%); }
+  .btn:hover .btn__disc svg + svg, .btn:hover .btn__icon--swap > svg + svg { transform: translateX(-220%); }
+  .btn:active { scale: 1; }
+  .btn__spin { animation-duration: 1.6s; }
+}
+
+/* Windows high contrast: buttons keep a visible edge and focus outline */
+@media (forced-colors: active) {
+  .btn { border: 1px solid ButtonText; }
+  .btn:focus-visible { outline: 2px solid Highlight; outline-offset: 2px; }
+  .btn:disabled, .btn[aria-disabled="true"] { border-color: GrayText; color: GrayText; }
+}
+
+/* shadow off (user 2026-11-21): <Button shadow={false}> / buttonHTML({ shadow: false }) adds .btn--flat, which drops the drop shadow at rest,
+   on hover and when pressed; the button's edge, colours and motion are unchanged. Used by the header's "Let's talk". */
+.btn.btn--flat, .btn.btn--flat:hover, .btn.btn--flat:focus-visible, .btn.btn--flat:active { --btn-shadow: 0 0 0 0 transparent; --btn-shadow-hover: 0 0 0 0 transparent; }

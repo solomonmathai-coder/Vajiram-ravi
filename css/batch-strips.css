@@ -1,0 +1,33 @@
+/* Batch ribbon (components/sections/BatchStrips): one straight orange ribbon along the very top of the page, above the header. It is
+   --strip-h tall (navigation-bar.css), sits in the page's normal scroll (position absolute at the top of the page, so it scrolls
+   away), and sits under the header's z-index. The track slides with `transform`; the reveal (.rv) uses opacity/translate. */
+.bstrips { position: absolute; z-index: 49; top: 0; left: 0; right: 0; height: var(--strip-h, 44px); overflow: hidden; overflow: clip; }
+.bstrips__sr { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+.bstrip { position: absolute; inset: 0; display: flex; align-items: center; overflow: hidden; color: #fff;
+  background: linear-gradient(100deg, #F06A2C, #E85020 45%, #C2410C); }
+/* stitched edges, like the reference's ribbon */
+.bstrip::before, .bstrip::after { content: ""; position: absolute; left: 0; right: 0; height: 0; border-top: 1.5px dashed currentColor; opacity: .38; pointer-events: none; }
+.bstrip::before { top: 4px; }
+.bstrip::after { bottom: 4px; }
+
+.bstrip__track { display: flex; flex: none; width: max-content; will-change: transform; animation: bstripL 60s linear infinite; }
+.bstrip__run { display: flex; flex: none; align-items: center; }
+.bstrip__it { color: inherit; text-decoration: none; cursor: pointer; transition: opacity .25s var(--ease, ease), text-shadow .25s; display: inline-flex; align-items: center; gap: 10px; padding-left: 28px; white-space: nowrap; }
+.bstrip__it b { font: 700 clamp(16px, 1.4vw, 19px)/1 var(--f-d); letter-spacing: -.01em; }
+.bstrip__it > span { font: 600 clamp(12px, 1vw, 14px)/1 var(--f); opacity: .88; }
+.bstrip__orn { width: 20px; height: 12px; margin-left: 18px; background: currentColor; opacity: .75; -webkit-mask: var(--lotus) center / contain no-repeat; mask: var(--lotus) center / contain no-repeat; }
+@keyframes bstripL { to { transform: translate3d(-50%, 0, 0); } }
+
+/* hover: the ribbon stops, so a batch can be read */
+@media (hover: hover) and (pointer: fine) { .bstrips:hover .bstrip__track { animation-play-state: paused; } }
+@media (prefers-reduced-motion: reduce) { .bstrip__track { animation: none; } }
+@media (max-width: 640px) { .bstrip__it { padding-left: 20px; gap: 8px; } .bstrip__orn { margin-left: 12px; width: 18px; } }
+
+/* each batch is a link: it brightens on hover and shows a focus ring on the keyboard */
+.bstrip__it:focus-visible { outline: 2px solid #fff; outline-offset: -4px; border-radius: 6px; }
+@media (hover: hover) and (pointer: fine) {
+  .bstrips:hover .bstrip__it { opacity: .72; }
+  .bstrips .bstrip__it:hover { opacity: 1; text-shadow: 0 0 14px rgba(255, 255, 255, .55); }
+  .bstrip__it:hover b { text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 4px; }
+}

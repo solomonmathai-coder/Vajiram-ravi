@@ -1,0 +1,7 @@
+.pbar { --pb-fill: #FFD48A; --pb-track: transparent; --pb-h: 3px; --pb-t: 6s; display: block; height: var(--pb-h); background: var(--pb-track); overflow: hidden; pointer-events: none; }
+.pbar > b { display: block; height: 100%; background: var(--pb-fill); transform: scaleX(var(--p, 0)); transform-origin: left center; }
+.pbar--track { --pb-track: rgba(255, 255, 255, .16); }
+.pbar.is-run > b { animation: pbar-fill var(--pb-t) linear forwards; }
+.pbar.is-paused > b { animation-play-state: paused; }
+@keyframes pbar-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce) { .pbar { display: none; } }

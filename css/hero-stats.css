@@ -1,0 +1,203 @@
+/* Hero stats, Kevin's (user 2026-11-16: "copy the same code from kevins"): css/hero-v6.css and css/mobile.css of the `kevin` branch
+   (github.com/solomonmathai-coder/Vajiram-ravi), the .hx__stats rules as they are there. Under the hero card, on the brand ground: the
+   four points, each a large cream figure beside its line, centred as a group with gold lines running in from the sides and a small gold
+   diamond between the points. Markup Hero.jsx, figures Hero/data.js, roll-up and entrance hero-stats.js.
+   Our hero sizes its card around the row (--stats-h, end of v49.css), so the row keeps the height set here at each width. The old
+   .dl__stats rules in v49.css no longer match anything. */
+.dl { --hx-gold: #FFD48A; --hx-cream: #FFF3E1; --stats-h: 182px; }
+@media (max-width: 900px) { .dl { --stats-h: 216px; } }   /* two by two: 32 + two rows + 24 + 40, measured */
+@media (max-width: 560px) { .dl { --stats-h: 284px; } }   /* each number over its words */
+
+/* ---------- the four points, each a large figure beside its line ---------- */
+.hx__stats { flex: none; height: var(--stats-h); display: flex; align-items: center; justify-content: center; gap: 24px 64px; margin: 0; padding: 48px 16px; list-style: none; box-sizing: border-box; color: #fff; }
+.hx__stat { display: flex; align-items: center; gap: 18px; }
+/* with the larger figures: the four sit as a centred group with a gap that grows with the screen; where space is short the lines
+   beside them wrap narrower so they still fit */
+@media (min-width: 901px) {
+  .hx__stats { --sg: clamp(28px, 3.2vw, 80px); display: grid; grid-template-columns: minmax(28px, 1fr) repeat(4, auto) minmax(28px, 1fr); align-items: center; column-gap: var(--sg); padding-left: 0; padding-right: 0; }
+  .hx__stats::before, .hx__stats::after { content: ""; height: 1px; align-self: center; pointer-events: none; }
+  .hx__stats::before { margin-right: calc(24px - var(--sg)); background: linear-gradient(90deg, rgba(255, 212, 138, 0), rgba(255, 212, 138, .75)); }   /* runs on to 24px from the first figure */
+  .hx__stats::after { margin-left: calc(24px - var(--sg)); background: linear-gradient(90deg, rgba(255, 212, 138, .75), rgba(255, 212, 138, 0)); }
+  .hx__stats .hx__stat-t { width: auto; max-width: 150px; }
+  /* a small gold diamond in the middle of each gap, level with the figures */
+  .hx__stats .hx__stat { position: relative; }
+  .hx__stats .hx__stat + .hx__stat::before { content: ""; position: absolute; left: calc(var(--sg) / -2 - 4px); top: 50%; width: 8px; height: 8px; margin-top: -4px;
+    background: #FFD48A; rotate: 45deg; box-shadow: 0 0 0 3px rgba(255, 212, 138, .18); pointer-events: none; }
+}
+@media (min-width: 1181px) and (max-width: 1500px) {   /* laptops: a little smaller, so with the end lines the lines of text keep to two rows */
+  .hx__stats { --sg: 40px; }
+  .hx__stats .hx__fig { font-size: 44px; }
+  .hx__stats .hx__stat { gap: 14px; }
+  .hx__stats .hx__stat-t { font-size: 16px; }
+}
+@media (min-width: 901px) and (max-width: 1180px) {   /* small laptops and tablets on their side: a size down, so the lines keep to two or three rows */
+  .hx__stats { --sg: 36px; }
+  .hx__stats .hx__fig { font-size: 35px; }
+  .hx__stats .hx__stat { gap: 12px; }
+  .hx__stats .hx__stat-t { font-size: 15px; }
+}
+/* the figure, and under it an unseen copy of its final value that holds the width while the figure rolls up from 0 */
+.hx__num { display: inline-grid; flex: none; }
+.hx__num > .hx__fig { grid-area: 1 / 1; text-align: left; }
+.hx__fig--room { visibility: hidden; }
+.hx__fig { position: relative; font: 500 clamp(40px, 3.6vw, 54px)/1 var(--f-title, Georgia), serif; letter-spacing: -.02em; color: var(--hx-cream); white-space: nowrap; font-variant-numeric: lining-nums tabular-nums; }
+.hx__stat-t { width: 150px; font: 400 17px/1.35 var(--f); color: rgba(255, 255, 255, .92); }
+
+/* ---------- the entrance (after the intro lifts): the four points rise in on their own delays (--at) ---------- */
+html.js .hx__stats.is-pre .hx__in { opacity: 0; translate: 0 24px; }
+.hx__stats.is-in .hx__in { opacity: 1; translate: none; transition: opacity .45s ease-out var(--at, 0ms), translate .45s ease-out var(--at, 0ms); }
+/* hover: the figure lifts a touch and its diamond-gold underline draws (ours; Kevin's row had none) */
+.hx__fig:not(.hx__fig--room) { transition: translate .35s cubic-bezier(.22, 1, .36, 1); }
+.hx__num { position: relative; }
+.hx__num::after { content: ""; position: absolute; left: 0; right: 0; bottom: -8px; height: 2px; background: var(--hx-gold); transform: scaleX(0); transform-origin: 0 50%; transition: transform .45s cubic-bezier(.7, 0, .2, 1); }
+@media (hover: hover) and (pointer: fine) {
+  .hx__stat:hover .hx__fig:not(.hx__fig--room) { translate: 0 -3px; }
+  .hx__stat:hover .hx__num::after { transform: scaleX(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html.js .hx__stats.is-pre .hx__in { opacity: 1; translate: none; }
+  .hx__stats .hx__in, .hx__fig, .hx__num::after { transition: none; }
+}
+
+@media (max-width: 1180px) { .hx__stats { gap: 24px 40px; } }
+@media (max-width: 900px) {
+  .hx__stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; justify-content: stretch; align-content: center; padding: 32px 8px 40px; }
+  .hx__stat-t { width: auto; }
+}
+@media (max-width: 560px) {
+  .hx__stat { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .hx__fig { font-size: 40px; }
+  .hx__stat-t { font-size: 15px; }
+}
+/* phones (Kevin's mobile.css): centred, each number over its words. The card keeps its full height here (v49.css), so the row just
+   takes its content's height (--stats-h above stays a close estimate for the banner spacing that reads it) */
+@media (max-width: 760px) {
+  .hx__stats { height: auto; justify-items: center; text-align: center; }
+  .hx__stat { flex-direction: column; align-items: center; text-align: center; }
+  .hx__stat-t { text-align: center; }
+  .hx__num::after { display: none; }
+}
+
+/* every label on exactly two lines (user 2026-11-17): the break is in the data (Hero/data.js), so no width makes it wrap again or run to one line */
+.hx__stats .hx__stat-t { width: auto; max-width: none; white-space: nowrap; }
+.hx__stat-l { display: block; }
+
+/* ---------- phones and tablets (900px and narrower): the desktop row's gold details, laid out for the two by two grid ----------
+   (user 2026-11-17, "many elements on desktop are missing on mobile"). Desktop has gold lines running in from the sides and a gold
+   diamond between the points; here the four sit in a grid, so the lines become a cross between them (fading at both ends, as the
+   desktop lines fade at their outer ends) and the diamond sits where the lines meet. The grid's padding is 32px on top and 40px below,
+   so its middle is 4px above the box's. */
+@media (max-width: 900px) {
+  .hx__stats { position: relative; justify-items: center; }   /* each point centred in its half, clear of the cross */
+  .hx__stats::before, .hx__stats::after { content: ""; position: absolute; pointer-events: none; }
+  .hx__stats::before { left: 50%; top: 32px; bottom: 40px; width: 1px; margin-left: -.5px;
+    background: linear-gradient(180deg, rgba(255, 212, 138, 0), rgba(255, 212, 138, .75) 50%, rgba(255, 212, 138, 0)); }
+  .hx__stats::after { top: calc(50% - 4px); left: 8%; right: 8%; height: 1px;
+    background: linear-gradient(90deg, rgba(255, 212, 138, 0), rgba(255, 212, 138, .75) 50%, rgba(255, 212, 138, 0)); }
+  /* the diamond: the first point's own mark, placed on the grid (the points are not positioned here, so it lands on the list) */
+  .hx__stats .hx__stat { position: static; }
+  .hx__stats .hx__stat:first-child::after { content: ""; position: absolute; left: 50%; top: calc(50% - 4px); z-index: 1; width: 8px; height: 8px;
+    margin: -4px 0 0 -4px; background: var(--hx-gold); rotate: 45deg; box-shadow: 0 0 0 3px rgba(255, 212, 138, .18); pointer-events: none; }
+  /* the entrance: the cross and the diamond fade in with the points */
+  html.js .hx__stats.is-pre::before, html.js .hx__stats.is-pre::after, html.js .hx__stats.is-pre .hx__stat:first-child::after { opacity: 0; }
+  .hx__stats.is-in::before, .hx__stats.is-in::after, .hx__stats.is-in .hx__stat:first-child::after { opacity: 1; transition: opacity .9s ease-out .7s; }
+}
+@media (max-width: 900px) and (prefers-reduced-motion: reduce) {
+  html.js .hx__stats.is-pre::before, html.js .hx__stats.is-pre::after, html.js .hx__stats.is-pre .hx__stat:first-child::after { opacity: 1; transition: none; }
+}
+
+/* the stats on the light section ground (user 2026-11-20: the hero is no longer orange): ink figures and labels, brand lines and diamonds */
+.dl { --hx-gold: var(--brand); --hx-cream: var(--ink); }
+.hx__stats { color: var(--ink); }
+.hx__stat-t { color: #4A4038; }
+@media (min-width: 901px) {
+  .hx__stats::before { background: linear-gradient(90deg, rgba(194, 65, 12, 0), rgba(194, 65, 12, .45)); }
+  .hx__stats::after { background: linear-gradient(90deg, rgba(194, 65, 12, .45), rgba(194, 65, 12, 0)); }
+  .hx__stats .hx__stat + .hx__stat::before { background: var(--brand); box-shadow: 0 0 0 3px rgba(194, 65, 12, .14); }
+}
+@media (max-width: 900px) {
+  .hx__stats::before { background: linear-gradient(180deg, rgba(194, 65, 12, 0), rgba(194, 65, 12, .45) 50%, rgba(194, 65, 12, 0)); }
+  .hx__stats::after { background: linear-gradient(90deg, rgba(194, 65, 12, 0), rgba(194, 65, 12, .45) 50%, rgba(194, 65, 12, 0)); }
+  .hx__stats .hx__stat:first-child::after { box-shadow: 0 0 0 3px rgba(194, 65, 12, .14); }
+}
+
+/* The stats on the first screen (user 2026-11-21, "on first load the stats are not showing"): on laptop screens (650-730px of viewport)
+   and phones the row sat below the fold. Desktop: the row's padding 28px (was 48px), so it is 120px tall (was 182px); on short screens
+   (760px tall and less) the card goes down to what its copy needs (--card-min with 64px of room, was 110px) so card + stats fit under
+   the header. Phones: one compact row of four (figure over its words, 26px figures, 11px words; was a 2 x 2 block, 284px tall), and the
+   card leaves room for it. */
+html body .dl { --stats-h: 120px; }
+@media (min-width: 901px) { .hx__stats { padding-top: 28px; padding-bottom: 28px; } }
+@media (min-width: 901px) and (max-height: 760px) {
+  html body .dl { --card-min: calc(var(--txt-h) + 64px);
+    --card-h: clamp(var(--card-min), calc(100svh - var(--hdr-h) - var(--hdr-gap) - var(--stats-h) - 12px), 560px); }
+}
+@media (min-width: 761px) and (max-width: 900px) { html body .dl { --stats-h: 216px; } }
+@media (max-width: 760px) {
+  html body .dl { --stats-h: 96px; --card-h: calc(100svh - var(--hdr-h) - var(--hdr-gap) - var(--stats-h) - 8px); }
+  .hx__stats { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0 6px; padding: 16px 0 12px; height: auto; align-items: start; }
+  .hx__stats::before, .hx__stats::after, .hx__stats .hx__stat:first-child::after { display: none; }
+  .hx__stats .hx__stat { gap: 6px; }
+  .hx__stats .hx__fig { font-size: 26px; }
+  .hx__stats .hx__stat-t { font-size: 11px; line-height: 1.3; white-space: normal; }
+}
+
+/* Shorter hero again (user 2026-11-21, "reduce the height of the hero banner"): on desktop the card goes down to what its copy needs
+   (--card-min with 64px of room) at every screen height and is capped at 500px (was 560px); tablets 540px (was 620px). */
+@media (min-width: 901px) {
+  html body .dl { --card-min: calc(var(--txt-h) + 64px);
+    --card-h: clamp(var(--card-min), calc(100svh - var(--hdr-h) - var(--hdr-gap) - var(--stats-h) - 100px), 500px); }
+}
+@media (min-width: 901px) and (max-height: 760px) {
+  html body .dl { --card-h: clamp(var(--card-min), calc(100svh - var(--hdr-h) - var(--hdr-gap) - var(--stats-h) - 12px), 500px); }
+}
+@media (min-width: 761px) and (max-width: 900px) {
+  html body .dl { --card-h: min(540px, calc(100svh - var(--hdr-h) - var(--hdr-gap) - 140px)); }
+}
+
+/* The stats centred in their band, the same space above and below (user 2026-11-21, "the stats section's top and bottom padding should be
+   the same, so reduce the height of the hero"): the hero frame's 20px under the row goes (that was the extra below), so the hero is 20px
+   shorter; the row's own padding is even at every width and its items centred both ways. */
+html body .dl--pin .dl__frame { padding-bottom: 0; }
+.hx__stats { align-items: center; justify-content: center; }
+@media (min-width: 761px) and (max-width: 900px) { .hx__stats { padding-top: 36px; padding-bottom: 36px; } }
+@media (max-width: 760px) { .hx__stats { padding-top: 16px; padding-bottom: 16px; align-items: center; justify-items: center; } }
+
+/* The hero fills the screen (user 2026-11-21, "the hero should fill 100% of the viewport"): header band + card + stats = 100svh at every
+   width; no caps. Never below what the copy needs (--card-min). Replaces the 500px / 540px caps above. */
+html body .dl { --card-h: max(var(--card-min), calc(100svh - var(--hdr-h) - var(--hdr-gap) - var(--stats-h))); }
+@media (max-width: 900px) { html body .dl--pin .dl__frame > .dl__stick { min-height: var(--card-h); } }
+/* ... up to 900px tall (user 2026-11-21): on taller screens the hero stops at 900px */
+html body .dl { --card-h: max(var(--card-min), calc(min(100svh, 900px) - var(--hdr-h) - var(--hdr-gap) - var(--stats-h))); }
+/* a little shorter (user 2026-11-21): the screen less 64px, so the next section's top shows under it, and at most 820px (was the full
+   screen, at most 900px); never below the copy */
+html body .dl { --card-h: max(var(--card-min), calc(min(100svh - 64px, 820px) - var(--hdr-h) - var(--hdr-gap) - var(--stats-h))); }
+/* The hero back at the screen's height (at most 900px), the banner card 64px shorter (user 2026-11-21, "the hero height should be the
+   same as before, reduce the banner height"): the stats band takes the 64px (184px on desktop and tablets, was 120px), the figures still
+   centred in it with the same space above and below. Phones keep their compact row. */
+html body .dl { --card-h: max(var(--card-min), calc(min(100svh, 900px) - var(--hdr-h) - var(--hdr-gap) - var(--stats-h))); }
+@media (min-width: 761px) { html body .dl { --stats-min: 184px; } .hx__stats { height: var(--stats-h); padding-top: 0; padding-bottom: 0; } }
+@media (min-width: 761px) and (max-width: 900px) { html body .dl { --stats-min: 280px; } }
+@media (min-width: 761px) and (max-height: 760px) { html body .dl { --stats-min: 120px; } }
+/* the banner card shorter still (user 2026-11-21, "reduce the banner component height"): at most 480px on desktop and tablets (540px, and
+   before that the screen's height less the header and the stats band, ~630px at 1440 x 900). The hero still fills the screen (at most 900px):
+   the stats band takes the height the card gives up (never below --stats-min), the stats centred in it. Never below its copy. */
+@media (min-width: 761px) { html body .dl {
+  --hero-avail: calc(min(100svh, 900px) - var(--hdr-h) - var(--hdr-gap));
+  --card-h: max(var(--card-min), min(480px, calc(var(--hero-avail) - var(--stats-min))));
+  --stats-h: calc(var(--hero-avail) - var(--card-h)); } }
+
+/* phones: the four stats as a two by two grid (user 2026-11-21, replacing the single compact row), with the tablets' cross and diamond
+   between them; the card gives up the grid's height (--stats-h) so card + stats still fill the first screen */
+@media (max-width: 760px) {
+  html body .dl { --stats-h: 218px; }
+  .hx__stats { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 16px; padding: 24px 0; align-items: center; justify-items: center; }
+  .hx__stats::before, .hx__stats::after, .hx__stats .hx__stat:first-child::after { display: block; }
+  .hx__stats::before { top: 24px; bottom: 24px; }
+  .hx__stats::after, .hx__stats .hx__stat:first-child::after { top: 50%; }
+  .hx__stats .hx__stat { gap: 6px; }
+  .hx__stats .hx__fig { font-size: 30px; }
+  .hx__stats .hx__stat-t { font-size: 13px; line-height: 1.35; white-space: nowrap; }
+}
+/* phones: the banner card fills the screen below the header (user 2026-11-21); the stats follow below the fold */
+@media (max-width: 760px) { html body .dl { --card-h: calc(100svh - var(--hdr-h) - var(--hdr-gap)); } }

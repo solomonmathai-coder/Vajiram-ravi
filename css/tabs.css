@@ -1,0 +1,31 @@
+/* The tab bar (components/ui/Tabs.jsx), used by Toppers' years, Life at V&R's All / Images / Videos and the
+   Programmes filter (user 2026-11-21: one component for every tab bar). A sand bar, the labels in ink and one brand pill (.tabs__ind)
+   that springs along under the chosen tab. Sections only place the bar (margin, width); they never restyle it.
+   On narrow screens the tabs scroll sideways inside the bar (the pill scrolls with them). */
+.tabs { display: flex; align-items: center; width: max-content; max-width: 100%; padding: 4px; box-sizing: border-box; border-radius: 14px; background: #F9F0E4; }
+.tabs[hidden] { display: none; }
+.tabs__list { position: relative; isolation: isolate; display: flex; flex: 0 1 auto; min-width: 0; overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; border-radius: 10px; }
+.tabs__list::-webkit-scrollbar { display: none; }
+
+.tab { flex: none; position: relative; display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px; border: 0; border-radius: 10px; background: transparent; cursor: pointer;
+  font: 600 15px/1 var(--f); color: var(--ink, #1D1712); white-space: nowrap; font-variant-numeric: tabular-nums;
+  transition: background-color .3s var(--ease, ease), color .3s var(--ease, ease) .05s; }
+.tab[hidden] { display: none; }
+.tab:hover { background: rgba(194, 65, 12, .08); color: var(--brand, #C2410C); }
+.tab[aria-selected="true"], .tab[aria-selected="true"]:hover { background: var(--brand, #C2410C); color: #fff; }
+.tabs.has-ind .tab[aria-selected="true"], .tabs.has-ind .tab[aria-selected="true"]:hover { background: transparent; }   /* the pill carries the fill once it is placed */
+.tab:focus-visible { outline: 2px solid var(--brand, #C2410C); outline-offset: -2px; }
+.tab:active { scale: .97; }
+
+/* how many each tab holds (Programmes) */
+.tab__n { box-sizing: border-box; min-width: 24px; padding: 4px 7px; border-radius: 999px; text-align: center; font: 700 12px/16px var(--f); color: var(--brand, #C2410C);
+  transition: background-color .3s var(--ease, ease) .05s, color .3s var(--ease, ease) .05s; }
+.tab[aria-selected="true"] .tab__n { background: rgba(255, 255, 255, .24); color: #fff; }
+
+.tabs__ind { position: absolute; left: 0; top: 0; bottom: 0; z-index: -1; width: 0; border-radius: 10px; background: var(--brand, #C2410C); pointer-events: none;
+  transition: transform .45s cubic-bezier(.7, 0, .2, 1), width .45s cubic-bezier(.7, 0, .2, 1); }
+@supports (transition-timing-function: linear(0, 1)) { .tabs__ind { transition: transform .57s var(--spring-pill), width .57s var(--spring-pill); } }
+.tabs__ind.is-instant { transition: none; }
+
+@media (max-width: 640px) { .tab { padding: 0 12px; font-size: 14px; } }
+@media (prefers-reduced-motion: reduce) { .tabs__ind, .tab, .tab__n { transition: none; } .tab:active { scale: none; } }
