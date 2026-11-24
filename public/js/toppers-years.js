@@ -182,7 +182,13 @@
     var cta = $(s, ".dr__cta");
     var cap = $(s, ".dr > .dr__h");
     var strip = $(s, ".dr > .dr__view");
-    if (h3) { h3.classList.add("tpb-sub"); hd.appendChild(h3); }
+    /* "For a decade…" becomes the heading's introduction, as every other section has one */
+    if (h3) {
+      var intro = el("p", "intro tpb-sub");
+      intro.textContent = h3.textContent;
+      hd.appendChild(intro);
+      h3.remove();
+    }
 
     /* the switch: his tabs' look, two halves naming the showcases */
     var sw = yrs.cloneNode(true);

@@ -127,8 +127,12 @@ decade, we've been shaping India's civil servants." as its line) a segmented swi
 "A decade of ranks"), the orange gliding between the two halves; the scene slides
 in the way the switch moves. Scene 1 is his 2025 carousel; scene 2 his decade panel exactly as on his section (his
 year tabs over his framed panel, the caption with its rules), its list a little shorter (290px for his 406) and its
-shield 206px for his 225, so the section fits one screen: the heading on one line ("For a decade…" left to the
-switch), 843px at 1440 x 900, 809px at 1700 x 830 (96%), stepping down in scale on shorter screens (87% at 1366 x 768). Earlier tries (side by side, a split screen with a year
+shield 206px for his 225, to keep it compact. Its spacing and type follow the page's own rhythm, as every other
+section of his homepage keeps it (his tokens, at 1440): --sec-y 90px above and below, the label --hd-lbl 24px over his
+two-line 64px heading, "For a decade, we've been shaping India's civil servants." as its introduction --hd-in 16px
+under it in his 16.5px body type, the switch --hd-gap 48px under that, his 18px between the "36/50 Ranks" caption and
+the shields, and the button --hd-gap under the scene. It measures 1028px at 1440 (2025) and about 1130px (the decade);
+it no longer scales down on shorter screens, so its type matches the rest of the page. Earlier tries (side by side, a split screen with a year
 timeline, a dark "hall of fame" band) were removed on 24 Nov 2026.
 His scripts do not reach the copy, so ours runs its parts: the carousel (sliding by CSS, pausing under the pointer),
 the year tabs, the list (click a name, or let it move on every 4.5s, a fine line filling across the name shown,

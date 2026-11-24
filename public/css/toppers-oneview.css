@@ -8,13 +8,15 @@
 /* his section, set aside on desktop once the new version is built (the script also sets [hidden]) */
 html body section.tp1-his { display: none !important; }
 @media (min-width: 1024px) {
-  /* the section fits one screen: the top clears the fixed nav pill, the heading is one line ("For a decade…" is left to
-     the switch's "A decade of ranks"), the decade panel's list a little shorter */
-  html body #toppers.tp1-sec.pd { padding-top: 86px; padding-bottom: 30px; }
-  html body #toppers.tp1-sec .pd__h { max-width: none; margin-top: 14px; font-size: 56px; line-height: 1.05; }
-  html body #toppers.tp1-sec .pd__h em { display: inline; }
-  html body #toppers.tp1-sec .pd__hd { max-width: none; }
-  html body #toppers.tp1-sec .tpb-sub { display: none; }
+  /* the page's own rhythm, as every other section of his homepage keeps it (his tokens, at 1440: --sec-y 90px above
+     and below, the label --hd-lbl 24px over his two-line --h2 64px heading, the introduction --hd-in 16px under it in
+     his 16.5px body type, the content --hd-gap 48px under that, the button --hd-gap under the content) */
+  html body #toppers.tp1-sec.pd { padding-top: var(--sec-y); padding-bottom: var(--sec-y); }
+  html body #toppers.tp1-sec .pd__hd .lbl + .pd__h { margin-top: var(--hd-lbl); }
+  html body #toppers.tp1-sec .tpb-sub {
+    max-width: 460px; margin: var(--hd-in) auto 0; font: 400 16.5px/1.55 var(--f); letter-spacing: -.01em;
+    color: var(--body, #4A4A4A); text-wrap: pretty;
+  }
   html body #toppers.tp1-sec .tp1-tag {
     position: absolute; top: 104px; left: var(--px); z-index: 3; margin: 0; padding: 7px 12px; border-radius: 999px;
     background: #1E1A17; color: #fff; font: 700 11.5px/1 var(--f); letter-spacing: .08em; text-transform: uppercase;
@@ -22,7 +24,7 @@ html body section.tp1-his { display: none !important; }
 
   /* the switch: one segmented control naming the two showcases, the orange gliding between the halves; one track (a
      fine ring), the two halves inside it 5px from its edge, the orange exactly the size of the chosen half */
-  html body #toppers.tp1-sec .tpb-switch { display: flex; justify-content: center; width: fit-content; margin: 18px auto 0; padding: 0; background: none; border-radius: 0; box-shadow: none; }
+  html body #toppers.tp1-sec .tpb-switch { display: flex; justify-content: center; width: fit-content; margin: var(--hd-gap) auto 0; padding: 0; background: none; border-radius: 0; box-shadow: none; }
   html body #toppers.tp1-sec .tpb-switch .tabs__list {
     display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-inline: auto; padding: 5px; border-radius: 999px;
     background: #FFFAF3; box-shadow: 0 0 0 1px rgba(194, 65, 12, .16), 0 14px 28px -20px rgba(110, 40, 8, .55);
@@ -43,7 +45,7 @@ html body section.tp1-his { display: none !important; }
 
   /* the stage: the two scenes in one place, sliding the way the switch moves; its height is the shown scene's (the
      script sets it, easing between the two), so neither stands in empty space */
-  html body #toppers.tp1-sec .tpb-stage { position: relative; margin-top: 18px; transition: height .5s cubic-bezier(.22, 1, .36, 1); }
+  html body #toppers.tp1-sec .tpb-stage { position: relative; margin-top: 30px; transition: height .5s cubic-bezier(.22, 1, .36, 1); }
   html body #toppers.tp1-sec .tpb-scene { min-width: 0; transition: opacity .5s ease, translate .6s cubic-bezier(.22, 1, .36, 1); }
   html body #toppers.tp1-sec .tpb-scene:not(.is-on) {
     position: absolute; top: 0; left: 0; right: 0; visibility: hidden; opacity: 0; pointer-events: none;
@@ -54,12 +56,12 @@ html body section.tp1-his { display: none !important; }
 
   /* scene 1: his 2025 carousel (his shields take their size from his wrapper, .dr, which the scene stands in for) */
   html body #toppers.tp1-sec .tpb-scene[data-scene="1"] { --dw: clamp(132px, 12vw, 172px); --dh: calc(var(--dw) * 1.24089); }
-  html body #toppers.tp1-sec .tpb-scene[data-scene="1"] .dr__view { margin: 4px calc(var(--px) * -1) 0; }
+  html body #toppers.tp1-sec .tpb-scene[data-scene="1"] .dr__view { margin: 18px calc(var(--px) * -1) 0; }   /* his gap under the caption */
   html body #toppers.tp1-sec .tp1-marq-x { animation: tp1MarqX 70s linear infinite; }
   html body #toppers.tp1-sec .dr__view:hover .tp1-marq-x { animation-play-state: paused; }
 
   /* scene 2: his decade panel in his style and at his width (his year tabs over his framed panel), its list a little
-     shorter (his --col 406px, here 290px) and its shield 206px for his 225, so the section fits one screen */
+     shorter (his --col 406px, here 290px) and its shield 206px for his 225, to keep the section compact */
   html body #toppers.tp1-sec .tpb-scene[data-scene="2"] { display: flex; flex-direction: column; align-items: center; }
   html body #toppers.tp1-sec .tpb-scene[data-scene="2"] .tp-frame { align-self: stretch; width: 100%; max-width: 1240px; margin-inline: auto; box-sizing: border-box; }
   html body #toppers.tp1-sec .tp-frame > div { --col: 290px; }
@@ -87,13 +89,8 @@ html body section.tp1-his { display: none !important; }
   }
   html body #toppers.tp1-sec .tp-frame.is-paused .tp1-run { animation-play-state: paused; }
 
-  html body #toppers.tp1-sec .dr__cta { margin-top: 20px; }
+  html body #toppers.tp1-sec .dr__cta { margin-top: var(--hd-gap); }
 }
-/* on shorter screens the same, a step smaller, so it still reads in one screen */
-@media (min-width: 1024px) and (max-height: 860px) { html body #toppers.tp1-sec.pd { zoom: .96; } }
-@media (min-width: 1024px) and (max-height: 820px) { html body #toppers.tp1-sec.pd { zoom: .92; } }
-@media (min-width: 1024px) and (max-height: 780px) { html body #toppers.tp1-sec.pd { zoom: .87; } }
-@media (min-width: 1024px) and (max-height: 740px) { html body #toppers.tp1-sec.pd { zoom: .82; } }
 @keyframes tp1MarqX { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 @keyframes tp1Run { from { background-size: 0 100%, auto; } to { background-size: 100% 100%, auto; } }
 @media (prefers-reduced-motion: reduce) {
