@@ -447,3 +447,15 @@ main.tp { padding: 0; }   /* (the site's main has 35px side padding; the beige h
 /* no shadow over the footer (user 2026-11-25, "remove the shadow from the footer"): the site's footer-curtain gives the page above it
    a drop shadow where it meets the footer; this page's main has none */
 html.foot-curtain main.tp, main.tp, main.tp::after { box-shadow: none; }
+/* the shields a little bigger (user 2026-11-25): 100px to 116px wide in the grid (7 a row on a 1440 screen, was 8), 84px to 92px on
+   phones (still three a row) */
+.tp-ri { width: 140px; }
+.tp-ri .tp-shield { --dw: 116px; }
+.tp-ri .tp-card__air { font-size: 28px; }
+.tp-ri__name { font-size: 12.5px; }
+@media (max-width: 900px) {
+  .tp-ri { width: 104px; }
+  .tp-ri .tp-shield { --dw: 92px; }
+  .tp-ri .tp-card__air { font-size: 23px; }
+  .tp-ri__name { font-size: 11px; }
+}
