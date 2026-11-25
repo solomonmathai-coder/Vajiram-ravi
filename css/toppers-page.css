@@ -564,3 +564,6 @@ html.foot-curtain main.tp, main.tp, main.tp::after { box-shadow: none; }
    patterned crown of the shield stays visible above it and the photo follows the shield's curved point, instead of a square box
    covering the whole shield (#pdPhotoBox in toppers.html, in the image's own box) */
 .tp-shield__pic img.is-boxed { top: calc(var(--dh) * .6); width: calc(var(--dw) * .86); height: calc(var(--dh) * .71); object-fit: cover; object-position: 50% 14%; clip-path: url(#pdPhotoBox); }
+
+/* "… from Vajiram & Ravi" (user 2026-11-25): one line on wide screens; on phones two even lines */
+.tp-air1 .tp-rule span { text-wrap: balance; }
