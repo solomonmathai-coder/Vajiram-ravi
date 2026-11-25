@@ -20,7 +20,7 @@
 <link rel="stylesheet" href="css/footer-home.css?v=1">
 <link rel="stylesheet" href="css/ref-nav.css?v=1">
 <!-- the Toppers page (branch kevin-toppers, started fresh 2026-11-25) -->
-<link rel="stylesheet" href="css/toppers-page.css?v=13">
+<link rel="stylesheet" href="css/toppers-page.css?v=15">
 <script>document.documentElement.classList.add('js')</script>
 </head>
 <body class="tpp">
@@ -68,10 +68,12 @@
   <svg class="tp-defs" width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute"><clipPath id="pdPhotoTall" clipPathUnits="objectBoundingBox"><path d="M-.4 0H1.4V.33610H.95555V.72641C.95555 .77699 .77906 .88738 .49904 .96006C.21903 .88738 .04445 .77699 .04445 .72641V.33610H-.4Z"/></clipPath></svg>
   <!-- ============ the Toppers page, new design (started fresh 2026-11-25): only the hero so far ============ -->
   <section class="tp-hero" aria-labelledby="tpH">
-    <div class="tp-wrap">
+    <!-- centred as the homepage's Toppers section (user 2026-11-25): label, two-line heading; the year tabs sit at the hero's foot -->
+    <div class="tp-wrap tp-hero__in">
       <nav class="tp-crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><span aria-current="page">Toppers</span></nav>
-      <h1 class="tp-h" id="tpH">Our Toppers</h1>
-      <p class="tp-lede">UPSC Civil Services ranks earned by Vajiram &amp; Ravi students: <b id="tpTotal">173</b> toppers from <span id="tpSpan">2016–2025</span>. Pick a year to see who made it, and the programmes they studied with us.</p>
+      <p class="tp-lbl"><span class="tp-lbl__t">UPSC CSE results</span></p>
+      <h1 class="tp-h" id="tpH">Ranks they earned, <em>with the guidance we&nbsp;gave.</em></h1>
+      <p class="vh">UPSC Civil Services toppers from Vajiram &amp; Ravi, <span id="tpTotal">173</span> ranks from <span id="tpSpan">2016–2025</span>, year by year.</p>
     </div>
   </section>
 
@@ -84,7 +86,7 @@
 
 <script src="js/data/courses.js?v=1"></script>
 <script src="js/data/toppers-live.js?v=2"></script>
-<script src="js/toppers-page.js?v=5"></script>
+<script src="js/toppers-page.js?v=6"></script>
 <script src="js/footer-ref.js?v=2"></script>
 <script src="js/site-nav.js?v=8"></script>
 </body>

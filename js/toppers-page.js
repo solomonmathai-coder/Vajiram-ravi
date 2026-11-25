@@ -50,10 +50,7 @@
     [...tabs.children].forEach(b => { const on = +b.dataset.y === y; b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; if (on && focus) b.focus(); });
     panel.setAttribute('aria-labelledby', `tpTab${y}`);
     panel.innerHTML = `
-      <header class="tp-yhead">
-        <h2 class="tp-yhead__h">UPSC CSE ${y}</h2>
-        <p class="tp-yhead__stat"><b>${list.length}</b> ranks in the top ${within(max)}${list[0] && list[0].rank === 1 ? `, including <b>AIR 1</b>` : ''}</p>
-      </header>
+      <p class="tp-rule"><span>${list.length}/${within(max)} Ranks, UPSC CSE ${y}</span></p>
       <ol class="tp-top">${top.map(p => card(p, true)).join('')}</ol>
       ${rest.length ? `<ol class="tp-grid">${rest.map(p => card(p, false)).join('')}</ol>` : ''}`;
     slide();
