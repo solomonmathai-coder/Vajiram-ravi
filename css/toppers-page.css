@@ -534,11 +534,11 @@ html.foot-curtain main.tp, main.tp, main.tp::after { box-shadow: none; }
 
 /* batch-colour shields (the homepage's Toppers, Abhishek's 9cefb6e): each shield a Batches card colour with a faint jaali lattice and
    glow, the five cycling along the grid (assets/img/toppers/figma/shield2-<tone>.svg, copied from his repo) */
-.tp-shield--gs .tp-shield__gem { background-image: url(../assets/img/toppers/figma/shield2-gs.svg); }
-.tp-shield--pre .tp-shield__gem { background-image: url(../assets/img/toppers/figma/shield2-pre.svg); }
-.tp-shield--ca .tp-shield__gem { background-image: url(../assets/img/toppers/figma/shield2-ca.svg); }
-.tp-shield--mains .tp-shield__gem { background-image: url(../assets/img/toppers/figma/shield2-mains.svg); }
-.tp-shield--mentor .tp-shield__gem { background-image: url(../assets/img/toppers/figma/shield2-mentor.svg); }
+.tp-shield--gs .tp-shield__gem { background-image: url(../assets/img/toppers/figma/shield2-gs.svg?v=2); }
+.tp-shield--pre .tp-shield__gem { background-image: url(../assets/img/toppers/figma/shield2-pre.svg?v=2); }
+.tp-shield--ca .tp-shield__gem { background-image: url(../assets/img/toppers/figma/shield2-ca.svg?v=2); }
+.tp-shield--mains .tp-shield__gem { background-image: url(../assets/img/toppers/figma/shield2-mains.svg?v=2); }
+.tp-shield--mentor .tp-shield__gem { background-image: url(../assets/img/toppers/figma/shield2-mentor.svg?v=2); }
 
 /* ---------- a decade of AIR 1s (js/toppers-air1.js; user 2026-11-25, "showcase this idea of AIR 1 as a carousel on the top with
    wreaths", the homepage's reel): under the hero, every year's AIR 1 in a running row edge to edge, the edges fading out; each shield

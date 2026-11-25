@@ -18,14 +18,14 @@
 </g>
 <defs>
 <pattern id="vrJaali" width="44" height="44" patternUnits="userSpaceOnUse">
-<path d="M22 2 42 22 22 42 2 22Z" fill="none" stroke="#FFFFFF" stroke-opacity=".34" stroke-width="2.2"/>
-<path d="M22 12 32 22 22 32 12 22Z" fill="none" stroke="#FFFFFF" stroke-opacity=".2" stroke-width="1.6"/>
-<circle cx="22" cy="22" r="3" fill="#FFFFFF" fill-opacity=".34"/>
-<circle cx="0" cy="0" r="2.2" fill="#FFFFFF" fill-opacity=".26"/><circle cx="44" cy="0" r="2.2" fill="#FFFFFF" fill-opacity=".26"/>
-<circle cx="0" cy="44" r="2.2" fill="#FFFFFF" fill-opacity=".26"/><circle cx="44" cy="44" r="2.2" fill="#FFFFFF" fill-opacity=".26"/>
+<path d="M22 2 42 22 22 42 2 22Z" fill="none" stroke="#FFFFFF" stroke-opacity=".15" stroke-width="2.2"/>
+<path d="M22 12 32 22 22 32 12 22Z" fill="none" stroke="#FFFFFF" stroke-opacity=".15" stroke-width="1.6"/>
+<circle cx="22" cy="22" r="3" fill="#FFFFFF" fill-opacity=".15"/>
+<circle cx="0" cy="0" r="2.2" fill="#FFFFFF" fill-opacity=".15"/><circle cx="44" cy="0" r="2.2" fill="#FFFFFF" fill-opacity=".15"/>
+<circle cx="0" cy="44" r="2.2" fill="#FFFFFF" fill-opacity=".15"/><circle cx="44" cy="44" r="2.2" fill="#FFFFFF" fill-opacity=".15"/>
 </pattern>
 <radialGradient id="vrGlow" cx="247" cy="200" r="330" gradientUnits="userSpaceOnUse">
-<stop stop-color="#FFFFFF" stop-opacity=".18"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+<stop stop-color="#FFFFFF" stop-opacity=".15"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
 </radialGradient>
 
 <filter id="filter0_dii_0_4" x="1.89466e-08" y="0" width="495.17" height="614.452" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">

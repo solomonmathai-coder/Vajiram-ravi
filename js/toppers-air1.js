@@ -7,7 +7,7 @@
   const D = window.TOPPERS_LIVE, track = document.getElementById('tpAir1'); if (!D || !track) return;
   const view = track.parentElement;
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-  const PHOTO = 'assets/img/toppers/', TONES = ['gs', 'pre', 'ca', 'mains', 'mentor'];
+  const PHOTO = 'assets/img/toppers/', TONES = ['gs', 'pre'];   // orange and mustard in turn, as the homepage (user 2026-11-25)
   const tags = prog => !prog ? [] : prog.split(/,(?![^(]*\))|\s&\s/).map(t => t.trim().replace(/^&\s*/, ''))
     .filter(Boolean).map(t => /^IGP$|^Interview Guidance Program(me)?$/i.test(t) ? 'Interview Guidance' : t);
 

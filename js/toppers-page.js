@@ -51,7 +51,7 @@
   // shield shows that topper in the spotlight below
   // the shields take the Batches card colours in turn, as the homepage's Toppers since Abhishek's 9cefb6e (user 2026-11-25, "in the
   // home page we have updated the bg colour for the topper, lets make those changes in our toppers page too")
-  const TONES = ['gs', 'pre', 'ca', 'mains', 'mentor'];
+  const TONES = ['gs', 'pre'];   // orange and mustard in turn, as the homepage since ca9eef1 (user 2026-11-25, "use alternating colour like these")
   // every AIR 1 stands on the gold laurel wreath, as in the AIR 1 row above (user 2026-11-25, "all the AIR 1 should have a wreath")
   const reelItem = (p, i) => `<li class="tp-ri${p.rank === 1 ? ' tp-ri--one' : ''}" data-i="${i}"><div class="tp-ri__b">
       <div class="tp-shield tp-shield--${TONES[i % TONES.length]}">${p.rank === 1 ? '<span class="tp-a1__laurel" aria-hidden="true"></span>' : ''}<span class="tp-shield__gem" aria-hidden="true"></span><span class="tp-shield__pic"><img${p.cut ? '' : ' class="is-boxed"'} src="${esc(p.cut || p.photo)}" alt="" loading="lazy" decoding="async" draggable="false"></span></div>
