@@ -55,8 +55,19 @@
       <span class="tp-ri__name">${esc(p.name)}</span>
       ${p.prog ? `<span class="tp-ri__prog">${esc(tags(p.prog).join(' · '))}</span>` : ''}
     </div></li>`;
+  // the drum (user 2026-11-25, "a scroll effect like this", React Bits' 3D Text Reveal as the reference; our own code): the year's top
+  // ten as big lines on a 3D cylinder in a pinned stretch of the page; scrolling turns the cylinder so the lines roll up into view one
+  // after another, then the page moves on to the grid. A plain list for reduced motion
+  const DRUM_MAX = 10, DRUM_GAP = 18;   // lines; degrees between lines
+  const drum = (c, y, list) => { const top = list.slice(0, DRUM_MAX); return `
+      <section class="tp-drum" style="--n:${top.length}" aria-label="${esc(c.exam)} ${y}: the top ${top.length}">
+        <div class="tp-drum__pin"><p class="tp-drum__k" aria-hidden="true">${esc(c.exam)} ${y} · the top ${top.length}</p>
+          <div class="tp-drum__stage"><ol class="tp-drum__cyl">${top.map((p, i) => `<li class="tp-drum__line" style="--i:${i}"><span class="tp-drum__air">AIR ${p.rank}</span> <span class="tp-drum__nm">${esc(p.name)}</span></li>`).join('')}</ol></div>
+        </div>
+      </section>`; };
   const record = (c, y, list) => `
       <p class="tp-rule"><span>${list.length}/${within(Math.max(...list.map(p => p.rank)))} Ranks, ${c.exam} ${y}</span></p>
+      ${drum(c, y, list)}
       <div class="tp-reel"><ul class="tp-reel__track">${list.map(reelItem).join('')}</ul></div>`;
   const STEP = 4500;
   let recList = [], recAt = 0, recTimer = 0;
@@ -107,8 +118,31 @@
   };
   addEventListener('resize', () => { if (reel) reel.min = Math.min(0, reel.box.clientWidth - reel.track.scrollWidth); });
   const clampX = x => Math.max(reel.min, Math.min(0, x));
+  // the drum turns with the scroll: progress through its pinned stretch (0 at its top meeting the window's top, 1 at its bottom meeting
+  // the window's bottom) maps to the cylinder's turn, from just before the first line to just after the last; eased a little
+  const drumState = { cur: null, target: null };
+  const drumTick = () => {
+    const d = panel.querySelector('.tp-drum'); if (!d) return;
+    const cyl = d.querySelector('.tp-drum__cyl'), n = +getComputedStyle(d).getPropertyValue('--n') || 1;
+    // a name too long for the window is set smaller so the whole line fits (once per drum, and again after a resize)
+    if (d.dataset.fit !== String(innerWidth)) {
+      d.dataset.fit = innerWidth; const room = d.clientWidth * .88 / 1.35;   // (the line facing you is drawn ~1.35x larger by the perspective)
+      cyl.querySelectorAll('.tp-drum__line').forEach(li => { li.style.fontSize = ''; const w = [...li.children].reduce((t, c) => t + c.offsetWidth, 0) * 1.03; if (w > room) li.style.fontSize = `${(parseFloat(getComputedStyle(li).fontSize) * room / w).toFixed(1)}px`; });
+    }
+    const r = d.getBoundingClientRect(), span = r.height - innerHeight;
+    const p = span > 0 ? Math.max(0, Math.min(1, -r.top / span)) : 0;
+    const from = -70, to = (n - 1) * DRUM_GAP + 70, target = from + p * (to - from);
+    drumState.cur = drumState.cur === null || Math.abs(drumState.cur - target) > 400 ? target : drumState.cur + (target - drumState.cur) * .14;
+    cyl.style.transform = `rotateX(${drumState.cur.toFixed(2)}deg)`;
+    // each line fades as it turns away from the front
+    cyl.querySelectorAll('.tp-drum__line').forEach(li => {
+      const a = Math.abs(+li.style.getPropertyValue('--i') * DRUM_GAP - drumState.cur);
+      li.style.opacity = Math.max(0, 1 - a / 62).toFixed(3);
+    });
+  };
   let last = 0;
   const tick = t => {
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) drumTick();
     const dt = last ? Math.min(.05, (t - last) / 1000) : 0; last = t;
     if (reel && !reel.drag && !reel.hover && !reel.off && !document.hidden && t >= reel.restUntil && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
       reel.x += reel.dir * REEL_SPEED * dt;
@@ -184,7 +218,7 @@
     } else {
       // (the spotlight + name list below the grid was removed 2026-11-25 at the user's request, "remove it"; its code is unused)
       panel.innerHTML = record(c, y, list);
-      clearInterval(recTimer); recList = []; reelStart();
+      clearInterval(recTimer); recList = []; reelStart(); drumState.cur = null;
     }
     slide();
     const sel = tabs.querySelector('[aria-selected="true"]');
