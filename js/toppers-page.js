@@ -58,17 +58,24 @@
   // the drum (user 2026-11-25, "a scroll effect like this", React Bits' 3D Text Reveal as the reference; our own code): the year's top
   // ten as big lines on a 3D cylinder in a pinned stretch of the page; scrolling turns the cylinder so the lines roll up into view one
   // after another, then the page moves on to the grid. A plain list for reduced motion
-  const DRUM_MAX = 10, DRUM_GAP = 18;   // lines; degrees between lines
-  const drum = (c, y, list) => { const top = list.slice(0, DRUM_MAX); return `
-      <section class="tp-drum" style="--n:${top.length}" aria-label="${esc(c.exam)} ${y}: the top ${top.length}">
-        <div class="tp-drum__pin"><p class="tp-drum__k" aria-hidden="true">${esc(c.exam)} ${y} · the top ${top.length}</p>
-          <div class="tp-drum__stage"><ol class="tp-drum__cyl">${top.map((p, i) => `<li class="tp-drum__line" style="--i:${i}"><span class="tp-drum__air">AIR ${p.rank}</span> <span class="tp-drum__nm">${esc(p.name)}</span></li>`).join('')}</ol></div>
-        </div>
-      </section>`; };
+  // the shields themselves on the drum (user 2026-11-25, "I want this to scroll like that", the grid of toppers on the 3D Text Reveal's
+  // turning cylinder): on wide screens every topper of the year stands in rows of shields around a 3D cylinder in a pinned stretch of
+  // the page, and scrolling turns it so the rows roll up into view one after another (the row facing you at its natural size). Phones,
+  // small tablets and years with a single row keep the plain grid, as does reduced motion
+  const DRUM_GAP = 30;   // degrees between rows
+  const perRow = () => innerWidth >= 1200 ? 8 : innerWidth >= 900 ? 6 : 0;
+  const useDrum = list => perRow() && list.length > perRow() && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const drum = (c, y, list) => {
+    const k = perRow(), rows = [];
+    for (let i = 0; i < list.length; i += k) rows.push(list.slice(i, i + k));
+    return `
+      <section class="tp-drum" style="--n:${rows.length}" data-k="${k}" aria-label="${esc(c.exam)} ${y}: ${list.length} toppers">
+        <div class="tp-drum__pin"><div class="tp-drum__stage"><ol class="tp-drum__cyl">${rows.map((row, i) => `<li class="tp-drum__line" style="--i:${i}"><ul class="tp-drum__row">${row.map((p, j) => reelItem(p, i * k + j)).join('')}</ul></li>`).join('')}</ol></div></div>
+      </section>`;
+  };
   const record = (c, y, list) => `
       <p class="tp-rule"><span>${list.length}/${within(Math.max(...list.map(p => p.rank)))} Ranks, ${c.exam} ${y}</span></p>
-      ${drum(c, y, list)}
-      <div class="tp-reel"><ul class="tp-reel__track">${list.map(reelItem).join('')}</ul></div>`;
+      ${useDrum(list) ? drum(c, y, list) : `<div class="tp-reel"><ul class="tp-reel__track">${list.map(reelItem).join('')}</ul></div>`}`;
   const STEP = 4500;
   let recList = [], recAt = 0, recTimer = 0;
   const recShow = (i, scroll = true) => {
@@ -124,22 +131,25 @@
   const drumTick = () => {
     const d = panel.querySelector('.tp-drum'); if (!d) return;
     const cyl = d.querySelector('.tp-drum__cyl'), n = +getComputedStyle(d).getPropertyValue('--n') || 1;
-    // a name too long for the window is set smaller so the whole line fits (once per drum, and again after a resize)
-    if (d.dataset.fit !== String(innerWidth)) {
-      d.dataset.fit = innerWidth; const room = d.clientWidth * .88 / 1.35;   // (the line facing you is drawn ~1.35x larger by the perspective)
-      cyl.querySelectorAll('.tp-drum__line').forEach(li => { li.style.fontSize = ''; const w = [...li.children].reduce((t, c) => t + c.offsetWidth, 0) * 1.03; if (w > room) li.style.fontSize = `${(parseFloat(getComputedStyle(li).fontSize) * room / w).toFixed(1)}px`; });
+    if (!d.dataset.r) {   // the radius that keeps one row's height (plus a gap) between neighbouring rows
+      const rowH = Math.max(...[...cyl.children].map(li => li.offsetHeight));
+      d.dataset.r = Math.round((rowH + 36) / (DRUM_GAP * Math.PI / 180));
+      cyl.style.setProperty('--r', `${d.dataset.r}px`);
     }
     const r = d.getBoundingClientRect(), span = r.height - innerHeight;
     const p = span > 0 ? Math.max(0, Math.min(1, -r.top / span)) : 0;
-    const from = -70, to = (n - 1) * DRUM_GAP + 70, target = from + p * (to - from);
+    const from = -DRUM_GAP * 1.4, to = (n - 1) * DRUM_GAP + DRUM_GAP * 1.4, target = from + p * (to - from);
     drumState.cur = drumState.cur === null || Math.abs(drumState.cur - target) > 400 ? target : drumState.cur + (target - drumState.cur) * .14;
-    cyl.style.transform = `rotateX(${drumState.cur.toFixed(2)}deg)`;
-    // each line fades as it turns away from the front
+    cyl.style.transform = `translateZ(-${d.dataset.r}px) rotateX(${drumState.cur.toFixed(2)}deg)`;
+    // each row fades as it turns away from the front
     cyl.querySelectorAll('.tp-drum__line').forEach(li => {
       const a = Math.abs(+li.style.getPropertyValue('--i') * DRUM_GAP - drumState.cur);
-      li.style.opacity = Math.max(0, 1 - a / 62).toFixed(3);
+      li.style.opacity = Math.max(0, 1 - a / (DRUM_GAP * 2.1)).toFixed(3);
     });
   };
+  // the layout (drum or grid, shields a row) depends on the window's width: redrawn when that changes enough
+  let lastK = perRow();
+  addEventListener('resize', () => { const k = perRow(); if (k !== lastK) { lastK = k; show(cur, curY); } });
   let last = 0;
   const tick = t => {
     if (!matchMedia('(prefers-reduced-motion: reduce)').matches) drumTick();
