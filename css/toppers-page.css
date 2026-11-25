@@ -18,3 +18,71 @@ main.tp { display: block; padding-top: 0; background: #fff; }
   .tp-hero { padding: 104px 0 36px; }
   .tp-lede { font-size: 16px; }
 }
+
+.vh { position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+.tp-lede b { color: var(--tp-ink); font-weight: 600; }
+.tp-hero { padding-bottom: 36px; }
+
+/* ---------- browse by year (user 2026-11-25, "browse by year"): the year tabs, sticky under the nav ---------- */
+.tp-bar { position: sticky; top: 76px; z-index: 20; padding: 10px 0; background: rgb(255 250 243 / .92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--tp-line); }
+.tp-years { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+.tp-years::-webkit-scrollbar { display: none; }
+.tp-yr { flex: none; display: inline-flex; align-items: baseline; gap: 7px; height: 40px; padding: 0 16px; border: 1px solid #DCCCB8; border-radius: 999px; background: #fff;
+  font: 600 15px/38px Mukta, "Nirmala UI", sans-serif; color: var(--tp-ink); cursor: pointer; transition: border-color .2s, background-color .2s, color .2s; }
+.tp-yr small { font-size: 12px; font-weight: 500; color: var(--tp-mute); }
+.tp-yr:hover { border-color: var(--tp-ink); }
+.tp-yr[aria-selected="true"] { border-color: var(--tp-brand); background: var(--tp-brand); color: #fff; }
+.tp-yr[aria-selected="true"] small { color: rgb(255 255 255 / .8); }
+.tp-yr:focus-visible { outline: 2px solid var(--tp-brand); outline-offset: 2px; }
+
+/* the chosen year */
+.tp-year { padding-top: 40px; padding-bottom: 88px; }
+.tp-yhead { display: flex; align-items: baseline; justify-content: space-between; gap: 8px 24px; flex-wrap: wrap; margin: 0 0 28px; }
+.tp-yhead__h { margin: 0; font: 400 clamp(30px, 3.2vw, 44px)/1.05 Newsreader, Georgia, serif; letter-spacing: -.01em; color: var(--tp-ink); }
+.tp-yhead__stat { margin: 0; font: 400 16px/1.4 Mukta, "Nirmala UI", sans-serif; color: var(--tp-body); }
+.tp-yhead__stat b { color: var(--tp-brand); font-weight: 700; }
+
+/* a topper: photo, AIR, name, programmes */
+.tp-top, .tp-grid { margin: 0; padding: 0; list-style: none; }
+.tp-card { display: flex; flex-direction: column; min-width: 0; padding: 12px 12px 16px; border: 1px solid var(--tp-line); border-radius: 16px; background: #fff; }
+.tp-card__pic { position: relative; margin: 0; aspect-ratio: 1; overflow: hidden; border-radius: 10px; background: #F3EBDF; }
+.tp-card__pic img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; }
+.tp-card__air { margin: 14px 0 0; font: 400 26px/1 Newsreader, Georgia, serif; color: var(--tp-brand); }
+.tp-card__air small { margin-right: 2px; font: 700 12px/1 Mukta, "Nirmala UI", sans-serif; letter-spacing: .08em; vertical-align: 4px; }
+.tp-card__name { margin: 6px 0 0; font: 600 16px/1.25 Mukta, "Nirmala UI", sans-serif; color: var(--tp-ink); }
+.tp-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0 0; padding: 0; list-style: none; }
+.tp-tags li { padding: 4px 9px; border-radius: 999px; background: #FBF1E6; font: 500 12px/1.3 Mukta, "Nirmala UI", sans-serif; color: #7A4A2A; }
+.tp-tags .tp-tags__more { background: none; padding-left: 2px; color: var(--tp-mute); }
+
+/* the year's top three, large */
+.tp-top { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-bottom: 24px; }
+.tp-card--big { flex-direction: row; gap: 18px; padding: 14px; }
+.tp-card--big .tp-card__pic { flex: none; width: 46%; aspect-ratio: 4 / 5; }
+.tp-card--big > :not(.tp-card__pic) { margin-left: 0; }
+.tp-card--big { display: grid; grid-template-columns: 46% minmax(0, 1fr); grid-template-rows: auto auto 1fr; column-gap: 18px; align-items: start; }
+.tp-card--big .tp-card__pic { grid-row: 1 / span 3; width: auto; }
+.tp-card--big .tp-card__air { margin-top: 4px; font-size: 44px; }
+.tp-card--big .tp-card__name { font-size: 19px; }
+
+/* everyone else */
+.tp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(196px, 1fr)); gap: 20px; }
+
+@media (max-width: 1100px) { .tp-top { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 760px) {
+  .tp-bar { top: 68px; }
+  .tp-years { margin: 0 calc(clamp(16px, 5vw, 80px) * -1); padding: 0 clamp(16px, 5vw, 80px); }
+  .tp-year { padding-top: 28px; padding-bottom: 56px; }
+  .tp-top { grid-template-columns: 1fr; gap: 14px; margin-bottom: 14px; }
+  .tp-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .tp-card { padding: 8px 8px 12px; border-radius: 14px; }
+  .tp-card__air { margin-top: 10px; font-size: 22px; }
+  .tp-card__name { font-size: 14.5px; }
+  .tp-card--big .tp-card__air { font-size: 36px; }
+  .tp-card--big .tp-card__name { font-size: 17px; }
+}
+/* while the year bar is stuck under the nav, its ground runs up behind the floating nav too, so the cards scrolling past don't show
+   through the gap between the two (.is-stuck, js/toppers-page.js) */
+.tp-bar::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 0; background: inherit; -webkit-backdrop-filter: inherit; backdrop-filter: inherit; transition: height 0s; }
+.tp-bar.is-stuck::before { height: 90px; }
+.tp-bar.is-stuck { box-shadow: 0 10px 24px -18px rgb(60 30 10 / .35); }
