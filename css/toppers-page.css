@@ -459,3 +459,19 @@ html.foot-curtain main.tp, main.tp, main.tp::after { box-shadow: none; }
   .tp-ri .tp-card__air { font-size: 23px; }
   .tp-ri__name { font-size: 11px; }
 }
+
+/* ---------- a shine across the heading (user 2026-11-25, React Bits' ShinyText as the reference, recreated in CSS for this static page):
+   a soft band of light, tilted at 120deg, 40% of the line wide with soft edges, sweeps across each line in 2.4s (eased in and out),
+   rests 1.2s and comes round again; the dark line in its ink with a warm light, the orange line in the brand orange with a pale gold.
+   The glow on the orange line is off (it would show through the clipped text); plain colours for reduced motion ---------- */
+.tp-shine { display: inline-block; background-repeat: no-repeat; background-size: 300% 100%; -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent; animation: tp-shine 3.6s cubic-bezier(.45, 0, .55, 1) infinite; }
+.tp-shine--ink { background-image: linear-gradient(120deg, #1D1712 0%, #1D1712 43.3%, #6E5A48 46.7%, #B89A7A 50%, #6E5A48 53.3%, #1D1712 56.7%, #1D1712 100%); }
+.tp-shine--brand { background-image: linear-gradient(120deg, #C2410C 0%, #C2410C 43.3%, #E9874A 46.7%, #FFD9A8 50%, #E9874A 53.3%, #C2410C 56.7%, #C2410C 100%); }
+.tp-h em.tp-shine { display: block; text-shadow: none; animation: tp-shine 3.6s cubic-bezier(.45, 0, .55, 1) .5s infinite; }
+@keyframes tp-shine { 0% { background-position: 100% 0; } 67% { background-position: 0% 0; } 100% { background-position: 0% 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .tp-shine { animation: none; background: none; -webkit-text-fill-color: currentColor; }
+  .tp-shine--ink { color: var(--tp-ink); }
+  .tp-shine--brand { color: var(--tp-brand); }
+}
