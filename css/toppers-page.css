@@ -359,3 +359,34 @@ main.tp { padding: 0; }   /* (the site's main has 35px side padding; the beige h
 .tp-reel.is-wall .tp-ri__b { cursor: default; }
 @media (hover: hover) { .tp-ri__b:hover .tp-shield__pic img { translate: -50% 0; } }
 .tp-year { padding-bottom: 72px; }
+
+/* ---------- a glow and an aura on the heading (user 2026-11-25, "add a glow and aura animation to the h1 text") ----------
+   the aura: a soft warm oval of light behind the heading that slowly breathes (grows, brightens, drifts a little); the glow: the words
+   carry a faint warm halo that swells and settles in time with it (stronger on the orange second line). Still for reduced motion */
+.tp-h { position: relative; isolation: isolate; }
+.tp-h::before { content: ""; position: absolute; left: 50%; top: 52%; z-index: -1; width: min(980px, 110%); height: 190%; translate: -50% -50%; pointer-events: none;
+  background: radial-gradient(closest-side, rgb(255 196 120 / .55), rgb(244 150 72 / .22) 45%, rgb(244 150 72 / 0) 100%); filter: blur(14px);
+  animation: tp-aura 7s ease-in-out infinite alternate; }
+.tp-h { animation: tp-glow 7s ease-in-out infinite alternate; }
+.tp-h em { animation: tp-glow-em 7s ease-in-out infinite alternate; }
+@keyframes tp-aura {
+  0% { opacity: .55; transform: scale(.92) translateX(-2%); }
+  50% { opacity: .95; transform: scale(1.04) translateX(1.5%); }
+  100% { opacity: .7; transform: scale(.98) translateX(2%); }
+}
+@keyframes tp-glow { from { text-shadow: 0 0 0 rgb(255 190 110 / 0); } to { text-shadow: 0 0 22px rgb(255 190 110 / .55), 0 0 2px rgb(255 230 190 / .6); } }
+@keyframes tp-glow-em { from { text-shadow: 0 0 6px rgb(234 88 12 / .12); } to { text-shadow: 0 0 26px rgb(234 88 12 / .38), 0 0 8px rgb(255 170 90 / .35); } }
+@media (prefers-reduced-motion: reduce) {
+  .tp-h, .tp-h em, .tp-h::before { animation: none; }
+  .tp-h::before { opacity: .7; }
+}
+
+/* the Vajiram & Ravi emblem above the heading (user 2026-11-25, "lets add Vajiram's logo as well"), centred, inside the same breathing
+   aura (a warm glow behind it that swells with the heading's) */
+.tp-emblem { position: relative; z-index: 1; display: block; width: 76px; height: auto; margin: 0 auto 18px; filter: drop-shadow(0 6px 14px rgb(160 60 10 / .22));
+  animation: tp-emblem-glow 7s ease-in-out infinite alternate; }
+@keyframes tp-emblem-glow { from { filter: drop-shadow(0 6px 14px rgb(160 60 10 / .2)) drop-shadow(0 0 0 rgb(255 190 110 / 0)); }
+  to { filter: drop-shadow(0 6px 14px rgb(160 60 10 / .22)) drop-shadow(0 0 18px rgb(255 180 100 / .55)); } }
+.tp-crumbs { margin-bottom: 28px; }
+@media (max-width: 760px) { .tp-emblem { width: 60px; margin-bottom: 14px; } .tp-crumbs { margin-bottom: 20px; } }
+@media (prefers-reduced-motion: reduce) { .tp-emblem { animation: none; } }
