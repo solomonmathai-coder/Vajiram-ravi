@@ -165,3 +165,8 @@ main.tp { background: linear-gradient(90deg, rgb(255 255 255 / 0) 0%, rgb(255 25
 .tp-bar.is-stuck { background: linear-gradient(178deg, #F9EFDA, #F5E8CE 30%, #EFDFC0); }
 .tp-bar:not(.is-stuck) { background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; }   /* clear over the page until it sticks */
 main.tp { padding: 0; }   /* (the site's main has 35px side padding; the beige hero runs edge to edge as on the course finder) */
+
+/* the nav's current page (Toppers) as the same full pill as the hover state, shown all the time, instead of an underline with flat
+   bottom corners (user 2026-11-25: the Toppers pill and the Study materials hover pill didn't match) */
+.rn__a[aria-current="page"], .rn.is-scrolled .rn__a[aria-current="page"] { box-shadow: none; border-radius: 999px; background: rgba(194, 65, 12, .1); color: var(--rn-brand, #C2410C); }
+.rn-drawer a[aria-current="page"] { color: var(--rn-brand, #C2410C); }
