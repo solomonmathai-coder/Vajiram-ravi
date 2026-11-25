@@ -570,3 +570,7 @@ html.foot-curtain main.tp, main.tp, main.tp::after { box-shadow: none; }
 
 /* the year grid's AIR 1 on the gold wreath too (user 2026-11-25): the wreath behind the shield, as in the AIR 1 row */
 .tp-ri--one .tp-shield__gem { z-index: 1; }
+
+/* more room under the heading now the tabs are gone (user 2026-11-25, "add a bit more padding at the bottom") */
+.tp-hero { padding-bottom: 44px; }
+@media (max-width: 760px) { .tp-hero { padding-bottom: 30px; } }
