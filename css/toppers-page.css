@@ -510,3 +510,13 @@ html.foot-curtain main.tp, main.tp, main.tp::after { box-shadow: none; }
           mask-image: linear-gradient(270deg, #000 35%, transparent), linear-gradient(180deg, transparent, #000 28%, #000 78%, transparent);
   -webkit-mask-composite: source-in; mask-composite: intersect; }
 @media (max-width: 1023px) { .tp-hero__side { display: none; } }
+
+/* balanced rows (js balance()): a break item ends each row; the space between rows moves from the track's row gap to the shields' own
+   bottom padding so a break adds none of its own; phones use the same centred wrapping rows (was a grid) */
+.tp-reel.is-wall .tp-reel__track { row-gap: 0; margin-bottom: -34px; }
+.tp-reel.is-wall .tp-ri { padding-bottom: 34px; }
+.tp-reel.is-wall .tp-br { flex: 0 0 100%; height: 0; padding: 0; list-style: none; }
+@media (max-width: 900px) {
+  .tp-reel.is-wall .tp-reel__track { display: flex; column-gap: 10px; row-gap: 0; margin-bottom: -26px; }
+  .tp-reel.is-wall .tp-ri { padding-bottom: 26px; }
+}

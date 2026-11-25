@@ -114,7 +114,7 @@
     const box = panel.querySelector('.tp-reel'); reel = null; if (!box) return;
     // no carousel any more (user 2026-11-25, "lets not use a carousel, let the user scroll, show all the toppers"): every topper of
     // the year stands in a wrapping grid (css .tp-reel.is-wall) and the page scrolls; the moving code below is left unused
-    box.classList.add('is-wall'); box.querySelector('.tp-reel__track').style.transform = ''; return;
+    box.classList.add('is-wall'); box.querySelector('.tp-reel__track').style.transform = ''; balance(); return;
     const track = box.querySelector('.tp-reel__track');
     const fits = track.scrollWidth <= box.clientWidth;
     box.classList.toggle('is-still', fits);
@@ -151,6 +151,24 @@
     });
   };
   // the layout (drum or grid, shields a row) depends on the window's width: redrawn when that changes enough
+  // balanced rows (user 2026-11-25, "try to balance the layouts if the number of the toppers are low"): rather than full rows and a
+  // lone straggler (8 as 7 + 1), the year's shields are spread over the fewest rows that hold them, as evenly as they go (8 as 4 + 4,
+  // 13 as 7 + 6, 38 as 7 7 6 6 6 6); a zero-height break item (li.tp-br) ends each row. Worked out again when the window is resized
+  const balance = () => {
+    const track = panel.querySelector('.tp-reel.is-wall .tp-reel__track'); if (!track) return;
+    track.querySelectorAll('.tp-br').forEach(b => b.remove());
+    const items = [...track.querySelectorAll('.tp-ri')], n = items.length; if (!n) return;
+    const gx = parseFloat(getComputedStyle(track).columnGap) || 0, w = items[0].offsetWidth;
+    const fit = Math.max(1, Math.floor((track.clientWidth + gx) / (w + gx))), rows = Math.ceil(n / fit);
+    if (rows < 2) return;
+    const base = Math.floor(n / rows), extra = n % rows;
+    for (let r = 0, at = 0; r < rows - 1; r++) {
+      at += base + (r < extra ? 1 : 0);
+      const br = document.createElement('li'); br.className = 'tp-br'; br.setAttribute('aria-hidden', 'true'); items[at - 1].after(br);
+    }
+  };
+  let balRaf = 0;
+  addEventListener('resize', () => { cancelAnimationFrame(balRaf); balRaf = requestAnimationFrame(balance); });
   let lastK = perRow();
   addEventListener('resize', () => { const k = perRow(); if (k !== lastK) { lastK = k; show(cur, curY); } });
   let last = 0;
