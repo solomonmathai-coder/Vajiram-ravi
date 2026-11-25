@@ -294,3 +294,33 @@ main.tp { padding: 0; }   /* (the site's main has 35px side padding; the beige h
 }
 .tp-pane { gap: 64px; }   /* the AIR and name clear of the laurel's leaves */
 @media (max-width: 1100px) { .tp-pane { gap: 48px; } }
+
+/* ---------- the reel above the spotlight (user 2026-11-25, "lets use this approach", the homepage's 2025 reel): the whole width of the
+   window, faded at both edges; a shield per topper with AIR, name and programme in small capitals; dragged with the pointer ---------- */
+.tp-reel { position: relative; width: 100vw; margin: 26px 0 0 calc(50% - 50vw); overflow: hidden; cursor: grab; user-select: none; -webkit-user-select: none; touch-action: pan-y;
+  -webkit-mask: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); mask: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+.tp-reel.is-drag { cursor: grabbing; }
+.tp-reel.is-still { cursor: default; -webkit-mask: none; mask: none; }
+.tp-reel__track { display: flex; gap: 22px; width: max-content; margin: 0; padding: 0 0 6px; list-style: none; will-change: transform; }
+.tp-reel.is-still .tp-reel__track { margin: 0 auto; }
+.tp-ri { flex: none; width: 124px; }
+.tp-ri__b { display: flex; flex-direction: column; align-items: center; width: 100%; margin: 0; padding: 0 0 4px; border: 0; border-radius: 12px; background: none; cursor: inherit; font: inherit; text-align: center; color: inherit; }
+.tp-ri__b:focus-visible { outline: 2px solid var(--tp-brand); outline-offset: 2px; }
+.tp-ri .tp-shield { --dw: 100px; }
+.tp-ri .tp-card__air { margin-top: 10px; font-size: 26px; }
+.tp-ri__name { margin-top: 6px; font: 800 12px/1.2 Mukta, "Nirmala UI", sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--tp-ink); text-wrap: balance; }
+.tp-ri__prog { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 4px; font: 600 9.5px/1.35 Mukta, "Nirmala UI", sans-serif; letter-spacing: .08em; text-transform: uppercase; color: #6B5D50; }
+@media (hover: hover) { .tp-ri__b:hover .tp-shield__pic img { translate: -50% -5px; transition: translate .3s ease; } }
+/* the frame under it now opens straight away (the ruled line sits above the reel) */
+.tp-frame { margin-top: 30px; padding-top: 28px; }
+.tp-frame::before { inset: 10px 12px 12px; }
+.tp-frame .tp-rec { margin-top: 0; }
+@media (max-width: 900px) {
+  .tp-ri { width: 104px; }
+  .tp-ri .tp-shield { --dw: 84px; }
+  .tp-reel__track { gap: 14px; }
+  .tp-ri .tp-card__air { font-size: 22px; }
+  .tp-ri__name { font-size: 11px; }
+  .tp-frame { margin-top: 20px; padding-top: 18px; }
+  .tp-frame::before { inset: 4px 2px 2px; }
+}

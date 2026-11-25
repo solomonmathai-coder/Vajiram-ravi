@@ -46,9 +46,19 @@
   // programmes) and every topper of the year in a scrolling list on the right; the spotlight steps down the list by itself (a thin bar
   // fills on the current row; held while the pointer is over the panel, the page is hidden or the panel is off screen); choosing a
   // row shows that topper. Phones: no spotlight, the rows carry a small round photo instead ----------
+  // the reel (user 2026-11-25, "lets use this approach", above the spotlight): every topper of the year as a running row of shields
+  // with AIR, name and programme under each, as the homepage's 2025 reel; it can be dragged, holds under the pointer, and choosing a
+  // shield shows that topper in the spotlight below
+  const reelItem = (p, i) => `<li class="tp-ri" data-i="${i}"><button type="button" class="tp-ri__b" aria-label="AIR ${p.rank}, ${esc(p.name)}: show in the spotlight">
+      <div class="tp-shield"><span class="tp-shield__gem" aria-hidden="true"></span><span class="tp-shield__pic"><img${p.cut ? '' : ' class="is-boxed"'} src="${esc(p.cut || p.photo)}" alt="" loading="lazy" decoding="async" draggable="false"></span></div>
+      <span class="tp-card__air" aria-hidden="true"><small>AIR</small> ${p.rank}</span>
+      <span class="tp-ri__name" aria-hidden="true">${esc(p.name)}</span>
+      ${p.prog ? `<span class="tp-ri__prog" aria-hidden="true">${esc(tags(p.prog).join(' · '))}</span>` : ''}
+    </button></li>`;
   const record = (c, y, list) => `
+      <p class="tp-rule"><span>${list.length}/${within(Math.max(...list.map(p => p.rank)))} Ranks, ${c.exam} ${y}</span></p>
+      <div class="tp-reel"><ul class="tp-reel__track">${list.map(reelItem).join('')}</ul></div>
       <div class="tp-frame">
-        <p class="tp-rule"><span>${list.length}/${within(Math.max(...list.map(p => p.rank)))} Ranks, ${c.exam} ${y}</span></p>
         <div class="tp-rec">
           <div class="tp-pane" aria-live="polite">
             <div class="tp-shield tp-shield--xl"><span class="tp-laurel" aria-hidden="true"></span><span class="tp-shield__gem" aria-hidden="true"></span>
@@ -87,6 +97,34 @@
       recShow(recAt + 1);
     }, STEP);
   };
+  // ---------- the reel's motion: drifts left at a steady pace (copies of the row appended so it loops seamlessly), dragged with the
+  // pointer, held under the pointer, off screen or in a hidden tab; stands still and centred when the row fits ----------
+  const REEL_SPEED = 38;   // px a second
+  let reel = null;
+  const reelStart = () => {
+    const box = panel.querySelector('.tp-reel'); reel = null; if (!box) return;
+    const track = box.querySelector('.tp-reel__track'), items = [...track.children];
+    const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+    const setW = items.reduce((w, li) => w + li.getBoundingClientRect().width, 0) + gap * items.length;
+    const fits = setW - gap <= box.clientWidth;
+    box.classList.toggle('is-still', fits);
+    if (fits || !setW) return;
+    for (let k = 0, n = Math.ceil(box.clientWidth / setW) + 1; k < n; k++)
+      items.forEach(li => { const c = li.cloneNode(true); c.setAttribute('aria-hidden', 'true'); c.inert = true; track.appendChild(c); });
+    reel = { box, track, setW, x: 0, drag: null, moved: 0, hover: false, off: false };
+    if ('IntersectionObserver' in window) new IntersectionObserver(es => { if (reel && reel.box === box) reel.off = !es[0].isIntersecting; }).observe(box);
+    box.onpointerenter = () => { if (reel) reel.hover = true; };
+    box.onpointerleave = () => { if (reel) reel.hover = false; };
+  };
+  const wrapX = x => { const w = reel.setW; return ((x % w) - w) % w; };
+  let last = 0;
+  const tick = t => {
+    const dt = last ? Math.min(.05, (t - last) / 1000) : 0; last = t;
+    if (reel && !reel.drag && !reel.hover && !reel.off && !document.hidden && !matchMedia('(prefers-reduced-motion: reduce)').matches) reel.x -= REEL_SPEED * dt;
+    if (reel) { reel.x = wrapX(reel.x); reel.track.style.transform = `translate3d(${reel.x.toFixed(2)}px,0,0)`; }
+    requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
   // an answer sheet card: the topper and their rank, then a link per paper (opens the PDF in a new tab)
   const PDF = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg>';
   const sheetCard = (c, p) => `<li class="tp-sheet">
@@ -98,6 +136,19 @@
   // ---------- the category tabs (in the hero) and the year tray (sticky) ----------
   const cats = $('#tpCats'), tabs = $('#tpYears'), panel = $('#tpYear'), chip = $('.tp-lbl__t');
   // (the spotlight's choosing, keys and off-screen pause, wired once the panel is known)
+  // dragging (pointer) and choosing (a click that didn't drag)
+  panel.addEventListener('pointerdown', e => {
+    if (!reel || !e.target.closest('.tp-reel')) return;
+    reel.drag = { x0: e.clientX, start: reel.x }; reel.moved = 0; reel.box.classList.add('is-drag');
+  });
+  addEventListener('pointermove', e => { if (!reel || !reel.drag) return; const dx = e.clientX - reel.drag.x0; reel.moved = Math.max(reel.moved, Math.abs(dx)); reel.x = reel.drag.start + dx; });
+  addEventListener('pointerup', () => { if (reel && reel.drag) { const r = reel; r.drag = null; r.box.classList.remove('is-drag'); setTimeout(() => { r.moved = 0; }, 0); } });
+  panel.addEventListener('click', e => {
+    const b = e.target.closest('.tp-ri__b'); if (!b) return;
+    if (reel && reel.moved > 6) { e.preventDefault(); return; }   // it was a drag, not a choice
+    recShow(+b.closest('.tp-ri').dataset.i); recRun();
+  }, true);
+
   panel.addEventListener('click', e => { const r = e.target.closest('.tp-row'); if (r) { recShow(+r.dataset.i, false); recRun(); } });
   panel.addEventListener('keydown', e => {   // up / down arrows move along the list
     const r = e.target.closest('.tp-row'); if (!r || !['ArrowDown', 'ArrowUp'].includes(e.key)) return;
@@ -133,13 +184,13 @@
     panel.setAttribute('aria-labelledby', `tpTab${y}`);
     const list = byYear(c, y);
     if (c.sheets) {
-      clearInterval(recTimer); recList = [];
+      clearInterval(recTimer); recList = []; reel = null;
       panel.innerHTML = `
         <p class="tp-rule"><span>${list.length} Toppers' Answer Sheets, ${y}</span></p>
         <ol class="tp-sheets">${list.map(p => sheetCard(c, p)).join('')}</ol>`;
     } else {
       panel.innerHTML = record(c, y, list);
-      recList = list; recShow(0, false); recRun();
+      recList = list; recShow(0, false); recRun(); reelStart();
     }
     slide();
     const sel = tabs.querySelector('[aria-selected="true"]');
