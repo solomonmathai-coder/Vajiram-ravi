@@ -97,31 +97,33 @@
       recShow(recAt + 1);
     }, STEP);
   };
-  // ---------- the reel's motion: drifts left at a steady pace (copies of the row appended so it loops seamlessly), dragged with the
-  // pointer, held under the pointer, off screen or in a hidden tab; stands still and centred when the row fits ----------
-  const REEL_SPEED = 38;   // px a second
+  // ---------- the reel's motion: each topper appears once (no repeating copies: user 2026-11-25, "the heading says 36 but the carousel
+  // has more"). It starts with AIR 1 at the left, drifts left to the year's last topper, rests, and drifts back, and so on; it can be
+  // dragged (within its two ends), and holds under the pointer, off screen or in a hidden tab; a row that fits stands still, centred ----------
+  const REEL_SPEED = 38, REEL_REST = 1600;   // px a second; ms resting at each end
   let reel = null;
   const reelStart = () => {
     const box = panel.querySelector('.tp-reel'); reel = null; if (!box) return;
-    const track = box.querySelector('.tp-reel__track'), items = [...track.children];
-    const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
-    const setW = items.reduce((w, li) => w + li.getBoundingClientRect().width, 0) + gap * items.length;
-    const fits = setW - gap <= box.clientWidth;
+    const track = box.querySelector('.tp-reel__track');
+    const fits = track.scrollWidth <= box.clientWidth;
     box.classList.toggle('is-still', fits);
-    if (fits || !setW) return;
-    for (let k = 0, n = Math.ceil(box.clientWidth / setW) + 1; k < n; k++)
-      items.forEach(li => { const c = li.cloneNode(true); c.setAttribute('aria-hidden', 'true'); c.inert = true; track.appendChild(c); });
-    reel = { box, track, setW, x: 0, drag: null, moved: 0, hover: false, off: false };
+    track.style.transform = '';
+    if (fits) return;
+    reel = { box, track, min: box.clientWidth - track.scrollWidth, x: 0, dir: -1, restUntil: performance.now() + REEL_REST, drag: null, moved: 0, hover: false, off: false };
     if ('IntersectionObserver' in window) new IntersectionObserver(es => { if (reel && reel.box === box) reel.off = !es[0].isIntersecting; }).observe(box);
     box.onpointerenter = () => { if (reel) reel.hover = true; };
     box.onpointerleave = () => { if (reel) reel.hover = false; };
   };
-  const wrapX = x => { const w = reel.setW; return ((x % w) - w) % w; };
+  addEventListener('resize', () => { if (reel) reel.min = Math.min(0, reel.box.clientWidth - reel.track.scrollWidth); });
+  const clampX = x => Math.max(reel.min, Math.min(0, x));
   let last = 0;
   const tick = t => {
     const dt = last ? Math.min(.05, (t - last) / 1000) : 0; last = t;
-    if (reel && !reel.drag && !reel.hover && !reel.off && !document.hidden && !matchMedia('(prefers-reduced-motion: reduce)').matches) reel.x -= REEL_SPEED * dt;
-    if (reel) { reel.x = wrapX(reel.x); reel.track.style.transform = `translate3d(${reel.x.toFixed(2)}px,0,0)`; }
+    if (reel && !reel.drag && !reel.hover && !reel.off && !document.hidden && t >= reel.restUntil && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      reel.x += reel.dir * REEL_SPEED * dt;
+      if (reel.x <= reel.min || reel.x >= 0) { reel.dir *= -1; reel.restUntil = t + REEL_REST; }   // rest at the end, then turn back
+    }
+    if (reel) { reel.x = clampX(reel.x); reel.track.style.transform = `translate3d(${reel.x.toFixed(2)}px,0,0)`; }
     requestAnimationFrame(tick);
   };
   requestAnimationFrame(tick);
