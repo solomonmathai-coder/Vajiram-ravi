@@ -332,3 +332,5 @@ main.tp { padding: 0; }   /* (the site's main has 35px side padding; the beige h
 .tp-bar.is-stuck { padding: 10px 0; }
 .tp-year { padding-top: 26px; }
 @media (max-width: 760px) { .tp-bar { padding: 20px 0 4px; } .tp-year { padding-top: 20px; } }
+/* no label above the heading (user 2026-11-25, "remove this"): the heading follows the breadcrumb directly */
+.tp-h { margin-top: 0; }
