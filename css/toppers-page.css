@@ -539,3 +539,28 @@ html.foot-curtain main.tp, main.tp, main.tp::after { box-shadow: none; }
 .tp-shield--ca .tp-shield__gem { background-image: url(../assets/img/toppers/figma/shield2-ca.svg); }
 .tp-shield--mains .tp-shield__gem { background-image: url(../assets/img/toppers/figma/shield2-mains.svg); }
 .tp-shield--mentor .tp-shield__gem { background-image: url(../assets/img/toppers/figma/shield2-mentor.svg); }
+
+/* ---------- a decade of AIR 1s (js/toppers-air1.js; user 2026-11-25, "showcase this idea of AIR 1 as a carousel on the top with
+   wreaths", the homepage's reel): under the hero, every year's AIR 1 in a running row edge to edge, the edges fading out; each shield
+   on a gold laurel wreath (assets/img/toppers/figma/laurel2-gold.svg, placed as the homepage's record places its laurel) ---------- */
+.tp-air1 { padding: 40px 0 8px; }
+.tp-air1 .tp-rule { margin-bottom: 8px; }
+.tp-air1__view { overflow: hidden; padding: 0 0 18px; cursor: grab; user-select: none; -webkit-user-select: none; touch-action: pan-y;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
+.tp-air1__view.is-drag { cursor: grabbing; }
+.tp-air1__track { display: flex; gap: 44px; width: max-content; margin: 0; padding: 0 22px; list-style: none; will-change: transform; }
+.tp-a1 { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.tp-a1 .tp-shield__gem { z-index: 1; }
+.tp-a1__laurel { position: absolute; z-index: 0; left: calc(var(--dw) * -.17408); top: calc(var(--dw) * .25168); width: calc(var(--dw) * 1.34903); aspect-ratio: 668 / 516.376;
+  background: url(../assets/img/toppers/figma/laurel2-gold.svg) 50% 100% / 100% 100% no-repeat; pointer-events: none; }
+.tp-a1 .tp-card__air { margin-top: 16px; }
+.tp-a1 .tp-ri__prog { max-width: 150px; }
+@media (max-width: 900px) {
+  .tp-air1 { padding-top: 28px; }
+  .tp-air1__track { gap: 34px; padding: 0 17px; }
+}
+
+/* a photo with its own background (not a cut-out) framed inside the shield's face (user 2026-11-25, the AIR 1 row): the coloured,
+   patterned crown of the shield stays visible above it and the photo follows the shield's curved point, instead of a square box
+   covering the whole shield (#pdPhotoBox in toppers.html, in the image's own box) */
+.tp-shield__pic img.is-boxed { top: calc(var(--dh) * .6); width: calc(var(--dw) * .86); height: calc(var(--dh) * .71); object-fit: cover; object-position: 50% 14%; clip-path: url(#pdPhotoBox); }

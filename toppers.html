@@ -20,7 +20,7 @@
 <link rel="stylesheet" href="css/footer-home.css?v=1">
 <link rel="stylesheet" href="css/ref-nav.css?v=1">
 <!-- the Toppers page (branch kevin-toppers, started fresh 2026-11-25) -->
-<link rel="stylesheet" href="css/toppers-page.css?v=45">
+<link rel="stylesheet" href="css/toppers-page.css?v=47">
 <script>document.documentElement.classList.add('js')</script>
 </head>
 <body class="tpp">
@@ -65,7 +65,7 @@
 
 <main id="top" class="tp">
   <!-- the clip the shield portrait uses (the Toppers lab V1 shield) -->
-  <svg class="tp-defs" width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute"><clipPath id="pdPhotoTall" clipPathUnits="objectBoundingBox"><path d="M-.4 0H1.4V.33610H.95555V.72641C.95555 .77699 .77906 .88738 .49904 .96006C.21903 .88738 .04445 .77699 .04445 .72641V.33610H-.4Z"/></clipPath></svg>
+  <svg class="tp-defs" width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute"><clipPath id="pdPhotoTall" clipPathUnits="objectBoundingBox"><path d="M-.4 0H1.4V.33610H.95555V.72641C.95555 .77699 .77906 .88738 .49904 .96006C.21903 .88738 .04445 .77699 .04445 .72641V.33610H-.4Z"/></clipPath><clipPath id="pdPhotoBox" clipPathUnits="objectBoundingBox"><path d="M0 .04Q0 0 .04 0H.96Q1 0 1 .04V.587C1 .687 .826 .904 .5 1C.174 .904 0 .687 0 .587Z"/></clipPath></svg>
   <!-- ============ the Toppers page, new design (started fresh 2026-11-25): only the hero so far ============ -->
   <section class="tp-hero" aria-labelledby="tpH">
     <!-- cheering toppers on both sides of the hero (user 2026-11-25, "illustration like these on both sides"), decorative -->
@@ -81,6 +81,13 @@
     </div>
   </section>
 
+  <!-- ============ a decade of AIR 1s (js/toppers-air1.js): every year's AIR 1 on a wreath, in a running row ============ -->
+  <section class="tp-air1" aria-labelledby="tpAir1H">
+    <div class="tp-wrap"><p class="tp-rule" id="tpAir1H"><span>A decade of AIR 1s</span></p></div>
+    <p class="vh" id="tpAir1Sr"></p>
+    <div class="tp-air1__view" aria-hidden="true"><ul class="tp-air1__track" id="tpAir1"></ul></div>
+  </section>
+
   <!-- ============ browse by year (js/toppers-page.js): the year tabs, then that year's toppers ============ -->
   <div class="tp-bar"><div class="tp-wrap"><div class="tp-years" id="tpYears" role="tablist" aria-label="Year of the examination"></div></div></div>
   <section class="tp-year tp-wrap" id="tpYear" role="tabpanel" aria-live="polite"></section>
@@ -92,6 +99,7 @@
 <script src="js/data/toppers-live.js?v=2"></script>
 <script src="js/data/toppers-extra.js?v=1"></script>
 <script src="js/toppers-page.js?v=24"></script>
+<script src="js/toppers-air1.js?v=1"></script>
 <script src="js/footer-ref.js?v=2"></script>
 <script src="js/site-nav.js?v=8"></script>
 </body>
