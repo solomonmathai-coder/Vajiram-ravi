@@ -439,3 +439,8 @@ main.tp { padding: 0; }   /* (the site's main has 35px side padding; the beige h
 .tp-drum .tp-ri__b { cursor: default; }
 /* (the pinned stretch only as long as the turning needs: one screen plus half a screen a row after the first) */
 .tp-drum { height: calc(100vh + (var(--n) - 1) * 50vh); }
+/* the aura behind the heading taken out (user 2026-11-25, "the aura is not looking great"); the words keep only a soft, slow glow on
+   the orange line, and the dark line stays plain */
+.tp-h::before { content: none; }
+.tp-h { animation: none; text-shadow: none; }
+@keyframes tp-glow-em { from { text-shadow: 0 0 0 rgb(234 88 12 / 0); } to { text-shadow: 0 0 18px rgb(234 88 12 / .22); } }
