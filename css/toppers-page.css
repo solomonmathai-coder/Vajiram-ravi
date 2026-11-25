@@ -1,0 +1,20 @@
+/* The Toppers page (toppers.html), new design started fresh on branch kevin-toppers (user 2026-11-25).
+   Uses the homepage's nav and footer (css/v49.css, ref-nav.css, footer-*.css); everything for the page itself lives here. */
+:root { --tp-ink: #1D1712; --tp-body: #4A4038; --tp-mute: #8A776A; --tp-brand: #C2410C; --tp-line: #EADBC4; --tp-paper: #FBF6EE; }
+
+main.tp { display: block; padding-top: 0; background: #fff; }
+.tp-wrap { box-sizing: border-box; width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 clamp(16px, 5vw, 80px); }
+
+/* hero */
+.tp-hero { padding: 132px 0 56px; background: var(--tp-paper); }
+.tp-crumbs { display: flex; align-items: center; gap: 8px; margin: 0 0 22px; font: 500 13.5px/1 Mukta, "Nirmala UI", sans-serif; color: var(--tp-mute); }
+.tp-crumbs a { color: var(--tp-mute); text-decoration: none; }
+.tp-crumbs a:hover { color: var(--tp-ink); }
+.tp-crumbs [aria-current] { color: var(--tp-brand); font-weight: 600; }
+.tp-h { margin: 0; font: 400 clamp(40px, 5.2vw, 72px)/1.02 Newsreader, Georgia, serif; letter-spacing: -.015em; color: var(--tp-ink); }
+.tp-lede { margin: 14px 0 0; max-width: 620px; font: 400 17px/1.55 Mukta, "Nirmala UI", sans-serif; color: var(--tp-body); }
+
+@media (max-width: 760px) {
+  .tp-hero { padding: 104px 0 36px; }
+  .tp-lede { font-size: 16px; }
+}
