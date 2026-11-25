@@ -475,3 +475,19 @@ html.foot-curtain main.tp, main.tp, main.tp::after { box-shadow: none; }
   .tp-shine--ink { color: var(--tp-ink); }
   .tp-shine--brand { color: var(--tp-brand); }
 }
+/* a more compact hero (user 2026-11-25, "make this section a little more compact"): less room above and between its parts, a smaller
+   emblem and heading; the year tray closer under it */
+.tp-hero { padding-top: 100px; padding-bottom: 22px; }
+.tp-crumbs { margin-bottom: 16px; }
+.tp-emblem { width: 60px; margin-bottom: 12px; }
+.tp-h { font-size: clamp(36px, 3.9vw, 54px); }
+.tp-cats { margin-top: 16px; }
+.tp-cat { padding: 8px 2px 10px; }
+.tp-bar, .tp-bar.is-stuck { margin-top: 12px; }
+@media (max-width: 760px) {
+  .tp-hero { padding-top: 96px; padding-bottom: 16px; }
+  .tp-crumbs { margin-bottom: 12px; }
+  .tp-emblem { width: 50px; margin-bottom: 10px; }
+  .tp-h { font-size: 32px; }
+  .tp-cats { margin-top: 12px; }
+}
