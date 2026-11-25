@@ -233,3 +233,64 @@ main.tp { padding: 0; }   /* (the site's main has 35px side padding; the beige h
   .tp-cat { flex: none; font-size: 15px; }
   .tp-sheets { grid-template-columns: 1fr; gap: 12px; }
 }
+
+/* ---------- the spotlight + name list (user 2026-11-25, the staging homepage's Toppers record as the reference) ----------
+   the frame: an open-top bracket of 2px orange lines that fade in from the top, with a small orange diamond at each bottom corner */
+.tp-frame { position: relative; max-width: 1076px; margin: 0 auto; padding: 20px 40px 40px; }
+.tp-frame::before { content: ""; position: absolute; inset: 66px 12px 12px; border: 2px solid rgb(194 65 12 / .55); border-top: 0; pointer-events: none;
+  -webkit-mask: linear-gradient(180deg, transparent, #000 45%); mask: linear-gradient(180deg, transparent, #000 45%); }
+.tp-frame::after { content: ""; position: absolute; left: 8px; right: 8px; bottom: 8px; height: 9px; pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9'%3E%3Cpath d='M4.5 0 9 4.5 4.5 9 0 4.5Z' fill='%23c2410c' fill-opacity='.7'/%3E%3C/svg%3E") 0 50% / 9px 9px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 9'%3E%3Cpath d='M4.5 0 9 4.5 4.5 9 0 4.5Z' fill='%23c2410c' fill-opacity='.7'/%3E%3C/svg%3E") 100% 50% / 9px 9px no-repeat; }
+.tp-frame .tp-rule { margin: 0; }
+.tp-rec { --col: 406px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 300px); gap: 38px; align-items: start; margin-top: 24px; }
+
+/* the spotlight: the shield on its silver laurel, the AIR, name and programmes beside it */
+.tp-pane { display: flex; align-items: center; justify-content: center; gap: clamp(20px, 2.4vw, 36px); height: var(--col); text-align: left; }
+.tp-shield--xl { --dw: 225px; margin: 28px 0 0; }
+.tp-laurel { position: absolute; inset: 57px -39px -12px -39px; z-index: 0; background: url(../assets/img/toppers/figma/laurel2-silver.svg) 50% 100% / 100% 100% no-repeat; pointer-events: none; }
+.tp-shield--xl .tp-shield__gem { z-index: 1; }
+.tp-shield--xl .tp-shield__pic img { transition: opacity .35s ease; }
+.tp-meta { flex: none; width: 230px; }
+.tp-meta .tp-card__air { margin: 0; font-size: 52px; line-height: .9; }
+.tp-meta .tp-card__name { margin: 12px 0 0; font-size: 18px; letter-spacing: .07em; text-align: left; text-wrap: balance; }
+.tp-meta .tp-prog { max-width: none; margin: 10px 0 0; font-size: 13.5px; text-align: left; }
+
+/* the list: a row per topper (AIR badge, name), the current one filled orange with a thin bar that fills over one step */
+.tp-list { max-height: var(--col); margin: 0 0 0 -6px; padding: 0 10px 0 6px; overflow-y: auto; overscroll-behavior: contain; list-style: none; scrollbar-width: thin; scrollbar-color: #DCCCB8 transparent; }
+.tp-list li { border-bottom: 1px solid rgb(120 80 40 / .16); }
+.tp-list li:last-child { border-bottom: 0; }
+.tp-row { position: relative; display: flex; align-items: center; gap: 12px; width: 100%; margin: 0; padding: 10px 14px; overflow: hidden; border: 0; border-radius: 10px; background: none;
+  font: inherit; text-align: left; color: var(--tp-ink); cursor: pointer; transition: background-color .2s; }
+.tp-row:hover { background: #F7F0E6; }
+.tp-row:focus-visible { outline: 2px solid var(--tp-brand); outline-offset: -2px; }
+.tp-row__pic { display: none; flex: none; width: 40px; height: 40px; border-radius: 50%; object-fit: cover; object-position: 50% 15%; background: #F4EDE3; box-shadow: 0 0 0 2px rgb(194 65 12 / .35); }
+.tp-badge { flex: none; min-width: 68px; padding: 5px 10px; box-sizing: border-box; border-radius: 999px; background: rgb(194 65 12 / .1); text-align: center; white-space: nowrap;
+  font: 700 12px/16px Mukta, "Nirmala UI", sans-serif; letter-spacing: .04em; color: var(--tp-brand); }
+.tp-row__n { display: block; min-width: 0; font: 600 clamp(15px, 1.25vw, 17px)/1.3 Mukta, "Nirmala UI", sans-serif; color: var(--tp-ink); }
+.tp-row__bar { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; display: none; background: rgb(255 255 255 / .16); }
+.tp-row__bar::before { content: ""; position: absolute; inset: 0; background: rgb(255 255 255 / .75); transform: scaleX(0); transform-origin: 0 50%; }
+.tp-row[aria-current], .tp-row[aria-current]:hover { background: var(--tp-brand); }
+.tp-row[aria-current] .tp-badge { background: rgb(255 255 255 / .24); color: #fff; }
+.tp-row[aria-current] .tp-row__n { color: #fff; }
+.tp-row[aria-current] .tp-row__bar { display: block; }
+.tp-row.is-run .tp-row__bar::before { animation: tp-fill 4.5s linear forwards; }
+.tp-frame:hover .tp-row.is-run .tp-row__bar::before, .tp-frame.is-off .tp-row.is-run .tp-row__bar::before { animation-play-state: paused; }
+@keyframes tp-fill { to { transform: none; } }
+@media (prefers-reduced-motion: reduce) { .tp-row__bar { display: none !important; } }
+
+@media (max-width: 1100px) { .tp-rec { grid-template-columns: minmax(0, 1fr) minmax(0, 270px); } .tp-shield--xl { --dw: 190px; } .tp-meta { width: 200px; } }
+/* phones and narrow tablets: no spotlight; the list in full, each row with a small round photo */
+@media (max-width: 900px) {
+  .tp-frame { padding: 16px 16px 30px; }
+  .tp-frame::before { inset: 56px 2px 2px; }
+  .tp-frame::after { left: -2px; right: -2px; bottom: -2px; }
+  .tp-rec { display: block; margin-top: 16px; }
+  .tp-pane { display: none; }
+  .tp-list { max-height: none; overflow: visible; margin: 0; padding: 0; }
+  .tp-row { padding: 10px; }
+  .tp-row__pic { display: block; }
+  .tp-row__bar { display: none !important; }
+}
+.tp-pane { gap: 64px; }   /* the AIR and name clear of the laurel's leaves */
+@media (max-width: 1100px) { .tp-pane { gap: 48px; } }

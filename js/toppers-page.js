@@ -41,6 +41,52 @@
       <h3 class="tp-card__name">${esc(p.name)}<span class="vh">, All India Rank ${p.rank}, ${c.exam} ${p.y}</span></h3>
       ${tagList(p.prog, !big)}
     </li>`;
+  // ---------- the spotlight + name list (user 2026-11-25, the staging homepage's Toppers record as the reference, "spotlight + list"):
+  // inside an open-top orange bracket, the chosen topper large on the left (the shield on a silver laurel, then AIR, name and
+  // programmes) and every topper of the year in a scrolling list on the right; the spotlight steps down the list by itself (a thin bar
+  // fills on the current row; held while the pointer is over the panel, the page is hidden or the panel is off screen); choosing a
+  // row shows that topper. Phones: no spotlight, the rows carry a small round photo instead ----------
+  const record = (c, y, list) => `
+      <div class="tp-frame">
+        <p class="tp-rule"><span>${list.length}/${within(Math.max(...list.map(p => p.rank)))} Ranks, ${c.exam} ${y}</span></p>
+        <div class="tp-rec">
+          <div class="tp-pane" aria-live="polite">
+            <div class="tp-shield tp-shield--xl"><span class="tp-laurel" aria-hidden="true"></span><span class="tp-shield__gem" aria-hidden="true"></span>
+              <span class="tp-shield__pic"><img data-shot alt="" decoding="async"></span></div>
+            <div class="tp-meta"><p class="tp-card__air"><small>AIR</small> <span data-r></span></p><h3 class="tp-card__name" data-n></h3><p class="tp-prog" data-c></p></div>
+          </div>
+          <ol class="tp-list" aria-label="${esc(c.exam)} ${y} toppers">${list.map((p, i) => `<li><button type="button" class="tp-row" data-i="${i}"${i ? '' : ' aria-current="true"'}>
+              <img class="tp-row__pic" src="${esc(p.cut || p.photo)}" alt="" width="40" height="40" loading="lazy" decoding="async">
+              <span class="tp-badge" aria-label="All India Rank ${p.rank}">AIR ${p.rank}</span><b class="tp-row__n">${esc(p.name)}</b><i class="tp-row__bar" aria-hidden="true"></i></button></li>`).join('')}</ol>
+        </div>
+      </div>`;
+  const STEP = 4500;
+  let recList = [], recAt = 0, recTimer = 0;
+  const recShow = (i, scroll = true) => {
+    const box = panel.querySelector('.tp-rec'); if (!box || !recList.length) return;
+    recAt = (i + recList.length) % recList.length; const p = recList[recAt];
+    const img = box.querySelector('[data-shot]');
+    img.classList.toggle('is-boxed', !p.cut); img.src = p.cut || p.photo; img.alt = p.name;
+    box.querySelector('[data-r]').textContent = p.rank; box.querySelector('[data-n]').textContent = p.name;
+    const t = tags(p.prog), cap = box.querySelector('[data-c]'); cap.textContent = t.join(' · '); cap.hidden = !t.length;
+    const rows = [...box.querySelectorAll('.tp-row')];
+    rows.forEach((r, k) => { if (k === recAt) r.setAttribute('aria-current', 'true'); else r.removeAttribute('aria-current'); });
+    const row = rows[recAt], ol = box.querySelector('.tp-list');
+    if (scroll && row && ol.scrollHeight > ol.clientHeight) {   // keep the current row in view inside the list (not the page)
+      const li = row.parentElement, top = li.offsetTop, h = li.offsetHeight;
+      if (top < ol.scrollTop || top + h > ol.scrollTop + ol.clientHeight) ol.scrollTo({ top: top - (ol.clientHeight - h) / 2, behavior: 'smooth' });
+    }
+    // the bar on the current row fills over one step (restarted)
+    rows.forEach(r => r.classList.remove('is-run')); void (row && row.offsetWidth); if (row) row.classList.add('is-run');
+  };
+  const recRun = () => {
+    clearInterval(recTimer);
+    recTimer = setInterval(() => {
+      const fr = panel.querySelector('.tp-frame'); if (!fr) return;
+      if (document.hidden || fr.matches(':hover') || fr.classList.contains('is-off') || matchMedia('(max-width: 900px)').matches) return;
+      recShow(recAt + 1);
+    }, STEP);
+  };
   // an answer sheet card: the topper and their rank, then a link per paper (opens the PDF in a new tab)
   const PDF = '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg>';
   const sheetCard = (c, p) => `<li class="tp-sheet">
@@ -51,6 +97,18 @@
 
   // ---------- the category tabs (in the hero) and the year tray (sticky) ----------
   const cats = $('#tpCats'), tabs = $('#tpYears'), panel = $('#tpYear'), chip = $('.tp-lbl__t');
+  // (the spotlight's choosing, keys and off-screen pause, wired once the panel is known)
+  panel.addEventListener('click', e => { const r = e.target.closest('.tp-row'); if (r) { recShow(+r.dataset.i, false); recRun(); } });
+  panel.addEventListener('keydown', e => {   // up / down arrows move along the list
+    const r = e.target.closest('.tp-row'); if (!r || !['ArrowDown', 'ArrowUp'].includes(e.key)) return;
+    e.preventDefault(); const rows = [...panel.querySelectorAll('.tp-row')], i = rows.indexOf(r) + (e.key === 'ArrowDown' ? 1 : -1);
+    if (rows[i]) { rows[i].focus(); recShow(i); recRun(); }
+  });
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(es => es.forEach(en => en.target.classList.toggle('is-off', !en.isIntersecting)));
+    new MutationObserver(() => { const fr = panel.querySelector('.tp-frame'); if (fr && !fr.dataset.io) { fr.dataset.io = '1'; io.observe(fr); } }).observe(panel, { childList: true });
+  }
+
   cats.innerHTML = Object.entries(CATS).map(([k, c]) => `<button type="button" role="tab" class="tp-cat" id="tpCat-${k}" aria-selected="false" aria-controls="tpYear" data-k="${k}">${esc(c.label)}</button>`).join('');
   let cur = 'cse', curY = 0;
 
@@ -75,15 +133,13 @@
     panel.setAttribute('aria-labelledby', `tpTab${y}`);
     const list = byYear(c, y);
     if (c.sheets) {
+      clearInterval(recTimer); recList = [];
       panel.innerHTML = `
         <p class="tp-rule"><span>${list.length} Toppers' Answer Sheets, ${y}</span></p>
         <ol class="tp-sheets">${list.map(p => sheetCard(c, p)).join('')}</ol>`;
     } else {
-      const top = list.slice(0, 3), rest = list.slice(3), max = Math.max(...list.map(p => p.rank));
-      panel.innerHTML = `
-        <p class="tp-rule"><span>${list.length}/${within(max)} Ranks, ${c.exam} ${y}</span></p>
-        <ol class="tp-top">${top.map(p => card(c, p, true)).join('')}</ol>
-        ${rest.length ? `<ol class="tp-grid">${rest.map(p => card(c, p, false)).join('')}</ol>` : ''}`;
+      panel.innerHTML = record(c, y, list);
+      recList = list; recShow(0, false); recRun();
     }
     slide();
     const sel = tabs.querySelector('[aria-selected="true"]');
