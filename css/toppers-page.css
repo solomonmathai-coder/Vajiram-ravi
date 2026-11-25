@@ -324,3 +324,11 @@ main.tp { padding: 0; }   /* (the site's main has 35px side padding; the beige h
   .tp-frame { margin-top: 20px; padding-top: 18px; }
   .tp-frame::before { inset: 4px 2px 2px; }
 }
+/* the year tray moved down out of the hero (user 2026-11-25, "lets move the tab down"): the beige hero ends under the category tabs,
+   and the tray sits centred on the white just below it, above the ruled line (it still sticks under the nav when scrolling) */
+.tp-hero { padding-bottom: 0; }
+.tp-cats { margin-bottom: 0; border-bottom: 0; }
+.tp-bar { margin-top: 0; padding: 28px 0 6px; }
+.tp-bar.is-stuck { padding: 10px 0; }
+.tp-year { padding-top: 26px; }
+@media (max-width: 760px) { .tp-bar { padding: 20px 0 4px; } .tp-year { padding-top: 20px; } }
