@@ -574,3 +574,7 @@ html.foot-curtain main.tp, main.tp, main.tp::after { box-shadow: none; }
 /* more room under the heading now the tabs are gone (user 2026-11-25, "add a bit more padding at the bottom") */
 .tp-hero { padding-bottom: 44px; }
 @media (max-width: 760px) { .tp-hero { padding-bottom: 30px; } }
+
+/* the AIR 1 row: the year right under "AIR 1" (user 2026-11-25), small capitals in the brand colour, then the name */
+.tp-a1__yr { margin-top: 6px; font: 700 10.5px/1.2 Mukta, "Nirmala UI", sans-serif; letter-spacing: .1em; text-transform: uppercase; color: var(--tp-brand); }
+.tp-a1 .tp-ri__name { margin-top: 5px; }

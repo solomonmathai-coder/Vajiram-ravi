@@ -17,8 +17,9 @@
       <div class="tp-shield tp-shield--${TONES[i % TONES.length]}"><span class="tp-a1__laurel" aria-hidden="true"></span><span class="tp-shield__gem" aria-hidden="true"></span>
         <span class="tp-shield__pic"><img${p.cut ? '' : ' class="is-boxed"'} src="${esc(p.cut || p.photo)}" alt="" loading="lazy" decoding="async" draggable="false"></span></div>
       <span class="tp-card__air"><small>AIR</small> 1</span>
+      <span class="tp-a1__yr">UPSC CSE ${p.y}</span>
       <span class="tp-ri__name">${esc(p.name)}</span>
-      <span class="tp-ri__prog">${[`UPSC CSE ${p.y}`, ...tags(p.prog)].map(esc).join(' · ')}</span>
+      ${tags(p.prog).length ? `<span class="tp-ri__prog">${tags(p.prog).map(esc).join(' · ')}</span>` : ''}
     </li>`).join('');
   const sr = document.getElementById('tpAir1Sr');
   if (sr) sr.textContent = ones.map(p => `${p.y}: ${p.name}`).join('; ');
