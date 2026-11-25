@@ -587,3 +587,14 @@ main.tp { border: 0; }
    keeps it to the sides) fixed to the window in the page and in the hero, the hero's grain too; phones that ignore fixed backgrounds simply scroll it */
 html.foot-curtain main.tp, main.tp { background-attachment: fixed, fixed, scroll; }   /* (the shared v49.css paints main under html.foot-curtain) */
 .tp-hero::before, .tp-hero::after { background-attachment: fixed; }
+
+/* the emblem's shine, stronger (user 2026-11-25, "add a shine animation on the vajiram logo too", then "hero emblem, stronger"): a
+   wider band of full white with a soft halo either side, plus a thin second streak just behind it, still cut to the emblem's shape */
+.tp-emblem-box::after {
+  background:
+    linear-gradient(115deg, transparent 0%, transparent 35%, rgb(255 255 255 / .28) 41%, rgb(255 255 255 / .95) 47%, #fff 49.5%, rgb(255 255 255 / .95) 52%, rgb(255 255 255 / .28) 58%, transparent 64%, transparent 100%) 100% 0 / 300% 100% no-repeat,
+    linear-gradient(115deg, transparent 0%, transparent 60%, rgb(255 255 255 / .7) 62%, transparent 64.5%, transparent 100%) 100% 0 / 300% 100% no-repeat;
+  animation-name: tp-shine2; }
+@keyframes tp-shine2 { 0% { background-position: 100% 0, 100% 0; } 67%, 100% { background-position: 0% 0, 0% 0; } }
+/* (the emblem image is position: relative; z-index: 1 from the earlier glow rule, so the shine sat beneath it, unseen: lift it over) */
+.tp-emblem-box::after { z-index: 2; }
