@@ -520,3 +520,14 @@ html.foot-curtain main.tp, main.tp, main.tp::after { box-shadow: none; }
   .tp-reel.is-wall .tp-reel__track { display: flex; column-gap: 10px; row-gap: 0; margin-bottom: -26px; }
   .tp-reel.is-wall .tp-ri { padding-bottom: 26px; }
 }
+
+/* the logo shines too (user 2026-11-25, "add a shine to the vajiram logo too"): a soft white band sweeps across the emblem on the
+   heading's beat (same 3.6s sweep, a step ahead of it), cut to the emblem's own shape with the emblem as the mask; still under reduced motion */
+.tp-emblem-box { position: relative; z-index: 1; display: block; width: max-content; margin: 0 auto 12px; }
+.tp-emblem-box .tp-emblem { margin: 0; }
+.tp-emblem-box::after { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(120deg, transparent 0%, transparent 42%, rgb(255 255 255 / .2) 46%, rgb(255 248 235 / .85) 50%, rgb(255 255 255 / .2) 54%, transparent 58%, transparent 100%) 100% 0 / 300% 100% no-repeat;
+  -webkit-mask: url(../assets/img/brand/emblem.png) center / 100% 100% no-repeat; mask: url(../assets/img/brand/emblem.png) center / 100% 100% no-repeat;
+  animation: tp-shine 3.6s cubic-bezier(.45,0,.55,1) -.3s infinite; }
+@media (max-width: 760px) { .tp-emblem-box { margin-bottom: 10px; } }
+@media (prefers-reduced-motion: reduce) { .tp-emblem-box::after { content: none; } }
