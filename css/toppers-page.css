@@ -578,3 +578,7 @@ html.foot-curtain main.tp, main.tp, main.tp::after { box-shadow: none; }
 /* the AIR 1 row: the year right under "AIR 1" (user 2026-11-25), small capitals in the brand colour, then the name */
 .tp-a1__yr { margin-top: 6px; font: 700 10.5px/1.2 Mukta, "Nirmala UI", sans-serif; letter-spacing: .1em; text-transform: uppercase; color: var(--tp-brand); }
 .tp-a1 .tp-ri__name { margin-top: 5px; }
+
+/* no frame round the page (user 2026-11-25, "why is there a stroke on the bg? remove it"): the shared v49.css styles an old
+   homepage section that was also called .tp with a 1px border; this page's main shares the name */
+main.tp { border: 0; }
