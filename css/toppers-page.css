@@ -6,7 +6,7 @@ main.tp { display: block; padding-top: 0; background: #fff; }
 .tp-wrap { box-sizing: border-box; width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 clamp(16px, 5vw, 80px); }
 
 /* hero */
-.tp-hero { padding: 132px 0 56px; background: var(--tp-paper); }
+.tp-hero { padding: 132px 0 56px; }   /* no band behind the heading (user 2026-11-25, "remove it"): the page's own ground */
 .tp-crumbs { display: flex; align-items: center; gap: 8px; margin: 0 0 22px; font: 500 13.5px/1 Mukta, "Nirmala UI", sans-serif; color: var(--tp-mute); }
 .tp-crumbs a { color: var(--tp-mute); text-decoration: none; }
 .tp-crumbs a:hover { color: var(--tp-ink); }
