@@ -202,3 +202,34 @@ main.tp { padding: 0; }   /* (the site's main has 35px side padding; the beige h
    rather than centred and squeezed between the nav and the label; the centred label and heading start a clear 40px below it */
 .tp-crumbs { align-self: flex-start; justify-content: flex-start; margin: 0 0 40px; }
 @media (max-width: 760px) { .tp-crumbs { margin-bottom: 28px; } }
+
+/* ---------- the three kinds of toppers (user 2026-11-25, "there are 3 toppers categories, you can show this in the tab"): CSE toppers,
+   IFoS toppers and toppers' answer sheets as underlined tabs under the heading (a quieter level than the year tray below them); the
+   chosen one in orange with a 2px orange rule under it ---------- */
+.tp-cats { display: flex; justify-content: center; gap: 4px 28px; flex-wrap: wrap; margin: 26px 0 0; border-bottom: 1px solid rgb(110 66 18 / .16); }
+.tp-cat { position: relative; padding: 10px 2px 12px; border: 0; background: none; cursor: pointer; font: 600 16px/1.2 Mukta, "Nirmala UI", sans-serif; color: var(--tp-body); transition: color .2s; }
+.tp-cat::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; border-radius: 2px; background: var(--tp-brand); transform: scaleX(0); transition: transform .3s cubic-bezier(.2, .8, .2, 1); }
+.tp-cat:hover { color: var(--tp-ink); }
+.tp-cat[aria-selected="true"] { color: var(--tp-brand); }
+.tp-cat[aria-selected="true"]::after { transform: none; }
+.tp-cat:focus-visible { outline: 2px solid var(--tp-brand); outline-offset: 2px; border-radius: 4px; }
+.tp-hero { padding-bottom: calc(26px + var(--tp-bar-h)); }
+
+/* toppers' answer sheets: a card per topper (no photos on the live page): AIR, name, then a link per paper opening the PDF */
+.tp-sheets { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin: 0; padding: 0; list-style: none; }
+.tp-sheet { display: flex; flex-direction: column; padding: 18px 18px 16px; border: 1px solid var(--tp-line); border-radius: 16px; background: #fff; }
+.tp-sheet__air { margin: 0; font: 800 24px/.9 Mukta, "Nirmala UI", sans-serif; letter-spacing: -.02em;
+  background: linear-gradient(180deg, #E0661F 0%, #C2410C 55%, #9A3412 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.tp-sheet__air small { margin-right: 3px; font-size: .7em; letter-spacing: .05em; }
+.tp-sheet__name { margin: 8px 0 0; font: 800 14px/1.25 Mukta, "Nirmala UI", sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--tp-ink); }
+.tp-sheet__files { display: flex; flex-direction: column; gap: 2px; margin: 14px 0 0; padding: 12px 0 0; border-top: 1px solid var(--tp-line); list-style: none; }
+.tp-sheet__files a { display: flex; align-items: center; gap: 8px; padding: 6px 4px; border-radius: 8px; font: 500 14px/1.3 Mukta, "Nirmala UI", sans-serif; color: var(--tp-body); text-decoration: none; transition: background-color .15s, color .15s; }
+.tp-sheet__files a svg { flex: none; color: var(--tp-brand); }
+.tp-sheet__files a:hover { background: #FBF1E6; color: var(--tp-brand); }
+.tp-sheet__files a:focus-visible { outline: 2px solid var(--tp-brand); outline-offset: 0; }
+@media (max-width: 760px) {
+  .tp-cats { gap: 0 18px; flex-wrap: nowrap; justify-content: flex-start; width: calc(100% + 2 * clamp(16px, 5vw, 80px)); margin-left: calc(clamp(16px, 5vw, 80px) * -1); padding: 0 clamp(16px, 5vw, 80px); overflow-x: auto; scrollbar-width: none; }
+  .tp-cats::-webkit-scrollbar { display: none; }
+  .tp-cat { flex: none; font-size: 15px; }
+  .tp-sheets { grid-template-columns: 1fr; gap: 12px; }
+}

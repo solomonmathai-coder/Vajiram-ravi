@@ -20,7 +20,7 @@
 <link rel="stylesheet" href="css/footer-home.css?v=1">
 <link rel="stylesheet" href="css/ref-nav.css?v=1">
 <!-- the Toppers page (branch kevin-toppers, started fresh 2026-11-25) -->
-<link rel="stylesheet" href="css/toppers-page.css?v=16">
+<link rel="stylesheet" href="css/toppers-page.css?v=17">
 <script>document.documentElement.classList.add('js')</script>
 </head>
 <body class="tpp">
@@ -73,6 +73,8 @@
       <nav class="tp-crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><span aria-current="page">Toppers</span></nav>
       <p class="tp-lbl"><span class="tp-lbl__t">UPSC CSE results</span></p>
       <h1 class="tp-h" id="tpH">Ranks they earned, <em>with the guidance we&nbsp;gave.</em></h1>
+      <!-- the three kinds of toppers, as in the live site's Toppers menu (js/toppers-page.js) -->
+      <div class="tp-cats" id="tpCats" role="tablist" aria-label="Kind of toppers"></div>
       <p class="vh">UPSC Civil Services toppers from Vajiram &amp; Ravi, <span id="tpTotal">173</span> ranks from <span id="tpSpan">2016–2025</span>, year by year.</p>
     </div>
   </section>
@@ -86,7 +88,8 @@
 
 <script src="js/data/courses.js?v=1"></script>
 <script src="js/data/toppers-live.js?v=2"></script>
-<script src="js/toppers-page.js?v=6"></script>
+<script src="js/data/toppers-extra.js?v=1"></script>
+<script src="js/toppers-page.js?v=7"></script>
 <script src="js/footer-ref.js?v=2"></script>
 <script src="js/site-nav.js?v=8"></script>
 </body>
