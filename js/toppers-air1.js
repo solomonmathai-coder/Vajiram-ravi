@@ -19,7 +19,6 @@
       <span class="tp-card__air"><small>AIR</small> 1</span>
       <span class="tp-a1__yr">UPSC CSE ${p.y}</span>
       <span class="tp-ri__name">${esc(p.name)}</span>
-      ${tags(p.prog).length ? `<span class="tp-ri__prog">${tags(p.prog).map(esc).join(' · ')}</span>` : ''}
     </li>`).join('');
   const sr = document.getElementById('tpAir1Sr');
   if (sr) sr.textContent = ones.map(p => `${p.y}: ${p.name}`).join('; ');
