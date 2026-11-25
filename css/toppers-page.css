@@ -582,3 +582,8 @@ html.foot-curtain main.tp, main.tp, main.tp::after { box-shadow: none; }
 /* no frame round the page (user 2026-11-25, "why is there a stroke on the bg? remove it"): the shared v49.css styles an old
    homepage section that was also called .tp with a 1px border; this page's main shares the name */
 main.tp { border: 0; }
+
+/* the background pattern stays put while the page scrolls (user 2026-11-25, as on the course finder): the jaali (and the fade that
+   keeps it to the sides) fixed to the window in the page and in the hero, the hero's grain too; phones that ignore fixed backgrounds simply scroll it */
+html.foot-curtain main.tp, main.tp { background-attachment: fixed, fixed, scroll; }   /* (the shared v49.css paints main under html.foot-curtain) */
+.tp-hero::before, .tp-hero::after { background-attachment: fixed; }
