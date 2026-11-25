@@ -49,8 +49,11 @@
   // the reel (user 2026-11-25, "lets use this approach", above the spotlight): every topper of the year as a running row of shields
   // with AIR, name and programme under each, as the homepage's 2025 reel; it can be dragged, holds under the pointer, and choosing a
   // shield shows that topper in the spotlight below
+  // the shields take the Batches card colours in turn, as the homepage's Toppers since Abhishek's 9cefb6e (user 2026-11-25, "in the
+  // home page we have updated the bg colour for the topper, lets make those changes in our toppers page too")
+  const TONES = ['gs', 'pre', 'ca', 'mains', 'mentor'];
   const reelItem = (p, i) => `<li class="tp-ri" data-i="${i}"><div class="tp-ri__b">
-      <div class="tp-shield"><span class="tp-shield__gem" aria-hidden="true"></span><span class="tp-shield__pic"><img${p.cut ? '' : ' class="is-boxed"'} src="${esc(p.cut || p.photo)}" alt="" loading="lazy" decoding="async" draggable="false"></span></div>
+      <div class="tp-shield tp-shield--${TONES[i % TONES.length]}"><span class="tp-shield__gem" aria-hidden="true"></span><span class="tp-shield__pic"><img${p.cut ? '' : ' class="is-boxed"'} src="${esc(p.cut || p.photo)}" alt="" loading="lazy" decoding="async" draggable="false"></span></div>
       <span class="tp-card__air"><small>AIR</small> ${p.rank}</span>
       <span class="tp-ri__name">${esc(p.name)}</span>
       ${p.prog ? `<span class="tp-ri__prog">${esc(tags(p.prog).join(' · '))}</span>` : ''}

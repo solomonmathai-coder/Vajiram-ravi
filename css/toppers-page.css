@@ -531,3 +531,11 @@ html.foot-curtain main.tp, main.tp, main.tp::after { box-shadow: none; }
   animation: tp-shine 3.6s cubic-bezier(.45,0,.55,1) -.3s infinite; }
 @media (max-width: 760px) { .tp-emblem-box { margin-bottom: 10px; } }
 @media (prefers-reduced-motion: reduce) { .tp-emblem-box::after { content: none; } }
+
+/* batch-colour shields (the homepage's Toppers, Abhishek's 9cefb6e): each shield a Batches card colour with a faint jaali lattice and
+   glow, the five cycling along the grid (assets/img/toppers/figma/shield2-<tone>.svg, copied from his repo) */
+.tp-shield--gs .tp-shield__gem { background-image: url(../assets/img/toppers/figma/shield2-gs.svg); }
+.tp-shield--pre .tp-shield__gem { background-image: url(../assets/img/toppers/figma/shield2-pre.svg); }
+.tp-shield--ca .tp-shield__gem { background-image: url(../assets/img/toppers/figma/shield2-ca.svg); }
+.tp-shield--mains .tp-shield__gem { background-image: url(../assets/img/toppers/figma/shield2-mains.svg); }
+.tp-shield--mentor .tp-shield__gem { background-image: url(../assets/img/toppers/figma/shield2-mentor.svg); }
