@@ -86,3 +86,38 @@ main.tp { display: block; padding-top: 0; background: #fff; }
 .tp-bar::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 0; background: inherit; -webkit-backdrop-filter: inherit; backdrop-filter: inherit; transition: height 0s; }
 .tp-bar.is-stuck::before { height: 90px; }
 .tp-bar.is-stuck { box-shadow: 0 10px 24px -18px rgb(60 30 10 / .35); }
+
+/* ---------- the Toppers lab V1 crest shield on every topper (user 2026-11-25, "use this shield design"): the silver shield with its
+   orange field (assets/img/toppers/figma/shield2-silver.svg), the portrait clipped to the shield below its top edge so a cut-out's
+   head rises out of it; AIR in the orange gradient, the name in bold capitals. The cards lose their white boxes and stand on the page,
+   centred. Sizes: top three 200px wide, the rest 132px; phones 168 / 116 ---------- */
+.tp-shield { --dh: calc(var(--dw) * 1.24089); position: relative; flex: none; width: var(--dw); height: var(--dh); margin: calc(var(--dh) * .3) auto 0; }
+.tp-shield__gem { position: absolute; inset: 0; background: url(../assets/img/toppers/figma/shield2-silver.svg) 0 0 / 100% 100% no-repeat;
+  filter: drop-shadow(0 8px 12px rgb(80 48 16 / .16)); }
+.tp-shield__pic { position: absolute; left: 0; right: 0; bottom: 0; top: calc(var(--dh) * -.4); z-index: 2; clip-path: url(#pdPhotoTall); pointer-events: none; }
+.tp-shield__pic img { position: absolute; left: 50%; top: calc(var(--dh) * .33); width: calc(var(--dw) * 1.32); max-width: none; height: auto; translate: -50% 0; }
+.tp-shield__pic img.is-boxed { top: calc(var(--dh) * .43); width: calc(var(--dw) * .911); height: calc(var(--dh) * .92); object-fit: cover; object-position: 50% 12%; }
+
+.tp-card { --dw: 132px; align-items: center; padding: 0; border: 0; border-radius: 0; background: none; text-align: center; }
+.tp-card--big { --dw: 200px; display: flex; flex-direction: column; align-items: center; gap: 0; padding: 0; }
+.tp-card--big .tp-card__pic, .tp-card__pic { display: none; }
+.tp-card__air { margin: 12px 0 0; font: 800 26px/.9 Mukta, "Nirmala UI", sans-serif; letter-spacing: -.02em;
+  background: linear-gradient(180deg, #E0661F 0%, #C2410C 55%, #9A3412 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.tp-card__air small { margin-right: 3px; font: inherit; font-size: .7em; letter-spacing: .05em; vertical-align: 0; }
+.tp-card__name { margin: 7px 0 0; font: 800 13px/1.2 Mukta, "Nirmala UI", sans-serif; letter-spacing: .06em; text-transform: uppercase; color: var(--tp-ink); text-wrap: balance; }
+.tp-card--big .tp-card__air { margin-top: 14px; font-size: 40px; }
+.tp-card--big .tp-card__name { margin-top: 9px; font-size: 16px; }
+.tp-tags { justify-content: center; }
+.tp-top { gap: 32px; margin-bottom: 44px; }
+.tp-grid { grid-template-columns: repeat(auto-fill, minmax(176px, 1fr)); gap: 40px 20px; }
+@media (max-width: 760px) {
+  .tp-card { --dw: 116px; padding: 0; }
+  .tp-card--big { --dw: 168px; }
+  .tp-top { gap: 28px; margin-bottom: 32px; }
+  .tp-grid { gap: 28px 12px; }
+  .tp-card__air { margin-top: 10px; font-size: 23px; }
+  .tp-card__name { font-size: 12px; }
+  .tp-card--big .tp-card__air { font-size: 34px; }
+  .tp-card--big .tp-card__name { font-size: 15px; }
+}
+@media (max-width: 760px) { .tp-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }   /* two shields a row on phones */

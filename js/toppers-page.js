@@ -8,7 +8,7 @@
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const PHOTO = 'assets/img/toppers/';
 
-  const people = D.rows.map(([y, rank, name, prog, , file]) => ({ y, rank, name, prog, photo: PHOTO + file }));
+  const people = D.rows.map(([y, rank, name, prog, , file, cut]) => ({ y, rank, name, prog, photo: PHOTO + file, cut: cut ? PHOTO + cut : '' }));
   const years = [...new Set(people.map(p => p.y))].sort((a, b) => b - a);
   const byYear = y => people.filter(p => p.y === y).sort((a, b) => a.rank - b.rank);
 
@@ -22,8 +22,13 @@
     const shown = max ? t.slice(0, max) : t, more = t.length - shown.length;
     return `<ul class="tp-tags">${shown.map(x => `<li>${esc(x)}</li>`).join('')}${more > 0 ? `<li class="tp-tags__more" title="${esc(t.slice(shown.length).join(', '))}">+${more} more</li>` : ''}</ul>`;
   };
+  // V1's crest shield (user 2026-11-25, "use this shield design", from the Toppers lab): the silver shield (figma/shield2-silver.svg)
+  // with its orange field; a cut-out portrait (2025) rises out of it, clipped to the shield below the top; a photo with its own
+  // background (earlier years) sits framed in the field instead (.is-boxed)
+  const shield = p => `<div class="tp-shield"><span class="tp-shield__gem" aria-hidden="true"></span>
+      <span class="tp-shield__pic"><img${p.cut ? '' : ' class="is-boxed"'} src="${esc(p.cut || p.photo)}" alt="${esc(p.name)}" loading="lazy" decoding="async"></span></div>`;
   const card = (p, big) => `<li class="tp-card${big ? ' tp-card--big' : ''}">
-      <figure class="tp-card__pic"><img src="${esc(p.photo)}" alt="${esc(p.name)}" loading="lazy" decoding="async" width="280" height="280"></figure>
+      ${shield(p)}
       <p class="tp-card__air"><small>AIR</small> ${p.rank}</p>
       <h3 class="tp-card__name">${esc(p.name)}<span class="vh">, All India Rank ${p.rank}, UPSC CSE ${p.y}</span></h3>
       ${tagList(p.prog, big ? 0 : 2)}
