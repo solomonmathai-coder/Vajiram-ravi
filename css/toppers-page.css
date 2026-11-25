@@ -339,3 +339,9 @@ main.tp { padding: 0; }   /* (the site's main has 35px side padding; the beige h
 @media (max-width: 760px) { .tp-hero { padding-bottom: 24px; } }
 /* the reel's row starts and ends clear of the faded edges, so AIR 1 (first) and the last topper sit in full view at each end */
 .tp-reel__track { padding-inline: max(6vw, 48px); }
+/* no flicker when the year bar sticks (user 2026-11-25, "this section is glitching"): its padding used to shrink as it stuck, which
+   moved the page under it, which unstuck it again, round and round; now the bar keeps one height (10px above and below the tray) in
+   both states, and the room above it on the white is a margin outside it */
+.tp-bar, .tp-bar.is-stuck { margin-top: 18px; padding: 10px 0; }
+.tp-year { padding-top: 16px; }
+@media (max-width: 760px) { .tp-bar, .tp-bar.is-stuck { margin-top: 10px; padding: 10px 0; } .tp-year { padding-top: 12px; } }
