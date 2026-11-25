@@ -567,3 +567,6 @@ html.foot-curtain main.tp, main.tp, main.tp::after { box-shadow: none; }
 
 /* "… from Vajiram & Ravi" (user 2026-11-25): one line on wide screens; on phones two even lines */
 .tp-air1 .tp-rule span { text-wrap: balance; }
+
+/* the year grid's AIR 1 on the gold wreath too (user 2026-11-25): the wreath behind the shield, as in the AIR 1 row */
+.tp-ri--one .tp-shield__gem { z-index: 1; }
