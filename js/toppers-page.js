@@ -10,13 +10,13 @@
   const PHOTO = 'assets/img/toppers/';
   const cdn = f => !f ? '' : /^https?:/.test(f) ? f : X.cdn + f;
 
+  // (Toppers' Answer Sheets was a third category; removed 2026-11-25 at the user's request, "remove this". Its data stays in
+  // js/data/toppers-extra.js, and the card and layout code for it below is unused for now)
   const CATS = {
     cse: { label: 'CSE Toppers', chip: 'UPSC CSE results', exam: 'UPSC CSE',
       people: D.rows.map(([y, rank, name, prog, , file, cut]) => ({ y, rank, name, prog, photo: PHOTO + file, cut: cut ? PHOTO + cut : '' })) },
     ifos: { label: 'IFoS Toppers', chip: 'UPSC IFoS results', exam: 'UPSC IFoS',
       people: X.ifos.map(([y, rank, name, prog, photo]) => ({ y, rank, name, prog, photo: cdn(photo), cut: '' })) },
-    sheets: { label: "Toppers' Answer Sheets", chip: "Toppers' answer sheets", exam: 'UPSC CSE', sheets: true,
-      people: X.sheets.map(([y, rank, name, files]) => ({ y, rank, name, files: files.map(([label, f]) => ({ label, href: cdn(f) })) })) },
   };
   Object.values(CATS).forEach(c => { c.years = [...new Set(c.people.map(p => p.y))].sort((a, b) => b - a); });
   const byYear = (c, y) => c.people.filter(p => p.y === y).sort((a, b) => a.rank - b.rank);
@@ -198,7 +198,7 @@
   };
 
   const fromHash = () => {
-    const h = location.hash, m = h.match(/^#(cse|ifos|sheets)(?:\/(\d{4}))?/), old = h.match(/year=(\d{4})/);
+    const h = location.hash, m = h.match(/^#(cse|ifos)(?:\/(\d{4}))?/), old = h.match(/year=(\d{4})/);
     return m ? [m[1], +(m[2] || 0)] : old ? ['cse', +old[1]] : ['cse', 0];
   };
   const pick = (k, y, focus) => { show(k, y, focus); history.replaceState(null, '', `#${cur}/${curY}`); };
