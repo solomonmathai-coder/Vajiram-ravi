@@ -121,3 +121,21 @@ main.tp { display: block; padding-top: 0; background: #fff; }
   .tp-card--big .tp-card__name { font-size: 15px; }
 }
 @media (max-width: 760px) { .tp-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }   /* two shields a row on phones */
+
+/* ---------- the year tabs as the homepage's (user 2026-11-25, "this is how the tab should look like"): a peach tray with 14px corners
+   and 4px inside, the years as plain 15px semibold labels 40px tall, the chosen one white on an orange highlight (10px corners) that
+   slides across to it; no counts on show (screen readers still hear them) ---------- */
+.tp-years { position: relative; display: inline-flex; gap: 0; max-width: 100%; padding: 4px; border-radius: 14px; background: #F9F0E4; vertical-align: top; }
+.tp-years__ind { position: absolute; top: 4px; left: 4px; z-index: 0; height: 40px; width: 0; border-radius: 10px; background: var(--tp-brand); pointer-events: none; }
+.tp-years.is-ready .tp-years__ind { transition: transform .45s cubic-bezier(.2, .8, .2, 1), width .45s cubic-bezier(.2, .8, .2, 1); }
+.tp-yr { position: relative; z-index: 1; display: inline-flex; align-items: center; height: 40px; padding: 0 14px; border: 0; border-radius: 10px; background: none;
+  font: 600 15px/1 Mukta, "Nirmala UI", sans-serif; color: var(--tp-ink); transition: color .3s; }
+.tp-yr:hover { border: 0; color: var(--tp-brand); }
+.tp-yr[aria-selected="true"], .tp-yr[aria-selected="true"]:hover { border: 0; background: none; color: #fff; }
+.tp-yr:focus-visible { outline: 2px solid var(--tp-brand); outline-offset: -2px; }
+.tp-bar { background: rgb(255 250 243 / .9); border-bottom-color: transparent; }
+.tp-bar.is-stuck { border-bottom-color: var(--tp-line); }
+@media (max-width: 760px) {
+  .tp-years { display: flex; margin: 0; padding: 4px; overflow-x: auto; }
+}
+@media (prefers-reduced-motion: reduce) { .tp-years.is-ready .tp-years__ind { transition: none; } }

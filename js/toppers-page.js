@@ -35,7 +35,13 @@
     </li>`;
 
   const tabs = $('#tpYears'), panel = $('#tpYear');
-  tabs.innerHTML = years.map(y => `<button type="button" role="tab" class="tp-yr" id="tpTab${y}" aria-controls="tpYear" aria-selected="false" data-y="${y}">${y}<small>${byYear(y).length}</small></button>`).join('');
+  // the homepage's year tabs (user 2026-11-25, "this is how the tab should look like"): a peach tray, the years as plain labels, and an
+  // orange highlight that slides to the chosen one (.tp-years__ind); each year's count is said to screen readers only
+  tabs.innerHTML = '<span class="tp-years__ind" aria-hidden="true"></span>' + years.map(y => `<button type="button" role="tab" class="tp-yr" id="tpTab${y}" aria-controls="tpYear" aria-selected="false" data-y="${y}">${y}<span class="vh">, ${byYear(y).length} toppers</span></button>`).join('');
+  const ind = tabs.querySelector('.tp-years__ind');
+  const slide = () => { const b = tabs.querySelector('[aria-selected="true"]'); if (!b) return; ind.style.width = `${b.offsetWidth}px`; ind.style.transform = `translateX(${b.offsetLeft - 4}px)`; };
+  addEventListener('resize', slide);
+  if (document.fonts) document.fonts.ready.then(slide);
 
   const show = (y, focus) => {
     const list = byYear(y), top = list.slice(0, 3), rest = list.slice(3), max = Math.max(...list.map(p => p.rank));
@@ -48,6 +54,7 @@
       </header>
       <ol class="tp-top">${top.map(p => card(p, true)).join('')}</ol>
       ${rest.length ? `<ol class="tp-grid">${rest.map(p => card(p, false)).join('')}</ol>` : ''}`;
+    slide();
     const sel = tabs.querySelector('[aria-selected="true"]');
     if (sel && tabs.scrollWidth > tabs.clientWidth) tabs.scrollTo({ left: sel.offsetLeft - 16, behavior: 'smooth' });
   };
@@ -55,6 +62,8 @@
   const fromHash = () => { const m = location.hash.match(/year=(\d{4})/); return m && years.includes(+m[1]) ? +m[1] : years[0]; };
   const pick = (y, focus) => { history.replaceState(null, '', `#year=${y}`); show(y, focus); };
   tabs.addEventListener('click', e => { const b = e.target.closest('.tp-yr'); if (b) pick(+b.dataset.y); });
+  // (the highlight appears in place on load, then slides from there on)
+  requestAnimationFrame(() => requestAnimationFrame(() => tabs.classList.add('is-ready')));
   tabs.addEventListener('keydown', e => {   // arrow keys move between the year tabs
     const i = years.indexOf(+(e.target.dataset.y || 0)); if (i < 0) return;
     const j = e.key === 'ArrowRight' ? i + 1 : e.key === 'ArrowLeft' ? i - 1 : e.key === 'Home' ? 0 : e.key === 'End' ? years.length - 1 : -2;
