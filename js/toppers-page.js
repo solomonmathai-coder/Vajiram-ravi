@@ -64,7 +64,9 @@
   // small tablets and years with a single row keep the plain grid, as does reduced motion
   const DRUM_GAP = 30;   // degrees between rows
   const perRow = () => innerWidth >= 1200 ? 8 : innerWidth >= 900 ? 6 : 0;
-  const useDrum = list => perRow() && list.length > perRow() && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // the drum is switched off (user 2026-11-25, "lets remove the animation"): every year shows the plain grid of shields; the drum code
+  // above and below stays, unused
+  const useDrum = () => false;
   const drum = (c, y, list) => {
     const k = perRow(), rows = [];
     for (let i = 0; i < list.length; i += k) rows.push(list.slice(i, i + k));
