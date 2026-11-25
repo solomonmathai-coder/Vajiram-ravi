@@ -494,3 +494,19 @@ html.foot-curtain main.tp, main.tp, main.tp::after { box-shadow: none; }
 /* no breadcrumb (user 2026-11-25, "lets remove the bread crumb"): the emblem opens the hero */
 .tp-hero { padding-top: 104px; }
 @media (max-width: 760px) { .tp-hero { padding-top: 92px; } }
+
+/* cheering toppers on both sides of the hero (user 2026-11-25, "illustration like these on both sides of the hero section"): two
+   golden-hour photos standing in the hero's full height at its outer edges, fading into the beige towards the heading, the nav and the
+   year bar; wide screens only (the heading needs the width on tablets and phones) */
+.tp-hero { overflow: hidden; }
+.tp-hero__in { position: relative; z-index: 1; }
+.tp-hero__side { position: absolute; top: 0; bottom: 0; z-index: 0; height: 100%; width: clamp(240px, 27vw, 440px); object-fit: cover; object-position: 50% 22%; pointer-events: none; user-select: none; }
+.tp-hero__side--l { left: 0;
+  -webkit-mask-image: linear-gradient(90deg, #000 35%, transparent), linear-gradient(180deg, transparent, #000 28%, #000 78%, transparent);
+          mask-image: linear-gradient(90deg, #000 35%, transparent), linear-gradient(180deg, transparent, #000 28%, #000 78%, transparent);
+  -webkit-mask-composite: source-in; mask-composite: intersect; }
+.tp-hero__side--r { right: 0;
+  -webkit-mask-image: linear-gradient(270deg, #000 35%, transparent), linear-gradient(180deg, transparent, #000 28%, #000 78%, transparent);
+          mask-image: linear-gradient(270deg, #000 35%, transparent), linear-gradient(180deg, transparent, #000 28%, #000 78%, transparent);
+  -webkit-mask-composite: source-in; mask-composite: intersect; }
+@media (max-width: 1023px) { .tp-hero__side { display: none; } }
