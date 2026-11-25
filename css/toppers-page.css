@@ -334,3 +334,6 @@ main.tp { padding: 0; }   /* (the site's main has 35px side padding; the beige h
 @media (max-width: 760px) { .tp-bar { padding: 20px 0 4px; } .tp-year { padding-top: 20px; } }
 /* no label above the heading (user 2026-11-25, "remove this"): the heading follows the breadcrumb directly */
 .tp-h { margin-top: 0; }
+/* room under the CSE / IFoS tabs before the hero ends (user 2026-11-25, "add padding at the bottom") */
+.tp-hero { padding-bottom: 36px; }
+@media (max-width: 760px) { .tp-hero { padding-bottom: 24px; } }
