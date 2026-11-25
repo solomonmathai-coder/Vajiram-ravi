@@ -104,6 +104,9 @@
   let reel = null;
   const reelStart = () => {
     const box = panel.querySelector('.tp-reel'); reel = null; if (!box) return;
+    // no carousel any more (user 2026-11-25, "lets not use a carousel, let the user scroll, show all the toppers"): every topper of
+    // the year stands in a wrapping grid (css .tp-reel.is-wall) and the page scrolls; the moving code below is left unused
+    box.classList.add('is-wall'); box.querySelector('.tp-reel__track').style.transform = ''; return;
     const track = box.querySelector('.tp-reel__track');
     const fits = track.scrollWidth <= box.clientWidth;
     box.classList.toggle('is-still', fits);

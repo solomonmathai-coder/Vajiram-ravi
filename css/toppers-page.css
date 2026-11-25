@@ -345,3 +345,13 @@ main.tp { padding: 0; }   /* (the site's main has 35px side padding; the beige h
 .tp-bar, .tp-bar.is-stuck { margin-top: 18px; padding: 10px 0; }
 .tp-year { padding-top: 16px; }
 @media (max-width: 760px) { .tp-bar, .tp-bar.is-stuck { margin-top: 10px; padding: 10px 0; } .tp-year { padding-top: 12px; } }
+
+/* every topper of the year in a still, wrapping grid of shields instead of the running reel (user 2026-11-25, "lets not use a carousel,
+   let the user scroll, show all the toppers"): within the page width, centred rows, no fading edges; choosing a shield still shows that
+   topper in the spotlight below */
+.tp-reel.is-wall { width: auto; margin: 30px 0 0; overflow: visible; cursor: default; -webkit-mask: none; mask: none; touch-action: auto; user-select: auto; -webkit-user-select: auto; }
+.tp-reel.is-wall .tp-reel__track { flex-wrap: wrap; justify-content: center; gap: 34px 18px; width: auto; padding: 0; transform: none !important; }
+.tp-reel.is-wall .tp-ri__b { cursor: pointer; }
+@media (max-width: 900px) {
+  .tp-reel.is-wall .tp-reel__track { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 26px 10px; justify-items: center; }
+}
