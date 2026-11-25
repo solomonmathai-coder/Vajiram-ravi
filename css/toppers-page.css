@@ -437,3 +437,5 @@ main.tp { padding: 0; }   /* (the site's main has 35px side padding; the beige h
 .tp-drum__line { transform: rotateX(calc(var(--i) * -30deg)) translateZ(var(--r, 460px)); font: inherit; letter-spacing: normal; text-transform: none; white-space: normal; color: inherit; }
 .tp-drum__row { display: flex; justify-content: center; gap: 18px; margin: 0; padding: 0; list-style: none; }
 .tp-drum .tp-ri__b { cursor: default; }
+/* (the pinned stretch only as long as the turning needs: one screen plus half a screen a row after the first) */
+.tp-drum { height: calc(100vh + (var(--n) - 1) * 50vh); }

@@ -138,7 +138,8 @@
     }
     const r = d.getBoundingClientRect(), span = r.height - innerHeight;
     const p = span > 0 ? Math.max(0, Math.min(1, -r.top / span)) : 0;
-    const from = -DRUM_GAP * 1.4, to = (n - 1) * DRUM_GAP + DRUM_GAP * 1.4, target = from + p * (to - from);
+    // no empty stretch at either end (user 2026-11-25, "fix the gap"): the first row faces you as the drum pins, the last as it lets go
+    const from = 0, to = (n - 1) * DRUM_GAP, target = from + p * (to - from);
     drumState.cur = drumState.cur === null || Math.abs(drumState.cur - target) > 400 ? target : drumState.cur + (target - drumState.cur) * .14;
     cyl.style.transform = `translateZ(-${d.dataset.r}px) rotateX(${drumState.cur.toFixed(2)}deg)`;
     // each row fades as it turns away from the front
