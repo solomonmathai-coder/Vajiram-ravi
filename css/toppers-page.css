@@ -198,3 +198,7 @@ main.tp { padding: 0; }   /* (the site's main has 35px side padding; the beige h
   .tp-rule::before, .tp-rule::after { flex-basis: 40px; }
 }
 @media (max-width: 760px) { .tp-hero { padding-top: 112px; } .tp-crumbs { margin-bottom: 18px; } }   /* the breadcrumb clear of the phone nav */
+/* the breadcrumb at the top left of the content (user 2026-11-25, "fix the position of the breadcrumb"), as on the course finder,
+   rather than centred and squeezed between the nav and the label; the centred label and heading start a clear 40px below it */
+.tp-crumbs { align-self: flex-start; justify-content: flex-start; margin: 0 0 40px; }
+@media (max-width: 760px) { .tp-crumbs { margin-bottom: 28px; } }
