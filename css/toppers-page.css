@@ -491,3 +491,6 @@ html.foot-curtain main.tp, main.tp, main.tp::after { box-shadow: none; }
   .tp-h { font-size: 32px; }
   .tp-cats { margin-top: 12px; }
 }
+/* no breadcrumb (user 2026-11-25, "lets remove the bread crumb"): the emblem opens the hero */
+.tp-hero { padding-top: 104px; }
+@media (max-width: 760px) { .tp-hero { padding-top: 92px; } }
