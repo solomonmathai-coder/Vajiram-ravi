@@ -49,27 +49,15 @@
   // the reel (user 2026-11-25, "lets use this approach", above the spotlight): every topper of the year as a running row of shields
   // with AIR, name and programme under each, as the homepage's 2025 reel; it can be dragged, holds under the pointer, and choosing a
   // shield shows that topper in the spotlight below
-  const reelItem = (p, i) => `<li class="tp-ri" data-i="${i}"><button type="button" class="tp-ri__b" aria-label="AIR ${p.rank}, ${esc(p.name)}: show in the spotlight">
+  const reelItem = (p, i) => `<li class="tp-ri" data-i="${i}"><div class="tp-ri__b">
       <div class="tp-shield"><span class="tp-shield__gem" aria-hidden="true"></span><span class="tp-shield__pic"><img${p.cut ? '' : ' class="is-boxed"'} src="${esc(p.cut || p.photo)}" alt="" loading="lazy" decoding="async" draggable="false"></span></div>
-      <span class="tp-card__air" aria-hidden="true"><small>AIR</small> ${p.rank}</span>
-      <span class="tp-ri__name" aria-hidden="true">${esc(p.name)}</span>
-      ${p.prog ? `<span class="tp-ri__prog" aria-hidden="true">${esc(tags(p.prog).join(' · '))}</span>` : ''}
-    </button></li>`;
+      <span class="tp-card__air"><small>AIR</small> ${p.rank}</span>
+      <span class="tp-ri__name">${esc(p.name)}</span>
+      ${p.prog ? `<span class="tp-ri__prog">${esc(tags(p.prog).join(' · '))}</span>` : ''}
+    </div></li>`;
   const record = (c, y, list) => `
       <p class="tp-rule"><span>${list.length}/${within(Math.max(...list.map(p => p.rank)))} Ranks, ${c.exam} ${y}</span></p>
-      <div class="tp-reel"><ul class="tp-reel__track">${list.map(reelItem).join('')}</ul></div>
-      <div class="tp-frame">
-        <div class="tp-rec">
-          <div class="tp-pane" aria-live="polite">
-            <div class="tp-shield tp-shield--xl"><span class="tp-laurel" aria-hidden="true"></span><span class="tp-shield__gem" aria-hidden="true"></span>
-              <span class="tp-shield__pic"><img data-shot alt="" decoding="async"></span></div>
-            <div class="tp-meta"><p class="tp-card__air"><small>AIR</small> <span data-r></span></p><h3 class="tp-card__name" data-n></h3><p class="tp-prog" data-c></p></div>
-          </div>
-          <ol class="tp-list" aria-label="${esc(c.exam)} ${y} toppers">${list.map((p, i) => `<li><button type="button" class="tp-row" data-i="${i}"${i ? '' : ' aria-current="true"'}>
-              <img class="tp-row__pic" src="${esc(p.cut || p.photo)}" alt="" width="40" height="40" loading="lazy" decoding="async">
-              <span class="tp-badge" aria-label="All India Rank ${p.rank}">AIR ${p.rank}</span><b class="tp-row__n">${esc(p.name)}</b><i class="tp-row__bar" aria-hidden="true"></i></button></li>`).join('')}</ol>
-        </div>
-      </div>`;
+      <div class="tp-reel"><ul class="tp-reel__track">${list.map(reelItem).join('')}</ul></div>`;
   const STEP = 4500;
   let recList = [], recAt = 0, recTimer = 0;
   const recShow = (i, scroll = true) => {
@@ -194,8 +182,9 @@
         <p class="tp-rule"><span>${list.length} Toppers' Answer Sheets, ${y}</span></p>
         <ol class="tp-sheets">${list.map(p => sheetCard(c, p)).join('')}</ol>`;
     } else {
+      // (the spotlight + name list below the grid was removed 2026-11-25 at the user's request, "remove it"; its code is unused)
       panel.innerHTML = record(c, y, list);
-      recList = list; recShow(0, false); recRun(); reelStart();
+      clearInterval(recTimer); recList = []; reelStart();
     }
     slide();
     const sel = tabs.querySelector('[aria-selected="true"]');

@@ -355,3 +355,7 @@ main.tp { padding: 0; }   /* (the site's main has 35px side padding; the beige h
 @media (max-width: 900px) {
   .tp-reel.is-wall .tp-reel__track { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 26px 10px; justify-items: center; }
 }
+/* the grid's shields are plain items now (the spotlight they fed is gone) */
+.tp-reel.is-wall .tp-ri__b { cursor: default; }
+@media (hover: hover) { .tp-ri__b:hover .tp-shield__pic img { translate: -50% 0; } }
+.tp-year { padding-bottom: 72px; }
