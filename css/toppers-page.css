@@ -139,3 +139,15 @@ main.tp { display: block; padding-top: 0; background: #fff; }
   .tp-years { display: flex; margin: 0; padding: 4px; overflow-x: auto; }
 }
 @media (prefers-reduced-motion: reduce) { .tp-years.is-ready .tp-years__ind { transition: none; } }
+
+/* alignment pass (user 2026-11-25, "fix the alignment and the course names should not be inside a badge"):
+   - the shield centred over its AIR and name (an older rule pinned the big cards' children to the left edge)
+   - the programmes as one plain centred line under the name, middle dots between the courses, no pills; two lines at most on
+     the small cards */
+.tp-card .tp-shield, .tp-card--big > .tp-shield { margin-left: auto; margin-right: auto; }
+.tp-card { width: 100%; }
+.tp-prog { max-width: 300px; margin: 8px auto 0; font: 500 13px/1.45 Mukta, "Nirmala UI", sans-serif; color: #6B5D50; text-wrap: balance; }
+.tp-prog--clamp { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; max-width: 210px; font-size: 12px; }
+.tp-card--big .tp-prog { margin-top: 10px; font-size: 14px; }
+@media (max-width: 760px) { .tp-prog--clamp { font-size: 11.5px; } }
+.tp-card--big > .tp-prog, .tp-card--big > .tp-card__air, .tp-card--big > .tp-card__name { margin-left: auto; margin-right: auto; }

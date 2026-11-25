@@ -17,11 +17,13 @@
     .filter(Boolean).map(t => /^IGP$|^Interview Guidance Program(me)?$/i.test(t) ? 'Interview Guidance' : t);
   const within = max => max <= 10 ? 10 : max <= 20 ? 20 : max <= 50 ? 50 : 100;
 
+  // the programmes as one plain line under the name (user 2026-11-25, "the course name should not be inside a badge"), the courses
+  // separated by middle dots; the small cards cut it at two lines (the whole list in the tooltip)
   const tagList = (prog, max) => {
     const t = tags(prog); if (!t.length) return '';
-    const shown = max ? t.slice(0, max) : t, more = t.length - shown.length;
-    return `<ul class="tp-tags">${shown.map(x => `<li>${esc(x)}</li>`).join('')}${more > 0 ? `<li class="tp-tags__more" title="${esc(t.slice(shown.length).join(', '))}">+${more} more</li>` : ''}</ul>`;
+    return `<p class="tp-prog${max ? ' tp-prog--clamp' : ''}"${max ? ` title="${esc(t.join(', '))}"` : ''}>${t.map(esc).join('<span aria-hidden="true"> · </span><span class="vh">, </span>')}</p>`;
   };
+
   // V1's crest shield (user 2026-11-25, "use this shield design", from the Toppers lab): the silver shield (figma/shield2-silver.svg)
   // with its orange field; a cut-out portrait (2025) rises out of it, clipped to the shield below the top; a photo with its own
   // background (earlier years) sits framed in the field instead (.is-boxed)
