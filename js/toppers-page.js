@@ -76,7 +76,7 @@
       </section>`;
   };
   const record = (c, y, list) => `
-      <p class="tp-rule"><span>${list.length}/${within(Math.max(...list.map(p => p.rank)))} Ranks, ${c.exam} ${y}</span></p>
+      <p class="tp-rule"><span>${list.length} Toppers, ${c.exam} ${y}</span></p>
       ${useDrum(list) ? drum(c, y, list) : `<div class="tp-reel"><ul class="tp-reel__track">${list.map(reelItem).join('')}</ul></div>`}`;
   const STEP = 4500;
   let recList = [], recAt = 0, recTimer = 0;
