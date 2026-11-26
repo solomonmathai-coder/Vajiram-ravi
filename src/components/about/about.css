@@ -437,8 +437,10 @@ main.ab.ab-page {
 .ab-page .ab-centred .h2 { margin-inline: auto; }
 .ab-page .ab-centred .intro { max-width: 760px; margin-inline: auto; }
 .ab-page .ab-centred .intro + .intro { margin-top: 12px; }
-/* our values on its beige band (--ground-beige: the hero's beige, the jaali faint, fading at the sides), the cards on it */
-.ab-page #story { background: var(--ground-beige) !important; background-size: 100% 100%, 36px 36px, auto !important; }
+/* How it started (Since 1976) on its beige band (--ground-beige: the hero's beige, the jaali faint, fading at the sides; 26 Nov
+   2026, the user: the treatment our values had), with the full --sec-y above and below, as the homepage's coloured bands */
+.ab-page #started { background: var(--ground-beige) !important; background-size: 100% 100%, 36px 36px, auto !important;
+  padding-top: var(--sec-y) !important; padding-bottom: var(--sec-y) !important; }
 /* the head's tag (Figma: "tag – est. 1976"), its dark cartouche, between the crumb and the intro */
 .ab-page .ab-head__tag { display: flex; justify-content: center; margin-top: 22px; }
 .ab-page .ab-head__tag + #about-vr { padding-top: 18px !important; }
@@ -475,5 +477,7 @@ main.ab.ab-page {
 /* Our values' spacing, as the homepage's (26 Nov 2026, measured on its Faculty section: label to heading 16px, heading to
    introduction 16px, introduction to its content 44px; its coloured bands take the full --sec-y, 90px at 1440, above and
    below, where a cream section takes .65 of it) */
-.ab-page #story { padding-top: var(--sec-y) !important; padding-bottom: var(--sec-y) !important; }
-.ab-page #story #reasons { margin-top: 44px; }
+
+/* our values (26 Nov 2026): its centred head, then the values as stops on one path (ValuesPath, .ab-vp above), 44px under
+   the introduction as the homepage's heads; on the page's cream, so the stops' cream rings sit on it */
+.ab-page #values .ab-vp__track { margin-top: 44px; }

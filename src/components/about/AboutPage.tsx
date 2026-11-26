@@ -4,6 +4,7 @@ import NavigationBar from "@/team/components/layout/NavigationBar";
 import HeroIntro, { Stats } from "@/team/components/sections/Hero/HeroIntro";
 import WhyChoose from "@/team/components/sections/WhyChoose";
 import { VALUES } from "@/team/lib/data/why-choose";
+import SectionWrapper from "@/team/components/ui/section_wrapper";
 import Faculties from "@/team/components/sections/Faculties";
 import ContactUs from "@/team/components/sections/ContactUs";
 import SectionLabel from "@/team/components/ui/SectionLabel";
@@ -11,6 +12,7 @@ import AboutBehaviour from "./AboutBehaviour";
 import AboutReveal from "./AboutReveal";
 import AboutTilt from "./AboutTilt";
 import { LeadersFounderFirst, LeadersPortraits } from "./LeadersOptions";
+import ValuesPath from "./ValuesPath";
 import "./about.css";
 
 /**
@@ -21,8 +23,8 @@ import "./about.css";
  *   - the head: its course page head's beige band (the crumb, the India Gate drawing at both sides), with the tag and title
  *   - the institute's photograph; then, in the Figma file's IA (About Us – 1445) and the homepage's rhythm: who we are as its
  *     homepage intro (HeroIntro: label, heading, paragraph and the four figures under them, as the homepage has them under
- *     its banner), how it started as its "Why Vajiram & Ravi" block (WhyChoose), our values on its beige band as a centred
- *     head over its cards
+ *     its banner), how it started as its "Why Vajiram & Ravi" block (WhyChoose), our values as a centred head (its section,
+ *     label and heading) over the values as stops on one path (ValuesPath)
  *   - the people who lead Vajiram & Ravi: three layouts to compare (A, B, C), each headed by its SectionLabel and heading
  *   - the educators (Faculties) and where we teach (ContactUs), then the note that there are no other branches
  * Its footer (also its own) and the WhatsApp button follow (app/about).
@@ -63,23 +65,21 @@ export default function AboutPage() {
         </figure>
 
         {/* who we are (its homepage intro, the figures under it), how it started (its "Why" block, the photograph beside the
-            story) and our values (its beige band, a centred head over its reason cards) */}
+            story) and our values (a centred head over the values as stops on one path) */}
         <HeroIntro stats={false} />
         <WhyChoose id="started" reasons={[]} />
-        <WhyChoose
-          legacy={VALUES}
-          head={
-            <header className="ab-centred">
-              <SectionLabel align="center">{VALUES.label}</SectionLabel>
-              <h2 id="legacyH" className="h2 h2--sec rv" style={{ "--d": ".12s" } as CSSProperties}>
-                {VALUES.title}
-              </h2>
-              <p className="intro rv" style={{ "--d": ".2s" } as CSSProperties}>
-                {VALUES.body[0]}
-              </p>
-            </header>
-          }
-        />
+        <SectionWrapper id="values" labelledBy="valuesH" className="ab-values">
+          <header className="ab-centred">
+            <SectionLabel align="center">{VALUES.label}</SectionLabel>
+            <h2 id="valuesH" className="h2 h2--sec rv" style={{ "--d": ".12s" } as CSSProperties}>
+              {VALUES.title}
+            </h2>
+            <p className="intro rv" style={{ "--d": ".2s" } as CSSProperties}>
+              {VALUES.body[0]}
+            </p>
+          </header>
+          <ValuesPath />
+        </SectionWrapper>
 
         {/* the people who lead Vajiram & Ravi: A, three cards (their cards tilt toward the pointer, AboutTilt) */}
         <section className="ab-sec" aria-labelledby="abLeaders">

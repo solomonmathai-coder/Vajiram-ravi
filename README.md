@@ -211,12 +211,10 @@ paragraph, which it writes inline; the script leaves those three alone once they
   it under its banner: the label "Who we are", "Excellence in UPSC coaching, at every stage.", the Figma's two paragraphs as
   one; `stats={false}`, as the figures are on the photograph); **how it started** as its "Why Vajiram & Ravi" block (`WhyChoose`), its
   own tall photograph of the building beside "How it started." and the story, the pair centred and the story held to 600px
-  on desktop (`about.css`), so its lines stay easy to read; **our values** on its beige band
-  (`--ground-beige`), a centred head ("A holistic approach to education." and its introduction) over its reason cards, the
-  five values (`WhyChoose` with that head in place of its photograph block: it takes its words, photograph, cards and head as
-  props here; on desktop the last two cards centred under the first three, `about.css`), spaced as the homepage's heads
-  (label to heading 16px, heading to introduction 16px, introduction to the cards 44px, 90px above and below the band at
-  1440). The words are the Figma's.
+  on desktop (`about.css`), so its lines stay easy to read, on its beige band (`--ground-beige`, 90px above and below); **our values** as a centred head (its `SectionWrapper`, `SectionLabel`, heading and introduction: "A holistic approach to
+  education.") over the values as stops on one path (`ValuesPath`, brought back 26 Nov 2026 at the user's choice: a dotted
+  orange line, each value's icon a stop on it, the five manila cards above and below it by turns), 44px under the
+  introduction as the homepage's heads. The words are the Figma's.
 - **The people who lead Vajiram & Ravi:** three layouts to compare (Abhishek asked for explorations), each headed by its
   `SectionLabel` and heading: A, three cards that tilt toward the pointer (`AboutTilt`); B, the founder first, large, the
   two directors as smaller cards (`LeadersOptions`); C, tall portraits whose story rises over the photograph under the
