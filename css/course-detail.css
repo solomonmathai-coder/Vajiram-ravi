@@ -242,14 +242,6 @@ main.cd { font: 400 17px/1.55 var(--cd-sans); color: var(--cd-ink); }
 .cd-rail::-webkit-scrollbar { display: none; }
 .cd-rail:focus-visible { outline: 2px solid var(--cd-brand); outline-offset: -2px; border-radius: 12px; }
 .cd-rail__track { display: flex; gap: 18px; width: max-content; }
-.cd-tp { display: grid; justify-items: start; width: 188px; padding: 14px 14px 18px; border-radius: 18px; background: #fff; box-shadow: 0 0 0 1px var(--cd-line); scroll-snap-align: start; }
-.cd-tp__pic { display: block; width: 100%; aspect-ratio: 1; overflow: hidden; border-radius: 12px; background: #F4EFE8; }
-.cd-tp__pic img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; transform: scale(1.06); }   /* (a few source photos carry a thin frame at their edges) */
-.cd-tp__air { margin-top: 14px; font: 400 30px/1 var(--cd-serif); color: var(--cd-brand); letter-spacing: -.01em; }
-.cd-tp__air small { font: 600 13px/1 var(--cd-sans); letter-spacing: .08em; margin-right: 2px; }
-.cd-tp__name { margin-top: 8px; font: 600 16px/1.25 var(--cd-sans); color: var(--cd-ink); }
-.cd-tp__yr { margin-top: 2px; font-size: 14px; color: var(--cd-mute); }
-.cd-tp--one { background: linear-gradient(160deg, #FFF4E8, #FBE6D2); }
 .cd-more { display: inline-flex; align-items: center; gap: 10px; margin-top: 22px; color: var(--cd-brand); font: 600 16px/1 var(--cd-sans); text-decoration: none; }
 .cd-ic--arr { width: 16px; height: 16px; stroke-width: 1.8; transition: transform .25s var(--cd-ease); }
 .cd-more:hover .cd-ic--arr { transform: translateX(3px); }
@@ -407,8 +399,6 @@ html.js .cd [data-rv].in { opacity: 1; transform: none; }
   .cd-band figcaption span { font-size: 15.5px; }
   .cd-band { background: rgb(255 250 243 / .94); }
   .cd-msp__col { padding: 22px 20px 24px; }
-  .cd-tp { width: 156px; padding: 10px 10px 14px; }
-  .cd-tp__air { font-size: 26px; }
   .cd-form { padding: 28px 22px 24px; }
   .cd-form__line { font-size: 20px; }
   .cd-form input { font-size: 18px; flex-basis: 100%; }
@@ -457,3 +447,30 @@ html.js .cd [data-rv].in { opacity: 1; transform: none; }
 }
 /* the avatars in the closing chip keep their size when its words wrap */
 .cd-close__faces { flex: none; }
+
+/* ---------- the toppers as the hero (review 2026-11-26, "these design does not look as the hero"): each topper a small photo card in
+   the hero card's manner, the portrait filling it under the same warm dark shade, and on it the homepage hero's topper mark: the
+   gold AIR pill, the name in white and the exam in pale gold. The shade also evens out the photos' mixed backgrounds ---------- */
+.cd-rail__track { gap: 16px; }
+.cd-tp { position: relative; isolation: isolate; display: flex; flex-direction: column; justify-content: flex-end; width: 208px; aspect-ratio: 4 / 5; padding: 14px;
+  box-sizing: border-box; overflow: hidden; border-radius: 18px; background: #2A160C; color: #fff; scroll-snap-align: start; box-shadow: 0 22px 44px -30px rgb(60 15 0 / .7); }
+.cd-tp__img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: 50% 8%; transform: scale(1.06);
+  filter: saturate(.9) sepia(.08) contrast(1.02); }
+.cd-tp::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(180deg, rgb(26 11 4 / .1) 0%, rgb(26 11 4 / 0) 30%, rgb(26 11 4 / .5) 66%, rgb(26 11 4 / .92) 100%); }
+.cd-tp__mark { display: grid; justify-items: start; gap: 2px; }
+.cd-tp__air { display: inline-flex; align-items: baseline; gap: 4px; height: 30px; padding: 0 12px; margin-bottom: 8px; border-radius: 999px; background: #FFD48A; color: #2B1206;
+  font: 600 13px/30px var(--cd-sans); letter-spacing: .04em; }
+.cd-tp__air small { font: inherit; }
+.cd-tp__air b { font-weight: 700; font-size: 15px; letter-spacing: 0; }
+.cd-tp__name { font: 600 16px/1.25 var(--cd-sans); color: #fff; text-wrap: balance; }
+.cd-tp__yr { font: 500 12.5px/1.3 var(--cd-sans); color: rgb(255 233 194 / .82); }
+/* AIR 1: a fine gold edge on the card */
+.cd-tp--one::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 2px #FFD48A; pointer-events: none; }
+@media (hover: hover) { .cd-tp__img { transition: transform .5s var(--cd-ease); } .cd-tp:hover .cd-tp__img { transform: scale(1.1); } }
+@media (max-width: 760px) {
+  .cd-tp { width: 164px; padding: 12px; border-radius: 16px; }
+  .cd-tp__air { height: 28px; line-height: 28px; padding: 0 10px; }
+  .cd-tp__name { font-size: 15px; }
+}
+@media (prefers-reduced-motion: reduce) { .cd-tp__img { transition: none; } }
