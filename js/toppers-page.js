@@ -293,9 +293,9 @@
     megaWrap.classList.remove('open'); megaBtn.setAttribute('aria-expanded', 'false');
     document.documentElement.classList.toggle('mega-open', all('.rn .explore.open').length > 0);
   };
-  // the year being viewed is marked in the panel (only its year link), the kind being viewed in the phone drawer
+  // the kind of toppers being viewed is marked, in the panel and in the phone drawer
   navMark = () => all('[data-tp-k]').forEach(a => {
-    const on = a.matches('.rn-drawer__sub') ? a.dataset.tpK === cur : a.dataset.tpMark !== 'no' && a.dataset.tpY && a.dataset.tpK === cur && +a.dataset.tpY === curY;
+    const on = a.dataset.tpK === cur;
     if (on) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
   });
   const scrollUnderNav = el => {
@@ -305,18 +305,12 @@
   const goTo = (k, y) => { pick(k, y || 0); megaClose(); const b = $('.tp-browse'); if (b) scrollUnderNav(b); };
   if (megaTp) {
     const span = c => `${c.years[c.years.length - 1]}–${c.years[0]}`;
-    const one = (c, y) => byYear(c, y)[0];
     const item = (href, data, t, d, n) => `<li><a class="mega__a" href="${href}" ${data}><span class="mega__t">${esc(t)}</span><span class="mega__d">${esc(d)}</span>${n ? `<span class="mega__n">${esc(n)}</span>` : ''}</a></li>`;
-    const yearItem = (k, c, y) => { const l = byYear(c, y), a1 = l[0]; return item(`toppers.html#${k}/${y}`, `data-tp-k="${k}" data-tp-y="${y}"`, `${c.exam} ${y}`, a1 && a1.rank === 1 ? `AIR 1 ${a1.name}` : `Top rank AIR ${a1.rank}, ${a1.name}`, `${l.length} toppers`); };
     const C = CATS.cse, I = CATS.ifos;
-    const ones = C.years.map(y => one(C, y)).filter(p => p && p.rank === 1);
+    // just the two kinds of toppers (review 2026-11-26, "no need to mention all of this, just mention CSE and IFoS toppers")
     const cols = [
-      ['CSE Toppers', [item('toppers.html#cse', 'data-tp-k="cse"', 'All CSE toppers', 'UPSC Civil Services toppers from Vajiram, year by year.', `${C.people.length} ranks · ${span(C)}`),
-        ...C.years.slice(0, 3).map(y => yearItem('cse', C, y))]],
-      ['IFoS Toppers', [item('toppers.html#ifos', 'data-tp-k="ifos"', 'All IFoS toppers', 'Indian Forest Service toppers from Vajiram.', `${I.people.length} ranks · ${span(I)}`),
-        ...I.years.map(y => yearItem('ifos', I, y))]],
-      ['AIR 1s', [item('#tpAir1H', 'data-tp-go="air1"', 'A decade of AIR 1s', `Every year's All India Rank 1, ${C.years[C.years.length - 1]} to ${C.years[0]}.`, `${ones.length} AIR 1s`),
-        ...ones.slice(0, 3).map(p => item(`toppers.html#cse/${p.y}`, `data-tp-k="cse" data-tp-y="${p.y}" data-tp-mark="no"`, `${p.name}, ${p.y}`, tags(p.prog).join(', ') || 'AIR 1, UPSC CSE', ''))]],
+      ['CSE Toppers', [item('toppers.html#cse', 'data-tp-k="cse"', 'CSE Toppers from Vajiram', `UPSC Civil Services, ${span(C)}`, `${C.people.length} ranks`)]],
+      ['IFoS Toppers', [item('toppers.html#ifos', 'data-tp-k="ifos"', 'IFoS Toppers from Vajiram', `Indian Forest Service, ${span(I)}`, `${I.people.length} ranks`)]],
     ];
     megaTp.innerHTML = `<div class="mega__stages">${cols.map(([k, items], i) => `<section class="mega__col" style="--i:${i}">
         <p class="mega__k"><b>${String(i + 1).padStart(2, '0')}</b>${esc(k)}</p><ul>${items.join('')}</ul></section>`).join('')}</div>

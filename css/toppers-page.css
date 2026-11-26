@@ -697,3 +697,8 @@ html.tp-dd-open .rn { clip-path: none; }
 .mega--tp a.mega__a[aria-current="true"] { background: var(--sand, #FFF2E6); }
 .mega--tp a.mega__a[aria-current="true"] .mega__t { color: var(--brand, #C2410C); }
 #megaTp .mega__cta.cta.cta, #megaTp .mega__cta { width: 100%; font-size: 15px; }
+
+/* the Toppers panel holds just CSE and IFoS (review 2026-11-26): two columns, so the panel is narrower than the others and centred
+   under the bar the same way */
+.rn .mega.mega--tp { width: min(880px, calc(100vw - 40px)); }
+.mega--tp .mega__stages { grid-template-columns: repeat(2, minmax(0, 1fr)); }
