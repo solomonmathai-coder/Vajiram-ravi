@@ -13,11 +13,12 @@
   }, true);
 
   // ---------- reveal on scroll
-  const rv = $$('.cd [data-rv]');
+  const rv = $$('.cd [data-rv], .cd .rv, .cd .hx__stats');   // (.rv: the homepage components, as on his page; .hx__stats: his hero's numbers)
   if ('IntersectionObserver' in window && !reduce.matches) {
-    const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } }), { rootMargin: '0px 0px -8% 0px' });
+    const show = el => { el.classList.add('in'); if (el.classList.contains('hx__stats')) { el.classList.remove('is-pre'); el.classList.add('is-in'); } };
+    const io = new IntersectionObserver(es => es.forEach(en => { if (en.isIntersecting) { show(en.target); io.unobserve(en.target); } }), { rootMargin: '0px 0px -8% 0px' });
     rv.forEach(el => io.observe(el));
-  } else rv.forEach(el => el.classList.add('in'));
+  } else rv.forEach(el => { el.classList.add('in'); el.classList.remove('is-pre'); el.classList.add('is-in'); });
 
   // ---------- the toppers row: the arrows move it by two portraits, and grey out at its ends
   const rail = $('#cdRail'), rb = $$('.cd-rail__b');
@@ -133,6 +134,57 @@
     if (document.fonts) document.fonts.ready.then(place);
     place();
     requestAnimationFrame(() => requestAnimationFrame(() => t.classList.add('is-ready')));
+  });
+
+  // ---------- the homepage's tab bar (Abhishek's components/ui/Tabs.jsx, initTabs): the brand pill slides to the chosen tab (.has-ind on
+  // the bar shows it), arrows / Home / End move along, the chosen tab is kept in view; each tab shows its own panel
+  $$('.cd .tabs').forEach(bar => {
+    const list = $('[role="tablist"]', bar), ind = $('.tabs__ind', list), all = $$('[role="tab"]', list);
+    const current = () => all.find(t => t.getAttribute('aria-selected') === 'true');
+    const place = () => { const t = current(); if (!t || !ind) return; ind.style.transform = `translateX(${t.offsetLeft}px)`; ind.style.width = `${t.offsetWidth}px`; bar.classList.add('has-ind'); };
+    const centre = () => { const t = current(); if (!t || list.scrollWidth <= list.clientWidth) return;
+      list.scrollTo({ left: list.scrollLeft + t.getBoundingClientRect().left - list.getBoundingClientRect().left - (list.clientWidth - t.offsetWidth) / 2, behavior: smooth() }); };
+    const choose = (t, focus) => {
+      all.forEach(x => { const on = x === t; x.setAttribute('aria-selected', String(on)); x.tabIndex = on ? 0 : -1;
+        const pnl = document.getElementById(x.getAttribute('aria-controls')); if (pnl) pnl.hidden = !on; });
+      place(); centre(); if (focus) t.focus();
+    };
+    all.forEach(t => t.addEventListener('click', () => choose(t)));
+    list.addEventListener('keydown', e => {
+      const i = all.indexOf(document.activeElement); if (i < 0) return;
+      const j = e.key === 'ArrowRight' ? (i + 1) % all.length : e.key === 'ArrowLeft' ? (i - 1 + all.length) % all.length : e.key === 'Home' ? 0 : e.key === 'End' ? all.length - 1 : null;
+      if (j === null) return; e.preventDefault(); choose(all[j], true);
+    });
+    addEventListener('resize', place); if (document.fonts) document.fonts.ready.then(place); place();
+  });
+
+  // ---------- the homepage's rails (Abhishek's components/ui/rail.js): the chevrons scroll one card and hide at their end of the row; on
+  // phones the dots follow the card nearest the row's start, and a tap on a dot brings its card in
+  $$('.cd .rail').forEach(rail => {
+    const track = $('.rail__track', rail), prev = $('.cbtn--prev', rail), next = $('.cbtn--next', rail); if (!track) return;
+    const cardStep = () => { const c = track.children; return c.length > 1 ? c[1].offsetLeft - c[0].offsetLeft : track.clientWidth; };
+    const sync = () => { const max = track.scrollWidth - track.clientWidth;
+      if (prev) prev.style.visibility = track.scrollLeft <= 2 ? 'hidden' : '';
+      if (next) next.style.visibility = track.scrollLeft >= max - 2 ? 'hidden' : ''; };
+    if (prev) prev.addEventListener('click', () => track.scrollBy({ left: -cardStep(), behavior: smooth() }));
+    if (next) next.addEventListener('click', () => track.scrollBy({ left: cardStep(), behavior: smooth() }));
+    track.addEventListener('keydown', e => { if (e.key === 'ArrowRight' && next) next.click(); if (e.key === 'ArrowLeft' && prev) prev.click(); });
+    track.addEventListener('scroll', () => requestAnimationFrame(sync), { passive: true });
+    addEventListener('resize', sync, { passive: true }); sync(); setTimeout(sync, 600);
+    const dots = $$('.rail__dots > button', rail.closest('section') || rail), cards = [...track.children];
+    if (dots.length) {
+      const left = c => c.getBoundingClientRect().left - track.getBoundingClientRect().left + track.scrollLeft;
+      const pad = () => parseFloat(getComputedStyle(track).scrollPaddingLeft) || 0;
+      let cur = -1, tick = 0;
+      const mark = () => { tick = 0; const x = track.scrollLeft + pad(); let k = 0;
+        cards.forEach((c, i) => { if (Math.abs(left(c) - x) < Math.abs(left(cards[k]) - x)) k = i; });
+        if (track.scrollLeft + track.clientWidth >= track.scrollWidth - 2) k = cards.length - 1;
+        if (k === cur) return; cur = k;
+        dots.forEach((d, i) => { if (i === k) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current'); }); };
+      track.addEventListener('scroll', () => { if (!tick) tick = requestAnimationFrame(mark); }, { passive: true });
+      dots.forEach((d, i) => d.addEventListener('click', () => track.scrollTo({ left: left(cards[i]) - pad(), behavior: smooth() })));
+      addEventListener('resize', mark, { passive: true }); mark();
+    }
   });
 
   // ---------- phones: the dock with Join now, once the ticket's Enroll now has gone by, until the closing card or the footer
