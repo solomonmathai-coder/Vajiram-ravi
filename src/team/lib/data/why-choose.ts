@@ -24,6 +24,16 @@ export const LEGACY = {
 
 export const PHOTO = { src: '/assets/img/photos/institute-exterior.webp', alt: 'Our campus at Old Rajinder Nagar, New Delhi: the Vajiram & Ravi building, its sign reading "Institute for IAS Exam"', w: 900, h: 1200 };
 
+// (About page, 26 Nov 2026, the user: "bring a carousel approach in the Since 1976 section") the photographs that take turns in
+// its frame, the institute's own: `name` labels each one's dot, `pos` places it in the 3:4 frame.
+export const PHOTOS = [
+  { ...PHOTO, name: 'the institute' },
+  { src: '/images/about-page/slide-building.webp', alt: 'The Vajiram & Ravi building', w: 1200, h: 903, name: 'the building', pos: '62% 50%' },
+  { src: '/images/about-page/slide-lecture.webp', alt: 'A classroom lecture', w: 1024, h: 461, name: 'a lecture', pos: '4% 50%' },
+  { src: '/images/about-page/slide-library.webp', alt: 'Students in the library', w: 1200, h: 805, name: 'the library', pos: '48% 50%' },
+  { src: '/images/about-page/campus-sunlit.webp', alt: 'Students outside the Vajiram & Ravi institute entrance, its sign reading “Institute for IAS Examination, since 1976”', w: 1672, h: 941, name: 'the entrance', pos: '82% 50%' },
+];
+
 export const VALUES = {
   label: 'Our values',
   title: 'A holistic approach to education.',

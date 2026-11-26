@@ -59,9 +59,10 @@ export function LeadersFounderFirst() {
 }
 
 /**
- * Option C, portraits: three tall portraits side by side, each with its role and name over the foot of the photograph, in
- * the homepage faculty carousel's manner; under the pointer (or the keyboard) a cream panel rises over the photograph
- * with the person's story, the face staying in view above it.
+ * Option C, portraits: three tall portraits side by side, each with its name and role over the foot of the photograph, as
+ * the homepage's faculty cards (CircularCarousel) have them; under the pointer (or the keyboard) the card lifts and, as on
+ * those cards, the photograph blurs under a manila wash rising from its foot, with the name, role, a gold rule and the
+ * person's story on it (26 Nov 2026, the user: "use the same pattern as the homepage for the hover card").
  */
 export function LeadersPortraits() {
   return (
@@ -72,10 +73,19 @@ export function LeadersPortraits() {
           <li key={l.name} {...rv(0.08 + i * 0.08)} className="ab-lp__item ab-rv">
             <article className="ab-lp__card" tabIndex={0} aria-label={`${l.name}, ${l.role}`}>
               <img src={l.photo.src} alt={l.photo.alt} width={l.photo.width} height={l.photo.height} loading="lazy" />
-              <div className="ab-lp__plate">
+              <div className="ab-lp__plate" aria-hidden="true">
+                <span className="ab-lp__n">{l.name}</span>
                 <span className="ab-lp__role">{l.role}</span>
-                <h3 className="ab-lp__n">{l.name}</h3>
-                <p className="ab-lp__d">{l.bio}</p>
+              </div>
+              <div className="ab-lp__info">
+                <img className="ab-lp__blur" src={l.photo.src} alt="" aria-hidden="true" width={l.photo.width} height={l.photo.height} loading="lazy" />
+                <span className="ab-lp__wash" aria-hidden="true" />
+                <div className="ab-lp__body">
+                  <h3 className="ab-lp__in">{l.name}</h3>
+                  <span className="ab-lp__sub">{l.role}</span>
+                  <span className="ab-lp__rule" aria-hidden="true" />
+                  <p className="ab-lp__d">{l.bio}</p>
+                </div>
               </div>
             </article>
           </li>

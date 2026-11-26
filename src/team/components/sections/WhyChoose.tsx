@@ -69,17 +69,42 @@ const CARD = [
   'cu:paper-card',
 ].join(' ');
 
+// (About page, 26 Nov 2026, the user: "bring a carousel approach in the Since 1976 section, use the homepage components") with
+// `photos`, its frame shows them by turns as the homepage banner shows its slides (HeroBanner): each fades in over the last and
+// drifts slowly closer while it shows, and its own CarouselDots (tone "hero", the current dot filling as it plays) sit over the
+// photograph's foot on a dark fade; a dot, the arrow keys or a swipe changes it (initStoryPhotos).
+const SLIDE = [
+  'wc__slide cu:absolute cu:inset-0 cu:block cu:size-full cu:object-cover cu:opacity-0',
+  'cu:[transition:opacity_1s_ease-out,scale_0s_linear_1s] cu:[&.on]:opacity-100 cu:[&.on]:z-1',
+  'cu:motion-safe:[&.on]:[scale:1.07] cu:motion-safe:[&.on]:[transition:opacity_1s_ease-out,scale_7.5s_linear] cu:motion-reduce:transition-none',
+].join(' ');
+
+function PhotoSlides({ photos }) {
+  return (
+    <>
+      {photos.map((p, i) => (
+        <img key={p.src} src={p.src} srcSet={photoSrcSet(p.src, p.w)} sizes="(max-width: 900px) 92vw, 30vw" alt={p.alt} width={p.w} height={p.h}
+          decoding="async" loading={i ? 'lazy' : undefined} className={i ? SLIDE : `${SLIDE} on`} style={p.pos ? { objectPosition: p.pos } : undefined} />
+      ))}
+      <span aria-hidden="true" className="cu:absolute cu:inset-x-0 cu:bottom-0 cu:z-2 cu:h-[34%] cu:pointer-events-none cu:bg-[linear-gradient(0deg,rgba(43,18,6,.62),rgba(43,18,6,.22)_55%,transparent)]" />
+      <div className="cu:absolute cu:inset-x-0 cu:bottom-[22px] cu:z-3 cu:flex cu:justify-center">
+        <CarouselDots as="p" tone="hero" className="wc__dots cu:motion-reduce:[&_i]:[transform:none]" label="Choose a photograph" labels={photos.map(p => `Show ${p.name}`)} active={0} />
+      </div>
+    </>
+  );
+}
+
 // (About page, 26 Nov 2026) its words, photograph and cards may be passed in, so the page can use it for more than one section;
 // with none it is as on the homepage. `id` names the section; the homepage's ids are kept for id="story". `head`, when given,
 // stands in place of its photograph-and-story block (its heading carrying the id `${id}-legacyH`), so the cards can follow a
 // centred head.
-export default function WhyChoose({ id = 'story', legacy = LEGACY, photo = PHOTO, reasons = REASONS, head = undefined as any } = {}) {
+export default function WhyChoose({ id = 'story', legacy = LEGACY, photo = PHOTO, photos = undefined as any, reasons = REASONS, head = undefined as any } = {}) {
   const k = id === 'story' ? '' : `${id}-`;
   return (
     <SectionWrapper id={id} labelledBy={`${k}legacyH`} compact className="cu:[background:var(--ground-jaali)] cu:overflow-clip">
       {head ?? <div className="cu:grid cu:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] cu:max-[900px]:grid-cols-1 cu:items-center cu:gap-x-[clamp(24px,5vw,72px)] cu:gap-y-[28px] cu:text-left">
-        <figure className="rv cu:m-0 cu:aspect-[3/4] cu:w-[min(100%,calc((100svh-var(--hdr-h)-64px)*.75))] cu:max-[900px]:w-[min(100%,360px)] cu:max-[640px]:w-full cu:max-[640px]:aspect-video cu:overflow-hidden cu:rounded-(--r-card) cu:bg-[#eadbc4] cu:[box-shadow:0_24px_48px_-32px_rgb(80_48_16/.35)]" style={{ '--d': '.05s' }}>
-          <img src={photo.src} srcSet={photoSrcSet(photo.src, photo.w)} sizes="(max-width: 900px) 92vw, 30vw" alt={photo.alt} width={photo.w} height={photo.h} loading="lazy" decoding="async" className="cu:block cu:size-full cu:object-cover cu:object-center cu:max-[640px]:object-[50%_56%] cu:transition-transform cu:duration-700 cu:ease-(--ease) cu:fine:hover:scale-[1.03] cu:motion-reduce:transition-none" />
+        <figure className={`rv cu:m-0 cu:aspect-[3/4] cu:w-[min(100%,calc((100svh-var(--hdr-h)-64px)*.75))] cu:max-[900px]:w-[min(100%,360px)] cu:max-[640px]:w-full cu:max-[640px]:aspect-video cu:overflow-hidden cu:rounded-(--r-card) cu:bg-[#eadbc4] cu:[box-shadow:0_24px_48px_-32px_rgb(80_48_16/.35)]${photos?.length > 1 ? ' wc__car cu:relative cu:isolate' : ''}`} style={{ '--d': '.05s' }}>
+          {photos?.length > 1 ? <PhotoSlides photos={photos} /> : <img src={photo.src} srcSet={photoSrcSet(photo.src, photo.w)} sizes="(max-width: 900px) 92vw, 30vw" alt={photo.alt} width={photo.w} height={photo.h} loading="lazy" decoding="async" className="cu:block cu:size-full cu:object-cover cu:object-center cu:max-[640px]:object-[50%_56%] cu:transition-transform cu:duration-700 cu:ease-(--ease) cu:fine:hover:scale-[1.03] cu:motion-reduce:transition-none" />}
         </figure>
         <header id={`${k}legacy`} className="cu:flex cu:flex-col cu:items-start">
           <SectionLabel>{legacy.label}</SectionLabel>
@@ -111,4 +136,55 @@ export default function WhyChoose({ id = 'story', legacy = LEGACY, photo = PHOTO
 
 export function initWhyDots() {
   bindDots(document.getElementById('whyCards'), $$('.why__dots > button'));
+}
+
+// (About page, 26 Nov 2026) the photographs' turns, timed as the homepage banner's (initHeroCarousel): 6.5s each, the current dot
+// filling as it plays; it runs only while the frame is on screen and the tab is shown, holds while keyboard focus is inside or the
+// pointer is on the dots, and does not run at all for reduced motion (the dots still change the photograph).
+export function initStoryPhotos() {
+  document.querySelectorAll('.wc__car').forEach(fig => {
+    if (fig.dataset.on) return;
+    fig.dataset.on = '1';
+    const DUR = 6.5;
+    const slides = [...fig.querySelectorAll('.wc__slide')], N = slides.length;
+    const dots = [...fig.querySelectorAll('.wc__dots button')];
+    if (N < 2) return;
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let cur = 0, raf = 0, clock = 0, last = 0, inView = false, tabOn = !document.hidden, hovered = false, focused = false;
+    const show = n => {
+      cur = n;
+      slides.forEach((s, i) => s.classList.toggle('on', i === n));
+      dots.forEach((b, i) => { if (i === n) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current'); });
+    };
+    const fill = (i, p) => dots.forEach((el, k) => el.style.setProperty('--p', k === i ? p.toFixed(4) : '0'));
+    const held = () => hovered || focused;
+    const frame = now => {
+      raf = 0;
+      clock = (clock + Math.min(100, now - (last || now)) / 1000) % (DUR * N); last = now;
+      const i = Math.floor(clock / DUR);
+      if (i !== cur) show(i);
+      fill(i, clock / DUR - i);
+      sync();
+    };
+    const sync = () => { if (!still && inView && tabOn && !held() && !raf) raf = requestAnimationFrame(frame); };
+    const hold = () => { if (held()) { cancelAnimationFrame(raf); raf = 0; } else { last = 0; sync(); } };
+    const seek = n => {
+      n = (n + N) % N; clock = n * DUR; last = 0;
+      show(n); fill(n, still ? 1 : 0);
+      sync();
+    };
+    fill(0, still ? 1 : 0);
+    dots.forEach((b, i) => b.addEventListener('click', () => seek(i)));
+    const row = fig.querySelector('.wc__dots');
+    row?.addEventListener('pointerenter', () => { hovered = true; hold(); });
+    row?.addEventListener('pointerleave', () => { hovered = false; hold(); });
+    fig.addEventListener('focusin', e => { focused = !!e.target.matches?.(':focus-visible'); hold(); });
+    fig.addEventListener('focusout', e => { if (!fig.contains(e.relatedTarget)) { focused = false; hold(); } });
+    fig.addEventListener('keydown', e => { if (e.key === 'ArrowRight') seek(cur + 1); else if (e.key === 'ArrowLeft') seek(cur - 1); });
+    let x0 = null;
+    fig.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
+    fig.addEventListener('touchend', e => { if (x0 == null) return; const dx = e.changedTouches[0].clientX - x0; x0 = null; if (Math.abs(dx) > 50) seek(cur + (dx < 0 ? 1 : -1)); }, { passive: true });
+    document.addEventListener('visibilitychange', () => { tabOn = !document.hidden; last = 0; sync(); });
+    new IntersectionObserver(es => { inView = es[0].isIntersecting; last = 0; sync(); }, { threshold: .3 }).observe(fig);
+  });
 }

@@ -355,27 +355,48 @@ html.js .ab-page .ab-rv.in { opacity: 1; translate: none; }
 .ab-page .ab-lf__card { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 28px; align-items: center; padding: 12px; border-radius: 20px; background: #fff;
   box-shadow: 0 0 0 1px var(--line), 0 26px 50px -42px rgb(43 18 6 / .55); }
 .ab-page .ab-lf__ph--s { aspect-ratio: 1; border-radius: 12px; }
+/* the frame of the homepage's "Not sure which programme is right for you?" banner (Programmes, .prog__help; 26 Nov 2026, the
+   user: "the banner's inside outline line, orange, we can use it in Option B"): a white card with a sand edge and square-ish
+   corners, a thin orange line drawn 6px inside its edge, the photograph set inside the line */
+.ab-page .ab-lf__main, .ab-page .ab-lf__card { position: relative; border-radius: 8px; background: rgb(255 255 255 / .85); backdrop-filter: blur(4px);
+  box-shadow: 0 0 0 1px #eadbc4, 0 8px 20px -14px rgb(77 31 8 / .18); }
+.ab-page .ab-lf__main::before, .ab-page .ab-lf__card::before { content: ""; position: absolute; inset: 6px; border: 1px solid rgb(225 120 60 / .55); border-radius: 4px; pointer-events: none; }
+.ab-page .ab-lf__main .ab-lf__ph, .ab-page .ab-lf__card .ab-lf__ph { border-radius: 2px; }
 .ab-page .ab-lf__n--s { margin-top: 10px; font-size: 30px; }
 .ab-page .ab-lf__d--s { margin-top: 12px; font-size: 15.5px; line-height: 1.6; }
 /* C: portraits, the story rising over the photograph under the pointer */
 .ab-page .ab-lp__row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin: 56px 0 0; padding: 0; list-style: none; }
 .ab-page .ab-lp__card { position: relative; display: block; height: 540px; overflow: hidden; border-radius: 16px; background: var(--sand); outline: none;
-  box-shadow: 0 30px 60px -44px rgb(43 18 6 / .6); }
-.ab-page .ab-lp__card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; transition: scale .9s var(--ease); }
-.ab-page .ab-lp__card::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
-  background: linear-gradient(180deg, rgb(30 26 23 / 0) 52%, rgb(30 26 23 / .78) 100%); transition: opacity .45s var(--ease); }
-.ab-page .ab-lp__plate { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; padding: 26px 28px 28px; color: #fff;
-  transform: translateY(calc(100% - 112px)); transition: transform .6s var(--ease), background-color .45s var(--ease), color .45s; }
-.ab-page .ab-lp__role { font: 600 12.5px/1 var(--f); letter-spacing: .1em; text-transform: uppercase; color: #FFD9A8; transition: color .45s; }
-.ab-page .ab-lp__n { margin: 10px 0 0; font: 400 32px/1.1 var(--f-title); letter-spacing: -.015em; color: inherit; }
-.ab-page .ab-lp__d { margin: 16px 0 0; font: 400 15.5px/1.6 var(--f); color: var(--body); opacity: 0; transition: opacity .4s var(--ease) .1s; }
-.ab-page .ab-lp__card:is(:hover, :focus-visible) .ab-lp__plate { transform: none; background: #FFF9F0; color: var(--ink); }
-.ab-page .ab-lp__card:is(:hover, :focus-visible) .ab-lp__role { color: var(--brand); }
-.ab-page .ab-lp__card:is(:hover, :focus-visible) .ab-lp__d { opacity: 1; }
-.ab-page .ab-lp__card:is(:hover, :focus-visible)::before { opacity: 0; }
-.ab-page .ab-lp__card:hover img { scale: 1.03; }
+  box-shadow: 0 30px 60px -44px rgb(43 18 6 / .6); transition: translate .45s cubic-bezier(.22, 1, .36, 1); }
+.ab-page .ab-lp__card > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; }
+/* at rest, as the homepage's faculty cards: the name in white and the role in gold over a dark fade at the photograph's foot */
+.ab-page .ab-lp__card::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: .8;
+  background: linear-gradient(180deg, transparent 52%, rgb(30 14 6 / .55) 76%, rgb(30 14 6 / .88) 100%); transition: opacity .4s cubic-bezier(.22, 1, .36, 1); }
+.ab-page .ab-lp__plate { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; display: flex; flex-direction: column; gap: 4px; padding: 0 26px 26px;
+  transition: opacity .35s cubic-bezier(.22, 1, .36, 1); }
+.ab-page .ab-lp__n { font: 500 32px/1.15 var(--f-title); letter-spacing: -.01em; color: #fff; text-shadow: 0 1px 12px rgb(20 8 2 / .35); }
+.ab-page .ab-lp__role { font: 600 14px/1.3 var(--f); letter-spacing: .02em; color: #FFD9A8; }
+/* under the pointer, as on those cards: the card lifts, the photograph blurs under a manila wash rising from its foot (a thin white
+   edge inside), and the name, role, a gold rule and the story rise 8px into place on it */
+.ab-page .ab-lp__info { position: absolute; inset: 0; z-index: 3; overflow: hidden; border-radius: inherit; opacity: 0; pointer-events: none;
+  transition: opacity .4s ease; }
+.ab-page .ab-lp__blur { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 18%; filter: blur(3px) saturate(1.1); scale: 1.04; }
+.ab-page .ab-lp__wash { position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 1px rgb(255 255 255 / .7), inset 0 1px 0 rgb(255 255 255 / .9);
+  background: linear-gradient(180deg, rgb(243 232 214 / .02) 0%, rgb(243 232 214 / .05) 6%, rgb(243 232 214 / .1) 12%, rgb(243 232 214 / .19) 18%, rgb(243 232 214 / .32) 24%,
+    rgb(243 232 214 / .49) 30%, rgb(243 232 214 / .67) 36%, rgb(243 232 214 / .82) 42%, rgb(243 232 214 / .93) 48%, rgb(243 232 214 / .99) 55%, #F3E8D6 62%, #F3E8D6 100%); }
+.ab-page .ab-lp__body { position: relative; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; padding: 28px; translate: 0 8px;
+  transition: translate .45s cubic-bezier(.22, 1, .36, 1); }
+.ab-page .ab-lp__in { margin: 0; font: 600 28px/1.15 var(--f-title); letter-spacing: -.01em; color: var(--ink); }
+.ab-page .ab-lp__sub { margin-top: 6px; font: 500 14px/1.35 var(--f); color: var(--ink); }
+.ab-page .ab-lp__rule { display: block; height: 1px; margin-top: 16px; background: linear-gradient(90deg, #D9A441, rgb(217 164 65 / 0)); }
+.ab-page .ab-lp__d { margin: 16px 0 0; font: 400 15px/1.55 var(--f); color: var(--ink); text-wrap: pretty; }
+.ab-page .ab-lp__card:is(:hover, :focus-visible) { translate: 0 -10px; }
+.ab-page .ab-lp__card:is(:hover, :focus-visible)::before { opacity: 1; }
+.ab-page .ab-lp__card:is(:hover, :focus-visible) .ab-lp__plate { opacity: 0; }
+.ab-page .ab-lp__card:is(:hover, :focus-visible) .ab-lp__info { opacity: 1; pointer-events: auto; }
+.ab-page .ab-lp__card:is(:hover, :focus-visible) .ab-lp__body { translate: 0 0; }
 .ab-page .ab-lp__card:focus-visible { box-shadow: 0 0 0 3px #fff, 0 0 0 5px var(--brand); }
-@media (prefers-reduced-motion: reduce) { .ab-page .ab-lp__plate, .ab-page .ab-lp__card img, .ab-page .ab-lp__d { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .ab-page .ab-lp__card, .ab-page .ab-lp__plate, .ab-page .ab-lp__info, .ab-page .ab-lp__body { transition: none; } }
 
 /* the head's drawings fill its full height on both sides (26 Nov 2026): the course page's head is short, so its drawing (1536 x 864)
    at 1040px wide covers it; this head is taller (the figures, and the room under them for the photograph), so here the drawing is
