@@ -287,7 +287,14 @@
   // the year bar knows when it is stuck under the nav (its ground then runs up behind the nav, css .is-stuck)
   const bar = $('.tp-bar');
   if (bar) {
-    const stuck = () => bar.classList.toggle('is-stuck', bar.getBoundingClientRect().top <= parseFloat(getComputedStyle(bar).top) + 1);
+    // and it slides away once the footer is showing (review 2026-11-26, "when I reach the footer the year tab should be hidden"): the
+    // footer is revealed from under the page, so "showing" = the page's bottom edge has risen 120px or more above the window's bottom
+    const main = $('main.tp');
+    const stuck = () => {
+      const on = bar.getBoundingClientRect().top <= parseFloat(getComputedStyle(bar).top) + 1;
+      bar.classList.toggle('is-stuck', on);
+      bar.classList.toggle('is-gone', on && innerHeight - main.getBoundingClientRect().bottom > 120);
+    };
     addEventListener('scroll', stuck, { passive: true }); addEventListener('resize', stuck); stuck();
   }
 

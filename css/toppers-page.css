@@ -617,3 +617,8 @@ html.foot-curtain main.tp, main.tp { background-attachment: fixed, fixed, scroll
    content so the bar leaves together with the last row */
 .tp-browse { padding-bottom: 72px; }
 .tp-year { padding-bottom: 0; }
+
+/* the stuck year bar slides up out of sight while the footer is showing, and back when scrolling up again (js stuck()) */
+.tp-bar { transition: transform .35s cubic-bezier(.4,0,.2,1), opacity .25s ease; }
+.tp-bar.is-gone { transform: translateY(calc(-100% - 90px)); opacity: 0; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .tp-bar { transition: opacity .2s ease; } .tp-bar.is-gone { transform: none; } }
