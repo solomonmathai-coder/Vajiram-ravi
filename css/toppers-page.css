@@ -739,3 +739,45 @@ html.tp-dd-open .rn { clip-path: none; }
 
 /* the jaali at the hero's sides fainter (review 2026-11-26, "reduce the opacity of the pattern in both sides") */
 .tp-hero::before { opacity: .4; }
+
+/* ---------- phones (review 2026-11-26, "optimize the toppers page for the mobile version") ----------
+   the year tray: where the years run past its width (phones), it fades out at the end that has more years beyond it (js edges()), and
+   the chosen year scrolls to its middle */
+.tp-years.is-more-r { -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 40px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 40px), transparent); }
+.tp-years.is-more-l { -webkit-mask-image: linear-gradient(90deg, transparent, #000 40px); mask-image: linear-gradient(90deg, transparent, #000 40px); }
+.tp-years.is-more-l.is-more-r { -webkit-mask-image: linear-gradient(90deg, transparent, #000 40px, #000 calc(100% - 40px), transparent);
+                                        mask-image: linear-gradient(90deg, transparent, #000 40px, #000 calc(100% - 40px), transparent); }
+.tp-years { overscroll-behavior-x: contain; }
+.tp-yr { -webkit-tap-highlight-color: transparent; }
+@media (max-width: 900px) {
+  /* the year's grid on phones and tablets: the rows closer together, and the names and programmes large enough to read: programmes
+     in 11px sentence case on up to three lines (were 9.5px spaced capitals cut at two lines) */
+  .tp-reel.is-wall .tp-ri { padding-bottom: 24px; }
+  .tp-reel.is-wall .tp-reel__track { margin-bottom: -24px; }
+  /* (the shield kept 30% of its height free above it for photos that rise out of it; the photos start at most 8px above the shield,
+     so on phones it keeps 12%, which takes the empty band out from between the rows) */
+  .tp-reel.is-wall .tp-shield { margin-top: calc(var(--dh) * .12); }
+  .tp-ri__name { font-size: 12px; letter-spacing: .04em; }
+  .tp-ri__prog { -webkit-line-clamp: 3; margin-top: 5px; font-size: 11px; line-height: 1.3; letter-spacing: .01em; text-transform: none; }
+  /* the AIR 1 row: slightly wider cards for the programmes, the year in 11px, the next card peeking in at the edge */
+  .tp-a1 { width: 116px; }
+  .tp-a1__yr { font-size: 11px; }
+  .tp-air1__track { gap: 26px; }
+  /* less room under the list before the footer */
+  .tp-browse { padding-bottom: 48px; }
+}
+/* phones: three shields a row that share the width (up to 124px each, so wider phones get roomier cards) */
+@media (max-width: 760px) { .tp-reel.is-wall .tp-ri { width: min(124px, calc((100% - 20px) / 3)); } }
+/* tablets: the ruled headings a size down, so "36 Toppers, UPSC CSE 2025" stays on one line between its rules */
+@media (min-width: 761px) and (max-width: 1023px) { .tp-rule { font-size: 20px; } .tp-rule::before, .tp-rule::after { flex-basis: 90px; } }
+/* small phones (320-359px): smaller shields so three still fit a row */
+@media (max-width: 359px) {
+  .tp-ri .tp-shield { --dw: 82px; }
+  .tp-reel.is-wall .tp-reel__track { column-gap: 8px; }
+  .tp-reel.is-wall .tp-ri { width: calc((100% - 16px) / 3); }
+  .tp-a1 { width: 104px; }
+  .tp-yr { padding: 0 12px; }
+  /* the year's ruled heading ("36 Toppers, UPSC CSE 2025") kept to one line */
+  .tp-rule { gap: 10px; font-size: 13.5px; letter-spacing: .08em; }
+  .tp-rule::before, .tp-rule::after { flex-basis: 28px; }
+}

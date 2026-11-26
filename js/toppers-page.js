@@ -162,10 +162,10 @@
     const track = panel.querySelector('.tp-reel.is-wall .tp-reel__track'); if (!track) return;
     track.querySelectorAll('.tp-br').forEach(b => b.remove());
     const items = [...track.querySelectorAll('.tp-ri')], n = items.length; if (!n) return;
-    const gx = parseFloat(getComputedStyle(track).columnGap) || 0, w = items[0].offsetWidth;
+    const gx = parseFloat(getComputedStyle(track).columnGap) || 0, w = items[0].getBoundingClientRect().width;
     // eight a row at most (review 2026-11-26, "every row should have 8 toppers only"): full rows of eight, the rest centred on the
     // last row; fewer a row only where eight don't fit the window
-    const fit = Math.max(1, Math.floor((track.clientWidth + gx) / (w + gx))), k = Math.min(8, fit);
+    const fit = Math.max(1, Math.floor((track.clientWidth + gx + 1) / (w + gx))), k = Math.min(8, fit);   // (+1: rounding grace)
     for (let at = k; at < n; at += k) {
       const br = document.createElement('li'); br.className = 'tp-br'; br.setAttribute('aria-hidden', 'true'); items[at - 1].after(br);
     }
@@ -235,6 +235,15 @@
   const slide = () => { const ind = tabs.querySelector('.tp-years__ind'), b = tabs.querySelector('[aria-selected="true"]'); if (!ind || !b) return; ind.style.width = `${b.offsetWidth}px`; ind.style.transform = `translateX(${b.offsetLeft - 4}px)`; };
   addEventListener('resize', slide);
   if (document.fonts) document.fonts.ready.then(slide);
+  // phones (review 2026-11-26, "optimize the toppers page for the mobile version"): the year tray scrolls sideways where its years
+  // don't fit; it fades out at whichever end has more years beyond it (css .is-more-l / .is-more-r), so the hidden years are hinted at
+  const edges = () => {
+    const max = tabs.scrollWidth - tabs.clientWidth;
+    tabs.classList.toggle('is-more-l', max > 1 && tabs.scrollLeft > 2);
+    tabs.classList.toggle('is-more-r', max > 1 && tabs.scrollLeft < max - 2);
+  };
+  tabs.addEventListener('scroll', edges, { passive: true });
+  addEventListener('resize', edges);
 
   const show = (k, y, focus) => {
     const catChanged = k !== cur || !tabs.children.length; cur = k; const c = CATS[k];
@@ -258,7 +267,8 @@
     }
     slide();
     const sel = tabs.querySelector('[aria-selected="true"]');
-    if (sel && tabs.scrollWidth > tabs.clientWidth) tabs.scrollTo({ left: sel.offsetLeft - 16, behavior: 'smooth' });
+    if (sel && tabs.scrollWidth > tabs.clientWidth) tabs.scrollTo({ left: sel.offsetLeft - (tabs.clientWidth - sel.offsetWidth) / 2, behavior: 'smooth' });
+    edges();
   };
 
   const fromHash = () => {
@@ -340,7 +350,10 @@
     const stuck = () => {
       const on = bar.getBoundingClientRect().top <= parseFloat(getComputedStyle(bar).top) + 1;
       bar.classList.toggle('is-stuck', on);
-      bar.classList.toggle('is-gone', on && innerHeight - main.getBoundingClientRect().bottom > 120);
+      // (only once the list has started to pass under the bar: a short year's list, just chosen, can leave the footer in view at its
+      // top on a phone, and the bar shouldn't vanish the moment a year is tapped; review 2026-11-26, mobile)
+      const passing = panel.getBoundingClientRect().top < parseFloat(getComputedStyle(bar).top) + bar.offsetHeight;
+      bar.classList.toggle('is-gone', on && passing && innerHeight - main.getBoundingClientRect().bottom > 120);
     };
     addEventListener('scroll', stuck, { passive: true }); addEventListener('resize', stuck); stuck();
   }
