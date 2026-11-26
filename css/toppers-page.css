@@ -646,3 +646,9 @@ html.foot-curtain main.tp, main.tp { background-attachment: fixed, fixed, scroll
 .tp-years__ind { background: var(--tp-tab-on); }
 .tp-yr:hover { color: var(--tp-tab-on); }
 .tp-yr:focus-visible { outline-color: var(--tp-tab-on); }
+
+/* the year tray back in the orange of the site's other tab trays (review 2026-11-26, "use this colour of tab for the years"); the
+   CSE / IFoS tray in the hero keeps the deep brown */
+.tp-years__ind { background: var(--tp-brand); }
+.tp-yr:hover { color: var(--tp-brand); }
+.tp-yr:focus-visible { outline-color: var(--tp-brand); }
