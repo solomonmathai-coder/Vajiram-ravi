@@ -722,3 +722,8 @@ html.tp-dd-open .rn { clip-path: none; }
 
 /* the Toppers menu back (review 2026-11-26): its tab shows the open pill while the panel is open, as All courses does */
 .rn .explore.open > .rn__a[aria-current="page"], .rn.is-scrolled .explore.open > .rn__a[aria-current="page"] { background: rgba(194, 65, 12, .1); color: var(--rn-brand, #C2410C); }
+
+/* the Toppers panel at full width, as All courses (review 2026-11-26, "the toppers nav should open at full width just like this"): the
+   same width and the same five column tracks, CSE and IFoS in the first two, the counsellor card at the far right */
+.rn .mega.mega--tp { width: min(1380px, calc(100vw - 40px)); }
+.mega--tp .mega__stages { grid-template-columns: repeat(5, minmax(0, 1fr)); }

@@ -305,7 +305,7 @@
   };
   const goTo = (k, y) => { pick(k, y || 0); megaClose(); const b = $('.tp-browse'); if (b) scrollUnderNav(b); };
   if (megaTp) {
-    const span = c => `${c.years[c.years.length - 1]}–${c.years[0]}`;
+    const span = c => `${c.years[c.years.length - 1]}\u2060–\u2060${c.years[0]}`;   // (word joiners keep the year range on one line)
     const item = (href, data, t, d, n) => `<li><a class="mega__a" href="${href}" ${data}><span class="mega__t">${esc(t)}</span><span class="mega__d">${esc(d)}</span>${n ? `<span class="mega__n">${esc(n)}</span>` : ''}</a></li>`;
     const C = CATS.cse, I = CATS.ifos;
     // just the two kinds of toppers (review 2026-11-26, "no need to mention all of this, just mention CSE and IFoS toppers")
