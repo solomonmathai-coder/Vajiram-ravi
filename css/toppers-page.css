@@ -702,3 +702,20 @@ html.tp-dd-open .rn { clip-path: none; }
    under the bar the same way */
 .rn .mega.mega--tp { width: min(880px, calc(100vw - 40px)); }
 .mega--tp .mega__stages { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+/* ---------- the nav as on Abhishek's homepage (review 2026-11-26, "match his nav") ----------
+   Toppers is a plain link with no lasting highlight: like every other tab it only takes the soft orange pill on hover */
+.rn__a[aria-current="page"], .rn.is-scrolled .rn__a[aria-current="page"] { background: transparent; color: inherit; }
+.rn__a[aria-current="page"]:hover, .rn.is-scrolled .rn__a[aria-current="page"]:hover { background: rgba(194, 65, 12, .1); color: var(--rn-brand, #C2410C); }
+.rn-drawer a[aria-current="page"] { color: inherit; }
+/* "Talk to a counsellor" in the menus: his rounded orange pill with the white arrow circle (this page doesn't load the script that
+   draws the arrow into .sq, so the circle and its arrow are drawn here) */
+.rn .mega a.mega__cta { display: inline-flex; align-items: center; justify-content: space-between; gap: 10px; align-self: flex-start; width: auto; height: 44px; margin: 4px 0 0;
+  padding: 0 4px 0 18px; box-sizing: border-box; border-radius: 999px; background: linear-gradient(135deg, #F06A2C 0%, #E85020 45%, #C2410C 100%); color: #fff;
+  font: 600 15px/1 Mukta, "Nirmala UI", sans-serif; text-decoration: none; white-space: nowrap; box-shadow: 0 10px 20px -12px rgba(194, 65, 12, .7); transition: background .25s ease; }
+.rn .mega a.mega__cta:hover { background: linear-gradient(135deg, #E85020 0%, #C2410C 60%, #A8380A 100%); }
+.rn .mega a.mega__cta .sq { position: relative; flex: none; width: 36px; height: 36px; margin: 0; border-radius: 50%; background: #fff; box-shadow: none; }
+.rn .mega a.mega__cta .sq::after { content: ""; position: absolute; inset: 0; margin: auto; width: 14px; height: 14px; background: #C2410C;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 8h11'/%3E%3Cpath d='M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23000' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2.5 8h11'/%3E%3Cpath d='M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4'/%3E%3C/svg%3E") center / contain no-repeat; }
+.rn .mega a.mega__cta { min-height: 0 !important; min-block-size: 0 !important; }   /* (a shared .bt rule makes it 64px tall) */

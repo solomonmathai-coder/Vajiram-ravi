@@ -281,52 +281,12 @@
   const keys = (list, i, e) => { const j = e.key === 'ArrowRight' ? i + 1 : e.key === 'ArrowLeft' ? i - 1 : e.key === 'Home' ? 0 : e.key === 'End' ? list.length - 1 : null; return j === null ? null : Math.max(0, Math.min(list.length - 1, j)); };
   tabs.addEventListener('keydown', e => { const ys = CATS[cur].years, i = ys.indexOf(+(e.target.dataset.y || 0)); if (i < 0) return; const j = keys(ys, i, e); if (j === null) return; e.preventDefault(); pick(cur, ys[j], 'year'); });
   cats.addEventListener('keydown', e => { const ks = Object.keys(CATS), i = ks.indexOf(e.target.dataset.k); if (i < 0) return; const j = keys(ks, i, e); if (j === null) return; e.preventDefault(); pick(ks[j], 0, 'cat'); });
-  // ---------- the nav's Toppers menu (review 2026-11-26, "it should behave like the rest of the tabs in the nav, see how All courses
-  // works"): the same full-width panel as All courses and Study materials (css/v49.css .mega; opened, closed and the page dimmed by
-  // js/site-nav.js). Three numbered columns: CSE toppers (all, then the latest three years with their AIR 1), IFoS toppers (all, then each
-  // year), and the AIR 1s (the decade row, then the latest three AIR 1s with their programmes); on the right the counsellor card.
-  // Choosing a link switches the list (or goes to the AIR 1 row) and closes the panel. The phone drawer lists CSE and IFoS under Toppers
-  const all = sel => [...document.querySelectorAll(sel)];
-  const megaWrap = $('#toppersNav'), megaBtn = $('#toppersBtn'), megaTp = $('#megaTp');
-  const megaClose = () => {
-    if (!megaWrap) return;
-    megaWrap.classList.remove('open'); megaBtn.setAttribute('aria-expanded', 'false');
-    document.documentElement.classList.toggle('mega-open', all('.rn .explore.open').length > 0);
-  };
-  // the kind of toppers being viewed is marked, in the panel and in the phone drawer
-  navMark = () => all('[data-tp-k]').forEach(a => {
-    const on = a.dataset.tpK === cur;
-    if (on) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
-  });
-  const scrollUnderNav = el => {
-    const nav = $('#nav'), top = scrollY + el.getBoundingClientRect().top - ((nav && nav.getBoundingClientRect().bottom) || 76) - 8;
-    scrollTo({ top, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
-  };
-  const goTo = (k, y) => { pick(k, y || 0); megaClose(); const b = $('.tp-browse'); if (b) scrollUnderNav(b); };
-  if (megaTp) {
-    const span = c => `${c.years[c.years.length - 1]}–${c.years[0]}`;
-    const item = (href, data, t, d, n) => `<li><a class="mega__a" href="${href}" ${data}><span class="mega__t">${esc(t)}</span><span class="mega__d">${esc(d)}</span>${n ? `<span class="mega__n">${esc(n)}</span>` : ''}</a></li>`;
-    const C = CATS.cse, I = CATS.ifos;
-    // just the two kinds of toppers (review 2026-11-26, "no need to mention all of this, just mention CSE and IFoS toppers")
-    const cols = [
-      ['CSE Toppers', [item('toppers.html#cse', 'data-tp-k="cse"', 'CSE Toppers from Vajiram', `UPSC Civil Services, ${span(C)}`, `${C.people.length} ranks`)]],
-      ['IFoS Toppers', [item('toppers.html#ifos', 'data-tp-k="ifos"', 'IFoS Toppers from Vajiram', `Indian Forest Service, ${span(I)}`, `${I.people.length} ranks`)]],
-    ];
-    megaTp.innerHTML = `<div class="mega__stages">${cols.map(([k, items], i) => `<section class="mega__col" style="--i:${i}">
-        <p class="mega__k"><b>${String(i + 1).padStart(2, '0')}</b>${esc(k)}</p><ul>${items.join('')}</ul></section>`).join('')}</div>
-      <aside class="mega__aside" style="--i:${cols.length}">
-        <p class="mega__k">Next year's toppers list?</p>
-        <p class="mega__p">A counsellor will match you to the programme these toppers took, for the stage you are at.</p>
-        <a class="bt bt--brand mega__cta" href="index.html#contact">Talk to a counsellor<span class="sq sq--52 sq--white"></span></a>
-        <a class="mega__all" href="course-finder.html">Browse all courses<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a>
-      </aside>`;
-  }
-  document.addEventListener('click', e => {
-    const go = e.target.closest('[data-tp-go="air1"]');
-    if (go) { e.preventDefault(); megaClose(); const s = $('.tp-air1'); if (s) scrollUnderNav(s); return; }
-    const a = e.target.closest('[data-tp-k]'); if (!a) return;
-    e.preventDefault(); goTo(a.dataset.tpK, +a.dataset.tpY || 0);
-  });
+  // ---------- the nav as on Abhishek's homepage (review 2026-11-26, "match his nav"): Toppers is a plain link, and a mouse click on
+  // All courses goes to the course finder (hovering still opens its panel; touch and keyboard still open and close it) ----------
+  const exploreBtn = $('#exploreBtn');
+  if (exploreBtn) exploreBtn.addEventListener('click', e => {
+    if (e.pointerType === 'mouse') { e.preventDefault(); e.stopImmediatePropagation(); location.href = 'course-finder.html'; }
+  }, true);
   addEventListener('hashchange', () => { show(...fromHash()); navMark(); });
   show(...fromHash()); navMark();
 

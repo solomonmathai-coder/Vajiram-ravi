@@ -20,7 +20,7 @@
 <link rel="stylesheet" href="css/footer-home.css?v=1">
 <link rel="stylesheet" href="css/ref-nav.css?v=1">
 <!-- the Toppers page (branch kevin-toppers, started fresh 2026-11-25) -->
-<link rel="stylesheet" href="css/toppers-page.css?v=70">
+<link rel="stylesheet" href="css/toppers-page.css?v=72">
 <script>document.documentElement.classList.add('js')</script>
 </head>
 <body class="tpp">
@@ -35,12 +35,7 @@
         <button class="rn__a" id="exploreBtn" type="button" aria-expanded="false" aria-controls="mega">All courses</button>
         <div class="mega" id="mega"></div>
       </div>
-      <!-- Toppers opens the same kind of panel as All courses and Study materials (review 2026-11-26, "it should behave like the rest of
-           the tabs in the nav"): filled by js/toppers-page.js, opened and closed by js/site-nav.js -->
-      <div class="explore explore--tp" id="toppersNav">
-        <button class="rn__a" id="toppersBtn" type="button" aria-expanded="false" aria-controls="megaTp" aria-current="page">Toppers</button>
-        <div class="mega mega--tp" id="megaTp"></div>
-      </div>
+      <a class="rn__a" href="toppers.html" data-more="toppers" aria-current="page">Toppers</a>
       <div class="explore explore--sm" id="studyNav">
         <button class="rn__a" id="studyBtn" type="button" aria-expanded="false" aria-controls="megaSm">Study materials</button>
         <div class="mega mega--sm" id="megaSm"></div>
@@ -58,14 +53,14 @@
     </nav>
   </div>
   <div class="rn__end">
-    <div class="rn-lang" id="langSw" role="group" aria-label="Language / भाषा" data-cur="en"><span class="rn-lang__thumb" aria-hidden="true"></span><button class="rn-lang__b" type="button" data-lang="en" lang="en" aria-pressed="true" title="English">EN</button><button class="rn-lang__b" type="button" data-lang="hi" lang="hi" aria-pressed="false" title="हिन्दी">हिं</button></div>
+    
     <a class="rn__talk" href="index.html#contact"><span class="rn__talk-t">Let's talk</span><span class="rn__disc" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></span></a>
   </div>
   <button class="rn__burger" id="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="drawer"><span></span><span></span></button>
 </header>
 <div class="rn-drawer" id="drawer" hidden>
-  <a href="#cat=all" data-cf-cat="all">All courses</a><a href="toppers.html" aria-current="page">Toppers</a><a class="rn-drawer__sub" href="toppers.html#cse" data-tp-k="cse">CSE Toppers from Vajiram</a><a class="rn-drawer__sub" href="toppers.html#ifos" data-tp-k="ifos">IFoS Toppers from Vajiram</a><a href="index.html#resources">Study materials</a><a href="index.html#batches">Upcoming batches</a><a href="index.html#faq">FAQs</a><a href="index.html#contact">Contact us</a>
-  <div class="rn-drawer__end"><div class="rn-lang" role="group" aria-label="Language / भाषा" data-cur="en"><span class="rn-lang__thumb" aria-hidden="true"></span><button class="rn-lang__b" type="button" data-lang="en" lang="en" aria-pressed="true" title="English">EN</button><button class="rn-lang__b" type="button" data-lang="hi" lang="hi" aria-pressed="false" title="हिन्दी">हिं</button></div><a class="rn__talk" href="index.html#contact"><span class="rn__talk-t">Let's talk</span><span class="rn__disc" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></span></a></div>
+  <a href="course-finder.html">All courses</a><a href="toppers.html" aria-current="page">Toppers</a><a href="index.html#resources">Study materials</a><a href="index.html#batches">Upcoming batches</a><a href="index.html#faq">FAQs</a><a href="index.html#contact">Contact us</a>
+  <div class="rn-drawer__end"><a class="rn__talk" href="index.html#contact"><span class="rn__talk-t">Let's talk</span><span class="rn__disc" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></span></a></div>
 </div>
 
 <main id="top" class="tp">
@@ -104,9 +99,9 @@
 <script src="js/data/courses.js?v=1"></script>
 <script src="js/data/toppers-live.js?v=2"></script>
 <script src="js/data/toppers-extra.js?v=1"></script>
-<script src="js/toppers-page.js?v=37"></script>
+<script src="js/toppers-page.js?v=38"></script>
 <script src="js/toppers-air1.js?v=7"></script>
 <script src="js/footer-ref.js?v=2"></script>
-<script src="js/site-nav.js?v=9"></script>
+<script src="js/site-nav.js?v=10"></script>
 </body>
 </html>

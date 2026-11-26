@@ -110,7 +110,6 @@
   </aside>`;
   if ($('#explore') && $('#exploreBtn')) navMega($('#explore'), $('#exploreBtn'));
   if ($('#studyNav') && $('#studyBtn')) navMega($('#studyNav'), $('#studyBtn'));
-  if ($('#toppersNav') && $('#toppersBtn')) navMega($('#toppersNav'), $('#toppersBtn'));   // the Toppers page's Toppers menu
   $$('.mega__a, .mega__cta, .mega__all').forEach(a => a.addEventListener('click', closeAll));
   document.addEventListener('click', e => {
     const a = e.target.closest('[data-cf-cat]'); if (!a || !window.__cfSetCat) return;
