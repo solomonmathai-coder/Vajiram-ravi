@@ -12,7 +12,7 @@ import AboutBehaviour from "./AboutBehaviour";
 import AboutReveal from "./AboutReveal";
 import AboutTilt from "./AboutTilt";
 import { LeadersFounderFirst, LeadersPortraits } from "./LeadersOptions";
-import ValuesPath from "./ValuesPath";
+import ValuesPanels from "./ValuesPanels";
 import "./about.css";
 
 /**
@@ -24,7 +24,7 @@ import "./about.css";
  *   - the institute's photograph; then, in the Figma file's IA (About Us – 1445) and the homepage's rhythm: who we are as its
  *     homepage intro (HeroIntro: label, heading, paragraph and the four figures under them, as the homepage has them under
  *     its banner), how it started as its "Why Vajiram & Ravi" block (WhyChoose; its photograph a slideshow of the institute, with the homepage banner's dots), our values as a centred head (its section,
- *     label and heading) over the values as stops on one path (ValuesPath)
+ *     label and heading) over the values as photograph panels that open under the pointer (ValuesPanels)
  *   - the people who lead Vajiram & Ravi: three layouts to compare (A, B, C), each headed by its SectionLabel and heading
  *   - the educators (Faculties) and where we teach (ContactUs), then the note that there are no other branches
  * Its footer (also its own) and the WhatsApp button follow (app/about).
@@ -65,7 +65,7 @@ export default function AboutPage() {
         </figure>
 
         {/* who we are (its homepage intro, the figures under it), how it started (its "Why" block, the photograph beside the
-            story) and our values (a centred head over the values as stops on one path) */}
+            story) and our values (a centred head over the values as photograph panels that open under the pointer) */}
         <HeroIntro stats={false} />
         <WhyChoose id="started" photos={PHOTOS} reasons={[]} />
         <SectionWrapper id="values" labelledBy="valuesH" className="ab-values">
@@ -78,7 +78,7 @@ export default function AboutPage() {
               {VALUES.body[0]}
             </p>
           </header>
-          <ValuesPath />
+          <ValuesPanels />
         </SectionWrapper>
 
         {/* the people who lead Vajiram & Ravi: A, three cards (their cards tilt toward the pointer, AboutTilt) */}

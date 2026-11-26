@@ -499,6 +499,7 @@ main.ab.ab-page {
    introduction 16px, introduction to its content 44px; its coloured bands take the full --sec-y, 90px at 1440, above and
    below, where a cream section takes .65 of it) */
 
-/* our values (26 Nov 2026): its centred head, then the values as stops on one path (ValuesPath, .ab-vp above), 44px under
-   the introduction as the homepage's heads; on the page's cream, so the stops' cream rings sit on it */
-.ab-page #values .ab-vp__track { margin-top: 44px; }
+/* our values (26 Nov 2026): its centred head, then the values as photograph panels that open under the pointer
+   (ValuesPanels, .ab-val above; Abhishek: "keep the hover expand option you did first"), 44px under the introduction as
+   the homepage's heads */
+.ab-page #values .ab-vals__row { margin-top: 44px; }
