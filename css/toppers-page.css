@@ -785,8 +785,9 @@ html.tp-dd-open .rn { clip-path: none; }
 /* ---------- the nav and the hero as on the course page (review 2026-11-26, "check nav menu and hero position by default in course page,
    follow same colour tone as well, follow the same; also we need breadcrumbs"; the course page = Abhishek's /courses, whose hero is
    this project's course finder hero, css/course-finder.css .cf-hero) ----------
-   1. at the top of the page the nav sits on its own cream band (#FFFAF3, ruled off from the hero by a fine line): on tablets and
-      desktops the nav's white panel is clear there and fades in once the page scrolls; on phones the panel stays, in the same cream */
+   1. at the top of the page the nav sits on its own cream band (#FFFAF3): on tablets and
+      desktops the nav's white panel is clear there and fades in once the page scrolls; on phones the panel stays, in the same cream
+      (no line between the band and the hero: review 2026-11-26, "remove the stroke on the hero") */
 :root { --tp-band: 96px; }
 @media (max-width: 900px) { :root { --tp-band: 90px; } }
 @media (max-width: 760px) { :root { --tp-band: 68px; } }
@@ -800,7 +801,7 @@ html.foot-curtain main.tp, main.tp { padding-top: var(--tp-band);
 /* 2. the hero starts under that band, in the course page's beige (#F3E8D6) with its paper grain, the same room above and below the
       words (65% of the section spacing), no jaali; the cheering toppers at its sides in the course page's monument treatment: grey,
       multiplied into the beige at 11%, fading towards the middle and in from the top, on wide screens only */
-.tp-hero { padding: calc(clamp(64px, 6.25vw, 90px) * .65) 0; border-top: 1px solid rgb(122 42 10 / .12); background: #F3E8D6; }
+.tp-hero { padding: calc(clamp(64px, 6.25vw, 90px) * .65) 0; background: #F3E8D6; }
 .tp-hero::before { content: none; }
 .tp-hero::after { opacity: .4; }
 .tp-hero__side { width: 34%; opacity: .11; filter: grayscale(1) contrast(1.15) brightness(1.04); mix-blend-mode: multiply; }
