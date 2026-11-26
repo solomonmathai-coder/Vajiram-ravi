@@ -273,15 +273,54 @@
     const y = scrollY + panel.getBoundingClientRect().top - under;
     if (scrollY > y + 1) scrollTo({ top: y, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   };
-  const pick = (k, y, focus) => { const was = curY; show(k, y, focus); history.replaceState(null, '', `#${cur}/${curY}`); if (curY !== was) toListTop(); };
+  let navMark = () => {};   // (set by the nav's Toppers menu below)
+  const pick = (k, y, focus) => { const was = curY; show(k, y, focus); history.replaceState(null, '', `#${cur}/${curY}`); if (curY !== was) toListTop(); navMark(); };
   cats.addEventListener('click', e => { const b = e.target.closest('.tp-cat'); if (b && b.dataset.k !== cur) pick(b.dataset.k, 0); });
   tabs.addEventListener('click', e => { const b = e.target.closest('.tp-yr'); if (b) pick(cur, +b.dataset.y); });
   // arrow keys move along either row of tabs
   const keys = (list, i, e) => { const j = e.key === 'ArrowRight' ? i + 1 : e.key === 'ArrowLeft' ? i - 1 : e.key === 'Home' ? 0 : e.key === 'End' ? list.length - 1 : null; return j === null ? null : Math.max(0, Math.min(list.length - 1, j)); };
   tabs.addEventListener('keydown', e => { const ys = CATS[cur].years, i = ys.indexOf(+(e.target.dataset.y || 0)); if (i < 0) return; const j = keys(ys, i, e); if (j === null) return; e.preventDefault(); pick(cur, ys[j], 'year'); });
   cats.addEventListener('keydown', e => { const ks = Object.keys(CATS), i = ks.indexOf(e.target.dataset.k); if (i < 0) return; const j = keys(ks, i, e); if (j === null) return; e.preventDefault(); pick(ks[j], 0, 'cat'); });
-  addEventListener('hashchange', () => show(...fromHash()));
-  show(...fromHash());
+  // ---------- the nav's Toppers menu (review 2026-11-26, "we can move this section into the nav"): CSE Toppers from Vajiram and IFoS
+  // Toppers from Vajiram, each with its count and years; opens on hover with a mouse, on click or Enter, ArrowDown into it; Escape,
+  // a click elsewhere or tabbing away close it. Choosing one switches the list and brings the year tabs into view. The phone drawer
+  // carries the same two links ----------
+  const navDd = $('#tpNav'), navBtn = $('#tpNavBtn'), navMenu = $('#tpNavMenu');
+  const all = sel => [...document.querySelectorAll(sel)];
+  const navSet = open => { if (!navDd) return; navDd.classList.toggle('open', open); navBtn.setAttribute('aria-expanded', String(open)); document.documentElement.classList.toggle('tp-dd-open', open); };
+  navMark = () => all('[data-tp-k]').forEach(a => { if (a.dataset.tpK === cur) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
+  const goTo = k => {
+    pick(k, 0); navSet(false);
+    const browse = $('.tp-browse'); if (!browse) return;
+    const nav = $('#nav'), top = scrollY + browse.getBoundingClientRect().top - ((nav && nav.getBoundingClientRect().bottom) || 76) - 8;
+    scrollTo({ top, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  };
+  if (navDd && navBtn && navMenu) {
+    navMenu.innerHTML = Object.entries(CATS).map(([k, c]) => {
+      const ys = c.years, span = ys.length > 1 ? `${ys[ys.length - 1]}–${ys[0]}` : `${ys[0]}`;
+      return `<a class="tp-navdd__a" href="toppers.html#${k}" data-tp-k="${k}"><span class="tp-navdd__t">${esc(c.label)} from Vajiram</span><span class="tp-navdd__d">${c.people.length} ranks · ${span}</span></a>`;
+    }).join('');
+    let t;
+    navBtn.addEventListener('click', () => navSet(!navDd.classList.contains('open')));
+    navDd.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') { clearTimeout(t); navSet(true); } });
+    navDd.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') t = setTimeout(() => navSet(false), 160); });
+    document.addEventListener('click', e => { if (!navDd.contains(e.target)) navSet(false); });
+    navDd.addEventListener('focusout', e => { if (!navDd.contains(e.relatedTarget)) navSet(false); });
+    navDd.addEventListener('keydown', e => {
+      if (e.key === 'Escape') { navSet(false); navBtn.focus(); }
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault(); navSet(true);
+        const links = all('.tp-navdd__a'), i = links.indexOf(document.activeElement);
+        const j = e.key === 'ArrowDown' ? (i + 1) % links.length : (i <= 0 ? links.length - 1 : i - 1); links[j].focus();
+      }
+    });
+  }
+  document.addEventListener('click', e => {
+    const a = e.target.closest('[data-tp-k]'); if (!a) return;
+    e.preventDefault(); goTo(a.dataset.tpK);
+  });
+  addEventListener('hashchange', () => { show(...fromHash()); navMark(); });
+  show(...fromHash()); navMark();
 
   // the year bar knows when it is stuck under the nav (its ground then runs up behind the nav, css .is-stuck)
   const bar = $('.tp-bar');
