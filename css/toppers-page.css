@@ -727,3 +727,6 @@ html.tp-dd-open .rn { clip-path: none; }
    same width and the same five column tracks, CSE and IFoS in the first two, the counsellor card at the far right */
 .rn .mega.mega--tp { width: min(1380px, calc(100vw - 40px)); }
 .mega--tp .mega__stages { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+
+/* the Toppers panel without the counsellor card (review 2026-11-26, "remove this"): the columns take the whole panel */
+.rn .mega.mega--tp { grid-template-columns: minmax(0, 1fr); }

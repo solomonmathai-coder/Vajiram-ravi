@@ -314,13 +314,7 @@
       ['IFoS Toppers', [item('toppers.html#ifos', 'data-tp-k="ifos"', 'IFoS Toppers from Vajiram', `Indian Forest Service, ${span(I)}`, `${I.people.length} ranks`)]],
     ];
     megaTp.innerHTML = `<div class="mega__stages">${cols.map(([k, items], i) => `<section class="mega__col" style="--i:${i}">
-        <p class="mega__k"><b>${String(i + 1).padStart(2, '0')}</b>${esc(k)}</p><ul>${items.join('')}</ul></section>`).join('')}</div>
-      <aside class="mega__aside" style="--i:${cols.length}">
-        <p class="mega__k">Next year's toppers list?</p>
-        <p class="mega__p">A counsellor will match you to the programme these toppers took, for the stage you are at.</p>
-        <a class="bt bt--brand mega__cta" href="index.html#contact">Talk to a counsellor<span class="sq sq--52 sq--white"></span></a>
-        <a class="mega__all" href="course-finder.html">Browse all courses<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a>
-      </aside>`;
+        <p class="mega__k"><b>${String(i + 1).padStart(2, '0')}</b>${esc(k)}</p><ul>${items.join('')}</ul></section>`).join('')}</div>`;   // (no counsellor card here: review 2026-11-26, "remove this")
   }
   document.addEventListener('click', e => {
     const go = e.target.closest('[data-tp-go="air1"]');
