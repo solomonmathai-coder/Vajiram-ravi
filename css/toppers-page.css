@@ -730,3 +730,9 @@ html.tp-dd-open .rn { clip-path: none; }
 
 /* the Toppers panel without the counsellor card (review 2026-11-26, "remove this"): the columns take the whole panel */
 .rn .mega.mega--tp { grid-template-columns: minmax(0, 1fr); }
+
+/* the hero in the light ivory beige (review 2026-11-26, "use a beige colour like this for the hero": #FFF9F1, the site's --ivory) in place
+   of the deeper beige gradient; the faint jaali and the side photos stay. The stuck year bar (and the strip behind the nav) takes the
+   same ivory so they still match the hero */
+.tp-hero { background: #FFF9F1; }
+.tp-bar.is-stuck { background: #FFF9F1; }
