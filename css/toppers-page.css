@@ -652,3 +652,8 @@ html.foot-curtain main.tp, main.tp { background-attachment: fixed, fixed, scroll
 .tp-years__ind { background: var(--tp-brand); }
 .tp-yr:hover { color: var(--tp-brand); }
 .tp-yr:focus-visible { outline-color: var(--tp-brand); }
+
+/* one tone behind the nav and the stuck year bar (review 2026-11-26, "why is there a 2 tone"): the strip behind the nav inherited the
+   bar's gradient and drew it again from the top of its own box, so the beige restarted at the nav's foot; now one gradient is laid
+   out against the window (fixed, 0-170px) so the strip and the bar are cut from the same sweep */
+.tp-bar.is-stuck { background: linear-gradient(178deg, #F9EFDA, #F5E8CE 45%, #EFDFC0) 0 0 / 100% 170px no-repeat fixed, #EFDFC0; }
