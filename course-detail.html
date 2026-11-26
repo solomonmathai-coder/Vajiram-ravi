@@ -9,7 +9,7 @@
 <link rel="icon" href="assets/img/brand/emblem.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@500;600&family=Mukta:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&family=Geist:wght@500;600&family=Mukta:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
 <!-- the homepage's styles for the nav and the footer, then this page's own -->
 <link rel="stylesheet" href="css/v49.css?v=334">
 <link rel="stylesheet" href="css/cta-shine.css?v=2">
@@ -20,7 +20,7 @@
 <link rel="stylesheet" href="css/footer-home.css?v=1">
 <link rel="stylesheet" href="css/ref-nav.css?v=1">
 <!-- the course detail page (branch kevin-course-detail-page, 2026-11-26): the redesign of vajiramandravi.com/courses/upsc-gs-course/ -->
-<link rel="stylesheet" href="css/course-detail.css?v=13">
+<link rel="stylesheet" href="css/course-detail.css?v=16">
 <script>document.documentElement.classList.add('js')</script>
 </head>
 <body class="cdp">
@@ -113,22 +113,6 @@
     </div>
   </section>
 
-  <!-- ============ the page's sections, in a tray that sticks under the nav ============ -->
-  <div class="cd-tabs" id="cdTabs">
-    <div class="cd-wrap cd-tabs__in">
-      <nav class="cd-tabs__tray" aria-label="On this page">
-        <span class="cd-tabs__ind" aria-hidden="true"></span>
-        <a href="#overview">Overview</a>
-        <a href="#features">What’s included</a>
-        <a href="#msp">Mains support</a>
-        <a href="#fit">Who it’s for</a>
-        <a href="#admission">Admission</a>
-        <a href="#faqs">FAQs</a>
-      </nav>
-      <a class="cd-btn cd-btn--brand cd-btn--sm cd-tabs__join" href="https://admissions.vajiramias.com/online-admission/" target="_blank" rel="noopener" tabindex="-1">Join now</a>
-    </div>
-  </div>
-
   <!-- ============ overview: the homepage's Why section layout (photo, then label, heading and paragraphs) ============ -->
   <section class="cd-sec cd-ov" id="overview" aria-labelledby="ovH">
     <div class="cd-wrap cd-split">
@@ -154,37 +138,42 @@
         <p class="cd-intro" data-rv>A complete learning ecosystem: daily classes, focused study material, current affairs, tests and mentoring.</p>
       </header>
       <div class="cd-inc__grid">
-        <section class="cd-inc__col" data-rv>
-          <span class="cd-inc__ic"><svg class="cd-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M2 3h20M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3M7 21l5-5 5 5"/></svg></span>
-          <h3>Classes</h3>
-          <ul class="cd-dots">
-            <li>Classes of 2.5 hours, held every day of the week</li>
-            <li>300+ class lectures</li>
-            <li>900+ hours of teaching by experienced subject specialists</li>
-            <li>Revision classes: every class lecture can also be watched online</li>
-          </ul>
-        </section>
-        <section class="cd-inc__col" data-rv style="--d:.06s">
-          <span class="cd-inc__ic"><svg class="cd-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 19V5a2 2 0 0 1 2-2h13.4a.6.6 0 0 1 .6.6v13.1M6 17h14M6 21h14"/><path d="M6 21a2 2 0 1 1 0-4"/></svg></span>
-          <h3>Study material</h3>
-          <ul class="cd-dots">
-            <li>Around 18 Yellow Books: focused study material covering General Studies for Prelims and Mains, as per the UPSC syllabus</li>
-            <li>The Recitals, the monthly current affairs magazine: hard copies from the office for classroom students, a PDF on the portal for online students</li>
-          </ul>
-        </section>
-        <section class="cd-inc__col" data-rv style="--d:.12s">
-          <span class="cd-inc__ic"><svg class="cd-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6h11M9 12h11M9 18h11M5 6v.01M5 12v.01M5 18v.01"/></svg></span>
-          <h3>Tests and mentoring</h3>
-          <ul class="cd-dots">
-            <li>30 Prelims tests covering General Studies and Current Affairs</li>
-            <li>Mentoring sessions during the course, to clear doubts and guide your preparation</li>
-          </ul>
-        </section>
+        <article class="cd-inc__card" data-rv>
+          <figure class="cd-inc__pic"><img src="assets/img/photos/why-2-faculty-800.webp" alt="A Vajiram &amp; Ravi teacher at a board listing the GS subjects" width="800" height="533" loading="lazy" decoding="async">
+            <figcaption class="cd-inc__stat"><b>900+</b><span>hours of teaching</span></figcaption></figure>
+          <div class="cd-inc__body">
+            <h3>Classes</h3>
+            <ul class="cd-dots">
+              <li>Classes of 2.5 hours, held every day of the week</li>
+              <li>300+ class lectures</li>
+              <li>900+ hours of teaching by experienced subject specialists</li>
+              <li>Revision classes: every class lecture can also be watched online</li>
+            </ul>
+          </div>
+        </article>
+        <article class="cd-inc__card" data-rv style="--d:.06s">
+          <figure class="cd-inc__pic cd-inc__pic--book"><img src="assets/img/hero-v6/slide-gs-foundation.webp" alt="A Vajiram &amp; Ravi Yellow Book, General Studies: International Relations" width="1920" height="822" loading="lazy" decoding="async">
+            <figcaption class="cd-inc__stat"><b>18</b><span>Yellow Books</span></figcaption></figure>
+          <div class="cd-inc__body">
+            <h3>Study material</h3>
+            <ul class="cd-dots">
+              <li>Around 18 Yellow Books: focused study material covering General Studies for Prelims and Mains, as per the UPSC syllabus</li>
+              <li>The Recitals, the monthly current affairs magazine: hard copies from the office for classroom students, a PDF on the portal for online students</li>
+            </ul>
+          </div>
+        </article>
+        <article class="cd-inc__card" data-rv style="--d:.12s">
+          <figure class="cd-inc__pic"><img src="assets/img/photos/why-3-guidance-800.webp" alt="A mentor going through an aspirant's preparation with her" width="800" height="533" loading="lazy" decoding="async">
+            <figcaption class="cd-inc__stat"><b>30</b><span>Prelims tests</span></figcaption></figure>
+          <div class="cd-inc__body">
+            <h3>Tests and mentoring</h3>
+            <ul class="cd-dots">
+              <li>30 Prelims tests covering General Studies and Current Affairs</li>
+              <li>Mentoring sessions during the course, to clear doubts and guide your preparation</li>
+            </ul>
+          </div>
+        </article>
       </div>
-      <figure class="cd-band" data-rv>
-        <img src="assets/img/hero-v6/slide-gs-foundation.webp" alt="A Vajiram &amp; Ravi Yellow Book, General Studies: International Relations, on a desk" width="1920" height="822" loading="lazy" decoding="async">
-        <figcaption><b>18</b><span>Yellow Books, written for the requirements of the Civil Services Examination.</span></figcaption>
-      </figure>
     </div>
   </section>
 
@@ -197,20 +186,19 @@
         <p class="cd-intro" data-rv>The programme also gives you an additional support framework: the Mains Support Programme (MSP).</p>
       </header>
       <ol class="cd-msp__grid">
-        <li class="cd-msp__col" data-rv>
+        <li class="cd-msp__col cd-msp__col--tall" data-rv>
           <p class="cd-msp__k"><b>01</b>Until Mains 2028</p>
           <ul class="cd-dots">
             <li>Online current affairs classes</li>
             <li>MSP classes to revise the syllabus</li>
-            <li>MSP Test Series, June to November 2028:
-              <ul class="cd-msp__sub">
-                <li>12 sectional tests (10 questions)</li>
-                <li>4 full-length tests (20 questions)</li>
-                <li>Evaluation and feedback</li>
-                <li>Model answer explanation videos for the sectional tests</li>
-                <li>Mentor support</li>
-              </ul>
-            </li>
+            <li>MSP Test Series, June to November 2028</li>
+          </ul>
+          <ul class="cd-msp__sub" aria-label="The MSP Test Series includes">
+            <li><svg class="cd-ic cd-ic--check" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 12.5l3 3 7-7"/><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"/></svg>12 sectional tests (10 questions)</li>
+            <li><svg class="cd-ic cd-ic--check" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 12.5l3 3 7-7"/><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"/></svg>4 full-length tests (20 questions)</li>
+            <li><svg class="cd-ic cd-ic--check" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 12.5l3 3 7-7"/><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"/></svg>Evaluation and feedback</li>
+            <li><svg class="cd-ic cd-ic--check" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 12.5l3 3 7-7"/><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"/></svg>Model answer explanation videos for the sectional tests</li>
+            <li><svg class="cd-ic cd-ic--check" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 12.5l3 3 7-7"/><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"/></svg>Mentor support</li>
           </ul>
         </li>
         <li class="cd-msp__col" data-rv style="--d:.06s">
@@ -220,10 +208,12 @@
             <li>Student portal access: classes, objective and subjective tests, supplementary study material, daily current affairs, articles, class schedules and announcements</li>
           </ul>
         </li>
-        <li class="cd-msp__col cd-msp__col--next" data-rv style="--d:.12s">
+        <li class="cd-msp__col" data-rv style="--d:.12s">
           <p class="cd-msp__k"><b>03</b>As you clear each stage</p>
-          <div class="cd-msp__stage"><small>Clear Prelims</small><p>4 full-length Mains tests with mentorship support</p></div>
-          <div class="cd-msp__stage"><small>Clear Mains</small><p>A free Interview Guidance Programme</p></div>
+          <dl class="cd-msp__stages">
+            <div><dt>Clear Prelims</dt><dd>4 full-length Mains tests with mentorship support</dd></div>
+            <div><dt>Clear Mains</dt><dd>A free Interview Guidance Programme</dd></div>
+          </dl>
         </li>
       </ol>
     </div>
@@ -330,29 +320,31 @@
     </div>
   </section>
 
-  <!-- ============ talk to a counsellor: the homepage's Talk to us band and its fill-in form ============ -->
-  <section class="cd-sec cd-talk" id="counsel" aria-labelledby="talkH">
+  <!-- ============ Talk to us: the homepage's component (Abhishek's repo, components/sections/TalkToUs.jsx; review 2026-11-26, "this too"):
+       the orange band with the white jaali framing it, the label, heading and line on the left, and the fill-in form on the right in its
+       ruled frame, the blanks in handwriting; the same fields, times and messages ============ -->
+  <section class="cd-sec cd-talk" id="counsel" aria-labelledby="counH">
     <div class="cd-wrap cd-talk__grid">
-      <div class="cd-talk__txt">
+      <div class="cd-talk__head">
         <p class="cd-lbl cd-lbl--dark" data-rv><span>Talk to us</span></p>
-        <h2 class="cd-h2" id="talkH" data-rv>Still unsure about the course? Talk to a counsellor.</h2>
-        <p class="cd-intro" data-rv>Get a free counselling session from our experts: tell us where you are in your preparation, and we will call you back.</p>
+        <h2 class="cd-h2" id="counH" data-rv style="--d:.12s">Need assistance? Talk to our expert counsellor.</h2>
+        <p class="cd-intro" data-rv style="--d:.2s">Schedule a free call with a Vajiram &amp; Ravi counsellor to answer your questions, with no pressure to enrol.</p>
       </div>
-      <form class="cd-form" id="cdForm" novalidate data-endpoint="" data-rv>
-        <p class="cd-form__k">Book your free session</p>
-        <div class="cd-form__body">
-          <p class="cd-form__line"><label for="fName">Hi, I’m</label> <input id="fName" name="name" type="text" autocomplete="name" placeholder="your full name" required minlength="2"></p>
-          <p class="cd-form__line"><label for="fEmail">my email is</label> <input id="fEmail" name="email" type="email" autocomplete="email" placeholder="you@email.com" required></p>
-          <p class="cd-form__line"><label for="fPhone">please call me on</label> <span class="cd-form__cc">+91</span> <input id="fPhone" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="10-digit mobile" required pattern="[6-9][0-9]{9}"></p>
-          <p class="cd-form__line cd-form__line--q"><label for="fQuery">and my question is</label> <input id="fQuery" name="query" type="text" placeholder="what would you like to know? (optional)"></p>
-          <p class="cd-form__err" id="fErr" role="alert"></p>
-          <button class="cd-btn cd-btn--brand cd-btn--disc cd-btn--full" type="submit" id="fBtn">Book a free session<span class="cd-btn__disc" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></span></button>
-          <p class="cd-form__fine">By submitting, you agree that Vajiram &amp; Ravi may contact you by phone, WhatsApp, SMS or email about our programmes, batches and events.</p>
-        </div>
-        <div class="cd-form__ok" role="status" aria-live="polite">
-          <span class="cd-form__tick"><svg class="cd-ic cd-ic--check" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 12.5l3 3 7-7"/><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10Z"/></svg></span>
-          <p class="cd-form__ok-h">Thank you<span id="okName"></span>.</p>
-          <p id="okMsg">A counsellor will call you soon.</p>
+      <form class="cd-tf" id="cdForm" novalidate data-endpoint="" data-rv style="--d:.28s">
+        <h3 class="cd-tf__k">Book your free session today!</h3>
+        <p class="cd-tf__sent">
+          <span class="cd-tf__cl"><span class="cd-tf__say">Hi, I’m </span><label class="vh" for="fName">Full name</label><span class="cd-tf__blank"><input id="fName" class="cd-tf__in" name="name" autocomplete="name" required placeholder="your full name" aria-label="Your full name"></span></span>
+          <span class="cd-tf__cl"><span class="cd-tf__say">and I’m preparing for </span><label class="vh" for="fProg">Programme</label><span class="cd-tf__blank"><select id="fProg" class="cd-tf__in cd-tf__sel" name="programme" required aria-label="Programme you want to join"><option value="">pick a programme</option><option selected>UPSC GS Course 2028 (Classroom)</option><option>UPSC GS Online Course 2028</option><option>Not sure yet</option></select></span></span>
+          <span class="cd-tf__cl"><span class="cd-tf__say">Please call me on </span><label class="vh" for="fPhone">Mobile number</label><span class="cd-tf__blank cd-tf__blank--tel"><span class="cd-tf__cc" aria-hidden="true">+91</span><input id="fPhone" class="cd-tf__in" name="phone" type="tel" inputmode="numeric" pattern="[6-9][0-9]{9}" maxlength="10" autocomplete="tel-national" required placeholder="10-digit mobile" aria-label="Your 10-digit mobile number"></span></span>
+          <span class="cd-tf__cl"><span class="cd-tf__say">in the </span><label class="vh" for="fTime">Preferred time for the call</label><span class="cd-tf__blank"><select id="fTime" class="cd-tf__in cd-tf__sel" name="time" required aria-label="Preferred time for the call"><option value="">preferred time</option><option>Morning, 9 am to 12 pm</option><option>Afternoon, 12 pm to 4 pm</option><option>Evening, 4 pm to 7 pm</option></select></span></span>
+          <span class="cd-tf__cl"><span class="cd-tf__say">or email me on </span><label class="vh" for="fEmail">Email (optional)</label><span class="cd-tf__blank"><input id="fEmail" class="cd-tf__in" name="email" type="email" autocomplete="email" placeholder="you@email.com" aria-label="Your email, optional"></span></span>
+        </p>
+        <p class="cd-tf__err" id="fErr" role="alert"></p>
+        <button class="cd-btn cd-btn--brand cd-btn--disc cd-btn--full cd-tf__btn" type="submit" id="fBtn">Book a free session<span class="cd-btn__disc" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></span></button>
+        <p class="cd-tf__consent">By submitting, you agree that Vajiram &amp; Ravi may contact you by phone, WhatsApp, SMS or email about our programmes, batches and events. You can opt out at any time. See our <a href="https://vajiramandravi.com/privacy-policy/" target="_blank" rel="noopener">Privacy Policy</a> for details.</p>
+        <div class="cd-tf__done" id="fOk" role="status" tabindex="-1">
+          <h3 class="cd-tf__k">Request received</h3>
+          <p id="okMsg"></p>
         </div>
       </form>
     </div>
@@ -484,6 +476,7 @@
 
 <script src="js/footer-ref.js?v=2"></script>
 <script src="js/site-nav.js?v=11"></script>
-<script src="js/course-detail.js?v=2"></script>
+<script src="js/custom-select.js?v=1"></script>
+<script src="js/course-detail.js?v=3"></script>
 </body>
 </html>

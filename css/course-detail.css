@@ -620,3 +620,129 @@ html.js .cd [data-rv].in { opacity: 1; transform: none; }
   .cd-cl__faces img + img { margin-left: -12px; }
 }
 @media (prefers-reduced-motion: reduce) { .cd-cl::before, .cd-cl__lotus, .cd-cl__tp img, .cd-cl__faces img { transition: none; } }
+
+/* ==========================================================================================================================
+   review 2026-11-26, round 3
+   ========================================================================================================================== */
+/* the homepage's ground (css/v49.css main): cream with the jaali lattice at the sides, clear through the middle ("the bg pattern is
+   missing, bring it"); the strip the nav sits on stays plain cream */
+html.foot-curtain main.cd, main.cd {
+  background: linear-gradient(#FFFAF3, #FFFAF3) 0 0 / 100% var(--cd-band) no-repeat,
+    linear-gradient(90deg, rgb(255 250 243 / 0) 0%, rgb(255 250 243 / .94) 30%, rgb(255 250 243 / .94) 70%, rgb(255 250 243 / 0) 100%),
+    url(../assets/img/patterns/bg-jaali.svg) 0 0 / 36px 36px repeat, #FFFAF3; }
+.cd-sec--beige { background: linear-gradient(90deg, rgb(243 232 214 / 0) 0%, rgb(243 232 214 / .94) 30%, rgb(243 232 214 / .94) 70%, rgb(243 232 214 / 0) 100%),
+    url(../assets/img/patterns/bg-jaali.svg) 0 0 / 36px 36px repeat, #F3E8D6; }
+/* no section tray any more ("remove this"): sections land just under the nav */
+.cd [id] { scroll-margin-top: calc(var(--cd-nav-b) + 16px); }
+
+/* ---------- what's included: the three groups in one layout, each a card with its photo and its number ("why does yellow books
+   different, use same layout for all") ---------- */
+.cd-inc__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.cd-inc__card { display: flex; flex-direction: column; overflow: hidden; border-radius: 18px; background: #fff; box-shadow: 0 0 0 1px var(--cd-line), 0 22px 46px -34px rgb(60 15 0 / .5); }
+.cd-inc__pic { position: relative; margin: 0; aspect-ratio: 16 / 10; overflow: hidden; background: var(--cd-peach); }
+.cd-inc__pic img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; }
+.cd-inc__pic--book img { object-position: 82% 60%; }
+.cd-inc__stat { position: absolute; left: 14px; bottom: 14px; display: flex; align-items: baseline; gap: 8px; padding: 8px 14px 8px 12px; border-radius: 12px;
+  background: rgb(255 250 243 / .94); color: var(--cd-ink); box-shadow: 0 10px 24px -14px rgb(30 10 0 / .55); }
+.cd-inc__stat b { font: 500 30px/1 var(--cd-serif); letter-spacing: -.02em; color: var(--cd-brand); }
+.cd-inc__stat span { font: 600 14px/1.2 var(--cd-sans); }
+.cd-inc__body { padding: 22px 24px 26px; }
+.cd-inc__body h3 { font: 400 28px/1.1 var(--cd-serif); letter-spacing: -.01em; }
+.cd-inc__body .cd-dots { margin-top: 14px; }
+@media (max-width: 960px) {
+  .cd-inc__grid { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .cd-inc__card { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); }
+  .cd-inc__pic { aspect-ratio: auto; min-height: 100%; }
+}
+@media (max-width: 600px) {
+  .cd-inc__card { display: flex; }
+  .cd-inc__pic { aspect-ratio: 16 / 10; min-height: 0; }
+  .cd-inc__body { padding: 18px 18px 22px; }
+  .cd-inc__body h3 { font-size: 25px; }
+}
+
+/* ---------- Mains support: one tall card beside two stacked, all alike, nothing boxed inside a card ("layout looks bad") ---------- */
+.cd-msp__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: auto auto; gap: 20px; max-width: 1000px; margin: 0 auto; }
+.cd-msp__col, .cd-msp__col--next { padding: 28px 30px 30px; border-radius: 18px; background: #fff; box-shadow: 0 0 0 1px var(--cd-line), 0 22px 46px -34px rgb(60 15 0 / .5); }
+.cd-msp__col--tall { grid-row: 1 / span 2; }
+.cd-msp__k { display: flex; align-items: center; gap: 14px; padding-bottom: 16px; border-bottom: 1px solid var(--cd-line); font: 400 26px/1.15 var(--cd-serif); letter-spacing: -.01em; }
+.cd-msp__k b { display: grid; place-items: center; flex: none; width: 36px; height: 36px; border-radius: 50%; background: var(--cd-peach); color: var(--cd-brand); font: 600 13px/1 var(--cd-label); letter-spacing: .04em; }
+.cd-msp__col .cd-dots { margin-top: 18px; }
+.cd-msp__sub { display: grid; gap: 10px; margin: 14px 0 0 20px; padding: 0; background: none; }
+.cd-msp__sub li { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 10px; align-items: start; font-size: 16px; color: var(--cd-body); }
+.cd-msp__sub .cd-ic--check { width: 20px; height: 20px; margin-top: 2px; }
+.cd-msp__stages { display: grid; margin-top: 6px; }
+.cd-msp__stages > div { display: grid; gap: 6px; padding: 14px 0; }
+.cd-msp__stages > div + div { border-top: 1px solid var(--cd-line); }
+.cd-msp__stages dt { justify-self: start; padding: 3px 10px; border-radius: 999px; background: var(--cd-brand); color: #fff; font: 500 11px/1.4 var(--cd-label); letter-spacing: .08em; text-transform: uppercase; }
+.cd-msp__stages dd { font: 400 20px/1.3 var(--cd-serif); color: var(--cd-ink); }
+@media (max-width: 860px) {
+  .cd-msp__grid { grid-template-columns: minmax(0, 1fr); }
+  .cd-msp__col--tall { grid-row: auto; }
+}
+@media (max-width: 600px) {
+  .cd-msp__col { padding: 22px 20px 24px; }
+  .cd-msp__k { font-size: 23px; }
+  .cd-msp__sub { margin-left: 0; }
+}
+
+/* ---------- Talk to us: the homepage's component (components/sections/TalkToUs.jsx), its values ("this too") ---------- */
+.cd-talk::before { inset: -44px; opacity: .14; background: url(../assets/img/patterns/jaali.svg) 0 0 / 44px 44px repeat;
+  -webkit-mask: radial-gradient(78% 70% at 50% 55%, transparent 40%, #000 100%); mask: radial-gradient(78% 70% at 50% 55%, transparent 40%, #000 100%);
+  transition: transform 1.2s var(--cd-ease); }
+@media (hover: hover) and (pointer: fine) { .cd-talk:hover::before { transform: translate(22px, -22px); } }
+@media (max-width: 640px) { .cd-talk::before { background-size: 32px 32px; } }
+.cd-talk { overflow: hidden; }
+.cd-talk__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 600px); gap: 48px 56px; align-items: center; }
+@media (min-width: 1101px) and (max-width: 1279px) { .cd-talk__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 48px; } }
+@media (max-width: 1100px) { .cd-talk__grid { grid-template-columns: minmax(0, 1fr); } }
+.cd-talk__head { display: flex; flex-direction: column; }
+.cd-talk__head .cd-h2 { margin-top: 16px; color: #fff; }
+.cd-talk__head .cd-intro { max-width: 520px; color: rgb(255 255 255 / .92); }
+.cd-tf { position: relative; align-self: start; padding: 34px 40px 30px; border-radius: 4px; background: #fff; color: var(--cd-ink); box-shadow: 0 30px 50px -28px rgb(60 15 0 / .6); }
+.cd-tf::before { content: ""; position: absolute; inset: 12px; pointer-events: none; border: 16px solid transparent; border-image: url(../assets/img/patterns/frame.svg) 16 / 1 / 0 stretch; }
+@media (min-width: 901px) and (max-width: 1100px) { .cd-tf { width: 100%; max-width: 720px; } }
+.cd-tf__k { margin: 0; font: 700 11.5px/1.2 var(--cd-sans); letter-spacing: .16em; text-transform: uppercase; color: var(--cd-brand); }
+.cd-tf__sent { display: block; margin: 10px 0 8px; font: 500 clamp(19px, 1.6vw, 24px)/1.85 var(--cd-serif); letter-spacing: -.005em; color: var(--cd-ink); }
+.cd-tf__cl { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: .35em; white-space: nowrap; }
+.cd-tf__blank { position: relative; display: flex; flex: 1 1 9em; min-width: 0; align-items: baseline; }
+.cd-tf__blank--tel { gap: 6px; }
+.cd-tf__blank .cs { width: 100%; max-width: none; }
+.cd-tf__cc { font: 600 1.05em Caveat, cursive; color: rgb(27 42 82 / .6); }
+.cd-tf__in { min-width: 0; width: 100%; max-width: none; height: 1.5em; padding: 0 6px; border: 0; border-bottom: 2px dashed rgb(194 65 12 / .6); border-radius: 2px 2px 0 0; box-shadow: none;
+  background: transparent; font: 600 1.18em/1.5 Caveat, "Segoe Script", cursive; letter-spacing: 0; color: #1B2A52; text-overflow: ellipsis; outline: none; transition: background-color .2s, border-color .2s; }
+.cd-tf__in::placeholder { color: rgb(27 42 82 / .38); font-weight: 500; }
+.cd-tf__in:focus { border-bottom: 2px solid var(--cd-brand); background-color: rgb(254 170 28 / .14); }
+.cd-tf__in[aria-invalid="true"]:not(:focus) { border-bottom: 2px solid #C0362C; background-color: rgb(192 54 44 / .08); }
+.cd-tf__blank--tel .cd-tf__in { flex: 1 1 0%; width: auto; }
+.cd-tf__sel { appearance: none; -webkit-appearance: none; cursor: pointer; padding-right: 24px; background: url(../assets/img/icons/chev-down.svg) right 4px center / 15px 15px no-repeat transparent; }
+.cd-tf__sel:invalid { color: rgb(27 42 82 / .38); font-weight: 500; }
+.cd-tf__sel option { font: 500 16px var(--cd-sans); color: var(--cd-ink); }
+.cd-tf__err { min-height: 22px; margin: 10px 0 0; font-size: 13.5px; line-height: 20px; color: var(--cd-brand); }
+.cd-tf__err:empty { display: none; }
+.cd-tf__btn { margin-top: 18px; }
+.cd-tf__consent { margin: 14px 0 0; font: 400 12.5px/1.6 var(--cd-sans); color: #7A6A58; text-align: left; text-wrap: pretty; }
+.cd-tf__consent a { color: var(--cd-brand); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+.cd-tf__consent a:hover { color: #9A3412; }
+.cd-tf__done { display: none; position: absolute; inset: 0; flex-direction: column; justify-content: center; padding: 28px; border-radius: 20px; background: #fff; }
+.cd-tf.done .cd-tf__done { display: flex; }
+.cd-tf__done p { margin-top: 10px; font: 500 20px/1.5 var(--cd-serif); }
+@media (max-width: 600px) {
+  .cd-tf { padding: 30px 28px 26px; }
+  .cd-tf__sent { font-size: 19px; line-height: 2; margin-bottom: 6px; }
+  .cd-tf__cl { flex-direction: column; align-items: stretch; gap: 6px; margin-bottom: 20px; white-space: normal; }
+  .cd-tf__say { display: block; line-height: 1.25; white-space: normal; }
+  .cd-tf__blank { flex: none; width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) { .cd-talk::before { transition: none; transform: none; } }
+/* (the two stages side by side, so the stacked cards on the right come out as tall as the card on the left) */
+.cd-msp__stages { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; margin-top: 8px; }
+.cd-msp__stages > div + div { border-top: 0; padding-left: 24px; border-left: 1px solid var(--cd-line); }
+.cd-msp__stages dd { font-size: 19px; }
+.cd-msp__sub { gap: 12px; }
+@media (max-width: 600px) {
+  .cd-msp__stages { grid-template-columns: minmax(0, 1fr); }
+  .cd-msp__stages > div + div { padding-left: 0; border-left: 0; border-top: 1px solid var(--cd-line); }
+}
+/* (phones: the test series' contents stay indented under it) */
+@media (max-width: 600px) { .cd-msp__sub { margin-left: 20px; } }

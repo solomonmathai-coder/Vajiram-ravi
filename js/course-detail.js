@@ -1,6 +1,6 @@
-/* The course detail page (course-detail.html, branch kevin-course-detail-page, 2026-11-26): the section tray that sticks under the
-   nav and follows the reading position, the toppers row's arrows, the counsellor form, the phone dock with Join now, and the
-   reveal on scroll. The nav and footer are js/site-nav.js and js/footer-ref.js, as on the homepage. */
+/* The course detail page (course-detail.html, branch kevin-course-detail-page, 2026-11-26): the counsellor form (the homepage's Talk
+   to us), the phone dock with Join now, and the reveal on scroll (the toppers row's arrows are kept for a row with #cdRail, none now).
+   The nav and footer are js/site-nav.js and js/footer-ref.js, as on the homepage. */
 (() => {
   const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
@@ -19,52 +19,6 @@
     rv.forEach(el => io.observe(el));
   } else rv.forEach(el => el.classList.add('in'));
 
-  // ---------- the section tray: sticks under the nav (.is-stuck draws its cream band), marks the section being read with the sliding
-  // orange highlight, scrolls itself on phones so the marked one stays in view, and fades at an end with more beyond it
-  const bar = $('#cdTabs'), tray = $('.cd-tabs__tray'), ind = $('.cd-tabs__ind');
-  const links = tray ? $$('a', tray) : [];
-  const secs = links.map(a => $(a.hash));
-  let cur = null;
-  const edges = () => {
-    const max = tray.scrollWidth - tray.clientWidth;
-    tray.classList.toggle('is-more-l', max > 1 && tray.scrollLeft > 2);
-    tray.classList.toggle('is-more-r', max > 1 && tray.scrollLeft < max - 2);
-  };
-  const place = () => {
-    if (!cur) { ind.style.opacity = '0'; return; }
-    ind.style.opacity = '1'; ind.style.width = `${cur.offsetWidth}px`; ind.style.transform = `translateX(${cur.offsetLeft}px)`;
-  };
-  const mark = a => {
-    if (a === cur) return;
-    links.forEach(l => { if (l === a) l.setAttribute('aria-current', 'true'); else l.removeAttribute('aria-current'); });
-    cur = a; place();
-    if (a && tray.scrollWidth > tray.clientWidth) tray.scrollTo({ left: a.offsetLeft - (tray.clientWidth - a.offsetWidth) / 2, behavior: smooth() });
-  };
-  const line = () => bar.offsetHeight + 24;   // the reading line: just under the stuck tray
-  const onScroll = () => {
-    if (!bar) return;
-    bar.classList.toggle('is-stuck', bar.getBoundingClientRect().top <= 0.5);
-    let on = null;
-    secs.forEach((s, i) => { if (s && s.getBoundingClientRect().top <= line()) on = links[i]; });
-    const last = secs[secs.length - 1];
-    if (last && last.getBoundingClientRect().bottom < line()) on = null;   // past the FAQs
-    mark(on);
-  };
-  if (bar && tray) {
-    links.forEach((a, i) => a.addEventListener('click', e => {
-      const s = secs[i]; if (!s) return;
-      e.preventDefault();
-      scrollTo({ top: scrollY + s.getBoundingClientRect().top - (bar.offsetHeight - 2), behavior: smooth() });
-      history.replaceState(null, '', a.hash);
-    }));
-    tray.addEventListener('scroll', edges, { passive: true });
-    addEventListener('scroll', onScroll, { passive: true });
-    addEventListener('resize', () => { place(); edges(); onScroll(); });
-    if (document.fonts) document.fonts.ready.then(() => { place(); edges(); });
-    onScroll(); edges();
-    requestAnimationFrame(() => requestAnimationFrame(() => tray.classList.add('is-ready')));
-  }
-
   // ---------- the toppers row: the arrows move it by two portraits, and grey out at its ends
   const rail = $('#cdRail'), rb = $$('.cd-rail__b');
   if (rail && rb.length) {
@@ -77,32 +31,50 @@
     rail.addEventListener('scroll', ends, { passive: true }); addEventListener('resize', ends); ends();
   }
 
-  // ---------- the counsellor form (the homepage's): checks each field, says what is missing, then thanks the aspirant. It posts to
-  // data-endpoint once one is set; until then (a design build) it only shows the thank-you, as the homepage's form does
+  // ---------- the counsellor form: the homepage's Talk to us (components/sections/TalkToUs.jsx, initTalkToUs), its checks, messages and
+  // behaviour: the programme and time pickers in the site's dropdown (js/custom-select.js), the mobile number cleaned as it is typed,
+  // the first wrong field marked and named; with no endpoint set it says plainly that nothing was sent and gives the number to call
   const form = $('#cdForm');
   if (form) {
-    const f = { name: $('#fName'), email: $('#fEmail'), phone: $('#fPhone') }, q = $('#fQuery'), err = $('#fErr'), btn = $('#fBtn');
-    const MSG = { fName: 'Please tell us your name.', fEmail: 'Please enter a valid email address.', fPhone: 'Please enter a 10-digit Indian mobile number.' };
-    f.phone.addEventListener('input', () => { f.phone.value = f.phone.value.replace(/\D/g, '').replace(/^(91|0)(?=\d{10})/, '').slice(0, 10); });
-    Object.values(f).forEach(el => el.addEventListener('input', () => { if (el.checkValidity()) { el.removeAttribute('aria-invalid'); if (!$('[aria-invalid]', form)) err.textContent = ''; } }));
-    const send = (url, data) => url ? fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) }).then(r => { if (!r.ok) throw new Error(r.status); })
-                                   : new Promise(r => setTimeout(r, 500));
+    const PHONE = '080-6220-6330';
+    const MSG = {
+      fName: 'Enter your name.',
+      fPhone: 'Enter a 10-digit mobile number starting with 6, 7, 8 or 9.',
+      fEmail: 'Enter an email like name@example.com, or leave it blank.',
+      fProg: 'Choose a programme, or "Not sure yet".',
+      fTime: 'Choose a time for the call.',
+    };
+    const field = Object.fromEntries(Object.keys(MSG).map(id => [id, $('#' + id)]));
+    const { fName, fPhone, fTime } = field;
+    const err = $('#fErr'), btn = $('#fBtn'), label = btn.firstChild;
+    if (window.enhanceSelect) { window.enhanceSelect(field.fProg); window.enhanceSelect(fTime); }
+    fPhone.addEventListener('input', () => { fPhone.value = fPhone.value.replace(/\D/g, '').replace(/^(91|0)(?=\d{10})/, '').slice(0, 10); });
+    const send = async (url, body) => {
+      if (!url) throw new Error('not-configured');
+      const ctrl = new AbortController(), t = setTimeout(() => ctrl.abort(), 12000);
+      try {
+        const r = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), signal: ctrl.signal });
+        if (!r.ok) throw new Error('http-' + r.status);
+      } finally { clearTimeout(t); }
+    };
     form.addEventListener('submit', async e => {
       e.preventDefault();
-      if (btn.classList.contains('is-loading')) return;
+      if (btn.disabled) return;
       $$('[aria-invalid]', form).forEach(el => el.removeAttribute('aria-invalid'));
-      f.name.value = f.name.value.trim(); f.email.value = f.email.value.trim();
-      const bad = Object.values(f).find(el => !el.checkValidity());
+      fName.value = fName.value.trim();
+      const bad = Object.values(field).find(el => !el.checkValidity());
       if (bad) { bad.setAttribute('aria-invalid', 'true'); err.textContent = MSG[bad.id]; bad.focus(); return; }
-      err.textContent = ''; btn.classList.add('is-loading'); btn.firstChild.textContent = 'Sending… ';
+      err.textContent = ''; btn.disabled = true; btn.classList.add('is-loading'); label.textContent = 'Sending… ';
+      const data = { ...Object.fromEntries(new FormData(form)), phone: '+91' + fPhone.value, source: 'course-detail: UPSC GS Course 2028' };
       try {
-        await send(form.dataset.endpoint, { name: f.name.value, email: f.email.value, phone: '+91' + f.phone.value, query: q.value.trim(), source: 'course-detail: UPSC GS Course 2028' });
-        $('#okName').textContent = `, ${f.name.value.split(/\s+/)[0]}`;
-        $('#okMsg').textContent = `A counsellor will call you on +91 ${f.phone.value}.`;
-        form.classList.add('done');
-      } catch (_) {
-        err.textContent = 'That didn’t go through. Please try again, or call 080-6220-6330.';
-      } finally { btn.classList.remove('is-loading'); btn.firstChild.textContent = 'Book a free session'; }
+        await send(form.dataset.endpoint, data);
+        $('#okMsg').textContent = `A counsellor will call +91 ${fPhone.value} in the ${fTime.value.split(',')[0].toLowerCase()}.`;
+        form.classList.add('done'); $('#fOk').focus();
+      } catch (ex) {
+        err.textContent = ex.message === 'not-configured'
+          ? `Online booking isn’t connected yet, so nothing was sent. Please call ${PHONE}, Monday to Saturday, 9 am to 7 pm.`
+          : `We couldn’t send your request. Try again, or call ${PHONE}.`;
+      } finally { btn.disabled = false; btn.classList.remove('is-loading'); label.textContent = 'Book a free session'; }
     });
   }
 
