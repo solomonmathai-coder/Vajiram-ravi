@@ -822,3 +822,7 @@ html.foot-curtain main.tp, main.tp { padding-top: var(--tp-band);
 
 /* no drop shadow under "Let's talk" (review 2026-11-26, "remove the dropshadow"), in the bar and in the phone drawer */
 .rn .rn__talk, .rn.is-scrolled .rn__talk, .rn-drawer .rn__talk { box-shadow: none; }
+
+/* the cheering toppers a little higher in the hero (review 2026-11-26, "place the images a bit more higher"): the photo's frame moves
+   further down the picture (22% to 40%), so the people sit about 60px higher on a wide screen */
+.tp-hero__side { object-position: 50% 40%; }
