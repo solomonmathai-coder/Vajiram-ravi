@@ -448,29 +448,34 @@ html.js .cd [data-rv].in { opacity: 1; transform: none; }
 /* the avatars in the closing chip keep their size when its words wrap */
 .cd-close__faces { flex: none; }
 
-/* ---------- the toppers as the hero (review 2026-11-26, "these design does not look as the hero"): each topper a small photo card in
-   the hero card's manner, the portrait filling it under the same warm dark shade, and on it the homepage hero's topper mark: the
-   gold AIR pill, the name in white and the exam in pale gold. The shade also evens out the photos' mixed backgrounds ---------- */
-.cd-rail__track { gap: 16px; }
-.cd-tp { position: relative; isolation: isolate; display: flex; flex-direction: column; justify-content: flex-end; width: 208px; aspect-ratio: 4 / 5; padding: 14px;
-  box-sizing: border-box; overflow: hidden; border-radius: 18px; background: #2A160C; color: #fff; scroll-snap-align: start; box-shadow: 0 22px 44px -30px rgb(60 15 0 / .7); }
-.cd-tp__img { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: 50% 8%; transform: scale(1.06);
-  filter: saturate(.9) sepia(.08) contrast(1.02); }
-.cd-tp::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
-  background: linear-gradient(180deg, rgb(26 11 4 / .1) 0%, rgb(26 11 4 / 0) 30%, rgb(26 11 4 / .5) 66%, rgb(26 11 4 / .92) 100%); }
-.cd-tp__mark { display: grid; justify-items: start; gap: 2px; }
-.cd-tp__air { display: inline-flex; align-items: baseline; gap: 4px; height: 30px; padding: 0 12px; margin-bottom: 8px; border-radius: 999px; background: #FFD48A; color: #2B1206;
-  font: 600 13px/30px var(--cd-sans); letter-spacing: .04em; }
-.cd-tp__air small { font: inherit; }
-.cd-tp__air b { font-weight: 700; font-size: 15px; letter-spacing: 0; }
-.cd-tp__name { font: 600 16px/1.25 var(--cd-sans); color: #fff; text-wrap: balance; }
-.cd-tp__yr { font: 500 12.5px/1.3 var(--cd-sans); color: rgb(255 233 194 / .82); }
-/* AIR 1: a fine gold edge on the card */
-.cd-tp--one::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 0 2px #FFD48A; pointer-events: none; }
-@media (hover: hover) { .cd-tp__img { transition: transform .5s var(--cd-ease); } .cd-tp:hover .cd-tp__img { transform: scale(1.1); } }
+
+/* ---------- the toppers as on the homepage (review 2026-11-26, "the toppers look like this, then how did you design a new one"): the
+   homepage's Toppers reel, item for item: a shield per topper in the Batches colours, orange and mustard in turn
+   (assets/img/toppers/figma/shield2-gs.svg, -pre.svg), the 2025 cut-out portrait rising out of it or, for years with only a photo,
+   the photo framed in its face under the coloured crown; then AIR in the brand orange, the name and the programmes in small capitals.
+   No cards and no frames: the shields stand on the beige ground ---------- */
+.cd-rail__track { gap: 22px; padding-top: 4px; }
+.cd-tp { flex: none; display: flex; flex-direction: column; align-items: center; width: 140px; text-align: center; scroll-snap-align: start; }
+.cd-sh { --dw: 116px; --dh: calc(var(--dw) * 1.24089); position: relative; flex: none; width: var(--dw); height: var(--dh); margin: calc(var(--dh) * .3) auto 0; }
+.cd-sh__gem { position: absolute; inset: 0; background: url(../assets/img/toppers/figma/shield2-silver.svg) 0 0 / 100% 100% no-repeat; filter: drop-shadow(0 8px 12px rgb(80 48 16 / .16)); }
+.cd-sh--gs .cd-sh__gem { background-image: url(../assets/img/toppers/figma/shield2-gs.svg?v=2); }
+.cd-sh--pre .cd-sh__gem { background-image: url(../assets/img/toppers/figma/shield2-pre.svg?v=2); }
+.cd-sh__pic { position: absolute; left: 0; right: 0; bottom: 0; top: calc(var(--dh) * -.4); z-index: 2; clip-path: url(#pdPhotoTall); pointer-events: none; }
+.cd-sh__pic img { position: absolute; left: 50%; top: calc(var(--dh) * .33); width: calc(var(--dw) * 1.32); max-width: none; height: auto; translate: -50% 0; }
+.cd-sh__pic img.is-boxed { top: calc(var(--dh) * .6); width: calc(var(--dw) * .86); height: calc(var(--dh) * .71); object-fit: cover; object-position: 50% 14%; clip-path: url(#pdPhotoBox); }
+.cd-tp__air { margin-top: 12px; font: 800 28px/.9 var(--cd-sans); letter-spacing: -.02em; color: var(--cd-brand);
+  background: linear-gradient(180deg, #E0661F 0%, #C2410C 55%, #9A3412 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.cd-tp__air small { margin-right: 3px; font: inherit; font-size: .7em; letter-spacing: .05em; }
+.cd-tp__name { margin-top: 8px; font: 800 12.5px/1.2 var(--cd-sans); letter-spacing: .06em; text-transform: uppercase; color: #1D1712; text-wrap: balance; }
+.cd-tp__prog { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 5px; font: 600 9.5px/1.35 var(--cd-sans); letter-spacing: .08em;
+  text-transform: uppercase; color: #6B5D50; }
+@media (hover: hover) { .cd-sh__pic img { transition: translate .3s ease; } .cd-tp:hover .cd-sh__pic img { translate: -50% -5px; } }
 @media (max-width: 760px) {
-  .cd-tp { width: 164px; padding: 12px; border-radius: 16px; }
-  .cd-tp__air { height: 28px; line-height: 28px; padding: 0 10px; }
-  .cd-tp__name { font-size: 15px; }
+  .cd-rail__track { gap: 14px; }
+  .cd-tp { width: 112px; }
+  .cd-sh { --dw: 96px; }
+  .cd-tp__air { font-size: 24px; }
+  .cd-tp__name { font-size: 11.5px; }
+  .cd-tp__prog { font-size: 10px; letter-spacing: .05em; }
 }
-@media (prefers-reduced-motion: reduce) { .cd-tp__img { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .cd-sh__pic img { transition: none; } }
