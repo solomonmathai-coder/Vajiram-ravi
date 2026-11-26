@@ -78,6 +78,63 @@
     });
   }
 
+  // ---------- the enrol cards' plan switch (review 2026-11-26, the shared design's): GS only or GS + CSAT; both cards (the hero's and
+  // Admission's) follow, and the fee and the Enrol label change with the plan. Left and right arrows move along the switch
+  const plans = $$('.cd-plan');
+  const setPlan = name => {
+    const pick = $(`.cd-plan .cd-seg__b[data-plan="${name}"]`); if (!pick) return;
+    plans.forEach(g => $$('.cd-seg__b', g).forEach(b => {
+      const on = b.dataset.plan === name;
+      b.classList.toggle('is-on', on); b.setAttribute('aria-checked', String(on)); b.tabIndex = on ? 0 : -1;
+    }));
+    $$('.cd-fee').forEach(f => { f.textContent = pick.dataset.fee; });
+    $$('.cd-enrol').forEach(e => { e.textContent = `Enrol now: ${name}`; });
+  };
+  plans.forEach(g => {
+    g.addEventListener('click', e => { const b = e.target.closest('.cd-seg__b'); if (b) setPlan(b.dataset.plan); });
+    g.addEventListener('keydown', e => {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      e.preventDefault();
+      const bs = $$('.cd-seg__b', g), i = bs.findIndex(x => x.getAttribute('aria-checked') === 'true');
+      const n = bs[(i + (e.key === 'ArrowRight' ? 1 : -1) + bs.length) % bs.length];
+      setPlan(n.dataset.plan); n.focus();
+    });
+  });
+  if (plans.length) setPlan('GS only');
+
+  // ---------- tabs (What you get, the FAQs): the homepage's tray, the orange pill sliding to the chosen tab; click, or arrows / Home /
+  // End along the tray, shows that tab's panel
+  $$('.cd-tabs2').forEach(t => {
+    const tray = $('.cd-tabs2__tray', t), ind = $('.cd-tabs2__ind', t), tabs = $$('[role="tab"]', t);
+    const place = () => {
+      const on = tabs.find(b => b.getAttribute('aria-selected') === 'true'); if (!on || !ind) return;
+      ind.style.width = `${on.offsetWidth}px`; ind.style.height = `${on.offsetHeight}px`;
+      ind.style.transform = `translate(${on.offsetLeft}px, ${on.offsetTop - 4}px)`;   // (both ways: on phones the tray is a grid)
+    };
+    const pick = (b, focus) => {
+      tabs.forEach(x => {
+        const on = x === b;
+        x.setAttribute('aria-selected', String(on)); x.tabIndex = on ? 0 : -1;
+        const pnl = document.getElementById(x.getAttribute('aria-controls')); if (pnl) pnl.hidden = !on;
+      });
+      place();
+      if (focus) b.focus();
+      if (tray.scrollWidth > tray.clientWidth) tray.scrollTo({ left: b.offsetLeft - (tray.clientWidth - b.offsetWidth) / 2, behavior: smooth() });
+    };
+    tabs.forEach(b => b.addEventListener('click', () => pick(b)));
+    tray.addEventListener('keydown', e => {
+      const i = tabs.indexOf(document.activeElement); if (i < 0) return;
+      const j = e.key === 'ArrowRight' ? (i + 1) % tabs.length : e.key === 'ArrowLeft' ? (i - 1 + tabs.length) % tabs.length
+        : e.key === 'Home' ? 0 : e.key === 'End' ? tabs.length - 1 : null;
+      if (j === null) return;
+      e.preventDefault(); pick(tabs[j], true);
+    });
+    addEventListener('resize', place);
+    if (document.fonts) document.fonts.ready.then(place);
+    place();
+    requestAnimationFrame(() => requestAnimationFrame(() => t.classList.add('is-ready')));
+  });
+
   // ---------- phones: the dock with Join now, once the ticket's Enroll now has gone by, until the closing card or the footer
   const dock = $('#cdDock'), tkJoin = $('#cdTkJoin'), ready = $('#ready'), foot = $('footer');
   if (dock && tkJoin) {

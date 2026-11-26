@@ -746,3 +746,198 @@ html.foot-curtain main.cd, main.cd {
 }
 /* (phones: the test series' contents stay indented under it) */
 @media (max-width: 600px) { .cd-msp__sub { margin-left: 20px; } }
+
+/* ==========================================================================================================================
+   round 4 (review 2026-11-26, "use this artifact and update our design, with localhost:3011 as our reference"): the shared design's
+   structure, in the homepage's dress
+   ========================================================================================================================== */
+/* ---------- the enrol card (hero, and again under Admission): the batch head, the facts, the mode and plan switches, the fee ---------- */
+.cd-tk__facts { padding-bottom: 6px; }
+.cd-tk__opts { display: grid; gap: 10px; padding: 4px 20px 0; }
+.cd-tk__opt { display: grid; grid-template-columns: 92px minmax(0, 1fr); align-items: center; gap: 10px; }
+.cd-tk__ok { padding-left: 30px; font-size: 15.5px; color: var(--cd-mute); }
+.cd-seg { display: flex; gap: 0; padding: 3px; border-radius: 12px; background: var(--cd-peach); }
+.cd-seg__b { flex: 1 1 0; display: inline-flex; align-items: center; justify-content: center; height: 34px; padding: 0 10px; border: 0; border-radius: 9px; background: none;
+  font: 600 14px/1 var(--cd-sans); color: var(--cd-ink); text-decoration: none; white-space: nowrap; cursor: pointer; transition: background-color .2s ease, color .2s ease, box-shadow .2s ease; }
+.cd-seg__b:hover { color: var(--cd-brand); }
+.cd-seg__b.is-on, .cd-seg__b[aria-checked="true"] { background: #fff; color: var(--cd-brand); box-shadow: 0 1px 2px rgb(60 15 0 / .12), 0 0 0 1px rgb(194 65 12 / .18); }
+.cd-seg__b:focus-visible { outline: 2px solid var(--cd-brand); outline-offset: 1px; }
+a.cd-seg__b::after { content: "↗"; margin-left: 5px; font-size: 12px; opacity: .7; }
+.cd-tk__amt { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin: 16px 20px 0; padding: 14px 16px; border-radius: 12px; background: var(--cd-cream); box-shadow: inset 0 0 0 1px var(--cd-line); }
+.cd-tk__amt b { font: 500 32px/1 var(--cd-serif); letter-spacing: -.01em; color: var(--cd-ink); transition: opacity .2s ease; }
+.cd-tk__amt span { font-size: 13.5px; color: var(--cd-mute); }
+.cd-tk__acts { display: grid; gap: 10px; margin: 14px 20px 0; }
+.cd-tk__acts .cd-btn { margin: 0; }
+.cd-btn--line { background: #fff; color: var(--cd-brand); box-shadow: inset 0 0 0 1.5px rgb(194 65 12 / .55); }
+.cd-btn--line:hover { background: var(--cd-peach); }
+.cd-btn--ring { box-shadow: inset 0 0 0 1px var(--cd-line); }
+.cd-tk--flat { box-shadow: 0 0 0 1px var(--cd-line), 0 26px 50px -34px rgb(60 15 0 / .55); }
+@media (max-width: 380px) { .cd-tk__opt { grid-template-columns: minmax(0, 1fr); gap: 6px; } .cd-tk__ok { padding-left: 0; } }
+
+/* ---------- overview: the lead and three pillars ---------- */
+.cd-ov__lead { margin-top: 20px; max-width: 62ch; font-size: 17.5px; line-height: 1.6; color: var(--cd-body); text-wrap: pretty; }
+.cd-pillars { display: grid; margin-top: 26px; counter-reset: pil; }
+.cd-pillars li { position: relative; padding: 18px 0 18px 54px; border-top: 1px solid var(--cd-line); counter-increment: pil; }
+.cd-pillars li::before { content: counter(pil, decimal-leading-zero); position: absolute; left: 0; top: 18px; font: 400 26px/1 var(--cd-serif); color: var(--cd-brand); }
+.cd-pillars h3 { font: 500 21px/1.25 var(--cd-serif); color: var(--cd-ink); }
+.cd-pillars p { margin-top: 4px; color: var(--cd-body); }
+
+/* ---------- tabs (the homepage's tray: peach, 4px inside, the chosen one white on a sliding orange pill) ---------- */
+.cd-tabs2__tray { position: relative; display: flex; width: max-content; max-width: 100%; margin: 0 auto 28px; padding: 4px; border-radius: 14px; background: var(--cd-peach);
+  overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain; }
+.cd-tabs2__tray::-webkit-scrollbar { display: none; }
+.cd-tabs2__b { position: relative; z-index: 1; flex: none; height: 40px; padding: 0 16px; border: 0; border-radius: 10px; background: none; cursor: pointer;
+  font: 600 15px/1 var(--cd-sans); color: var(--cd-ink); white-space: nowrap; transition: color .3s; -webkit-tap-highlight-color: transparent; }
+.cd-tabs2__b:hover { color: var(--cd-brand); }
+.cd-tabs2__b[aria-selected="true"], .cd-tabs2__b[aria-selected="true"]:hover { color: #fff; }
+.cd-tabs2__b:focus-visible { outline: 2px solid var(--cd-brand); outline-offset: -2px; }
+.cd-tabs2__ind { position: absolute; top: 4px; left: 0; z-index: 0; height: 40px; width: 0; border-radius: 10px; background: var(--cd-brand); pointer-events: none; }
+.cd-tabs2.is-ready .cd-tabs2__ind { transition: transform .45s var(--cd-ease), width .45s var(--cd-ease); }
+.cd-tabs2__p[hidden] { display: none; }
+.cd-tabs2__p { animation: cd-in .35s var(--cd-ease); }
+@keyframes cd-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .cd-tabs2__p { animation: none; } .cd-tabs2.is-ready .cd-tabs2__ind { transition: none; } }
+
+/* ---------- what you get: the same card in every tab, a number (or a sign) on each ---------- */
+.cd-incs { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.cd-inc2 { display: flex; flex-direction: column; padding: 24px 24px 26px; border-radius: 18px; background: #fff; box-shadow: 0 0 0 1px var(--cd-line), 0 22px 46px -36px rgb(60 15 0 / .5); }
+.cd-inc2--wide { grid-column: span 2; }
+.cd-inc2__n { display: flex; align-items: baseline; gap: 8px; min-height: 40px; padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px solid var(--cd-line); }
+.cd-inc2__n b { font: 500 40px/1 var(--cd-serif); letter-spacing: -.02em; color: var(--cd-brand); }
+.cd-inc2__n small { font: 500 11.5px/1.2 var(--cd-label); letter-spacing: .08em; text-transform: uppercase; color: var(--cd-mute); }
+.cd-inc2__n .cd-ic--n { width: 34px; height: 34px; stroke-width: 1.5; color: var(--cd-brand); vertical-align: -6px; }
+.cd-inc2 h3 { font: 400 24px/1.15 var(--cd-serif); letter-spacing: -.01em; color: var(--cd-ink); }
+.cd-inc2 > p:not(.cd-inc2__n) { margin-top: 8px; color: var(--cd-body); }
+.cd-inc2 .cd-dots { margin-top: 12px; gap: 8px; }
+.cd-inc2--pic { position: relative; padding-top: 0; overflow: hidden; }
+.cd-inc2--pic > img { display: block; width: calc(100% + 48px); max-width: none; height: 170px; margin: 0 -24px 20px; object-fit: cover; object-position: 82% 60%; }
+.cd-unlock { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 14px; }
+.cd-unlock > div { display: grid; gap: 6px; padding: 14px 16px; border-radius: 12px; background: var(--cd-cream); box-shadow: inset 0 0 0 1px var(--cd-line); }
+.cd-unlock dt { justify-self: start; padding: 3px 10px; border-radius: 999px; background: var(--cd-brand); color: #fff; font: 500 11px/1.4 var(--cd-label); letter-spacing: .08em; text-transform: uppercase; }
+.cd-unlock dd { font: 400 19px/1.3 var(--cd-serif); color: var(--cd-ink); }
+@media (max-width: 600px) { .cd-inc2--wide { grid-column: auto; } .cd-unlock { grid-template-columns: minmax(0, 1fr); } .cd-inc2 { padding: 20px 18px 22px; } .cd-inc2--pic > img { width: calc(100% + 36px); margin: 0 -18px 18px; } }
+
+/* ---------- how it runs: a timeline, and a normal day beside it ---------- */
+.cd-route__grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
+.cd-tl { position: relative; display: grid; gap: 0; }
+.cd-tl li { position: relative; padding: 0 0 28px 40px; }
+.cd-tl li::before { content: ""; position: absolute; left: 7px; top: 6px; width: 12px; height: 12px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 2px var(--cd-brand); }
+.cd-tl li:not(:last-child)::after { content: ""; position: absolute; left: 12px; top: 22px; bottom: 2px; border-left: 1.5px dashed rgb(194 65 12 / .35); }
+.cd-tl li.is-now::before { background: var(--cd-brand); box-shadow: 0 0 0 4px rgb(194 65 12 / .18); }
+.cd-tl__when { font: 600 12px/1.3 var(--cd-label); letter-spacing: .08em; text-transform: uppercase; color: var(--cd-brand); }
+.cd-tl h3 { margin-top: 6px; font: 400 25px/1.15 var(--cd-serif); letter-spacing: -.01em; color: var(--cd-ink); }
+.cd-tl h3 + p { margin-top: 6px; max-width: 60ch; color: var(--cd-body); }
+.cd-day { position: sticky; top: calc(var(--cd-nav-b) + 20px); padding: 26px 26px 24px; border-radius: 18px; background: #fff; box-shadow: 0 0 0 1px var(--cd-line), 0 24px 50px -36px rgb(60 15 0 / .55); }
+.cd-day h3 { font: 400 26px/1.1 var(--cd-serif); }
+.cd-day__sub { margin-top: 4px; font-size: 15px; color: var(--cd-mute); }
+.cd-day__list { display: grid; margin-top: 14px; }
+.cd-day__list > div { display: grid; gap: 2px; padding: 12px 0; border-top: 1px solid var(--cd-line); }
+.cd-day__list dt { font: 600 12px/1.3 var(--cd-label); letter-spacing: .06em; text-transform: uppercase; color: var(--cd-brand); }
+.cd-day__list dd { font-size: 16px; color: var(--cd-ink); }
+.cd-day__alt { margin-top: 14px; padding: 14px 16px; border-radius: 12px; background: var(--cd-peach); font-size: 15px; line-height: 1.5; color: var(--cd-body); }
+.cd-day__alt b { display: block; color: var(--cd-ink); }
+.cd-day__alt a { color: var(--cd-brand); text-underline-offset: 3px; }
+@media (max-width: 900px) { .cd-route__grid { grid-template-columns: minmax(0, 1fr); } .cd-day { position: static; } }
+
+/* ---------- who should join: six cards ---------- */
+.cd-fits { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.cd-fits li { display: grid; grid-template-columns: 48px minmax(0, 1fr); align-items: start; gap: 16px; padding: 22px; border-radius: 18px; background: #fff; box-shadow: 0 0 0 1px var(--cd-line); }
+.cd-ic--fit { width: 48px; height: 48px; padding: 12px; box-sizing: border-box; border-radius: 50%; background: var(--cd-peach); color: var(--cd-brand); stroke-width: 1.6; }
+.cd-fits p { padding-top: 2px; font: 400 19px/1.35 var(--cd-serif); color: var(--cd-ink); }
+@media (max-width: 960px) { .cd-fits { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .cd-fits { grid-template-columns: minmax(0, 1fr); gap: 10px; } .cd-fits li { padding: 16px 18px; } .cd-fits p { font-size: 18px; } }
+
+/* ---------- how it helps: the heading on the left (it stays while the list scrolls), six numbered points on the right ---------- */
+.cd-help__grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(28px, 5vw, 80px); align-items: start; }
+.cd-help__head { position: sticky; top: calc(var(--cd-nav-b) + 24px); margin-bottom: 0; }
+.cd-help__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 32px; counter-reset: hp; }
+.cd-help__list li { padding: 22px 0; border-top: 1px solid var(--cd-line); counter-increment: hp; }
+.cd-help__list li::before { content: counter(hp, decimal-leading-zero); display: block; margin-bottom: 10px; font: 400 26px/1 var(--cd-serif); color: var(--cd-brand); }
+.cd-help__list h3 { font: 500 21px/1.25 var(--cd-serif); color: var(--cd-ink); }
+.cd-help__list p { margin-top: 6px; color: var(--cd-body); }
+@media (max-width: 900px) { .cd-help__grid { grid-template-columns: minmax(0, 1fr); } .cd-help__head { position: static; } }
+@media (max-width: 600px) { .cd-help__list { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---------- why choose: seven numbered cards ---------- */
+.cd-whys { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; counter-reset: wy; }
+.cd-whys li { padding: 22px 22px 24px; border-radius: 18px; background: #fff; box-shadow: 0 0 0 1px var(--cd-line); counter-increment: wy; }
+.cd-whys li::before { content: counter(wy, decimal-leading-zero); display: grid; place-items: center; width: 40px; height: 40px; margin-bottom: 14px; border-radius: 50%;
+  background: var(--cd-peach); color: var(--cd-brand); font: 600 13px/1 var(--cd-label); letter-spacing: .04em; }
+.cd-whys h3 { font: 500 21px/1.25 var(--cd-serif); color: var(--cd-ink); }
+.cd-whys p { margin-top: 6px; color: var(--cd-body); }
+
+/* ---------- admission and fees ---------- */
+.cd-fees__grid { display: grid; grid-template-columns: minmax(0, 400px) minmax(0, 1fr); gap: clamp(28px, 5vw, 72px); align-items: start; }
+.cd-fees__h { font: 400 26px/1.15 var(--cd-serif); }
+.cd-fees__how .cd-steps { margin-top: 20px; }
+.cd-fees__pay { margin-top: 8px; padding: 20px 22px; border-radius: 16px; background: var(--cd-beige); }
+.cd-fees__k { font: 600 12px/1.3 var(--cd-label); letter-spacing: .08em; text-transform: uppercase; color: var(--cd-mute); }
+.cd-fees__pay .cd-chips { margin: 10px 0 6px; }
+@media (max-width: 900px) { .cd-fees__grid { grid-template-columns: minmax(0, 1fr); } .cd-fees__card .cd-tk { max-width: 520px; } }
+
+/* ---------- the foundation programmes side by side ---------- */
+.cd-fam__scroll { overflow-x: auto; border-radius: 18px; background: #fff; box-shadow: 0 0 0 1px var(--cd-line), 0 24px 50px -36px rgb(60 15 0 / .5); scrollbar-width: thin; }
+.cd-fam__scroll:focus-visible { outline: 2px solid var(--cd-brand); outline-offset: 2px; }
+.cd-fam__t { width: 100%; min-width: 820px; border-collapse: collapse; font-size: 15.5px; }
+.cd-fam__t th, .cd-fam__t td { padding: 16px 18px; text-align: left; vertical-align: top; border-top: 1px solid var(--cd-line); }
+.cd-fam__t thead th { border-top: 0; padding-top: 22px; font: 400 20px/1.25 var(--cd-serif); color: var(--cd-ink); vertical-align: bottom; }
+.cd-fam__t tbody th { width: 140px; font: 600 12px/1.3 var(--cd-label); letter-spacing: .06em; text-transform: uppercase; color: var(--cd-mute); }
+.cd-fam__t td { color: var(--cd-ink); }
+.cd-fam__t td b { font: 500 22px/1 var(--cd-serif); }
+.cd-fam__t .is-here { background: #FFF6EC; }
+.cd-fam__here { display: block; width: max-content; margin-bottom: 8px; padding: 3px 10px; border-radius: 999px; background: var(--cd-brand); color: #fff; font: 500 11px/1.4 var(--cd-label); letter-spacing: .08em; text-transform: uppercase; }
+.cd-fam__this { font-size: 14px; color: var(--cd-mute); }
+.cd-fam__go { display: inline-flex; align-items: center; gap: 8px; min-height: 32px; color: var(--cd-brand); font-weight: 600; text-decoration: none; }
+.cd-fam__go:hover .cd-ic--arr { transform: translateX(3px); }
+.cd-fam__go:focus-visible { outline: 2px solid var(--cd-brand); outline-offset: 2px; border-radius: 4px; }
+
+/* ---------- related courses: the homepage's batch tickets ---------- */
+.cd-rel .cd-head--row { align-items: flex-end; }
+.cd-tks { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.cd-tk2 { display: flex; flex-direction: column; overflow: hidden; border-radius: 16px; background: #fff; box-shadow: 0 0 0 1px var(--cd-line), 0 22px 46px -34px rgb(60 15 0 / .5); }
+.cd-tk2__head { position: relative; display: flex; align-items: flex-end; justify-content: space-between; gap: 8px; padding: 14px 16px 16px; color: #fff; background: var(--cd-brand-grad); }
+.cd-tk2__head::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: url(../assets/img/patterns/bg-jaali-white.svg) 0 0 / 28px 28px repeat; opacity: .12; }
+.cd-tk2--pre .cd-tk2__head { background: linear-gradient(135deg, #C9922F 0%, #B07A1C 55%, #94630F 100%); }
+.cd-tk2--ca .cd-tk2__head { background: linear-gradient(135deg, #A9566A 0%, #8E4254 55%, #74323F 100%); }
+.cd-tk2--men .cd-tk2__head { background: linear-gradient(135deg, #4B6898 0%, #3F5B87 55%, #2E4468 100%); }
+.cd-tk2__head p { display: grid; grid-template-columns: auto auto; column-gap: 6px; align-items: end; margin: 0; }
+.cd-tk2__head small { grid-column: 1 / -1; font: 500 10.5px/1.2 var(--cd-label); letter-spacing: .08em; text-transform: uppercase; color: rgb(255 255 255 / .82); }
+.cd-tk2__head b { font: 400 38px/.9 var(--cd-serif); margin-top: 4px; }
+.cd-tk2__head span { font: 600 12.5px/1.1 var(--cd-sans); padding-bottom: 2px; }
+.cd-tk2__exam { display: grid !important; grid-template-columns: none !important; gap: 3px; text-align: right; font: 600 13px/1.2 var(--cd-sans); }
+.cd-tk2__body { display: flex; flex: 1; flex-direction: column; padding: 16px 16px 16px; border-top: 1.5px dashed rgb(122 42 10 / .2); }
+.cd-tk2__k { font: 600 11.5px/1.3 var(--cd-label); letter-spacing: .06em; text-transform: uppercase; color: var(--cd-brand); }
+.cd-tk2__body h3 { margin-top: 6px; font: 400 22px/1.15 var(--cd-serif); letter-spacing: -.01em; color: var(--cd-ink); text-wrap: balance; }
+.cd-tk2__meta { margin-top: 8px; font-size: 14.5px; color: var(--cd-mute); }
+.cd-tk2__fee { margin: auto 0 14px; padding-top: 14px; font: 500 24px/1 var(--cd-serif); color: var(--cd-ink); }
+.cd-tk2 .cd-btn { height: 44px; font-size: 15px; }
+.cd-tk2 .cd-btn__disc { width: 34px; height: 34px; }
+@media (max-width: 1100px) { .cd-tks { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) {
+  .cd-tks { display: flex; gap: 12px; margin-inline: calc(-1 * var(--cd-px)); padding: 4px var(--cd-px) 12px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-inline: var(--cd-px); scrollbar-width: none; }
+  .cd-tks::-webkit-scrollbar { display: none; }
+  .cd-tk2 { flex: 0 0 78%; scroll-snap-align: start; }
+}
+
+/* ---------- FAQ tabs ---------- */
+.cd-tabs2--faq { max-width: 1000px; margin: 0 auto; }
+.cd-tabs2--faq .cd-qas { max-width: none; }
+/* (Enquire now: a plain button, its words centred) */
+.cd-btn--line.cd-btn--full { justify-content: center; padding: 0 22px; }
+/* phones: the tab trays become a grid that fits the width (two by two for What you get, three across for the FAQs), the pill moving in both
+   directions (js), instead of a tray that hides tabs past its edge */
+@media (max-width: 600px) {
+  .cd-tabs2__tray { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; overflow: visible; }
+  .cd-tabs2--faq .cd-tabs2__tray { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .cd-tabs2__b { height: auto; min-height: 40px; padding: 6px 8px; font-size: 14px; line-height: 1.15; white-space: normal; }
+}
+/* the comparison on small screens: the row names stay put while the programmes scroll sideways under them */
+.cd-fam__t tbody th, .cd-fam__t thead th:first-child { position: sticky; left: 0; z-index: 1; background: #fff; box-shadow: 1px 0 0 var(--cd-line); }
+@media (max-width: 600px) {
+  .cd-fam__t { min-width: 660px; font-size: 14.5px; }
+  .cd-fam__t th, .cd-fam__t td { padding: 14px 12px; }
+  .cd-fam__t tbody th { width: 92px; font-size: 11px; }
+  .cd-fam__t thead th { font-size: 17px; }
+  .cd-tk__amt b { font-size: 28px; }
+  .cd-seg__b { padding: 0 6px; font-size: 13.5px; }
+}
