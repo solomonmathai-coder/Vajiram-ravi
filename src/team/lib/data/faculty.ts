@@ -5,8 +5,9 @@
 export type Href = string | null;
 
 export const facultyIntro = {
-  heading: { lead: "Learn from examination", emphasis: "specialists." },
-  lead: "Experienced educators and subject specialists, teaching every paper with the examination in mind.",
+  // the About page's words (26 Nov 2026, the Figma file's About Us – 1445, "05b Our team")
+  heading: { lead: "Meet our top", emphasis: "educators." },
+  lead: "Subject specialists for every GS paper, the essay, the optionals and the interview.",
   cta: { label: "Meet our faculty", href: null as Href },
 };
 

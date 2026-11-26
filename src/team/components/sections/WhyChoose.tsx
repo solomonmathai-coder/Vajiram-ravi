@@ -1,4 +1,4 @@
-// Copied from abhishekps-web/vajiram-ravi (team/main 9374635): components/sections/WhyChoose.jsx. Read-only copy, do not edit; re-copy with scripts/copy-team-parts.py.
+// Copied from abhishekps-web/vajiram-ravi (team/main 9374635): components/sections/WhyChoose.jsx. Its words, photograph and cards may be passed in as props (About page, 26 Nov 2026); otherwise as it is.
 // @ts-nocheck
 import CarouselDots from '@/team/components/ui/CarouselDots';
 import SectionWrapper from '@/team/components/ui/section_wrapper';
@@ -69,22 +69,27 @@ const CARD = [
   'cu:paper-card',
 ].join(' ');
 
-export default function WhyChoose() {
+// (About page, 26 Nov 2026) its words, photograph and cards may be passed in, so the page can use it for more than one section;
+// with none it is as on the homepage. `id` names the section; the homepage's ids are kept for id="story". `head`, when given,
+// stands in place of its photograph-and-story block (its heading carrying the id `${id}-legacyH`), so the cards can follow a
+// centred head.
+export default function WhyChoose({ id = 'story', legacy = LEGACY, photo = PHOTO, reasons = REASONS, head = undefined } = {}) {
+  const k = id === 'story' ? '' : `${id}-`;
   return (
-    <SectionWrapper id="story" labelledBy="legacyH" compact className="cu:[background:var(--ground-jaali)] cu:overflow-clip">
-      <div className="cu:grid cu:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] cu:max-[900px]:grid-cols-1 cu:items-center cu:gap-x-[clamp(24px,5vw,72px)] cu:gap-y-[28px] cu:text-left">
+    <SectionWrapper id={id} labelledBy={`${k}legacyH`} compact className="cu:[background:var(--ground-jaali)] cu:overflow-clip">
+      {head ?? <div className="cu:grid cu:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] cu:max-[900px]:grid-cols-1 cu:items-center cu:gap-x-[clamp(24px,5vw,72px)] cu:gap-y-[28px] cu:text-left">
         <figure className="rv cu:m-0 cu:aspect-[3/4] cu:w-[min(100%,calc((100svh-var(--hdr-h)-64px)*.75))] cu:max-[900px]:w-[min(100%,360px)] cu:max-[640px]:w-full cu:max-[640px]:aspect-video cu:overflow-hidden cu:rounded-(--r-card) cu:bg-[#eadbc4] cu:[box-shadow:0_24px_48px_-32px_rgb(80_48_16/.35)]" style={{ '--d': '.05s' }}>
-          <img src={PHOTO.src} srcSet={photoSrcSet(PHOTO.src, PHOTO.w)} sizes="(max-width: 900px) 92vw, 30vw" alt={PHOTO.alt} width={PHOTO.w} height={PHOTO.h} loading="lazy" decoding="async" className="cu:block cu:size-full cu:object-cover cu:object-center cu:max-[640px]:object-[50%_56%] cu:transition-transform cu:duration-700 cu:ease-(--ease) cu:fine:hover:scale-[1.03] cu:motion-reduce:transition-none" />
+          <img src={photo.src} srcSet={photoSrcSet(photo.src, photo.w)} sizes="(max-width: 900px) 92vw, 30vw" alt={photo.alt} width={photo.w} height={photo.h} loading="lazy" decoding="async" className="cu:block cu:size-full cu:object-cover cu:object-center cu:max-[640px]:object-[50%_56%] cu:transition-transform cu:duration-700 cu:ease-(--ease) cu:fine:hover:scale-[1.03] cu:motion-reduce:transition-none" />
         </figure>
-        <header id="legacy" className="cu:flex cu:flex-col cu:items-start">
-          <SectionLabel>{LEGACY.label}</SectionLabel>
-          <h2 id="legacyH" className="h2 h2--sec rv cu:mt-(--hd-lbl) cu:mb-0 cu:max-w-[22ch] cu:text-balance cu:max-[640px]:max-w-none" style={{ '--d': '.12s' }}>{LEGACY.title}</h2>
-          {LEGACY.body.map((para, i) => <p key={i} className={`rv cu:mb-0 cu:text-[clamp(16px,1.25vw,18px)] cu:leading-[1.75] cu:text-[#4a3f35] ${i ? 'cu:mt-[1em]' : 'cu:mt-(--hd-in)'}`} style={{ '--d': `${0.2 + 0.08 * i}s` }}>{para}</p>)}
+        <header id={`${k}legacy`} className="cu:flex cu:flex-col cu:items-start">
+          <SectionLabel>{legacy.label}</SectionLabel>
+          <h2 id={`${k}legacyH`} className="h2 h2--sec rv cu:mt-(--hd-lbl) cu:mb-0 cu:max-w-[22ch] cu:text-balance cu:max-[640px]:max-w-none" style={{ '--d': '.12s' }}>{legacy.title}</h2>
+          {legacy.body.map((para, i) => <p key={i} className={`rv cu:mb-0 cu:text-[clamp(16px,1.25vw,18px)] cu:leading-[1.75] cu:text-[#4a3f35] ${i ? 'cu:mt-[1em]' : 'cu:mt-(--hd-in)'}`} style={{ '--d': `${0.2 + 0.08 * i}s` }}>{para}</p>)}
         </header>
-      </div>
-      <div id="reasons" className="cu:mt-(--hd-gap) cu:max-[640px]:mt-[calc(var(--hd-gap)+14px)]">
-        <ul id="whyCards" className="why__cards cu:grid cu:grid-cols-3 cu:max-[1000px]:grid-cols-2 cu:max-[640px]:flex cu:max-[640px]:overflow-x-auto cu:max-[640px]:snap-x cu:max-[640px]:snap-mandatory cu:max-[640px]:overscroll-x-contain cu:max-[640px]:[scrollbar-width:none] cu:max-[640px]:[&::-webkit-scrollbar]:hidden cu:max-[640px]:-mx-(--px) cu:max-[640px]:px-(--px) cu:max-[640px]:scroll-px-(--px) cu:max-[640px]:pt-[14px] cu:max-[640px]:pb-[44px] cu:max-[640px]:-mt-[14px] cu:max-[640px]:-mb-[44px] cu:gap-(--card-gap) cu:w-full cu:max-[640px]:w-[calc(100%+2*var(--px))] cu:list-none cu:p-0 cu:text-left">
-          {REASONS.map((r) => (
+      </div>}
+      {reasons.length > 0 && <div id={`${k}reasons`} className="cu:mt-(--hd-gap) cu:max-[640px]:mt-[calc(var(--hd-gap)+14px)]">
+        <ul id={`${k}whyCards`} className="why__cards cu:grid cu:grid-cols-3 cu:max-[1000px]:grid-cols-2 cu:max-[640px]:flex cu:max-[640px]:overflow-x-auto cu:max-[640px]:snap-x cu:max-[640px]:snap-mandatory cu:max-[640px]:overscroll-x-contain cu:max-[640px]:[scrollbar-width:none] cu:max-[640px]:[&::-webkit-scrollbar]:hidden cu:max-[640px]:-mx-(--px) cu:max-[640px]:px-(--px) cu:max-[640px]:scroll-px-(--px) cu:max-[640px]:pt-[14px] cu:max-[640px]:pb-[44px] cu:max-[640px]:-mt-[14px] cu:max-[640px]:-mb-[44px] cu:gap-(--card-gap) cu:w-full cu:max-[640px]:w-[calc(100%+2*var(--px))] cu:list-none cu:p-0 cu:text-left">
+          {reasons.map((r) => (
             <li key={r.t} className="cu:min-w-0 cu:max-[640px]:flex-[0_0_82%] cu:max-[640px]:snap-start">
               <article className={CARD}>
                 <span aria-hidden="true" className="cu:grid cu:place-items-center cu:flex-none cu:size-[56px] cu:max-[640px]:size-[44px] cu:rounded-full cu:bg-white cu:text-(--brand)">
@@ -98,8 +103,8 @@ export default function WhyChoose() {
             </li>
           ))}
         </ul>
-        <div className="cu:flex cu:justify-center cu:mt-[16px] cu:min-[641px]:hidden"><CarouselDots className="why__dots" tone="light" label="Choose a reason" labels={REASONS.map(r => `Show ${r.t}`)} controls="whyCards" /></div>
-      </div>
+        <div className="cu:flex cu:justify-center cu:mt-[16px] cu:min-[641px]:hidden"><CarouselDots className="why__dots" tone="light" label="Choose a reason" labels={reasons.map(r => `Show ${r.t}`)} controls={`${k}whyCards`} /></div>
+      </div>}
     </SectionWrapper>
   );
 }

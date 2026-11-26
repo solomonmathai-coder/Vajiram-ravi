@@ -1,22 +1,25 @@
-// Copied from abhishekps-web/vajiram-ravi (team/main 9374635): components/sections/Hero/HeroIntro.jsx. Its heading and paragraph carry the About page's words (26 Nov 2026); otherwise as it is.
+// Copied from abhishekps-web/vajiram-ravi (team/main 9374635): components/sections/Hero/HeroIntro.jsx. On the About page it is "Who we are" (26 Nov 2026): its label, heading (an h2 there) and paragraph carry those words, the figures under them; otherwise as it is.
 // @ts-nocheck
 import SectionWrapper from '@/team/components/ui/section_wrapper';
+import SectionLabel from '@/team/components/ui/SectionLabel';
 import { $, reduce } from '@/team/lib/site';
 import '@/team/tailwind-sections.css';
 import { STATS } from '@/team/lib/data/hero';
 
-export default function HeroIntro() {
+// (About page) `stats={false}` leaves its figures out, so the page can show them elsewhere (Stats is exported for that).
+export default function HeroIntro({ stats = true } = {}) {
   return (
     <SectionWrapper id="about-vr" labelledBy="aboutVrH" compact className="hx__intro cu:z-1 cu:text-center cu:[--px:clamp(16px,5.5vw,60px)]">
       <div className="cu:mx-auto cu:flex cu:max-w-[1180px] cu:flex-col cu:items-center">
-        <h1 id="aboutVrH" className="h2 h2--sec rv cu:mt-0! cu:text-balance" style={{ '--d': '.1s' }}>
-          Preparing India’s civil servants since 1976.
-        </h1>
-        <p className="intro rv cu:max-w-none! cu:text-balance" style={{ '--d': '.2s' }}>
-          Vajiram &amp; Ravi is a coaching institute for the UPSC Civil Services Examination, founded in New Delhi by Prof. P. Velayutham. We prepare aspirants for all three stages — Prelims, Mains and the Personality Test — through classroom and LIVE-Online programmes.
+        <SectionLabel align="center">Who we are</SectionLabel>
+        <h2 id="aboutVrH" className="h2 h2--sec rv cu:text-balance" style={{ '--d': '.1s' }}>
+          Excellence in UPSC coaching, at every stage.
+        </h2>
+        <p className="intro rv cu:max-w-[860px]! cu:text-balance" style={{ '--d': '.2s' }}>
+          Since 1976, Vajiram &amp; Ravi has been synonymous with excellence in Civil Services Examination coaching, preparing aspirants for all three stages of the UPSC exam: the Preliminary Test, the Main Examination and the Personality Test. With nearly five decades of experience, we have shaped the careers of countless IAS, IFS, IPS and other Central Services officers, and our students consistently secure top ranks, often within the first ten positions.
         </p>
       </div>
-      <Stats />
+      {stats && <Stats />}
     </SectionWrapper>
   );
 }
@@ -82,7 +85,7 @@ const LABEL = [
   'cu:text-[length:17px] cu:min-[1181px]:max-[1500.98px]:text-[length:16px] cu:min-[901px]:max-[1180.98px]:text-[length:15px] cu:max-[760.98px]:text-[length:16px]',
 ].join(' ');
 
-function Stats() {
+export function Stats() {
   return (
     <ul className={`hx__stats is-pre ${LIST}`} aria-label="Vajiram & Ravi at a glance">
       {STATS.map(({ fig, lines }, i) => (

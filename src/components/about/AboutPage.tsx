@@ -1,8 +1,9 @@
 import type { CSSProperties } from "react";
 import { aboutLeaders, aboutNotice } from "@/data/about-page";
 import NavigationBar from "@/team/components/layout/NavigationBar";
-import HeroIntro from "@/team/components/sections/Hero/HeroIntro";
+import HeroIntro, { Stats } from "@/team/components/sections/Hero/HeroIntro";
 import WhyChoose from "@/team/components/sections/WhyChoose";
+import { VALUES } from "@/team/lib/data/why-choose";
 import Faculties from "@/team/components/sections/Faculties";
 import ContactUs from "@/team/components/sections/ContactUs";
 import SectionLabel from "@/team/components/ui/SectionLabel";
@@ -17,10 +18,11 @@ import "./about.css";
  * are into src/team; 26 Nov 2026, the user: "use the exact components from Abhishek's repository, just change the content
  * and images"), with the About page's words and pictures in their data:
  *   - its nav (NavigationBar)
- *   - the head: its course page head's beige band (the crumb, the India Gate drawing at both sides) holding its homepage
- *     intro (HeroIntro): the title, the introduction and the four figures
- *   - how it started and our values: its "Why Vajiram & Ravi" block (WhyChoose): the photograph, label, heading and the
- *     story, then the five values as its reason cards
+ *   - the head: its course page head's beige band (the crumb, the India Gate drawing at both sides), with the tag and title
+ *   - the institute's photograph; then, in the Figma file's IA (About Us – 1445) and the homepage's rhythm: who we are as its
+ *     homepage intro (HeroIntro: label, heading, paragraph and the four figures under them, as the homepage has them under
+ *     its banner), how it started as its "Why Vajiram & Ravi" block (WhyChoose), our values on its beige band as a centred
+ *     head over its cards
  *   - the people who lead Vajiram & Ravi: three layouts to compare (A, B, C), each headed by its SectionLabel and heading
  *   - the educators (Faculties) and where we teach (ContactUs), then the note that there are no other branches
  * Its footer (also its own) and the WhatsApp button follow (app/about).
@@ -39,11 +41,45 @@ export default function AboutPage() {
             <span aria-hidden="true">/</span>
             <span aria-current="page">About us</span>
           </nav>
-          <HeroIntro />
+          <div className="ab-head__tag">
+            <SectionLabel align="center" tone="dark">
+              Est. 1976 · New Delhi
+            </SectionLabel>
+          </div>
+          <h1 className="h2 h2--sec rv ab-head__h" style={{ "--d": ".1s" } as CSSProperties}>
+            Preparing India’s civil servants since 1976.
+          </h1>
         </div>
 
-        {/* how it started, and our values as its reason cards */}
-        <WhyChoose />
+        {/* the institute's photograph, under the head (Figma About Us – 1445: "photo – institute") */}
+        <figure className="ab-hero-photo">
+          <div className="ab-hero-photo__in">
+            <img src="/images/about-page/institute.webp" alt="The Vajiram & Ravi institute in New Delhi, students walking out past the plants at its entrance" width={1584} height={672} fetchPriority="high" />
+            {/* the four figures over the photograph's foot, on a dark fade (its homepage intro's figures row) */}
+            <div className="ab-hero-photo__stats">
+              <Stats />
+            </div>
+          </div>
+        </figure>
+
+        {/* who we are (its homepage intro, the figures under it), how it started (its "Why" block, the photograph beside the
+            story) and our values (its beige band, a centred head over its reason cards) */}
+        <HeroIntro stats={false} />
+        <WhyChoose id="started" reasons={[]} />
+        <WhyChoose
+          legacy={VALUES}
+          head={
+            <header className="ab-centred">
+              <SectionLabel align="center">{VALUES.label}</SectionLabel>
+              <h2 id="legacyH" className="h2 h2--sec rv" style={{ "--d": ".12s" } as CSSProperties}>
+                {VALUES.title}
+              </h2>
+              <p className="intro rv" style={{ "--d": ".2s" } as CSSProperties}>
+                {VALUES.body[0]}
+              </p>
+            </header>
+          }
+        />
 
         {/* the people who lead Vajiram & Ravi: A, three cards (their cards tilt toward the pointer, AboutTilt) */}
         <section className="ab-sec" aria-labelledby="abLeaders">

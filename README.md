@@ -200,17 +200,28 @@ paragraph, which it writes inline; the script leaves those three alone once they
 
 - **Its nav** (`NavigationBar`), on its cream band.
 - **The head:** its course page head's beige band (#F3E8D6, the paper grain, the India Gate drawing faint at both sides,
-  the left one mirrored, sized to the band's height; the crumb centred, Home dark), holding its homepage intro
-  (`HeroIntro`): "Preparing India’s civil servants since 1976.", the introduction and the four figures (50+, 10/10, 36/50,
-  30), rolling in. (Abhishek's review: "use the same secondary hero style of course page".)
-- **How it started and our values:** its "Why Vajiram & Ravi" block (`WhyChoose`): its photograph of the institute, the
-  label "Since 1976", "How it started." and the story in two paragraphs (the design's own words), then the five values as
-  its reason cards, each with one of its icons; on desktop the last two cards are centred under the first three (`about.css`), as five do not fill its three columns.
+  the left one mirrored, sized to the band's height; the crumb centred, Home dark), with the tag and "Preparing India’s civil
+  servants since 1976." (Abhishek's review: "use the same secondary hero style of course page".)
+- **The sections, in the Figma file's order** ("Vajiram & Ravi Website", About Us – 1445, 38:43088; the user, 26 Nov 2026:
+  its look is old, but its IA stays, no section skipped): the head (as above, with its "Est. 1976 · New Delhi" tag in its
+  dark `SectionLabel`) and the title, then the institute's photograph in a white frame, rising over the band's foot so the
+  beige and its drawing run on behind it, with the four figures (its intro's figures row, `Stats`) white over its foot on a
+  dark fade; then, in the homepage's own rhythm (26 Nov 2026, the
+  user: take the reference from its repository): **who we are** as its homepage intro block (`HeroIntro`, as the homepage has
+  it under its banner: the label "Who we are", "Excellence in UPSC coaching, at every stage.", the Figma's two paragraphs as
+  one; `stats={false}`, as the figures are on the photograph); **how it started** as its "Why Vajiram & Ravi" block (`WhyChoose`), its
+  own tall photograph of the building beside "How it started." and the story, the pair centred and the story held to 600px
+  on desktop (`about.css`), so its lines stay easy to read; **our values** on its beige band
+  (`--ground-beige`), a centred head ("A holistic approach to education." and its introduction) over its reason cards, the
+  five values (`WhyChoose` with that head in place of its photograph block: it takes its words, photograph, cards and head as
+  props here; on desktop the last two cards centred under the first three, `about.css`), spaced as the homepage's heads
+  (label to heading 16px, heading to introduction 16px, introduction to the cards 44px, 90px above and below the band at
+  1440). The words are the Figma's.
 - **The people who lead Vajiram & Ravi:** three layouts to compare (Abhishek asked for explorations), each headed by its
   `SectionLabel` and heading: A, three cards that tilt toward the pointer (`AboutTilt`); B, the founder first, large, the
   two directors as smaller cards (`LeadersOptions`); C, tall portraits whose story rises over the photograph under the
   pointer. Once one is chosen, the others go.
-- **Its faculty carousel** (`Faculties`) and **its "Contact us" card** (`ContactUs`), then our note that Vajiram & Ravi has no other branches.
+- **Its faculty carousel** (`Faculties`, headed "Meet our top educators." with the Figma's line, in its data) and **its "Contact us" card** (`ContactUs`, headed "Our locations." with our line on the New Delhi centre), then our note that Vajiram & Ravi has no other branches.
 - **Its footer** (`Footer`), with its curtain: parked under the page and uncovered as the page scrolls off it.
 
 Their behaviours (the nav's menus, scrolled state and language switch, the figures rolling in, the reasons' dots on phones,

@@ -24,7 +24,7 @@ ROOTS = [
 # The About page's words and pictures go into these copies (their data, and HeroIntro's heading and paragraph, which it
 # writes inline); a new copy would put the homepage's back, so they are left alone once they exist. Delete one to take it
 # again.
-KEEP_IF_PRESENT = {"lib/data/hero.ts", "lib/data/why-choose.ts", "components/sections/Hero/HeroIntro.tsx"}
+KEEP_IF_PRESENT = {"lib/data/hero.ts", "lib/data/why-choose.ts", "components/sections/Hero/HeroIntro.tsx", "components/sections/WhyChoose.tsx", "lib/data/faculty.ts", "components/sections/ContactUs.tsx"}
 OUT = "src/team"
 
 

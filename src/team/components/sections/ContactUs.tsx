@@ -1,4 +1,4 @@
-// Copied from abhishekps-web/vajiram-ravi (team/main 9374635): components/sections/ContactUs.jsx. Read-only copy, do not edit; re-copy with scripts/copy-team-parts.py.
+// Copied from abhishekps-web/vajiram-ravi (team/main 9374635): components/sections/ContactUs.jsx. Its heading and introduction carry the About page's words (26 Nov 2026); otherwise as it is.
 // @ts-nocheck
 import { photoSrcSet } from '@/team/lib/photo';
 import SectionWrapper from '@/team/components/ui/section_wrapper';
@@ -55,8 +55,8 @@ const POP_ADDRESS = 'cu:block cu:mt-[2px] cu:[font:400_12px/1.4_var(--f)] cu:tex
 export default function ContactUs() {
   return (
     <SectionWrapper id="visit" labelledBy="locH" half className="band dots band--gap">
-      <h2 id="locH" className="h2 h2--sec rv cu:mt-0!" style={{ "--d": ".12s" }}>Contact us</h2>
-      <p className="intro rv cu:text-balance" style={{ "--d": ".2s" }}>Pick the channel that suits you, or visit us in New Delhi.</p>
+      <h2 id="locH" className="h2 h2--sec rv cu:mt-0!" style={{ "--d": ".12s" }}>Our locations.</h2>
+      <p className="intro rv cu:text-balance" style={{ "--d": ".2s" }}>Classroom programmes run from our centre in New Delhi. Visit to meet a counsellor, see the classrooms and pick up the brochure.</p>
       <div className={`${CARD} rv`} style={{ "--d": ".28s" }}>
         <div className={DETAILS}>
           <p className={BADGE}>New Delhi centre</p>

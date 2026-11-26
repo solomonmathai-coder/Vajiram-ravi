@@ -2,18 +2,35 @@
 // @ts-nocheck
 // Why Vajiram & Ravi: the legacy block, its photo and the six reasons (WhyChoose.jsx).
 
-// The About page's words (26 Nov 2026; data/about-page aboutStory and aboutValues, the design's own): how it started, its
-// photograph, and the five values as the reasons.
+// The About page's words (26 Nov 2026, the Figma file "Vajiram & Ravi Website", About Us – 1445, 38:43088): who we are, how it
+// started (with its photograph) and our values; the five values as the reasons.
+export const WHO = {
+  label: 'Who we are',
+  title: 'Excellence in UPSC coaching, at every stage.',
+  body: [
+    'Since 1976, Vajiram & Ravi has been synonymous with excellence in Civil Services Examination coaching, preparing aspirants for all three stages of the UPSC exam: the Preliminary Test, the Main Examination and the Personality Test.',
+    'With nearly five decades of experience, we have shaped the careers of countless IAS, IFS, IPS and other Central Services officers. Our students consistently secure top ranks, often within the first ten positions.',
+  ],
+};
+
 export const LEGACY = {
   label: 'Since 1976',
   title: 'How it started.',
   body: [
-    'Since its establishment in 1976 by the distinguished Professor P. Velayutham, Vajiram & Ravi has been synonymous with excellence in Civil Services Examination coaching. Professor Velayutham’s impressive academic background, including a diploma in International Law from the International Court of Justice, The Hague, laid the foundation for an institute dedicated to preparing aspirants for all three levels of the UPSC exam — Preliminary Test, Main Examination and Personality Test.',
+    'Professor P. Velayutham founded Vajiram & Ravi in 1976. His academic background, including a diploma in International Law from the International Court of Justice, The Hague, laid the foundation for the institute.',
     'With nearly five decades of experience, Vajiram & Ravi has shaped the careers of countless IAS, IFS, IPS and other Central Services officers. The institute boasts a remarkable track record, with many students consistently securing top ranks, often within the first ten positions.',
   ],
 };
 
-export const PHOTO = { src: '/assets/img/photos/institute-exterior.webp', alt: 'The Vajiram & Ravi institute building, its sign reading "Institute for IAS Exam"', w: 900, h: 1200 };
+export const PHOTO = { src: '/assets/img/photos/institute-exterior.webp', alt: 'Our campus at Old Rajinder Nagar, New Delhi: the Vajiram & Ravi building, its sign reading "Institute for IAS Exam"', w: 900, h: 1200 };
+
+export const VALUES = {
+  label: 'Our values',
+  title: 'A holistic approach to education.',
+  body: [
+    'We focus not only on imparting knowledge, but on inspiring students to reach their highest potential — so they are ready for the exam, and for careers as administrators who shape the future of India’s public administration.',
+  ],
+};
 
 export const REASONS = [
   { t: 'Knowledge, taught in depth', d: 'Every subject is taught by specialists, so aspirants build a clear understanding of the syllabus for every stage of the exam.', icon: 'board' },
