@@ -479,3 +479,7 @@ html.js .cd [data-rv].in { opacity: 1; transform: none; }
   .cd-tp__prog { font-size: 10px; letter-spacing: .05em; }
 }
 @media (prefers-reduced-motion: reduce) { .cd-sh__pic img { transition: none; } }
+
+/* no Results section (review 2026-11-26, "remove result section"): Admission takes the beige ground so the cream and beige keep
+   alternating, and its payment panel turns white on it */
+.cd-adm .cd-adm__side { background: #fff; box-shadow: 0 0 0 1px var(--cd-line), 0 24px 50px -36px rgb(60 15 0 / .5); }
