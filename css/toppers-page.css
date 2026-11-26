@@ -657,3 +657,6 @@ html.foot-curtain main.tp, main.tp { background-attachment: fixed, fixed, scroll
    bar's gradient and drew it again from the top of its own box, so the beige restarted at the nav's foot; now one gradient is laid
    out against the window (fixed, 0-170px) so the strip and the bar are cut from the same sweep */
 .tp-bar.is-stuck { background: linear-gradient(178deg, #F9EFDA, #F5E8CE 45%, #EFDFC0) 0 0 / 100% 170px no-repeat fixed, #EFDFC0; }
+
+/* the AIR 1 row's course placeholder (js PROG_TBC): lighter and in italics so it reads as a gap still to fill */
+.tp-ri__prog--tbc { font-style: italic; color: #A8998A; }

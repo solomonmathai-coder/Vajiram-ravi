@@ -9,6 +9,9 @@
   const D = window.TOPPERS_LIVE, track = document.getElementById('tpAir1'); if (!D || !track) return;
   const view = track.parentElement;
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  // a placeholder where the data has no programmes (2016-2022; user 2026-11-26, "use a placeholder for the course for those who don't
+  // have any courses"): muted, to be replaced once the Vajiram team confirms each topper's course
+  const PROG_TBC = 'Course details to be added';
   const PHOTO = 'assets/img/toppers/', TONES = ['gs', 'pre'];   // orange and mustard in turn, as the homepage (user 2026-11-25)
   const tags = prog => !prog ? [] : prog.split(/,(?![^(]*\))|\s&\s/).map(t => t.trim().replace(/^&\s*/, ''))
     .filter(Boolean).map(t => /^IGP$|^Interview Guidance Program(me)?$/i.test(t) ? 'Interview Guidance' : t);
@@ -21,7 +24,7 @@
       <span class="tp-card__air"><small>AIR</small> 1</span>
       <span class="tp-a1__yr">UPSC CSE ${p.y}</span>
       <span class="tp-ri__name">${esc(p.name)}</span>
-      ${tags(p.prog).length ? `<span class="tp-ri__prog">${tags(p.prog).map(esc).join(' · ')}</span>` : ''}
+      ${tags(p.prog).length ? `<span class="tp-ri__prog">${tags(p.prog).map(esc).join(' · ')}</span>` : `<span class="tp-ri__prog tp-ri__prog--tbc">${PROG_TBC}</span>`}
     </li>`).join('');
   const sr = document.getElementById('tpAir1Sr');
   if (sr) sr.textContent = ones.map(p => `${p.y}: ${p.name}`).join('; ');
