@@ -1,0 +1,166 @@
+/*
+ * The team site's global rules that its footer, "Contact us" card and faculty carousel rely on (26 Nov 2026), taken from its
+ * built homepage (abhishekps-web/vajiram-ravi main 9374635, public/css/base.bundle.css, as copied to our public/) by keeping
+ * only the rules that match those three sections' elements, and scoped here under :where(.team-scope) so they reach nothing else on
+ * our pages. Their own utilities (the `cu:` Tailwind classes) come from ./tailwind-sections.css. Read-only: take them again
+ * from a newer build rather than editing.
+ */
+
+/* its :root variables, on the wrapper */
+:where(.team-scope) {
+  --f-hi: "Tiro Devanagari Hindi", "Nirmala UI", serif;
+  --paper: linear-gradient(135deg, #ffffff8c, #fff0 45%), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .36 0 0 0 0 .2 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E"), #fbf7ec;
+  --ease-out: cubic-bezier(.22, 1, .36, 1); --ease-in-out: cubic-bezier(.65, 0, .35, 1); --ease-in: cubic-bezier(.4, 0, 1, 1);
+  --btn-font: var(--f); --btn-font-link: var(--f-d); --btn-weight: 700; --btn-weight-link: 600; --btn-lh: 1.25; --btn-ls: .005em; --btn-case: none;
+  --btn-radius: 999px; --btn-brand-grad: linear-gradient(135deg, #F06A2C 0%, #E85020 45%, #C2410C 100%); --btn-brand-deep: linear-gradient(180deg, #D9480F, #A8380A);
+  --btn-ink: #161412; --btn-flame: #E57512; --btn-danger: #B42318; --btn-danger-deep: #8F1D13; --btn-ring: 0 0 0 3px #fff, 0 0 0 5.5px #E85020;
+  --btn-dur: .35s; --btn-dur-press: .15s; --btn-dur-roll: .5s; --btn-roll: cubic-bezier(.7, 0, .2, 1); --btn-pop: cubic-bezier(.2, .8, .2, 1); --btn-disabled-opacity: .45;
+  --ink: #1E1A17; --body: #4A4A4A; --muted: #6B6B6B; --brand: #C2410C; --flame: #E85020; --sun: #F57523; --amber: #FEAA1C; --sand: #FFF2E6; --peach: #FFE1C7;
+  --line: #F7DCC5; --line-2: #F3CDB1; --rule: #F3C9AE; --off: #F4C3A0; --teal: #244F69; --night: #1E1A17;
+  --f: "Mukta", "Nirmala UI", "Helvetica Neue", Arial, sans-serif; --f-d: var(--f-title); --f-m: "Mukta", "Nirmala UI", Arial, sans-serif;
+  --site-w: 1440px; --px: max(clamp(16px, 5.5vw, 60px), calc((100vw - var(--site-w)) / 2)); --py: var(--sec-y); --pb: var(--sec-y);
+  --h2: clamp(40px, 6vw, 64px); --ease: cubic-bezier(.2, .7, .2, 1); --ivory: #FFF9F1; --marigold: #FEAA1C; --f-n: var(--f-title);
+  --spring: cubic-bezier(.34, 1.4, .5, 1); --saffron: #F07020; --haldi: #E8920C; --peacock: #1F4A5F; --brand-d: #A8380A;
+  --body-fs: 16.5px; --body-lh: 1.55; --small-fs: 14.5px; --small-lh: 1.5; --f-title: "Newsreader", Georgia, serif;
+  --ground: linear-gradient(180deg, #fff7ee, #fffbf5); --ground-end: #fffbf5; --sec-gap: 0px;
+  --cap: max(0px, calc(var(--px) - 40px)); --chrome-w: 1500px; --chrome-cap: max(0px, calc((100vw - var(--chrome-w)) / 2));
+  --chrome-px: calc(var(--chrome-cap) + clamp(16px, 5.5vw, 40px));
+  --ground-jaali: linear-gradient(90deg, rgba(255, 250, 243, 0) 0%, rgba(255, 250, 243, .94) 30%, rgba(255, 250, 243, .94) 70%, rgba(255, 250, 243, 0) 100%), url(/assets/img/patterns/bg-jaali.svg) 0 0 / 36px 36px repeat, #fffaf3;
+  --r-box: 16px; --r-card: 8px; --r-form: 4px; --sec-y: clamp(64px, 6.25vw, 90px); --hd-lbl: 16px; --hd-in: 16px; --hd-gap: 12px;
+  --hero-beige: #F3E8D6;
+  --ground-beige: linear-gradient(90deg, rgba(243, 232, 214, 0) 0%, rgba(243, 232, 214, .94) 30%, rgba(243, 232, 214, .94) 70%, rgba(243, 232, 214, 0) 100%), url(/assets/img/patterns/bg-jaali.svg) 0 0 / 36px 36px repeat, var(--hero-beige);
+  font-family: var(--f);
+}
+
+/* its buttons (public/css/buttons.css), as far as these sections use them */
+:where(.team-scope) .btn { --btn-h: 48px; --btn-px: 22px; --btn-pe: 5px; --btn-fs: 16px; --btn-gap: 14px; --btn-disc: 38px; --btn-glyph: 16px; --btn-ic: 20px; --btn-bg: var(--btn-brand-grad); --btn-bg-hover: var(--btn-brand-deep); --btn-fg: #fff; --btn-fg-hover: var(--btn-fg); --btn-edge: 0 0 0 0 transparent; --btn-edge-hover: var(--btn-edge); --btn-shadow: inset 0 1px 0 rgba(255, 255, 255, .25), 0 12px 24px -12px rgba(194, 65, 12, .65); --btn-shadow-hover: inset 0 1px 0 rgba(255, 255, 255, .22), inset 0 -2px 0 rgba(110, 30, 0, .2), 0 16px 30px -12px rgba(168, 56, 10, .65); --btn-text-shadow: 0 1px 1px rgba(110, 30, 0, .25); --btn-disc-bg: #fff; --btn-disc-fg: #C2410C; --btn-disc-shadow: 0 1px 2px rgba(120, 30, 0, .2), 0 3px 8px rgba(120, 30, 0, .12); position: relative; isolation: isolate; box-sizing: border-box; display: inline-flex; align-items: center; justify-content: center; gap: var(--btn-gap); height: var(--btn-h); min-width: 0px; min-height: 0px; margin: 0px; padding: 0 var(--btn-px); border: 0px; border-radius: var(--btn-radius); overflow: hidden; vertical-align: middle; font: var(--btn-weight) var(--btn-fs)/var(--btn-lh) var(--btn-font); letter-spacing: var(--btn-ls); text-transform: var(--btn-case); text-decoration: none; text-align: center; white-space: nowrap; text-shadow: var(--btn-text-shadow); color: var(--btn-fg); background: var(--btn-bg); box-shadow: var(--btn-edge), var(--btn-shadow); cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent; touch-action: manipulation; transition: box-shadow var(--btn-dur), color var(--btn-dur), scale var(--btn-dur-press); }
+:where(.team-scope) .btn::before { content: ""; position: absolute; inset: 0px; z-index: -1; border-radius: inherit; background: var(--btn-bg-hover); opacity: 0; transition: opacity var(--btn-dur); pointer-events: none; }
+:where(.team-scope) .btn__icon { position: relative; flex: 0 0 auto; display: grid; place-items: center; width: var(--btn-ic); height: var(--btn-ic); overflow: hidden; transition: transform .35s var(--btn-pop), opacity .2s; }
+:where(.team-scope) .btn__icon > svg { grid-area: 1 / 1; width: 100%; height: 100%; }
+:where(.team-scope) .btn__icon > svg[stroke] { stroke-width: 2.2; }
+:where(.team-scope) .btn__icon--swap > svg { width: 90%; height: 90%; transition: transform var(--btn-dur-roll) var(--btn-roll); }
+:where(.team-scope) .btn__icon--swap > svg + svg { transform: translateX(-220%); }
+:where(.team-scope) .btn__icon--flip { scale: -1 1; }
+:where(.team-scope) .btn--icon .btn__icon > svg[stroke] { stroke-width: 2.4; }
+:where(.team-scope) .btn--sm { --btn-h: 44px; --btn-px: 18px; --btn-pe: 4px; --btn-fs: 16px; --btn-gap: 10px; --btn-disc: 36px; --btn-glyph: 15px; --btn-ic: 18px; }
+:where(.team-scope) .btn--icon { width: var(--btn-h); padding: 0px; gap: 0px; flex: 0 0 auto; }
+:where(.team-scope) .btn--outline { --btn-bg: transparent; --btn-bg-hover: rgba(194, 65, 12, .08); --btn-fg: var(--brand); --btn-text-shadow: none; --btn-edge: inset 0 0 0 1.5px rgba(194, 65, 12, .45); --btn-edge-hover: inset 0 0 0 1.5px var(--brand); --btn-shadow: 0 0 0 0 transparent; --btn-shadow-hover: 0 0 0 0 transparent; --btn-disc-bg: var(--brand); --btn-disc-fg: #fff; --btn-disc-shadow: none; }
+:where(.team-scope) .btn.btn--icon { --btn-bg: #fff; --btn-fg: var(--brand); --btn-edge: inset 0 0 0 1.5px rgba(194, 65, 12, .3); --btn-bg-hover: var(--brand); --btn-fg-hover: #fff; --btn-edge-hover: inset 0 0 0 1.5px var(--brand); }
+@media (hover: hover) and (pointer: fine) {
+  :where(.team-scope) .btn:hover { color: var(--btn-fg-hover); box-shadow: var(--btn-edge-hover), var(--btn-shadow-hover); }
+  :where(.team-scope) .btn:hover::before { opacity: 1; }
+  :where(.team-scope) .btn:hover .btn__icon--swap > svg { transform: translateX(220%); }
+  :where(.team-scope) .btn:hover .btn__icon--swap > svg + svg { transform: translateX(0px); }
+}
+:where(.team-scope) .btn:focus { outline: none; }
+:where(.team-scope) .btn:focus-visible { outline: none; box-shadow: var(--btn-ring), var(--btn-shadow-hover); }
+:where(.team-scope) .btn:focus-visible::before { opacity: 1; }
+:where(.team-scope) .btn:active { scale: 0.97; }
+:where(.team-scope) .btn:disabled { opacity: var(--btn-disabled-opacity); cursor: not-allowed; box-shadow: var(--btn-edge); scale: 1; }
+:where(.team-scope) .btn:disabled::before { opacity: 0; }
+:where(.team-scope) .btn:disabled .btn__icon, :where(.team-scope) .btn:disabled .btn__icon svg { transform: none; }
+:where(.team-scope) .btn:disabled .btn__icon--swap > svg + svg { transform: translateX(-220%); }
+:where(.team-scope) .btn__spin { display: none; box-sizing: border-box; width: 1em; height: 1em; border: 2px solid; border-color: currentcolor transparent currentcolor currentcolor; border-radius: 50%; animation: btnSpin .7s linear infinite; }
+@media (prefers-reduced-motion: reduce) {
+  :where(.team-scope) .btn, :where(.team-scope) .btn::before, :where(.team-scope) .btn__icon, :where(.team-scope) .btn__icon svg { transition: none; }
+  :where(.team-scope) .btn:hover .btn__icon--swap > svg { transform: none; }
+  :where(.team-scope) .btn:hover .btn__icon--swap > svg + svg { transform: translateX(-220%); }
+  :where(.team-scope) .btn:active { scale: 1; }
+  :where(.team-scope) .btn__spin { animation-duration: 1.6s; }
+}
+@media (forced-colors: active) {
+  :where(.team-scope) .btn { border: 1px solid buttontext; }
+  :where(.team-scope) .btn:focus-visible { outline: highlight solid 2px; outline-offset: 2px; }
+  :where(.team-scope) .btn:disabled { border-color: graytext; color: graytext; }
+}
+@keyframes btnSpin { 100% { rotate: 360deg; } }
+
+/* its base */
+:where(.team-scope) * { box-sizing: border-box; }
+:where(.team-scope) img { display: block; max-width: 100%; }
+:where(.team-scope) a { color: inherit; text-decoration: none; }
+:where(.team-scope) button { font: inherit; color: inherit; letter-spacing: inherit; cursor: pointer; background: none; border: 0px; padding: 0px; }
+:where(.team-scope) h2, :where(.team-scope) h3, :where(.team-scope) p, :where(.team-scope) ul { margin: 0px; padding: 0px; }
+:where(.team-scope) ul { list-style: none; }
+
+/* its section bands, headings and intro */
+:where(.team-scope) .band { position: relative; padding: var(--py) var(--px) var(--pb); }
+:where(.team-scope) .band--gap { margin-top: var(--sec-gap); }
+:where(.team-scope) .dots { background: transparent; }   /* (its white-dotted band; on our pages the sections sit on the page's own ground) */
+:where(.team-scope) .lbl { display: flex; align-items: center; gap: 20px; }
+:where(.team-scope) .h2 { font: 400 var(--h2)/1.02 var(--f-title); letter-spacing: -0.02em; color: var(--ink); max-width: 15em; text-wrap: balance; }
+:where(.team-scope) .lbl + .h2, :where(.team-scope) .h2--sec { margin-top: 30px; }
+:where(.team-scope) .intro { margin-top: 16px; max-width: 460px; font-size: var(--body-fs); line-height: var(--body-lh); letter-spacing: -0.01em; color: var(--body); }
+:where(.team-scope) #visit > .h2, :where(.team-scope) #visit > .intro { margin-left: auto; margin-right: auto; text-align: center; }
+:where(.team-scope) :is(#educators, #visit) { margin-top: 0; background: transparent; }
+
+/* its reveal (lib/motion/scroll.js adds .in as a part comes into view; on our pages AboutReveal does) */
+:where(.team-scope) .rv { opacity: 0; transform: translateY(18px); transition: opacity .8s cubic-bezier(.2, .7, .2, 1) var(--d, 0s), transform .9s cubic-bezier(.2, .7, .2, 1) var(--d, 0s); }
+:where(.team-scope) .rv.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { :where(.team-scope) .rv { opacity: 1; transform: none; transition: none; } }
+:where(.team-scope) .fx-on .fx { opacity: var(--fx, .16); will-change: opacity; }
+@media (prefers-reduced-motion: reduce) { :where(.team-scope) .fx-on .fx { opacity: 1; } }
+
+/* (26 Nov 2026) the rules its nav, its homepage intro and its "Why Vajiram & Ravi" block add, from the same build */
+:where(.team-scope) .btn--disc { padding-right: var(--btn-pe); }
+:where(.team-scope) .btn__label { position: relative; display: inline-grid; min-width: 0px; overflow: hidden; padding-top: 2px; }
+:where(.team-scope) .btn__t { grid-area: 1 / 1; display: block; transition: transform var(--btn-dur-roll) var(--btn-roll); }
+:where(.team-scope) .btn__t + .btn__t { transform: translateY(115%); }
+:where(.team-scope) .btn__disc { position: relative; flex: 0 0 auto; display: grid; place-items: center; width: var(--btn-disc); height: var(--btn-disc); border-radius: 50%; overflow: hidden; background: var(--btn-disc-bg); color: var(--btn-disc-fg); box-shadow: var(--btn-disc-shadow); text-shadow: none; transition: transform .45s var(--btn-pop), background-color var(--btn-dur), color var(--btn-dur); }
+:where(.team-scope) .btn__disc svg { grid-area: 1 / 1; width: var(--btn-glyph); height: var(--btn-glyph); stroke-width: 2.4; transition: transform var(--btn-dur-roll) var(--btn-roll), opacity .2s; }
+:where(.team-scope) .btn__disc svg + svg { transform: translateX(-220%); }
+:where(.team-scope) .btn--full { display: flex; width: 100%; }
+:where(.team-scope) .btn--full.btn--disc { display: grid; grid-template-columns: var(--btn-disc) minmax(0, 1fr) var(--btn-disc); padding: 0 var(--btn-pe); gap: 0px; }
+:where(.team-scope) .btn--full.btn--disc > .btn__label { grid-column: 2; justify-self: center; }
+:where(.team-scope) .btn--full.btn--disc > .btn__disc { grid-area: 1 / 3; }
+@media (max-width: 640px) {
+  :where(.team-scope) .btn.btn--disc:not(.btn--full):not(.btn--icon):not(.btn--link):not(.btn--fab):not(.talk):not(.dl__cta) { display: grid; width: 100%; box-sizing: border-box; grid-template-columns: var(--btn-disc) minmax(0, 1fr) var(--btn-disc); padding: 0 var(--btn-pe); gap: 0px; }
+  :where(.team-scope) .btn.btn--disc:not(.btn--full):not(.btn--icon):not(.btn--link):not(.btn--fab):not(.talk):not(.dl__cta) > .btn__label { grid-column: 2; justify-self: center; }
+  :where(.team-scope) .btn.btn--disc:not(.btn--full):not(.btn--icon):not(.btn--link):not(.btn--fab):not(.talk):not(.dl__cta) > .btn__disc { grid-area: 1 / 3; }
+}
+@media (max-width: 480px) { :where(.team-scope) .btn--full .btn__t { white-space: normal; } }
+@media (hover: hover) and (pointer: fine) {
+  :where(.team-scope) .btn:hover .btn__t { transform: translateY(-115%); }
+  :where(.team-scope) .btn:hover .btn__t + .btn__t { transform: translateY(0px); }
+  :where(.team-scope) .btn:hover .btn__disc { transform: scale(1.06); }
+  :where(.team-scope) .btn:hover .btn__disc svg { transform: translateX(220%); }
+  :where(.team-scope) .btn:hover .btn__disc svg + svg { transform: translateX(0px); }
+}
+:where(.team-scope) .btn:disabled .btn__t { transform: none; }
+:where(.team-scope) .btn:disabled .btn__t + .btn__t { transform: translateY(115%); }
+:where(.team-scope) .btn:disabled .btn__disc, :where(.team-scope) .btn:disabled .btn__disc svg { transform: none; }
+:where(.team-scope) .btn:disabled .btn__disc svg + svg { transform: translateX(-220%); }
+:where(.team-scope) .btn__disc .btn__spin { grid-area: 1 / 1; width: var(--btn-glyph); height: var(--btn-glyph); }
+@media (prefers-reduced-motion: reduce) {
+  :where(.team-scope) .btn__label, :where(.team-scope) .btn__t, :where(.team-scope) .btn__disc, :where(.team-scope) .btn__disc svg { transition: none; }
+  :where(.team-scope) .btn:hover .btn__t, :where(.team-scope) .btn:hover .btn__disc, :where(.team-scope) .btn:hover .btn__disc svg { transform: none; }
+  :where(.team-scope) .btn:hover .btn__t + .btn__t { transform: translateY(115%); }
+  :where(.team-scope) .btn:hover .btn__disc svg + svg { transform: translateX(-220%); }
+}
+:where(.team-scope) .btn.btn--flat, :where(.team-scope) .btn.btn--flat:hover, :where(.team-scope) .btn.btn--flat:focus-visible, :where(.team-scope) .btn.btn--flat:active { --btn-shadow: 0 0 0 0 transparent; --btn-shadow-hover: 0 0 0 0 transparent; }
+:where(.team-scope) h1, :where(.team-scope) figure { margin: 0px; padding: 0px; }
+/* its card groups that rise in turn (lib/motion/rise.js adds .in; on our pages AboutReveal does) */
+:where(.team-scope) .rise > * { opacity: 0; transform: translateY(18px); transition: opacity .7s var(--ease), transform .8s var(--ease); transition-delay: calc(var(--i, 0) * 60ms); }
+:where(.team-scope) .rise.in > * { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { :where(.team-scope) .rise > * { opacity: 1; transform: none; transition: none; } }
+@media (max-width: 1100px) { :where(.team-scope) .talk { margin-left: 10px; } }
+/* the band behind its nav: as on its course page, the nav on its own cream band, ruled off from the beige head under it */
+:where(.team-scope) .nav-band { overflow: hidden; isolation: isolate; background: #FFFAF3; border-bottom: 1px solid rgba(122, 42, 10, .12); }
+:where(.team-scope) {
+  --hdr-pt: 10px; --hdr-gap: 14px; --strip-h: 0px; --hdr-h: calc(var(--hdr-pt) + 44px);
+}
+/* on our site its fonts come through next/font (app/layout: Mukta as --font-heading-face, Newsreader as --font-news), not
+   its Google Fonts link, so its type variables point at those first */
+:where(.team-scope) {
+  --f: var(--font-heading-face, "Mukta"), "Mukta", "Nirmala UI", "Helvetica Neue", Arial, sans-serif;
+  --f-m: var(--f);
+  --f-title: var(--font-news, "Newsreader"), "Newsreader", Georgia, serif;
+}
+/* the rest of its :root variables (26 Nov 2026: --card-gap, the gap between its reason cards, was missing) */
+:where(.team-scope) {
+  --card-gap: clamp(14px, 2vw, 28px);
+  --hero-peek: 176px;
+  --dl-line: #E6CFB6; --dl-cream: #FFF6E8; --haldi-a: #F9C86B; --haldi-b: #E8812F; --madder-a: #8A2A14; --madder-b: #4E140A; --peacock-a: #2F6A86; --peacock-b: #17394B;
+  --hx-band: calc(var(--hdr-h) - var(--strip-h) + var(--hdr-gap));
+  --hx-grad: radial-gradient(48% 60% at 85% 20%, rgba(255, 170, 90, .45), rgba(0, 0, 0, 0) 70%), radial-gradient(45% 55% at 8% 100%, rgba(150, 40, 8, .5), rgba(0, 0, 0, 0) 70%), linear-gradient(135deg, #E85020 0%, #C2410C 55%, #A8380A 100%);
+}

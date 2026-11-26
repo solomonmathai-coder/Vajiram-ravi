@@ -8,8 +8,9 @@ import { useEffect } from "react";
  */
 export default function AboutReveal() {
   useEffect(() => {
-    // ...and Kevin's homepage parts where a page reuses them (.kv: his .rv, and his .rise and .sg rows, whose items rise in turn)
-    const els = [...document.querySelectorAll<HTMLElement>(".ab-page .ab-rv, .ab-page .kv .rv, .ab-page .kv .rise, .ab-page .kv .sg")];
+    // ...and Kevin's homepage parts where a page reuses them (.kv: his .rv, and his .rise and .sg rows, whose items rise in turn),
+    // and the team site's sections copied in (.team-scope: its .rv; src/team)
+    const els = [...document.querySelectorAll<HTMLElement>(".ab-page .ab-rv, .ab-page .kv .rv, .ab-page .kv .rise, .ab-page .kv .sg, .team-scope .rv, .team-scope .rise")];
     if (!("IntersectionObserver" in window)) {
       els.forEach((el) => el.classList.add("in"));
       return;

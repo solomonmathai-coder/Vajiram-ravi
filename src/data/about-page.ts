@@ -42,25 +42,27 @@ export const aboutStory = {
    * The section's carousel (StoryCarousel, 21 Nov 2026): the design's two paragraphs told a sentence at a time,
    * each with its photograph, so the words and the pictures can be changed together. The words are the design's
    * own; the short labels name each part.
+   * The labels as headings that carry each part's point (26 Nov 2026, Abhishek's review: "need to get an idea about the
+   * point from the heading itself"), drawn from each part's own sentence; to confirm with the client.
    */
   chapters: [
     {
-      label: "1976",
+      label: "Founded in New Delhi in 1976",
       text: "Since its establishment in 1976 by the distinguished Professor P. Velayutham, Vajiram & Ravi has been synonymous with excellence in Civil Services Examination coaching.",
       photo: { src: "/images/about-page/slide-building.webp", width: 1200, height: 903, alt: "The Vajiram & Ravi building" },
     },
     {
-      label: "The founder",
+      label: "A founder trained in international law",
       text: "Professor Velayutham’s impressive academic background, including a diploma in International Law from the International Court of Justice, The Hague, laid the foundation for an institute dedicated to preparing aspirants for all three levels of the UPSC exam — Preliminary Test, Main Examination and Personality Test.",
       photo: { src: "/images/about-page/slide-lecture.webp", width: 1024, height: 461, alt: "A classroom lecture" },
     },
     {
-      label: "Five decades",
+      label: "Five decades of civil servants",
       text: "With nearly five decades of experience, Vajiram & Ravi has shaped the careers of countless IAS, IFS, IPS and other Central Services officers.",
       photo: { src: "/images/about-page/slide-library.webp", width: 1200, height: 805, alt: "Students in the library" },
     },
     {
-      label: "The record",
+      label: "Top ranks, often in the first ten",
       text: "The institute boasts a remarkable track record, with many students consistently securing top ranks, often within the first ten positions.",
       photo: { src: "/images/about-page/slide-felicitation.webp", width: 900, height: 900, alt: "A topper’s felicitation" },
     },

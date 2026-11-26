@@ -106,48 +106,63 @@ To change content, edit the files in `src/data`. To change a section's look, edi
 
 ## How it behaves
 
-### The homepage (/): Kevin's, as it is (updated 24 Nov 2026)
+### The homepage (/): the team's, as it is (updated 26 Nov 2026)
 
-"/" is Kevin's latest homepage (the `kevin` branch, 6e17b7e "copy of Abhishek's staging homepage", in place of 3e288bc
-from 21 Nov), a finished page rather than source code, kept as it is in `public/index.html`: its Next.js scripts in
-`public/kevin-home/static/chunks/` (moved from `/_next/`, which our own Next.js reserves; the page's paths and the
-scripts' chunk base path changed to match, but not the runtime's `/_next/image` and `/_next/static/immutable` checks),
-its stylesheet `public/css/base.bundle.css`, and the images it uses under `public/assets/` (those named in the page,
-its scripts and its stylesheet, and the few its scripts build: the educators' black-and-white portraits, its icons and
-banners). Our changes to it: the footer's "About Us" opens /about (in the markup and in the page's data), the Study
-materials menu's "Explore free resources" opens /free-resources (in his script), and his course finder links
-(`/course-finder.html`, with their `#cat=`) open our /courses, which is his course finder and reads the same `#cat=`.
-One addition of ours: the toppers section in a new version that replaces his on desktop
-(`public/css/toppers-oneview.css` and `public/js/toppers-years.js`, both linked in `index.html`; 24 Nov 2026). His
-section was two showcases one above the other, the 2025 carousel (silver shields, cut-out
-portraits, big AIR numbers, moving by itself) and the decade panel (year tabs, one topper large in laurels beside a
-list of names that runs by itself), 1574px at 1440 because the two stand one under the other. The new version keeps
-both, each as he drew it and at his size, and shows them in one frame as two scenes: under his heading (with "For a
-decade, we've been shaping India's civil servants." as its line) a segmented switch ("2025 results" /
-"A decade of ranks"), the orange gliding between the two halves; the scene slides
-in the way the switch moves. Scene 1 is his 2025 carousel; scene 2 his decade panel exactly as on his section (his
-year tabs over his framed panel, the caption with its rules), its list a little shorter (290px for his 406) and its
-shield 206px for his 225, to keep it compact. Its spacing and type follow the page's own rhythm, as every other
-section of his homepage keeps it (his tokens, at 1440): --sec-y 90px above and below, the label --hd-lbl 24px over his
-two-line 64px heading, "For a decade, we've been shaping India's civil servants." as its introduction --hd-in 16px
-under it in his 16.5px body type, the switch --hd-gap 48px under that, his 18px between the "36/50 Ranks" caption and
-the shields, and the button --hd-gap under the scene. It measures 1028px at 1440 (2025) and about 1130px (the decade);
-it no longer scales down on shorter screens, so its type matches the rest of the page. Earlier tries (side by side, a split screen with a year
-timeline, a dark "hall of fame" band) were removed on 24 Nov 2026.
-His scripts do not reach the copy, so ours runs its parts: the carousel (sliding by CSS, pausing under the pointer),
-the year tabs, the list (click a name, or let it move on every 4.5s, a fine line filling across the name shown,
-pausing under the pointer) and the topper shown large, with the real photograph we hold for each earlier topper
-(`assets/img/toppers/YYYY-rank-name`; his list gives them all one placeholder portrait of a man), laid on cream so the
-shield holds no stark white, or the institute's emblem where we have none (2015, whose names in his data are only
-"Rank holder 1" to "6": to be replaced when the client sends them). Desktop widths only; phones see his section alone.
-On 24 Nov 2026 the new version was chosen: on desktop his section is now set aside (hidden, its id
-given up so the nav's "Toppers" link lands on the new one, and its SVG shield shapes moved out to the page first, as
-a hidden section would stop drawing them); phones keep his section.
+"/" is the team's latest homepage: github.com/abhishekps-web/vajiram-ravi, branch `main` (a98fde4, 25 Nov 2026), as
+deployed on vajiram-ravi.abhishek-ps.workers.dev (it replaced Kevin's copy from the `kevin` branch). That repository is
+where all the pages are built and updated; we only read from it (its `main`, `staging` and `courses-page` branches are
+not ours to change; anything we add to it goes on a new branch of its own). It is fetched here as the git remote `team`.
+The page is a finished build rather than source code, kept as it is in `public/index.html`: its Next.js scripts in
+`public/team-home/static/` (moved from `/_next/`, which our own Next.js reserves; the page's paths and the scripts'
+chunk base path changed to match, but not the runtime's `/_next/image` and `/_next/static/immutable` checks), its
+stylesheet `public/css/base.bundle.css`, and the images it uses under `public/assets/` (those named in the page, its
+scripts and its stylesheet). Nothing of ours is in it (user 26 Nov 2026: "I just want to see the homepage version in
+that repo"): its links are its own, and its Programmes cards link to `/courses/<slug>`, the team's course pages, which
+this site does not have. Our options for it (the boarding passes, notice board and chalkboard timetable below, and
+`toppers-fit.css`) stay in `public/css` and `public/js`, not linked; to see them on it, link them as the next paragraph says.
+To bring in a newer version, run the copy script again (it downloads the deployed page, its scripts, stylesheet and
+images, and moves `/_next/` to `/team-home/`). Our sheets would go after `base.bundle.css` (`toppers-fit.css`,
+`passes.css`, `notices.css`, `chalkboard.css`) and our scripts before `</body>` (`passes.js`, then `notices.js` and
+`chalkboard.js`, which read the list `passes.js` shares).
+
+Programmes as boarding passes (25 Nov 2026; `public/css/passes.css` and `public/js/passes.js`, linked in `index.html`;
+768px and wider, one to a row below 1100px): under his book shelf (#courses), for the client to compare, the same eight programmes drawn as passes
+for the journey from aspirant to civil servant, so the section reads as something to join rather than to read. Each is
+cream paper with an airline-style band in its programme's colour (his book covers' colours: "Vajiram & Ravi · Since
+1976" and the category), the route ASP → IAS (a dot travels along it under the pointer), the programme's name and the
+courses it holds, the fields (courses, mode "Classroom · LIVE-Online", boarding "UPSC CSE 2027"), and past a
+perforation a stub with its code (GS, CSAT, OPT …), his emblem as a stamp, a barcode drawn from its name and "View
+course" (his course-finder link, `/courses#cat=…`). Under the pointer the pass lifts and the stub tilts as if starting
+to tear; his tabs (All, Foundation, Optional, Tests, Guidance) filter them. The data is his script's own list. Once the
+client has chosen between them, the others go. The passes were kept (25 Nov 2026).
+
+Two more options under the passes, for the client to compare (25 Nov 2026; 768px and wider, two to a row below 1100px; in place of tries with
+course boxes on a shelf and student ID cards on lanyards, which did not work). Both read his list from js/passes.js
+(`window.vrProgrammes`), clone his emblems, and show only what his books show (category, emblem, name) with his books'
+own "View course" button (his markup and classes; his course-finder link; a click anywhere on an item follows it):
+
+- Notice board (`public/css/notices.css`, `public/js/notices.js`; 717px at 1440): a cork board in a wooden frame,
+  the eight programmes pinned as paper notices in two rows of four, each a little askew and held by a strip of torn
+  tape in its programme's colour carrying its category. Under the pointer a notice straightens and lifts.
+- Chalkboard timetable (`public/css/chalkboard.css`, `public/js/chalkboard.js`; 672px at 1440): a green blackboard in
+  a wooden frame with a ledge (chalk and a duster), four columns divided by chalk lines, one for each category, the
+  programmes under them as periods with his emblem in chalk. Under the pointer a period is ringed in chalk and the
+  button shows. The writing is Kalam (Google Fonts, loaded by the stylesheet).
+
+The toppers section is his, in his layout (25 Nov 2026), sized by one stylesheet of ours, `public/css/toppers-fit.css`,
+linked after his in `index.html`, so that on desktop everything down to his decade panel reads in one screen: the same
+parts in the same order (his label and two-line heading, the "36/50 Ranks" caption over his moving 2025 shields, "For
+a decade…" and his year tabs, his framed decade panel with the topper shown large beside the list), his scripts
+running them, and only their sizes changed: smaller type (heading 42px for his 64), smaller shields (his --dw 96px for
+172), a shorter panel (his --col 196px for 406, its shield 144px), with room between the parts and about 30px inside
+the frame under the topper and the list. His "View all toppers" follows just below the fold. At 1440 x 900 the panel's
+frame closes at 869px and the button starts at 905px; two further steps for shorter screens, by sizes rather than zoom
+(his tabs place their orange by measuring, which zoom throws off): at 1536 x 864 the frame closes at 841px (button at
+871), at 1366 x 768 at 739px (button at 771). Phones keep his sizes. A version of ours that showed his two showcases as
+two scenes behind a switch replaced his for a while (24 Nov 2026, last at commit 4d7f83e: `toppers-oneview.css`,
+`toppers-years.js`); the client chose his layout, so those were removed.
 The built site serves it at "/" (vercel.json `cleanUrls`); the dev server sends "/" to `/index.html` (a
-development-only redirect in next.config.ts). To bring in a newer version, extract `index.html`, `_next` and `css` from
-his branch (`git archive origin/kevin index.html _next css`) and repeat those steps, including the links to
-`toppers-oneview.css` and `toppers-years.js`. Our own homepage (v2, below) is at
-/home-v2, its intro playing there.
+development-only redirect in next.config.ts). Our own homepage (v2, below) is at /home-v2, its intro playing there.
 
 ### The Free Resources page (/free-resources, 21 Nov 2026)
 
@@ -174,21 +189,40 @@ Study materials menu opens it, in our nav (CourseFinderNav, on /about and /cours
 link changed in his script). To confirm: the design lists "One Pagers" twice (here once), and several materials have
 no page of their own on the live site yet, so they open its free study material page.
 
-### The About page (/about, branch `about-page`, 20 Nov 2026)
+### The About page (/about, branch `about-page`; rebuilt 26 Nov 2026)
 
-The Figma workfile's "About Us – 1441" (1008:38294), in the language of Kevin's latest homepage (the `kevin` branch, 3e288bc, the reference build's design) and his course finder: his nav over the orange head (the course finder's, ported), the cream jaali ground, a cartouche label and a Newsreader heading for each section (Mukta for text), his burnt band with its grain, white cards with his warm hairline. Its copy is in `src/data/about-page.ts`; the page is `src/components/about/AboutPage.tsx` with `about.css` (scoped under `.ab-page`, which also carries `.cf-page` for his nav and head); photos in `public/images/about-page/`.
+Built from the team site's own components (github.com/abhishekps-web/vajiram-ravi, `main`; the user, 26 Nov 2026: "use the
+exact components from Abhishek's repository, just change the content and images"), copied as they are into `src/team` by
+`scripts/copy-team-parts.py` (`git fetch team`, then `python scripts/copy-team-parts.py`; it follows their imports, points
+them at the copies and adds `// @ts-nocheck`, as that project allows JS). Only their words and pictures are ours, in their
+data copies (`src/team/lib/data/hero.ts` STATS, `why-choose.ts` LEGACY, PHOTO and REASONS) and in `HeroIntro`'s heading and
+paragraph, which it writes inline; the script leaves those three alone once they exist. The page (`src/components/about/AboutPage.tsx`, inside one `.team-scope` wrapper with the footer in `src/app/about/page.tsx`), in order:
 
-- **The head:** the breadcrumb, the label "Est. 1976 · New Delhi", "Preparing India’s civil servants since 1976.", the introduction and the four figures (50+, 10/10, 36/50, 30), counting up, gold diamonds between; the institute's photograph in a white frame rising over the head's foot. Its ground (21 Nov 2026, the client's choice) is Kevin's Top Picks ground from his course finder (10eea1b): a near-flat orange (#E87D39 to #F08541), with no pattern over it (it has its own drawing); white words, gold figures.
-- **How it started:** quiet (`StoryChapters`, 21 Nov 2026, in place of the slide carousel): the photograph on the left (540 wide, 4:3) and the story's parts on the right as a numbered list between fine rules, every title showing. One part is open, its number orange and its sentence shown, a fine orange rule at its left filling downward over 6s; when it is full the next part opens (after the last, the first), its photograph fading in over the last. Clicking a part or tabbing to it opens it and starts its time again; it waits while off the screen or in a hidden tab, and does not move by itself with reduced motion. Each part is one entry in `aboutStory.chapters` (title, sentence, photograph; the design's own words).
-- **Our values:** all five on one screen (`ValuesPanels`, 21 Nov 2026, in place of the pinned run that took five screens of scrolling): on the same Top Picks orange as the head, with the white jaali lattice at half Kevin's strength (white words), the label and heading on the left and the introduction on the right, then the values as photograph panels side by side (the site's "why" set, public/images/about/why). One stands open with its number, title and sentence; the others are narrow, their number at the top and their title running up the side. Pointing at a panel (after a short pause), clicking it or tabbing to it opens it.
-- **Our values, the alternative (to compare and choose, 21 Nov 2026):** directly under the first, the same words with everything up front in one still row of five identical cards (`ValuesList`): on the cream ground, the label and heading on the left and the introduction on the right, then the five values side by side, five equal cards of one height. Every card is in the manila of the homepage folder cards (the Free Resources folders' cream-to-sand gradient with Kevin's paper grain): its icon white on an orange disc (as the Free Resources benefit cards), then the title and sentence in their warm dark type. The icons are line drawings of ours in `public/images/about/values` (an open book, a flag on a peak, a notebook and pen, a teaching board, a medal). Nothing moves.
-- **Our values, a third layout (to compare and choose, 23 Nov 2026):** under the second, the same head and words as stops on one path (`ValuesPath`): a dotted orange line runs across the width, fading at both ends, with each value's icon a stop on it (white on an orange disc, ringed in the cream), and the five cards stand above and below the line by turns (the first, third and fifth above, the second and fourth below), each joined to its stop by a fine stem with a dot where it meets the card. All five are in view at once; taking turns gives each card more width than a row of five (360px), so the sentences run to about three lines. The cards are one size, on the same manila with the title and sentence in its warm dark type; the outer two stand flush with the edges and the others are centred on their stops. Still. Once the client has chosen, the other two go (AboutPage: `<ValuesPanels />`, `<ValuesList />` or `<ValuesPath />`).
-- **The people who lead Vajiram & Ravi:** three cards (portrait, role, name, bio) with Kevin's homepage batch-ticket hover (`AboutTilt`): the card tilts toward the pointer and rises 8px, a soft glare follows the pointer, and its shadow swings opposite the tilt.
-- **Meet our top educators:** the final site's ring (`EducatorFlow plate="reference"`, as measured on vajiram-ravi.abhishek-ps.workers.dev): cards 264 × 340 with 8px corners, each portrait at the card's width set 30% down, a card lifting 10px under the pointer, the orange arrows and dots (`tone="brand"`), and the front card's plate drawn inside the card so it turns and lifts with it: its own dark fade, the name in Newsreader and the subject in amber. The homepage keeps its own ring and plate.
-- **Where we teach:** Kevin's homepage "Contact us" card (his #visit, measured on his page): 1180 wide, translucent white with a fine orange frame 6px in; the live Google map, the "New Delhi centre" pill, the address in Newsreader, the landmark and hours, the phone and email with his growing underline, and the photograph of the entrance with 4px corners, its lines as the final site sets them; then the note that Vajiram & Ravi has no other branches.
-- The nav's course links open /courses at that category (course-finder/catJump).
-- **The footer (also on /courses):** the final site's (`components/footer-ref/RefFooter`, from Kevin's port, css/footer-ref.css and js/footer-ref.js): the gold double frame, the logo and social links, four columns of links (About Us opens /about), the latest current affairs, the debossed "Vajiram & Ravi" and the legal line. Its curtain: it waits pinned behind the page and is uncovered as the page scrolls off it, settling from 92% to full size as a dark veil lifts. His phone rules are left out (the 1440 canvas).
-- To confirm: the leaders' bios are marked placeholder in the design; the leaders' portraits and some story photographs are the design's stand-ins (two slides are small, 400 and 387 px wide). The design's "Where we teach" names New Delhi and Chennai; the client said there is one centre (11 Nov 2026), so the page names New Delhi only.
+- **Its nav** (`NavigationBar`), on its cream band.
+- **The head:** its course page head's beige band (#F3E8D6, the paper grain, the India Gate drawing faint at both sides,
+  the left one mirrored, sized to the band's height; the crumb centred, Home dark), holding its homepage intro
+  (`HeroIntro`): "Preparing India’s civil servants since 1976.", the introduction and the four figures (50+, 10/10, 36/50,
+  30), rolling in. (Abhishek's review: "use the same secondary hero style of course page".)
+- **How it started and our values:** its "Why Vajiram & Ravi" block (`WhyChoose`): its photograph of the institute, the
+  label "Since 1976", "How it started." and the story in two paragraphs (the design's own words), then the five values as
+  its reason cards, each with one of its icons; on desktop the last two cards are centred under the first three (`about.css`), as five do not fill its three columns.
+- **The people who lead Vajiram & Ravi:** three layouts to compare (Abhishek asked for explorations), each headed by its
+  `SectionLabel` and heading: A, three cards that tilt toward the pointer (`AboutTilt`); B, the founder first, large, the
+  two directors as smaller cards (`LeadersOptions`); C, tall portraits whose story rises over the photograph under the
+  pointer. Once one is chosen, the others go.
+- **Its faculty carousel** (`Faculties`) and **its "Contact us" card** (`ContactUs`), then our note that Vajiram & Ravi has no other branches.
+- **Its footer** (`Footer`), with its curtain: parked under the page and uncovered as the page scrolls off it.
+
+Their behaviours (the nav's menus, scrolled state and language switch, the figures rolling in, the reasons' dots on phones,
+the footer's curtain) are started by `AboutBehaviour` from each component's own module, as its `lib/behaviour.js` does; as on
+its pages away from the homepage, its in-page links (#toppers …) lead to the homepage. Their reveals (`.rv`, `.rise`) are
+run by `AboutReveal`. Their utilities come from its Tailwind entry (`src/team/tailwind-sections.css`); the few global rules
+they rely on (its variables, buttons, base, headings, reveals, the nav band) are in `src/team/team-globals.css`, taken from
+its built homepage and scoped under `:where(.team-scope)`, so they reach nothing else and keep their weight (its utilities
+still win). Our own styles left are `about.css` (the head band, the leader layouts, the note). Nothing is written to the
+team repository. The earlier version (Kevin's nav and course-finder head, StoryChapters, the three values layouts) is in
+git history (before this change); `StoryChapters` stays, as /free-resources uses it.
+- To confirm with the client: the leaders' bios are placeholders in the design; the leaders' portraits are stand-ins.
 
 ### The courses page: Kevin's course finder v2 (/courses, 19 Nov 2026)
 

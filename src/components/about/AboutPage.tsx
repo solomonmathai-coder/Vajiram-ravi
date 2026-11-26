@@ -1,112 +1,62 @@
 import type { CSSProperties } from "react";
-import CourseFinderNav from "@/components/course-finder/CourseFinderNav";
-import EducatorFlow from "@/components/sections/Faculty/EducatorFlow";
-import { aboutEducators, aboutHero, aboutLeaders, aboutNotice, aboutPlaces, aboutStory } from "@/data/about-page";
-import { campuses } from "@/data/contact";
-import { educators } from "@/data/faculty";
-import { contact } from "@/data/site";
-import AboutFigures from "./AboutFigures";
+import { aboutLeaders, aboutNotice } from "@/data/about-page";
+import NavigationBar from "@/team/components/layout/NavigationBar";
+import HeroIntro from "@/team/components/sections/Hero/HeroIntro";
+import WhyChoose from "@/team/components/sections/WhyChoose";
+import Faculties from "@/team/components/sections/Faculties";
+import ContactUs from "@/team/components/sections/ContactUs";
+import SectionLabel from "@/team/components/ui/SectionLabel";
+import AboutBehaviour from "./AboutBehaviour";
 import AboutReveal from "./AboutReveal";
 import AboutTilt from "./AboutTilt";
-import StoryChapters from "./StoryChapters";
-import ValuesList from "./ValuesList";
-import ValuesPanels from "./ValuesPanels";
-import ValuesPath from "./ValuesPath";
-import "@/components/course-finder/base.css";
-import "@/components/course-finder/shared.css";
-import "@/components/course-finder/course-finder.css";
-import "@/components/course-finder/ref-nav.css";
+import { LeadersFounderFirst, LeadersPortraits } from "./LeadersOptions";
 import "./about.css";
 
-/** A part that rises in as it comes into view, after `d` seconds. */
-const rv = (d = 0) => ({ className: "ab-rv", style: { "--d": `${d}s` } as CSSProperties });
-
-/** Kevin's homepage contact card's icons (his #visit): the phone and the envelope. */
-const PHONE =
-  "M18.118 14.702 14 15.5c-2.782-1.396-4.5-3-5.5-5.5l.77-4.13L7.815 2H4.064c-1.128 0-2.016.932-1.848 2.047.421 2.783 1.66 7.83 5.284 11.453 3.805 3.805 9.286 5.456 12.302 6.113.965.21 1.998-.698 1.998-1.89v-3.584l-3.882-1.437z";
-const MAIL = "M2 17V7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2z";
-/** The live map his card embeds (Google Maps, the New Delhi centre). */
-const MAP_EMBED =
-  "https://www.google.com/maps?q=Vajiram+%26+Ravi,+1-B%2F7+Pusa+Road,+Old+Rajinder+Nagar,+New+Delhi+110060&z=16&output=embed";
-
 /**
- * The About page's body (/about, Figma "About Us – 1441", 1008:38294), in the language of Kevin's homepage
- * (the `kevin` branch, 3e288bc) and course finder: his nav over the orange head (the course finder's), the
- * cream jaali ground, a cartouche label and a Newsreader heading for each section, Mukta for text, his burnt
- * band, white cards with his warm hairline.
- *   1. the head: breadcrumb, label, title, introduction and four figures; the institute's photograph rising
- *      over its foot
- *   2. how it started: the photograph beside the story's parts as a quiet numbered list, one open (StoryChapters)
- *   3. our values: all five on one screen as photograph panels (ValuesPanels), on Kevin's toppers ground
- *      and two alternatives under it to compare and choose: a still row of five icon cards (ValuesList) and the five
- *      as stops on one path, the cards above and below it by turns (ValuesPath)
- *   4. the people who lead Vajiram & Ravi, their cards tilting toward the pointer (AboutTilt)
- *   5. the educators (the homepage's carousel)
- *   6. where we teach (his "Contact us" card), and the note that there are no other branches
- * The site's footer and WhatsApp button follow outside it (app/about).
+ * The About page's body (/about), built from the team site's own components (abhishekps-web/vajiram-ravi, copied as they
+ * are into src/team; 26 Nov 2026, the user: "use the exact components from Abhishek's repository, just change the content
+ * and images"), with the About page's words and pictures in their data:
+ *   - its nav (NavigationBar)
+ *   - the head: its course page head's beige band (the crumb, the India Gate drawing at both sides) holding its homepage
+ *     intro (HeroIntro): the title, the introduction and the four figures
+ *   - how it started and our values: its "Why Vajiram & Ravi" block (WhyChoose): the photograph, label, heading and the
+ *     story, then the five values as its reason cards
+ *   - the people who lead Vajiram & Ravi: three layouts to compare (A, B, C), each headed by its SectionLabel and heading
+ *   - the educators (Faculties) and where we teach (ContactUs), then the note that there are no other branches
+ * Its footer (also its own) and the WhatsApp button follow (app/about).
  */
 export default function AboutPage() {
-  const centre = campuses[0];
   return (
-    <div className="cf-page ab-page">
-      <CourseFinderNav variant="hiding" />
-      <main id="main" className="ab">
-        {/* 1. the head */}
-        <section className="cf-hero ab-hero" aria-labelledby="abH">
-          <span className="cf-hero__bg" aria-hidden="true" />
-          <div className="cf-hero__in">
-            <nav className="cf-crumbs" aria-label="Breadcrumb">
-              <a href="/">Home</a>
-              <span aria-hidden="true">/</span>
-              <span aria-current="page">About us</span>
-            </nav>
-            <span className="ab-lbl ab-lbl--dark">{aboutHero.tag}</span>
-            <h1 className="cf-h" id="abH">
-              {aboutHero.title}
-            </h1>
-            <p className="cf-lede">{aboutHero.intro}</p>
-            <AboutFigures stats={aboutHero.stats} />
-          </div>
-        </section>
-        <figure className="ab-photo">
-          <img src={aboutHero.photo.src} alt={aboutHero.photo.alt} width={aboutHero.photo.width} height={aboutHero.photo.height} fetchPriority="high" />
-        </figure>
+    <>
+      <NavigationBar />
+      <main id="top" className="ab ab-page">
+        {/* the head: its course page head's band, its homepage intro inside */}
+        <div className="ab-head">
+          <span className="ab-head__bg ab-head__bg--l" aria-hidden="true" />
+          <span className="ab-head__bg" aria-hidden="true" />
+          <nav className="ab-crumb" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <span aria-hidden="true">/</span>
+            <span aria-current="page">About us</span>
+          </nav>
+          <HeroIntro />
+        </div>
 
-        {/* 2. how it started */}
-        <section className="ab-sec" aria-labelledby="abStory">
-          <span {...rv()}>
-            <span className="ab-lbl">{aboutStory.label}</span>
-          </span>
-          <h2 id="abStory" {...rv(0.06)} className="ab-h2 ab-rv">
-            {aboutStory.heading}
-          </h2>
-          <div {...rv(0.12)}>
-            <StoryChapters chapters={aboutStory.chapters} />
-          </div>
-        </section>
+        {/* how it started, and our values as its reason cards */}
+        <WhyChoose />
 
-        {/* 3. our values: all five on one screen, as photograph panels that open under the pointer */}
-        <ValuesPanels />
-
-        {/* 3b. our values, the alternative layout (everything up front), for the client to compare with 3 and choose */}
-        <ValuesList />
-
-        {/* 3c. our values, a third layout (the five as stops on one path), also to compare and choose */}
-        <ValuesPath />
-
-        {/* 4. the people who lead Vajiram & Ravi */}
+        {/* the people who lead Vajiram & Ravi: A, three cards (their cards tilt toward the pointer, AboutTilt) */}
         <section className="ab-sec" aria-labelledby="abLeaders">
           <div className="ab-head--c">
-            <span {...rv()}>
-              <span className="ab-lbl">{aboutLeaders.label}</span>
-            </span>
-            <h2 id="abLeaders" {...rv(0.06)} className="ab-h2 ab-rv">
+            <p className="ab-opt-tag">Option A · three cards</p>
+            <SectionLabel>{aboutLeaders.label}</SectionLabel>
+            <h2 id="abLeaders" className="h2 h2--sec rv" style={{ "--d": ".12s" } as CSSProperties}>
               {aboutLeaders.heading}
             </h2>
           </div>
           <ul className="ab-leaders">
             {aboutLeaders.leaders.map((l, i) => (
-              <li key={l.name} {...rv(0.08 + i * 0.08)} className="ab-leader ab-rv">
+              <li key={l.name} className="ab-leader ab-rv" style={{ "--d": `${0.08 + i * 0.08}s` } as CSSProperties}>
                 <div className="ab-leader__card ab-tilt">
                   <div className="ab-leader__ph">
                     <img src={l.photo.src} alt={l.photo.alt} width={l.photo.width} height={l.photo.height} loading="lazy" />
@@ -121,91 +71,23 @@ export default function AboutPage() {
             ))}
           </ul>
         </section>
+        {/* B and C, to compare with A */}
+        <LeadersFounderFirst />
+        <LeadersPortraits />
 
-        {/* 5. the educators */}
-        <section className="ab-sec ab-edu" aria-labelledby="abEdu">
-          <div className="ab-head--c">
-            <span {...rv()}>
-              <span className="ab-lbl">{aboutEducators.label}</span>
-            </span>
-            <h2 id="abEdu" {...rv(0.06)} className="ab-h2 ab-rv">
-              {aboutEducators.heading}
-            </h2>
-            <p {...rv(0.12)} className="ab-intro ab-rv">
-              {aboutEducators.intro}
-            </p>
-          </div>
-        </section>
-        <div {...rv(0.1)} className="ab-edu__flow ab-rv">
-          <EducatorFlow educators={educators} plate="reference" />
-        </div>
-
-        {/* 6. where we teach */}
-        <section className="ab-sec" aria-labelledby="abVisit">
-          <div className="ab-head--c">
-            <span {...rv()}>
-              <span className="ab-lbl">{aboutPlaces.label}</span>
-            </span>
-            <h2 id="abVisit" {...rv(0.06)} className="ab-h2 ab-rv">
-              {aboutPlaces.heading}
-            </h2>
-            <p {...rv(0.12)} className="ab-intro ab-rv">
-              {aboutPlaces.intro}
-            </p>
-          </div>
-          {/* Kevin's homepage "Contact us" card (his #visit): the live map, the centre, its hours, phone and email, and the photograph */}
-          <div {...rv(0.1)} className="ab-cu ab-rv">
-            <div className="ab-cu__l">
-              <div className="ab-cu__map">
-                <iframe src={MAP_EMBED} title={`Map: ${centre.mapLabel}`} loading="lazy" referrerPolicy="no-referrer-when-downgrade" allowFullScreen />
-              </div>
-              <p className="ab-cu__tag">{aboutPlaces.centreLabel}</p>
-              <h3 className="ab-cu__addr" aria-label={aboutPlaces.card.address.join(" ")}>
-                {aboutPlaces.card.address.map((l) => (
-                  <span key={l} aria-hidden="true">
-                    {l}
-                  </span>
-                ))}
-              </h3>
-              <p className="ab-cu__note">
-                {aboutPlaces.card.landmark.map((l) => (
-                  <span key={l}>{l} </span>
-                ))}
-              </p>
-              <p className="ab-cu__hours">{aboutPlaces.card.hours}</p>
-              <ul className="ab-cu__rows">
-                <li>
-                  <a href={centre.phoneHref} aria-label={`Call us on ${centre.phone}`}>
-                    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
-                      <path d={PHONE} />
-                    </svg>
-                    <span>{centre.phone}</span>
-                  </a>
-                </li>
-                <li>
-                  <a href={`mailto:${contact.email}`}>
-                    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
-                      <path d="m7 9 5 3.5L17 9" />
-                      <path d={MAIL} />
-                    </svg>
-                    <span>{contact.email}</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <figure className="ab-cu__ph">
-              <img src={aboutPlaces.photo.src} alt={aboutPlaces.photo.alt} width={aboutPlaces.photo.width} height={aboutPlaces.photo.height} loading="lazy" />
-            </figure>
-          </div>
-          <p {...rv(0.1)} className="ab-notice ab-rv">
+        {/* the educators and where we teach: its own sections */}
+        <Faculties />
+        <ContactUs />
+        <section className="ab-sec ab-sec--note" aria-label="Branches">
+          <p className="ab-notice ab-rv">
             <img src="/images/ornaments/butta.svg" alt="" aria-hidden="true" width={16} height={16} />
             {aboutNotice}
           </p>
         </section>
-        <div className="ab-end" />
       </main>
+      <AboutBehaviour />
       <AboutReveal />
       <AboutTilt />
-    </div>
+    </>
   );
 }

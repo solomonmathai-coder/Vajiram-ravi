@@ -1,0 +1,343 @@
+/* Copied from abhishekps-web/vajiram-ravi (team/main 9374635): app/tailwind-sections.css, @source kept for the copies here. */
+/* Shared Tailwind v4 entry for the sections whose folders hold only their .jsx (user 2026-11-17: "add that to the jsx file", no
+   stylesheet in the section's folder). Every style is a utility in the component; this file only sets Tailwind up for them:
+   - utilities generated from the listed components only (source(none) + @source), prefixed `cu:` so they never collide with the
+     other Tailwind sheets (Programmes); unlayered; no preflight;
+   - the breakpoints those components use (the site's are max-width ones).
+   Imported by each component that uses it. A new section that joins: add its @source line here and use the `cu:` prefix.
+   Now: Contact us (components/sections/ContactUs.jsx), the navigation bar (components/layout/NavigationBar.jsx) Why Vajiram & Ravi (components/sections/WhyChoose.jsx) Best IAS coaching (components/sections/BestCoaching.jsx) 50+ years (components/sections/Legacy/Legacy.jsx) Batches (components/sections/Batches.jsx) the Toppers year-by-year record (components/sections/Toppers.jsx) and Talk to us (components/sections/TalkToUs.jsx). */
+
+@import "tailwindcss/theme.css" layer(theme) prefix(cu);
+@import "tailwindcss/utilities.css" source(none);
+@source "./components/sections/ContactUs.tsx";
+@source "./components/ui/CarouselDots.tsx";
+@source "./components/ui/SectionLabel.tsx";
+@source "./components/ui/CircularCarousel.tsx";
+@source "./components/sections/Faculties.tsx";
+@source "./components/sections/FacultyCard.tsx";
+/* (not copied) @source "../components/sections/Faq.jsx"; */
+
+@custom-variant stacked (@media (max-width: 860px));
+@custom-variant xs (@media (max-width: 640px));   /* phones and small tablets: the map above the details (beside them only from 641px) */
+@custom-variant fine (@media (hover: hover) and (pointer: fine));
+@source "./components/layout/NavigationBar.tsx";
+@source "./components/sections/WhyChoose.tsx";
+/* (not copied) @source "../components/sections/BestCoaching.jsx"; */
+/* (not copied) @source "../components/sections/Legacy/Legacy.jsx"; */
+/* (not copied) @source "../components/sections/Batches.jsx"; */
+/* (not copied) @source "../components/sections/BatchCard.jsx"; */
+/* (not copied) @source "../components/sections/Toppers.jsx"; */
+@source "./components/sections/Hero/HeroIntro.tsx";
+/* (not copied) @source "../components/sections/Hero/Hero.jsx"; */
+/* (not copied) @source "../components/sections/Hero/HeroBanner.jsx"; */
+
+/* the hero banner (components/sections/Hero/HeroBanner.jsx): touch screens get no arrows; a programme book's float and shine */
+@custom-variant coarse { @media (hover: none), (pointer: coarse) { @slot; } }
+@keyframes hxBookFloat { to { translate: 0 -8px; } }
+@keyframes hxBookShine { to { left: 130%; } }
+/* (not copied) @source "../components/sections/ToppersRecord.jsx"; */
+/* (not copied) @source "../components/sections/TalkToUs.jsx"; */
+/* (not copied) @source "../components/sections/Stories.jsx"; */
+/* (not copied) @source "../components/sections/VideoStories.jsx"; */
+@source "./components/layout/Footer.tsx";
+
+/* the footer curtain (Footer.jsx initFooterCurtain sets html.foot-curtain, --foot-off, --foot-p and footer[data-zooming]): parked under
+   the page and zoomed in as it is uncovered, wider than phones only; the zoom never under reduced motion */
+@custom-variant curtain { @media (min-width: 761px) { html.foot-curtain & { @slot; } } }
+@custom-variant curtain-zoom { @media (min-width: 761px) and (prefers-reduced-motion: no-preference) { html.foot-curtain & { @slot; } } }
+@custom-variant foot-zooming { @media (min-width: 761px) { html.foot-curtain footer[data-zooming] > & { @slot; } } }
+
+/* the intro (components/layout/Intro/Intro.jsx), driven by classes the inline boot script (Intro/boot.js) sets on <html>: vrv-lock shows
+   it and holds scrolling, vrv-play runs the reveal, vrv-out lifts it. The lock keeps the scrollbar (user 2026-11-16: hiding it made the
+   page jump ~15px as the intro lifted) and holds the page to one screen under the overlay; vrv-restore lets a reload from mid-page
+   scroll back to its place under it. boot.js listens for the `iris` animation, so that name stays. */
+/* (not copied) @source "../components/layout/Intro/Intro.jsx"; */
+/* (not copied) @source "../components/sections/LifeGallery.jsx"; */
+
+/* the hero's beige ground (--ground-beige, v49.css: a fade, the jaali tile, the beige), sized as on the hero (.dl__ground) */
+@utility ground-beige { background: var(--ground-beige); background-size: 100% 100%, 36px 36px, auto; }
+@custom-variant vrv-lock (html.vrv-lock &);
+@custom-variant vrv-play (html.vrv-play &);
+@custom-variant vrv-out (html.vrv-out &);
+html.vrv-lock { overflow-y: scroll; }
+html.vrv-lock body { height: 100vh; overflow: hidden; }
+html.vrv-lock.vrv-restore body { height: auto; overflow: visible; }
+@keyframes vrvIn { from { opacity: 0; } }
+@keyframes vrvFail { to { visibility: hidden; pointer-events: none; } }
+@keyframes iris { to { clip-path: circle(150% at 50% 52%); } }
+@keyframes vrv-ring { from { opacity: 0; transform: translate(-50%, -50%) scale(.86); } to { opacity: .16; transform: translate(-50%, -50%) scale(1); } }
+@keyframes vrv-logo { from { opacity: 0; transform: translateY(14px) scale(.97); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
+@keyframes vrv-tin { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+@property --fs { syntax: '<percentage>'; inherits: true; initial-value: 120%; }
+@property --fb { syntax: '<percentage>'; inherits: true; initial-value: 120%; }
+@property --fr { syntax: '<angle>'; inherits: true; initial-value: 0deg; }
+@property --fz { syntax: '<number>'; inherits: true; initial-value: 1; }
+:root {
+  --ticket-notch: radial-gradient(circle at 0 calc(100% - 66px), transparent 10px, #000 10.6px) left / 51% 100% no-repeat, radial-gradient(circle at 100% calc(100% - 66px), transparent 10px, #000 10.6px) right / 51% 100% no-repeat;
+  --flag-glint: linear-gradient(112deg, transparent 33%, rgba(255, 214, 170, .18) 39%, rgba(255, 232, 205, .55) 44%, rgba(255, 255, 255, .95) 47.6%, #fff 48.4%, rgba(214, 232, 255, .6) 50.5%, rgba(190, 215, 255, .14) 53%, transparent 55.5%, transparent 57.5%, rgba(255, 246, 232, .55) 59%, transparent 60.5%);
+}
+@keyframes flagClock {
+  0% { --fs: 120%; --fb: 120%; --fr: 0deg; --fz: 1; }
+  9% { --fr: 0deg; --fz: 1; }
+  13% { --fr: -2.5deg; }
+  19% { --fz: 1.04; }
+  25% { --fr: 2.5deg; }
+  31% { --fr: 0deg; --fz: 1; }
+  35% { --fs: -20%; }
+  36.6% { --fb: -20%; }
+  100% { --fs: -20%; --fb: -20%; --fr: 0deg; --fz: 1; }
+}
+
+@custom-variant nav-top (&:where(#nav[data-top], #nav[data-top] *));
+
+:root { --f-hi: "Tiro Devanagari Hindi", "Mukta", var(--f); }
+@keyframes nav-lang-in { from { opacity: 0; transform: translateY(-10px); } }
+
+/* ===== Success stories (#stories, components/sections/Stories.jsx): its utilities are `cu:` like every section here; below, what a utility cannot say cleanly: the section states, the postcard paper, the keyframes and the phone stack ===== */
+/* section states, set by stories.js: `waiting` until the section scrolls in (only when JS runs, so the page reads without it),
+   `dealt` once it has; `dimmed` is every other postcard while one is hovered or focused (real pointers only) */
+/* hover as the section always had it: a plain :hover (the default also requires @media (hover: hover)) */
+@custom-variant sthover (&:hover);
+@custom-variant waiting (html.js #stories:not([data-in]) &);
+@custom-variant dealt (#stories[data-in] &);
+@custom-variant dimmed {
+  @media (hover: hover) and (pointer: fine) {
+    #tcar:has(.pst:hover) &:not(:hover), #tcar:has(.pst:focus-within) &:not(:focus-within) { @slot; }
+  }
+}
+
+/* the postcard: cream card stock with a faint fibre grain and a printed edge */
+:root { --paper: linear-gradient(135deg, rgba(255, 255, 255, .55), rgba(255, 255, 255, 0) 45%), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .36 0 0 0 0 .2 0 0 0 .22 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E"), #FBF7EC; }
+
+@utility postcard-paper {
+  background: var(--paper);
+  box-shadow: 0 0 0 1px rgba(120, 95, 55, .16), inset 0 0 0 1px rgba(255, 255, 255, .7), 0 1px 1px rgba(40, 25, 10, .18),
+    0 6px 10px -4px rgba(40, 25, 10, .3), 0 26px 30px -18px rgba(40, 25, 10, .5);
+}
+
+@utility paper-card {
+  background: var(--paper);
+  box-shadow: 0 0 0 1px rgba(120, 95, 55, .16), inset 0 0 0 1px rgba(255, 255, 255, .7), 0 1px 2px rgba(40, 25, 10, .04), 0 6px 16px -12px rgba(40, 25, 10, .14);
+}
+
+/* the eyebrow is the shared SectionLabel, so its reveal is stated here rather than on its markup */
+html.js #stories:not([data-in]) > .lbl { opacity: 0; }
+@media (prefers-reduced-motion: no-preference) { #stories[data-in] > .lbl { animation: st-fade .7s ease both; } }
+
+/* the track slides left by exactly one of its two identical sets, so the loop has no seam */
+@keyframes st-slide { to { transform: translate3d(-50%, 0, 0); } }
+/* the heading rises out of its masked line */
+@keyframes st-line { 0% { transform: translateY(105%); } }
+@keyframes st-fade { 0% { opacity: 0; transform: translateY(8px); } }
+/* each postcard is dealt onto the table: rises, tilts and settles with a spring */
+@keyframes st-deal { 0% { opacity: 0; transform: translateY(110px) rotate(var(--from-r, 8deg)) scale(.9); } 40% { opacity: 1; } 100% { transform: none; } }
+
+/* the postcards' shadows (and their tilt / hover lift) reach below the track; the track only needs to crop sideways, where the
+   loop slides past (user 2026-11-16: "the shadow gets clipped"). Where overflow: clip is supported the track crops the x axis
+   alone and lets the shadows fall below it, so the tighter gap to Faculty stays. Older browsers keep overflow: hidden. */
+@supports (overflow: clip) {
+  #tcar { overflow: visible; overflow-x: clip; }
+}
+
+/* =====================================================================================================================
+   PHONES (760px and narrower, user 2026-11-17): the loop becomes a stack of cards instead of an auto-scrolling track.
+   One card in front, the next two peeking out behind it, tilted alternately; swipe the front card away or use the arrows.
+   stories.js sets --p (0 = front) on every card and --sg (+1 / -1) for the tilt side. Unlayered, so these win over the
+   `st:` utilities on the cards (hover scale, tilt, the deal animation) without touching them on larger screens.
+   ===================================================================================================================== */
+.tstack-nav { display: none; }
+@media (max-width: 760px) {
+  #stories { overflow-x: clip; }
+  #tcar {
+    overflow: visible; -webkit-mask-image: none; mask-image: none;
+    margin-inline: 0; margin-top: 0; padding: calc(var(--hd-gap) + 4px) 0 8px; margin-bottom: 0;
+    touch-action: pan-y;
+  }
+  #tcar > :first-child {            /* the track: every card on the same grid cell, no slide */
+    display: grid; width: 100%; animation: none; transform: none; will-change: auto;
+    padding-bottom: 36px;           /* room for the cards peeking out below the front one */
+  }
+  #tcar .pst {
+    --q: min(var(--p, 0), 2);
+    grid-area: 1 / 1; justify-self: center; align-self: start;
+    width: min(360px, 88vw); margin: 0;
+    z-index: calc(10 - var(--q)); transform-origin: 50% 100%;
+    rotate: calc(var(--sg, 1) * var(--q) * 2.5deg + var(--srd, 0deg));
+    translate: var(--sdx, 0px) calc(var(--q) * 16px);
+    scale: calc(1 - var(--q) * .05);
+    opacity: 1; filter: brightness(calc(1 - var(--q) * .03)); animation: none;
+    transition: rotate .9s cubic-bezier(.22,1,.36,1), translate .9s cubic-bezier(.22,1,.36,1), scale .9s cubic-bezier(.22,1,.36,1);
+    pointer-events: none; cursor: grab;
+  }
+  /* the Tailwind sheet is unlayered and its dealt-in animation is more specific than these rules: switch it off for good here
+     (it restarted whenever a card left .is-in / .is-out, which made the card flash and fade back in) */
+  #tcar .pst:not(.is-out):not(.is-in) { animation: none !important; }
+  /* phones: the card grows with its quote instead of cropping it at a fixed ratio; every card takes the height of the tallest,
+     so the stack stays one shape (the label, quote and name flow in a column instead of being placed absolutely) */
+  #tcar .pst { align-self: stretch; }
+  #tcar .pst > div { height: 100%; aspect-ratio: auto; display: flex; flex-direction: column; padding: 14px 22px 14px; box-sizing: border-box; }
+  #tcar .pst > div > p { position: static; margin: 0 0 8px; }
+  #tcar .pst blockquote { position: static; inset: auto; flex: 1 1 auto; overflow: visible; }
+  #tcar .pst footer { position: static; inset: auto; margin-top: 10px; }
+  #tcar .pst.is-front { pointer-events: auto; }
+  #tcar .pst.is-gone { visibility: hidden; }
+  #tcar .pst.is-gone.is-out, #tcar .pst.is-gone.is-in { visibility: visible; }
+  #tcar .pst.is-drag { transition: none; cursor: grabbing; }
+  /* the front card slips out to the side, drops behind the stack and settles at the back; the card behind it rises meanwhile
+     (its --p changes at once and transitions). Previous does the reverse with the card from the back. */
+  #tcar .pst.is-out { animation: st-behind .5s cubic-bezier(.3, 0, .2, 1) both; }
+  #tcar .pst.is-in { animation: st-ahead .5s .1s cubic-bezier(.3, 0, .2, 1) both; }
+  #tcar .pst:hover, #tcar .pst:focus-within { z-index: calc(10 - var(--q)); }
+  #tcar .pst.is-front:hover { scale: 1; }
+  /* the entrance moves to the stack itself (the cards' own deal animation would pin their opacity) */
+  html.js #stories:not([data-in]) #tcar { opacity: 0; }
+  @media (prefers-reduced-motion: no-preference) { #stories[data-in] #tcar { animation: st-fade .8s .2s ease both; } }
+
+  .tstack-nav { display: flex; align-items: center; justify-content: center; gap: 18px; margin-top: 18px; }
+  /* the arrows are the site's Button (outline, sm, icon-only; Stories.jsx), styled by public/css/buttons.css only */
+  .tstack-count { font: 600 14px/1 var(--f); letter-spacing: .06em; color: rgba(27, 42, 82, .7); min-width: 4.5em; text-align: center; }
+  .tstack-count b { color: #1B2A52; }
+}
+@media (max-width: 760px) and (prefers-reduced-motion: reduce) {
+  #tcar .pst { transition-duration: 0s; }
+  #tcar .pst.is-out, #tcar .pst.is-in { animation: none; }
+}
+/* the card leaves the stack completely (sideways, past the other cards), changes layer while it is clear of them, then
+   slides back in behind: it never passes through a card. The section clips the sideways overshoot (#stories, below). */
+@keyframes st-behind {
+  0%   { z-index: 10; visibility: visible; opacity: 1; scale: 1; translate: var(--sdx, 0px) 0; rotate: var(--srd, 0deg); }
+  100% { z-index: 10; visibility: visible; opacity: 0; scale: .97; translate: calc(var(--dir, 1) * 108%) -8px; rotate: calc(var(--dir, 1) * 9deg); }
+}
+@keyframes st-ahead {
+  0%   { z-index: 10; visibility: visible; opacity: 0; scale: .97; translate: calc(var(--dir, -1) * 108%) -8px; rotate: calc(var(--dir, -1) * 9deg); }
+  100% { z-index: 10; visibility: visible; opacity: 1; scale: 1; translate: 0 0; rotate: 0deg; }
+}
+
+/* the carousel indicator's timed fill (components/ui/CarouselDots.jsx) */
+@keyframes cd-fill { to { transform: scaleX(1); } }
+
+/* ===== Programmes (#courses, components/sections/Programmes.tsx): its utilities are `cu:` like every section here; below, the soloboy theme it uses, its base reset held to #courses, and the keyframes and states a utility cannot say ===== */
+/* (not copied) @source "../components/sections/Programmes.tsx"; */
+@source "./components/ui/section_wrapper.tsx";
+:root { --ease-out: cubic-bezier(0.22, 1, 0.36, 1); --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1); --ease-in: cubic-bezier(0.4, 0, 1, 1); }
+@theme {
+
+  --color-white: #fff;
+  --color-ink: #2a1a12;
+  --color-mahogany: #2b1206;
+  --color-cream: #fff8ec;
+  --color-parchment: #fff6e8;
+  --color-paper: #fffdf9;
+  --color-saffron: #f4c430;
+  --color-burnt: #cc5500;
+  --color-orange: #e57512;
+  --color-clay: #6b4a3a;
+  --color-charcoal: #1a1a1a;
+  --color-taupe: #6e655c;
+  --color-espresso: #1a1714;
+
+  --font-sans: var(--f, "Mukta"), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --font-heading: "Mukta", ui-sans-serif, system-ui, "Segoe UI", Arial, sans-serif;
+
+  --container-canvas: 1440px;
+
+
+  --shadow-rest: 0 10px 22px rgba(77, 31, 8, 0.12);
+  --shadow-hover: 0 18px 36px rgba(77, 31, 8, 0.2);
+}
+
+#courses {
+  --dur-instant: 120ms;
+  --dur-fast: 200ms;
+  --dur-base: 320ms;
+  --dur-slow: 600ms;
+  --dur-ambient: 40s;
+  --rise: 24px;
+  --rise-sm: 8px;
+  --lift: -4px;
+  --stagger: 60ms;
+  color: #2a1a12;
+  font-family: var(--f, "Mukta"), ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  line-height: 1.45;
+}
+
+@layer base {
+  #courses :where(*, ::before, ::after) { box-sizing: border-box; margin: 0; padding: 0; border: 0 solid; }
+  #courses :where(h1, h2, h3, h4, h5, h6) { font-size: inherit; font-weight: inherit; }
+  #courses :where(a) { color: inherit; text-decoration: inherit; }
+  #courses :where(b, strong) { font-weight: bolder; }
+  #courses :where(ol, ul, menu) { list-style: none; }
+  #courses :where(img, svg, video, canvas) { display: block; vertical-align: middle; }
+  #courses :where(img, video) { max-width: 100%; height: auto; }
+  #courses :where(button, input, select, textarea) { font: inherit; letter-spacing: inherit; color: inherit; background-color: transparent; border-radius: 0; }
+  #courses :where(button) { cursor: pointer; }
+  #courses :where(svg) { flex-shrink: 0; }
+  #courses :where(h1, h2, h3) { text-wrap: balance; }
+  #courses :where(p, li, blockquote) { text-wrap: pretty; }
+  #courses :where(:focus-visible) { outline: 2px solid #f4c430; outline-offset: 3px; }
+}
+
+#courses .tm-mask { display: inline-block; overflow: clip; vertical-align: top; padding-block: 0.14em; margin-block: -0.14em; }
+#courses .tm-ch { display: inline-block; }
+
+.js #courses [data-count-scope] [data-count-label] { opacity: 0; transition: opacity var(--dur-fast) var(--ease-out) 200ms; }
+.js #courses [data-count-scope]:has([data-counted]) [data-count-label] { opacity: 1; }
+
+#courses .hero-glide { animation: hero-glide 14s linear infinite; }
+@keyframes hero-glide { to { transform: translateX(-50%); } }
+
+@keyframes nudge { 50% { translate: 4px 0; } }
+
+#courses .lp-glint { opacity: 0; animation: lp-glint 11s var(--ease-in-out) infinite; animation-play-state: var(--lp, paused); }
+@keyframes lp-glint {
+  0%, 80% { opacity: 0; transform: translateX(0) skewX(-14deg); }
+  82% { opacity: 1; }
+  94% { opacity: 1; transform: translateX(360%) skewX(-14deg); }
+  96%, 100% { opacity: 0; transform: translateX(360%) skewX(-14deg); }
+}
+#courses .lp-breathe { animation: lp-breathe 3.6s var(--ease-in-out) infinite; animation-play-state: var(--lp, paused); }
+@keyframes lp-breathe { 0%, 100% { transform: none; } 50% { transform: scale(1.18); } }
+
+#courses .cover-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px; mix-blend-mode: multiply; opacity: 0.16;
+}
+
+#courses .press-ripple { position: absolute; border-radius: 9999px; pointer-events: none; background: var(--ripple, currentColor); opacity: 0.28;
+  transform: translate(-50%, -50%) scale(0); animation: press-ripple 520ms var(--ease-out) forwards; }
+@keyframes press-ripple { to { transform: translate(-50%, -50%) scale(1); opacity: 0; } }
+#courses .press-pulse { position: absolute; inset: -1px; border-radius: inherit; pointer-events: none;
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--press-ring, currentColor) 45%, transparent); animation: press-pulse 600ms var(--ease-out) forwards; }
+@keyframes press-pulse { to { box-shadow: 0 0 0 10px color-mix(in srgb, var(--press-ring, currentColor) 0%, transparent); } }
+#courses .press-pulse-late { animation-delay: 180ms; animation-fill-mode: both; }
+
+#courses .cta { transition: background-color 200ms var(--ease-out), border-color 200ms var(--ease-out), scale 320ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ripple: #ff7a1a; --press-ring: #ff7a1a; }
+#courses :is(.cta-label, .cap-centre) { text-box: trim-both cap alphabetic; }
+@supports not (text-box: trim-both cap alphabetic) { #courses :is(.cta-label, .cap-centre) { translate: 0 1px; } }
+#courses .cta:hover, #courses .cta:focus-visible { background-color: var(--cta-hover); scale: 1.02; }
+#courses .cta:active { scale: 0.97; transition-duration: 200ms, 200ms, 90ms; }
+#courses .cta .press-ripple {
+  background: radial-gradient(circle closest-side, rgb(255 246 224 / 0.95) 0%, rgb(255 196 120 / 0.85) 22%, rgb(255 138 42 / 0.7) 48%, rgb(255 122 26 / 0.25) 78%, rgb(255 122 26 / 0) 100%);
+  mix-blend-mode: screen; opacity: 0.85; animation-duration: 1100ms; animation-timing-function: cubic-bezier(0.25, 0.8, 0.3, 1); }
+#courses .cta .press-ripple-soft { opacity: 0.6; animation-duration: 1400ms; }
+#courses .cta.bg-white .press-ripple { mix-blend-mode: normal; opacity: 0.45; }
+#courses .cta.bg-white .press-ripple-soft { opacity: 0.3; }
+
+@media (prefers-reduced-motion: reduce) {
+  #courses :is(.press-ripple, .press-pulse) { display: none; }
+  #courses :is(.lp-breathe, .hero-glide) { animation: none !important; }
+  #courses .lp-glint { display: none; }
+  #courses :is(.cta:hover, .cta:focus-visible, .cta:active) { scale: none; }
+  #courses [class*="animate-[nudge"] { animation: none; }
+  #courses :where(*, ::before, ::after) { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; transition-delay: 0ms !important; }
+}
+
+#courses .prog__head .h2, #courses .prog__shelf-h { margin-left: auto; margin-right: auto; text-align: center; }
+#courses .prog__shelf-h { max-width: none; }
+
+#courses .prog__shelf-h em { font-style: normal; }
+
+@keyframes emblem-turn { to { rotate: 360deg; } }
+@keyframes emblem-draw { from { stroke-dashoffset: 90; } }

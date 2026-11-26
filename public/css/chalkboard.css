@@ -1,0 +1,93 @@
+/*
+ * The homepage's programmes as a class timetable on a blackboard (ours; 25 Nov 2026; built by js/chalkboard.js under
+ * the notice board). In his page's rhythm (his --sec-y, label and heading), on his cream ground: a green slate in a
+ * wooden frame with a ledge (two sticks of chalk and a duster), four columns divided by chalk lines, each headed by one
+ * of his categories, the programmes under them as periods, each with his emblem drawn in chalk. Under the pointer a
+ * period is ringed in chalk and his books' button shows. The writing is Kalam, a hand from India. It uses the passes'
+ * tag (css/passes.css). Desktop and tablet widths (768px up).
+ */
+@import url("https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap");
+
+@media (min-width: 768px) {
+  .vc { position: relative; padding: var(--sec-y, 90px) var(--px, 80px); font-family: var(--f, Mukta, sans-serif); color: var(--ink, #1E1A17); }
+  .vc-in { max-width: 1280px; margin: 0 auto; }
+  .vc-hd { display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .vc-hd .lbl { justify-content: center; }
+  .vc-h { margin: var(--hd-lbl, 24px) 0 0; }
+
+  /* the board: wooden frame, green slate with old chalk rubbed into it, and the ledge */
+  .vc-board {
+    position: relative; margin-top: var(--hd-gap, 48px); padding: 16px 16px 28px; border-radius: 10px;
+    background: linear-gradient(135deg, #9A6534, #7A4A22 40%, #8E5A2C 70%, #6B3F1B);
+    box-shadow: inset 0 1px 0 rgba(255, 220, 170, .35), 0 24px 40px -22px rgba(30, 20, 8, .6);
+  }
+  .vc-slate {
+    --chalk: #F3F1E7;
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 30px 26px 34px; border-radius: 4px; color: var(--chalk);
+    background-color: #2D4637;
+    background-image:
+      radial-gradient(ellipse 40% 30% at 22% 30%, rgba(255, 255, 255, .07), transparent 70%),
+      radial-gradient(ellipse 35% 40% at 78% 65%, rgba(255, 255, 255, .06), transparent 70%),
+      radial-gradient(ellipse 60% 20% at 50% 95%, rgba(255, 255, 255, .05), transparent 70%),
+      radial-gradient(rgba(255, 255, 255, .05) 1px, transparent 1.5px);
+    background-size: 100% 100%, 100% 100%, 100% 100%, 5px 5px;
+    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, .25), inset 0 6px 18px rgba(0, 0, 0, .35);
+  }
+  /* the ledge along the bottom of the frame, with chalk and a duster on it */
+  .vc-ledge {
+    position: absolute; left: 10px; right: 10px; bottom: 6px; height: 14px; border-radius: 3px;
+    background: linear-gradient(180deg, #B07A44, #7C4C23); box-shadow: 0 4px 6px -2px rgba(30, 15, 3, .5);
+  }
+  .vc-chalk { position: absolute; bottom: 10px; right: 210px; width: 46px; height: 9px; border-radius: 3px; background: linear-gradient(180deg, #FFFFFF, #DAD6CB); box-shadow: 0 1px 1px rgba(0, 0, 0, .3); rotate: -4deg; }
+  .vc-chalk--y { right: 150px; width: 32px; background: linear-gradient(180deg, #FFF3B8, #E3CF7A); rotate: 6deg; }
+  .vc-duster {
+    position: absolute; bottom: 9px; right: 40px; width: 84px; height: 22px; border-radius: 4px 4px 2px 2px;
+    background: linear-gradient(180deg, #A9743D 0 58%, #4A4644 58% 100%); box-shadow: 0 2px 3px rgba(0, 0, 0, .35);
+  }
+
+  /* the columns, divided by chalk lines; each headed by its category, underlined */
+  .vc-col { min-width: 0; padding: 0 14px; }
+  .vc-col + .vc-col { border-left: 2px solid rgba(243, 241, 231, .28); }
+  .vc-cat {
+    margin: 0 0 12px; padding: 0 12px 10px; border-bottom: 2px solid rgba(243, 241, 231, .4);
+    font: 700 24px/1.1 Kalam, var(--f-title, Newsreader, serif); letter-spacing: .02em; color: var(--chalk);
+    text-shadow: 0 0 1px rgba(243, 241, 231, .7);
+  }
+  .vc-list { margin: 0; padding: 0; list-style: none; }
+
+  /* a period: his emblem in chalk, the name chalked beside it, and the button shown under the pointer */
+  .vc-period {
+    position: relative; display: grid; grid-template-columns: 50px minmax(0, 1fr); align-items: center; gap: 14px; margin-top: 6px; padding: 12px;
+    cursor: pointer;
+  }
+  /* the ring of chalk drawn round it under the pointer */
+  .vc-period::before {
+    content: ""; position: absolute; inset: 0; border: 2px solid rgba(243, 241, 231, .7); pointer-events: none;
+    border-radius: 255px 18px 225px 18px / 18px 225px 18px 255px;
+    opacity: 0; scale: .96; transition: opacity .3s, scale .4s cubic-bezier(.22, 1, .36, 1);
+  }
+  .vc-period:hover::before, .vc-period:focus-within::before { opacity: 1; scale: 1; }
+  .vc-em { display: grid; place-items: center; width: 50px; height: 50px; opacity: .92; }
+  .vc-em svg { width: 50px; height: 50px; overflow: visible; color: var(--chalk) !important; filter: drop-shadow(0 0 .6px rgba(243, 241, 231, .8)); }
+  .vc-txt { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; min-width: 0; }
+  .vc-name { font: 400 21px/1.15 Kalam, var(--f-title, Newsreader, serif); color: var(--chalk); text-shadow: 0 0 1px rgba(243, 241, 231, .6); }
+  .vc-period .vc-go { font-size: 14px; opacity: 0; translate: 0 4px; transition: opacity .3s, translate .4s cubic-bezier(.22, 1, .36, 1); }
+  .vc-period:hover .vc-go, .vc-period:focus-within .vc-go { opacity: 1; translate: 0 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vc-period::before, .vc-period .vc-go { transition: none; }
+}
+/* tablets and narrow windows: the four columns as two rows of two */
+@media (min-width: 768px) and (max-width: 1099px) {
+  .vc-slate { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 28px; }
+  .vc-col:nth-child(3) { border-left: 0; }
+}
+/* shorter periods and slate: closer heading, smaller emblem, less room round each period */
+@media (min-width: 768px) {
+  .vc-slate { padding: 22px 22px 24px; }
+  .vc-cat { margin-bottom: 6px; padding-bottom: 8px; font-size: 22px; }
+  .vc-period { grid-template-columns: 44px minmax(0, 1fr); gap: 12px; margin-top: 4px; padding: 9px 10px; }
+  .vc-em, .vc-em svg { width: 44px; height: 44px; }
+  .vc-txt { gap: 6px; }
+  .vc-name { font-size: 20px; }
+}
