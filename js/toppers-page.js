@@ -195,8 +195,8 @@
     </li>`;
 
   // ---------- the category tabs (in the hero) and the year tray (sticky) ----------
-  // the CSE / IFoS tabs, back in the hero as a tray (review 2026-11-26, "CSE Toppers from Vajiram", "IFoS Toppers from Vajiram");
-  // a detached stand-in would keep the code working without them
+  // (the CSE / IFoS tabs are out of the hero again, user 2026-11-26, "remove this"; the detached stand-in keeps the code working and
+  // #ifos/2024 links still open the IFoS toppers)
   const cats = $('#tpCats') || document.createElement('div'), tabs = $('#tpYears'), panel = $('#tpYear'), chip = $('.tp-lbl__t');
   // (the spotlight's choosing, keys and off-screen pause, wired once the panel is known)
   // dragging (pointer) and choosing (a click that didn't drag)
