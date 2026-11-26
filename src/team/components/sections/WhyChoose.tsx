@@ -73,7 +73,7 @@ const CARD = [
 // with none it is as on the homepage. `id` names the section; the homepage's ids are kept for id="story". `head`, when given,
 // stands in place of its photograph-and-story block (its heading carrying the id `${id}-legacyH`), so the cards can follow a
 // centred head.
-export default function WhyChoose({ id = 'story', legacy = LEGACY, photo = PHOTO, reasons = REASONS, head = undefined } = {}) {
+export default function WhyChoose({ id = 'story', legacy = LEGACY, photo = PHOTO, reasons = REASONS, head = undefined as any } = {}) {
   const k = id === 'story' ? '' : `${id}-`;
   return (
     <SectionWrapper id={id} labelledBy={`${k}legacyH`} compact className="cu:[background:var(--ground-jaali)] cu:overflow-clip">
