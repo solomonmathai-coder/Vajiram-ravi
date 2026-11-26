@@ -266,7 +266,15 @@
     const h = location.hash, m = h.match(/^#(cse|ifos)(?:\/(\d{4}))?/), old = h.match(/year=(\d{4})/);
     return m ? [m[1], +(m[2] || 0)] : old ? ['cse', +old[1]] : ['cse', 0];
   };
-  const pick = (k, y, focus) => { show(k, y, focus); history.replaceState(null, '', `#${cur}/${curY}`); };
+  // switching year from further down the list brings the page back to the top of the new list (user 2026-11-25, "when I switch the
+  // tab at the very bottom of the toppers I should be taken to the top of the list"): the ruled line lands just under the stuck year
+  // bar; nothing moves when the list's top is already in view
+  const toListTop = () => {
+    const bar = $('.tp-bar'), under = (parseFloat(getComputedStyle(bar).top) || 0) + bar.offsetHeight + 16;
+    const y = scrollY + panel.getBoundingClientRect().top - under;
+    if (scrollY > y + 1) scrollTo({ top: y, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  };
+  const pick = (k, y, focus) => { const was = curY; show(k, y, focus); history.replaceState(null, '', `#${cur}/${curY}`); if (curY !== was) toListTop(); };
   cats.addEventListener('click', e => { const b = e.target.closest('.tp-cat'); if (b && b.dataset.k !== cur) pick(b.dataset.k, 0); });
   tabs.addEventListener('click', e => { const b = e.target.closest('.tp-yr'); if (b) pick(cur, +b.dataset.y); });
   // arrow keys move along either row of tabs
