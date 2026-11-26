@@ -819,3 +819,6 @@ html.foot-curtain main.tp, main.tp { padding-top: var(--tp-band);
 /* 4. the heading's dark line in the course page's ink (#2A1A0C) */
 .tp-shine--ink { background-image: linear-gradient(120deg, #2A1A0C 0%, #2A1A0C 43.3%, #6E5A48 46.7%, #B89A7A 50%, #6E5A48 53.3%, #2A1A0C 56.7%, #2A1A0C 100%); }
 @media (prefers-reduced-motion: reduce) { .tp-shine--ink { color: #2A1A0C; } }
+
+/* no drop shadow under "Let's talk" (review 2026-11-26, "remove the dropshadow"), in the bar and in the phone drawer */
+.rn .rn__talk, .rn.is-scrolled .rn__talk, .rn-drawer .rn__talk { box-shadow: none; }
