@@ -129,3 +129,8 @@
 
 /* ---------- 6. FAQs: his, with room before the footer ---------- */
 .fr-page .kv .kv-faq { margin-top: 112px; }
+
+/* 4. why it matters, as the team homepage's "Why Vajiram & Ravi" cards (WhyChoose, 26 Nov 2026): the section's full padding and the
+   About page's values head-to-content gap, since its head is a centred one rather than the photograph-and-story block */
+.fr-page #benefits { padding-top: var(--sec-y) !important; padding-bottom: var(--sec-y) !important; }
+.fr-page #benefits-reasons { margin-top: 44px; }

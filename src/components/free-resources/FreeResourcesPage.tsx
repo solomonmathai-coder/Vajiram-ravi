@@ -3,7 +3,10 @@ import AboutReveal from "@/components/about/AboutReveal";
 import AboutTilt from "@/components/about/AboutTilt";
 import StoryChapters from "@/components/about/StoryChapters";
 import FolderFloat from "./FolderFloat";
-import CourseFinderNav from "@/components/course-finder/CourseFinderNav";
+import WhyChoose from "@/team/components/sections/WhyChoose";
+import SectionLabel from "@/team/components/ui/SectionLabel";
+import "@/team/team-globals.css";
+import TeamHeader from "@/components/team-nav/TeamHeader";
 import { frBenefits, frFaq, frHero, frMaterials, frRole, frSources } from "@/data/free-resources";
 import "@/components/course-finder/base.css";
 import "@/components/course-finder/shared.css";
@@ -80,8 +83,7 @@ function Lbl({ children, delay = 0.05, light }: { children: ReactNode; delay?: n
  *      and his white pill button
  *   3. the sources: on the About page's orange band with its faint jaali, the introduction white, four white cards with
  *      their photographs and the orange button
- *   4. why it matters: six cards in the homepage contact card's frame (a warm edge and a fine orange frame inside),
- *      each icon white on an orange disc, tilting toward the pointer as the About page's leadership cards do (AboutTilt)
+ *   4. why it matters: the team homepage's own "Why Vajiram & Ravi" cards (its WhyChoose, src/team), under a centred head
  *   5. the role of study material: the About page's story list (StoryChapters): a photograph beside the three
  *      numbered points, one open at a time and moving on by itself
  *   6. FAQs: his FAQ (his accordion rows, one open at a time, "Talk to a counsellor")
@@ -90,7 +92,7 @@ function Lbl({ children, delay = 0.05, light }: { children: ReactNode; delay?: n
 export default function FreeResourcesPage() {
   return (
     <div className="cf-page ab-page fr-page">
-      <CourseFinderNav variant="hiding" />
+      <TeamHeader />
       <main id="main" className="ab fr">
         {/* 1. the head */}
         <section className="cf-hero fr-hero" aria-labelledby="frH">
@@ -199,30 +201,29 @@ export default function FreeResourcesPage() {
             </ul>
           </section>
 
-          {/* 4. why it matters: the homepage contact card's framed cards, an orange disc with each icon */}
-          <section className="fr-sec fr-sec--c" aria-labelledby="frWhy">
-            <div className="fr-head fr-head--c">
-              <Lbl>{frBenefits.label}</Lbl>
-              <h2 id="frWhy" className="h2 h2--sec rv" style={d(0.12)}>
-                {frBenefits.heading}
-              </h2>
-              <p className="intro rv" style={d(0.2)}>
-                {frBenefits.intro}
-              </p>
-            </div>
-            <ul className="fr-whys sg">
-              {frBenefits.items.map((b, i) => (
-                <li key={b.title} className="fr-why ab-tilt" style={{ "--i": i } as CSSProperties}>
-                  <span className="fr-why__ic" aria-hidden="true">
-                    <i style={{ "--ic": `url(${b.icon})` } as CSSProperties} />
-                  </span>
-                  <h3 className="fr-why__t">{b.title}</h3>
-                  <p className="fr-why__d">{b.text}</p>
-                </li>
-              ))}
-            </ul>
-          </section>
+        </div>
 
+        {/* 4. why it matters: the homepage's own "Why Vajiram & Ravi" cards (its WhyChoose, src/team; 26 Nov 2026, Abhishek: "use
+            this card style from homepage for study material benefit section"), under a centred head, each with its icon */}
+        <div className="team-scope fr-team">
+          <WhyChoose
+            id="benefits"
+            reasons={frBenefits.items.map((b) => ({ t: b.title, d: b.text, img: b.icon })) as any}
+            head={
+              <header className="ab-centred">
+                <SectionLabel align="center">{frBenefits.label}</SectionLabel>
+                <h2 id="benefits-legacyH" className="h2 h2--sec rv" style={d(0.12)}>
+                  {frBenefits.heading}
+                </h2>
+                <p className="intro rv" style={d(0.2)}>
+                  {frBenefits.intro}
+                </p>
+              </header>
+            }
+          />
+        </div>
+
+        <div className="kv">
           {/* 5. the role of study material: the About page's story list (a photograph beside the numbered points, moving on by itself) */}
           <section className="fr-sec fr-role2" aria-labelledby="frRole">
             <div className="fr-role2__hd">

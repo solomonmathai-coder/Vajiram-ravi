@@ -6,8 +6,9 @@ import { links } from "./links";
  * role of study material in preparation and the FAQs. Laid out in the language of the About page.
  *
  * Each material's card is Kevin's homepage folder (FreeResourcesPage): `tag` is its small label (its kind or how
- * often it comes), `photo` the picture standing in the folder, from his homepage's own (public/assets/img/resources)
- * where he has one, else none (the design's icon is drawn on a sheet of paper instead); `cta` is the design's "Explore".
+ * often it comes), `photo` the picture standing in the folder (public/assets/img/resources): the homepage's own where it
+ * has one; One Pagers, Yojana, GS Mains Probable and Economic Survey made for this page in the same style (26 Nov 2026,
+ * Abhishek: "use realistic assets like Kurukshetra, infographics"); `cta` is the design's "Explore".
  *
  * To confirm with the client:
  *   - the design lists "One Pagers – UPSC Mains Notes" twice (its third and tenth cards); it appears once here.
@@ -54,7 +55,7 @@ export const frMaterials = {
       title: "One Pagers – UPSC Mains Notes",
       tag: "Mains",
       cta: "Explore",
-      photo: null,
+      photo: "/assets/img/resources/one-pagers.webp",
       text: "Single-page notes on high-frequency Mains topics, built for last-mile revision.",
       icon: `${IMG}/icon-one-pager.svg`,
       href: links.studyMaterial,
@@ -63,7 +64,8 @@ export const frMaterials = {
       title: "Quest UPSC Notes",
       tag: "Notes",
       cta: "Explore",
-      photo: null,
+      // the homepage's boxed set of Vajiram & Ravi GS books (26 Nov 2026, Abhishek: "use realistic assets like Kurukshetra, infographics")
+      photo: "/assets/img/resources/cutout/gs-postal-books.webp",
       text: "Concise, comprehensive notes covering every subject in the UPSC syllabus, topic by topic.",
       icon: `${IMG}/icon-notebooks.svg`,
       href: links.studyMaterial,
@@ -81,7 +83,7 @@ export const frMaterials = {
       title: "Yojana Summary",
       tag: "Monthly",
       cta: "Explore",
-      photo: null,
+      photo: "/assets/img/resources/yojana.webp",
       text: "Month-by-month summaries of the government’s development magazine — the official framing of every scheme.",
       icon: `${IMG}/icon-policy.svg`,
       href: links.yojanaKurukshetra,
@@ -99,7 +101,7 @@ export const frMaterials = {
       title: "GS Mains Probable",
       tag: "Mains",
       cta: "Explore",
-      photo: null,
+      photo: "/assets/img/resources/gs-mains-probable.webp",
       text: "Probable Mains questions on the year’s themes, with structure hints to test your notes against.",
       icon: `${IMG}/icon-answer-writing.svg`,
       href: links.studyMaterial,
@@ -108,7 +110,7 @@ export const frMaterials = {
       title: "Economic Survey",
       tag: "Annual",
       cta: "Explore",
-      photo: null,
+      photo: "/assets/img/resources/economic-survey.webp",
       text: "Chapter-wise summary of the Economic Survey, with the data points that matter for GS-3 and the essay.",
       icon: `${IMG}/icon-economy.svg`,
       href: links.studyMaterial,

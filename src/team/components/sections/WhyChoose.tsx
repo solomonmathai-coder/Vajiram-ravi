@@ -118,7 +118,9 @@ export default function WhyChoose({ id = 'story', legacy = LEGACY, photo = PHOTO
             <li key={r.t} className="cu:min-w-0 cu:max-[640px]:flex-[0_0_82%] cu:max-[640px]:snap-start">
               <article className={CARD}>
                 <span aria-hidden="true" className="cu:grid cu:place-items-center cu:flex-none cu:size-[56px] cu:max-[640px]:size-[44px] cu:rounded-full cu:bg-white cu:text-(--brand)">
-                  <svg aria-hidden="true" viewBox="0 0 48 48" className="cu:size-[30px] cu:fill-none cu:stroke-(--brand) cu:[stroke-width:3] cu:[stroke-linecap:round] cu:[stroke-linejoin:round]">{ICONS[r.icon]}</svg>
+                  {/* (Free resources, 26 Nov 2026) a card may bring its own line icon as a file (`img`), drawn in the brand colour */}
+                  {r.img ? <span className="cu:block cu:size-[30px] cu:bg-(--brand) cu:[mask:var(--ic)_center/contain_no-repeat]" style={{ '--ic': `url(${r.img})` }} />
+                    : <svg aria-hidden="true" viewBox="0 0 48 48" className="cu:size-[30px] cu:fill-none cu:stroke-(--brand) cu:[stroke-width:3] cu:[stroke-linecap:round] cu:[stroke-linejoin:round]">{ICONS[r.icon]}</svg>}
                 </span>
                 <div className="cu:contents">
                   <h3 className="cu:m-0 cu:[font:600_22px/1.2_var(--f-title)] cu:max-[640px]:text-[20px] cu:max-[640px]:flex cu:max-[640px]:items-center cu:max-[640px]:min-h-[2.4em] cu:text-balance cu:tracking-[-.015em] cu:text-[#2A2016]">{r.t}</h3>
