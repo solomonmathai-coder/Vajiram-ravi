@@ -20,7 +20,7 @@
 <link rel="stylesheet" href="css/footer-home.css?v=1">
 <link rel="stylesheet" href="css/ref-nav.css?v=1">
 <!-- the course detail page (branch kevin-course-detail-page, 2026-11-26): the redesign of vajiramandravi.com/courses/upsc-gs-course/ -->
-<link rel="stylesheet" href="css/course-detail.css?v=12">
+<link rel="stylesheet" href="css/course-detail.css?v=13">
 <script>document.documentElement.classList.add('js')</script>
 </head>
 <body class="cdp">
@@ -445,16 +445,29 @@
     </div>
   </section>
 
-  <!-- ============ closing: the homepage's orange card ============ -->
-  <section class="cd-sec cd-close" id="ready" aria-labelledby="closeH">
+  <!-- ============ closing: the homepage's Closing component (Abhishek's repo, components/sections/Closing.jsx; review 2026-11-26, "use the
+       same component"): the orange card with the white line lotus and the faint jaali, AIR 1 and AIR 2 in the bottom corners, the
+       rankers chip, the heading, the line and the two buttons, as on the homepage ============ -->
+  <section class="cd-sec cd-close" id="ready" aria-labelledby="clH">
     <div class="cd-wrap">
-      <div class="cd-close__card" data-rv>
-        <span class="cd-close__spot" aria-hidden="true"></span>
-        <h2 class="cd-h2" id="closeH">Ready to start your UPSC preparation?</h2>
-        <p class="cd-close__p">The next batch starts on <b>27 November 2026</b>. Join the UPSC GS Course 2028, or talk to a counsellor first.</p>
-        <div class="cd-btns cd-btns--c">
-          <a class="cd-btn cd-btn--dark cd-btn--disc" href="https://admissions.vajiramias.com/online-admission/" target="_blank" rel="noopener">Join now<span class="cd-btn__disc" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></span></a>
-          <a class="cd-btn cd-btn--white" href="#counsel">Talk to a counsellor</a>
+      <div class="cd-cl">
+        <img class="cd-cl__lotus" src="assets/img/brand/lotus-line.svg" alt="" width="560" height="560" aria-hidden="true">
+        <figure class="cd-cl__tp cd-cl__tp--l" data-rv style="--d:.2s">
+          <img src="assets/img/toppers/cta/air1-anuj-agnihotri.webp" alt="Anuj Agnihotri, All India Rank 1, UPSC CSE 2025" width="1200" height="1200" loading="lazy" decoding="async">
+          <figcaption class="cd-cl__cap"><b>AIR 1</b><span>Anuj Agnihotri</span></figcaption>
+        </figure>
+        <figure class="cd-cl__tp cd-cl__tp--r" data-rv style="--d:.3s">
+          <img src="assets/img/toppers/cta/air2-rajeshwari-suve-m.webp" alt="Rajeshwari Suve M, All India Rank 2, UPSC CSE 2025" width="1200" height="1200" loading="lazy" decoding="async">
+          <figcaption class="cd-cl__cap"><b>AIR 2</b><span>Rajeshwari Suve M</span></figcaption>
+        </figure>
+        <div class="cd-cl__copy">
+          <p class="cd-cl__proof" data-rv style="--d:.05s"><span class="cd-cl__faces" aria-hidden="true"><img src="assets/img/toppers/cta/ranker-1.png" alt="" width="32" height="32" loading="lazy"><img src="assets/img/toppers/cta/ranker-2.png" alt="" width="32" height="32" loading="lazy"><img src="assets/img/toppers/cta/ranker-3.png" alt="" width="32" height="32" loading="lazy"><img src="assets/img/toppers/cta/ranker-4.png" alt="" width="32" height="32" loading="lazy"><img src="assets/img/toppers/cta/ranker-5.png" alt="" width="32" height="32" loading="lazy"></span>36/50 CSE 2025 rankers from V&amp;R</p>
+          <h2 class="cd-cl__h" id="clH" data-rv style="--d:.12s">Ready to start your UPSC preparation?</h2>
+          <p class="cd-cl__p" data-rv style="--d:.2s">Find the programme that fits your stage, or talk to a counsellor who will help you choose. No pressure to enrol.</p>
+          <p class="cd-cl__btns" data-rv style="--d:.28s">
+            <a class="cd-btn cd-btn--dark cd-btn--disc" href="course-finder.html">Find your course<span class="cd-btn__disc" aria-hidden="true"><svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2.5 8h11"/><path d="M8.6 3.6C9.4 5.9 11.2 7.4 13.5 8 11.2 8.6 9.4 10.1 8.6 12.4"/></svg></span></a>
+            <a class="cd-btn cd-btn--white" href="#counsel">Talk to a counsellor</a>
+          </p>
         </div>
       </div>
     </div>
