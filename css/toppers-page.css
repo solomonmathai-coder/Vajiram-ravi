@@ -660,3 +660,9 @@ html.foot-curtain main.tp, main.tp { background-attachment: fixed, fixed, scroll
 
 /* the AIR 1 row's course placeholder (js PROG_TBC): lighter and in italics so it reads as a gap still to fill */
 .tp-ri__prog--tbc { font-style: italic; color: #A8998A; }
+
+/* a white page under the hero (review 2026-11-26, "let's use a white colour for the bg"): the shared v49.css paints main in cream
+   (#FFFAF3) under html.foot-curtain; here it is white, the jaali still faint at the sides and fixed to the window */
+html.foot-curtain main.tp, main.tp {
+  background: linear-gradient(90deg, rgb(255 255 255 / .55) 0%, rgb(255 255 255 / .96) 28%, rgb(255 255 255 / .96) 72%, rgb(255 255 255 / .55) 100%) 0 0 / 100% 100% fixed,
+    url(../assets/img/patterns/bg-jaali.svg) 0 0 / 36px 36px repeat fixed, #fff; }
