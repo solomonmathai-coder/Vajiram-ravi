@@ -628,3 +628,21 @@ html.foot-curtain main.tp, main.tp { background-attachment: fixed, fixed, scroll
 .tp-year.tp-wrap { max-width: 1440px; }
 .tp-reel.is-wall .tp-reel__track { column-gap: 14px; }
 @media (max-width: 900px) { .tp-reel.is-wall .tp-reel__track { column-gap: 10px; } }
+
+/* ---- tabs, review 2026-11-26: "show CSE Toppers from Vajiram / IFoS Toppers from Vajiram as a tab in the hero, and use the
+   different tab colour" (the chosen tab in deep brown, white text) ---- */
+:root { --tp-tab-on: #2B160E; }
+/* the kind-of-toppers tray in the hero: the same pill tray as the years, on a light glass over the beige */
+.tp-cats { display: inline-flex; gap: 4px; flex-wrap: nowrap; width: auto; max-width: 100%; margin: 22px auto 0; padding: 4px; border: 0; border-radius: 14px;
+  background: rgb(255 250 243 / .7); box-shadow: inset 0 0 0 1px rgb(110 66 18 / .1); overflow: visible; }
+.tp-cat { display: inline-flex; align-items: center; height: 40px; padding: 0 18px; border-radius: 10px; font: 600 15px/1 Mukta, "Nirmala UI", sans-serif; color: var(--tp-ink); white-space: nowrap; transition: background-color .25s ease, color .2s ease; }
+.tp-cat::after { content: none; }
+.tp-cat:hover { color: var(--tp-tab-on); background: rgb(43 22 14 / .06); }
+.tp-cat[aria-selected="true"], .tp-cat[aria-selected="true"]:hover { background: var(--tp-tab-on); color: #fff; }
+.tp-cat:focus-visible { outline: 2px solid var(--tp-tab-on); outline-offset: 2px; border-radius: 10px; }
+@media (max-width: 520px) { .tp-cat__from { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } .tp-cat { padding: 0 16px; font-size: 14px; } }
+@media (max-width: 760px) { .tp-cats { width: auto; margin: 16px auto 0; padding: 4px; overflow: visible; } }
+/* the year tray: the sliding highlight in the same deep brown; hover and focus in brown too */
+.tp-years__ind { background: var(--tp-tab-on); }
+.tp-yr:hover { color: var(--tp-tab-on); }
+.tp-yr:focus-visible { outline-color: var(--tp-tab-on); }

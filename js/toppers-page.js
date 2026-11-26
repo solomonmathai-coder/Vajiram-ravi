@@ -195,8 +195,8 @@
     </li>`;
 
   // ---------- the category tabs (in the hero) and the year tray (sticky) ----------
-  // (the CSE / IFoS tabs left the hero, user 2026-11-25, "remove this from here"; a detached stand-in keeps the code working and
-  // #ifos/2024 links still open the IFoS toppers)
+  // the CSE / IFoS tabs, back in the hero as a tray (review 2026-11-26, "CSE Toppers from Vajiram", "IFoS Toppers from Vajiram");
+  // a detached stand-in would keep the code working without them
   const cats = $('#tpCats') || document.createElement('div'), tabs = $('#tpYears'), panel = $('#tpYear'), chip = $('.tp-lbl__t');
   // (the spotlight's choosing, keys and off-screen pause, wired once the panel is known)
   // dragging (pointer) and choosing (a click that didn't drag)
@@ -223,7 +223,7 @@
     new MutationObserver(() => { const fr = panel.querySelector('.tp-frame'); if (fr && !fr.dataset.io) { fr.dataset.io = '1'; io.observe(fr); } }).observe(panel, { childList: true });
   }
 
-  cats.innerHTML = Object.entries(CATS).map(([k, c]) => `<button type="button" role="tab" class="tp-cat" id="tpCat-${k}" aria-selected="false" aria-controls="tpYear" data-k="${k}">${esc(c.label)}</button>`).join('');
+  cats.innerHTML = Object.entries(CATS).map(([k, c]) => `<button type="button" role="tab" class="tp-cat" id="tpCat-${k}" aria-selected="false" aria-controls="tpYear" data-k="${k}">${esc(c.label)}<span class="tp-cat__from"> from Vajiram</span></button>`).join('');
   let cur = 'cse', curY = 0;
 
   // the homepage's year tabs (user 2026-11-25, "this is how the tab should look like"): a peach tray, the years as plain labels, and an
