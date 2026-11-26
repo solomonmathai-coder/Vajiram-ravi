@@ -781,3 +781,40 @@ html.tp-dd-open .rn { clip-path: none; }
   .tp-rule { gap: 10px; font-size: 13.5px; letter-spacing: .08em; }
   .tp-rule::before, .tp-rule::after { flex-basis: 28px; }
 }
+
+/* ---------- the nav and the hero as on the course page (review 2026-11-26, "check nav menu and hero position by default in course page,
+   follow same colour tone as well, follow the same; also we need breadcrumbs"; the course page = Abhishek's /courses, whose hero is
+   this project's course finder hero, css/course-finder.css .cf-hero) ----------
+   1. at the top of the page the nav sits on its own cream band (#FFFAF3, ruled off from the hero by a fine line): on tablets and
+      desktops the nav's white panel is clear there and fades in once the page scrolls; on phones the panel stays, in the same cream */
+:root { --tp-band: 96px; }
+@media (max-width: 900px) { :root { --tp-band: 90px; } }
+@media (max-width: 760px) { :root { --tp-band: 68px; } }
+.rn::after { transition: background-color .25s ease, box-shadow .25s ease, opacity .25s ease; }
+@media (min-width: 761px) { .rn.is-top::after, .rn.is-scrolled.is-top::after { opacity: 0; box-shadow: none; } }
+@media (max-width: 760px) { .rn.is-top::after, .rn.is-scrolled.is-top::after { background: #FFFAF3; box-shadow: none; } }
+html.foot-curtain main.tp, main.tp { padding-top: var(--tp-band);
+  background: linear-gradient(#FFFAF3, #FFFAF3) 0 0 / 100% var(--tp-band) no-repeat,
+    linear-gradient(90deg, rgb(255 255 255 / .55) 0%, rgb(255 255 255 / .96) 28%, rgb(255 255 255 / .96) 72%, rgb(255 255 255 / .55) 100%) 0 0 / 100% 100% fixed,
+    url(../assets/img/patterns/bg-jaali.svg) 0 0 / 36px 36px repeat fixed, #fff; }
+/* 2. the hero starts under that band, in the course page's beige (#F3E8D6) with its paper grain, the same room above and below the
+      words (65% of the section spacing), no jaali; the cheering toppers at its sides in the course page's monument treatment: grey,
+      multiplied into the beige at 11%, fading towards the middle and in from the top, on wide screens only */
+.tp-hero { padding: calc(clamp(64px, 6.25vw, 90px) * .65) 0; border-top: 1px solid rgb(122 42 10 / .12); background: #F3E8D6; }
+.tp-hero::before { content: none; }
+.tp-hero::after { opacity: .4; }
+.tp-hero__side { width: 34%; opacity: .11; filter: grayscale(1) contrast(1.15) brightness(1.04); mix-blend-mode: multiply; }
+.tp-hero__side--l { -webkit-mask-image: linear-gradient(90deg, #000 62%, transparent), linear-gradient(180deg, transparent, #000 40px);
+                            mask-image: linear-gradient(90deg, #000 62%, transparent), linear-gradient(180deg, transparent, #000 40px); }
+.tp-hero__side--r { -webkit-mask-image: linear-gradient(270deg, #000 62%, transparent), linear-gradient(180deg, transparent, #000 40px);
+                            mask-image: linear-gradient(270deg, #000 62%, transparent), linear-gradient(180deg, transparent, #000 40px); }
+@media (max-width: 1100px) { .tp-hero__side { display: none; } }
+/* 3. the breadcrumb: centred above the emblem, Home in dark ink and underlined, Toppers muted (the course page's .cf-crumb) */
+.tp-crumb { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 0 0 18px; font: 500 14px/1 Mukta, "Nirmala UI", sans-serif; color: rgb(42 26 12 / .55); }
+.tp-crumb a { color: #2A1A0C; text-decoration: underline; text-decoration-color: rgb(42 26 12 / .25); text-underline-offset: 4px; transition: text-decoration-color .25s ease; }
+.tp-crumb a:hover, .tp-crumb a:focus-visible { text-decoration-color: rgb(42 26 12 / .6); }
+.tp-crumb a:focus-visible { outline: 2px solid var(--tp-brand); outline-offset: 3px; border-radius: 2px; }
+.tp-crumb [aria-current] { color: rgb(42 26 12 / .6); }
+/* 4. the heading's dark line in the course page's ink (#2A1A0C) */
+.tp-shine--ink { background-image: linear-gradient(120deg, #2A1A0C 0%, #2A1A0C 43.3%, #6E5A48 46.7%, #B89A7A 50%, #6E5A48 53.3%, #2A1A0C 56.7%, #2A1A0C 100%); }
+@media (prefers-reduced-motion: reduce) { .tp-shine--ink { color: #2A1A0C; } }
