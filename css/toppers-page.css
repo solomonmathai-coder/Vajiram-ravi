@@ -598,3 +598,16 @@ html.foot-curtain main.tp, main.tp { background-attachment: fixed, fixed, scroll
 @keyframes tp-shine2 { 0% { background-position: 100% 0, 100% 0; } 67%, 100% { background-position: 0% 0, 0% 0; } }
 /* (the emblem image is position: relative; z-index: 1 from the earlier glow rule, so the shine sat beneath it, unseen: lift it over) */
 .tp-emblem-box::after { z-index: 2; }
+
+/* ---- review comments 2026-11-26 ---- */
+/* "Give some highlight for AIR 1": the words AIR 1s in the heading in the brand orange with the heading's light sweep */
+.tp-rule__hi { display: inline-block; font-style: normal; background: linear-gradient(120deg, #C2410C 0%, #C2410C 43.3%, #E9874A 46.7%, #FFD9A8 50%, #E9874A 53.3%, #C2410C 56.7%, #C2410C 100%) 100% 0 / 300% 100% no-repeat;
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; animation: tp-shine 3.6s cubic-bezier(.45,0,.55,1) .8s infinite; }
+@media (prefers-reduced-motion: reduce) { .tp-rule__hi { animation: none; background: none; -webkit-text-fill-color: #C2410C; color: #C2410C; } }
+/* "Images don't need this much focus, make it subtle": the hero's side photos quieter, softer in colour, narrower, and fading out
+   sooner towards the heading so the heading leads */
+.tp-hero__side { width: clamp(220px, 23vw, 380px); opacity: .42; filter: saturate(.55) sepia(.18) contrast(.92); }
+.tp-hero__side--l { -webkit-mask-image: linear-gradient(90deg, #000 10%, transparent 85%), linear-gradient(180deg, transparent, #000 30%, #000 70%, transparent);
+                            mask-image: linear-gradient(90deg, #000 10%, transparent 85%), linear-gradient(180deg, transparent, #000 30%, #000 70%, transparent); }
+.tp-hero__side--r { -webkit-mask-image: linear-gradient(270deg, #000 10%, transparent 85%), linear-gradient(180deg, transparent, #000 30%, #000 70%, transparent);
+                            mask-image: linear-gradient(270deg, #000 10%, transparent 85%), linear-gradient(180deg, transparent, #000 30%, #000 70%, transparent); }

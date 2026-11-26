@@ -1,6 +1,8 @@
 /* "A decade of AIR 1s" on the Toppers page (user 2026-11-25, "we should also showcase this idea of AIR 1 as a carousel on the top
    with wreaths", after the homepage's Toppers reel): every year's All India Rank 1 from js/data/toppers-live.js, newest first, each
-   shield in the next Batches colour on a gold laurel wreath, AIR 1, the name, then the courses they took (no year line: user 2026-11-25). The row drifts left in a
+   shield in the next Batches colour on a gold laurel wreath, AIR 1, the year of the exam
+   (review 2026-11-26, "AIR 1 of which year"), the name, then the programmes they took where the data has them (2025, 2024, 2023;
+   the live site lists none for 2016-2022). The row drifts left in a
    seamless loop (a copy of the row follows it), can be dragged, and holds under the pointer, off screen and in a hidden tab; with
    reduced motion it stands still and can still be dragged. */
 (() => {
@@ -17,6 +19,7 @@
       <div class="tp-shield tp-shield--${TONES[i % TONES.length]}"><span class="tp-a1__laurel" aria-hidden="true"></span><span class="tp-shield__gem" aria-hidden="true"></span>
         <span class="tp-shield__pic"><img${p.cut ? '' : ' class="is-boxed"'} src="${esc(p.cut || p.photo)}" alt="" loading="lazy" decoding="async" draggable="false"></span></div>
       <span class="tp-card__air"><small>AIR</small> 1</span>
+      <span class="tp-a1__yr">UPSC CSE ${p.y}</span>
       <span class="tp-ri__name">${esc(p.name)}</span>
       ${tags(p.prog).length ? `<span class="tp-ri__prog">${tags(p.prog).map(esc).join(' · ')}</span>` : ''}
     </li>`).join('');
