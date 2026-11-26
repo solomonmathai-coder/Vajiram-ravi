@@ -690,3 +690,10 @@ html.foot-curtain main.tp, main.tp {
 .rn-drawer a.rn-drawer__sub[aria-current="true"] { color: var(--rn-brand, #C2410C); opacity: 1; }
 /* (the nav clips anything below its bar unless a menu is open: lifted while the Toppers menu is open) */
 html.tp-dd-open .rn { clip-path: none; }
+
+/* ---------- the nav's Toppers menu as the All courses / Study materials panel (review 2026-11-26): their .mega design as it is, three
+   columns instead of five or four; the topper's chosen list marked like a hovered link ---------- */
+.mega--tp .mega__stages { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.mega--tp a.mega__a[aria-current="true"] { background: var(--sand, #FFF2E6); }
+.mega--tp a.mega__a[aria-current="true"] .mega__t { color: var(--brand, #C2410C); }
+#megaTp .mega__cta.cta.cta, #megaTp .mega__cta { width: 100%; font-size: 15px; }

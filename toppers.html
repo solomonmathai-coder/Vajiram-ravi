@@ -20,7 +20,7 @@
 <link rel="stylesheet" href="css/footer-home.css?v=1">
 <link rel="stylesheet" href="css/ref-nav.css?v=1">
 <!-- the Toppers page (branch kevin-toppers, started fresh 2026-11-25) -->
-<link rel="stylesheet" href="css/toppers-page.css?v=68">
+<link rel="stylesheet" href="css/toppers-page.css?v=69">
 <script>document.documentElement.classList.add('js')</script>
 </head>
 <body class="tpp">
@@ -35,10 +35,11 @@
         <button class="rn__a" id="exploreBtn" type="button" aria-expanded="false" aria-controls="mega">All courses</button>
         <div class="mega" id="mega"></div>
       </div>
-      <!-- Toppers opens a small menu of the two kinds of toppers (review 2026-11-26, "move this section into the nav"; js/toppers-page.js) -->
-      <div class="tp-navdd" id="tpNav">
-        <button class="rn__a" id="tpNavBtn" type="button" aria-expanded="false" aria-controls="tpNavMenu" aria-haspopup="true" aria-current="page">Toppers<svg class="tp-navdd__chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></button>
-        <div class="tp-navdd__menu" id="tpNavMenu"></div>
+      <!-- Toppers opens the same kind of panel as All courses and Study materials (review 2026-11-26, "it should behave like the rest of
+           the tabs in the nav"): filled by js/toppers-page.js, opened and closed by js/site-nav.js -->
+      <div class="explore explore--tp" id="toppersNav">
+        <button class="rn__a" id="toppersBtn" type="button" aria-expanded="false" aria-controls="megaTp" aria-current="page">Toppers</button>
+        <div class="mega mega--tp" id="megaTp"></div>
       </div>
       <div class="explore explore--sm" id="studyNav">
         <button class="rn__a" id="studyBtn" type="button" aria-expanded="false" aria-controls="megaSm">Study materials</button>
@@ -103,9 +104,9 @@
 <script src="js/data/courses.js?v=1"></script>
 <script src="js/data/toppers-live.js?v=2"></script>
 <script src="js/data/toppers-extra.js?v=1"></script>
-<script src="js/toppers-page.js?v=34"></script>
+<script src="js/toppers-page.js?v=36"></script>
 <script src="js/toppers-air1.js?v=7"></script>
 <script src="js/footer-ref.js?v=2"></script>
-<script src="js/site-nav.js?v=8"></script>
+<script src="js/site-nav.js?v=9"></script>
 </body>
 </html>

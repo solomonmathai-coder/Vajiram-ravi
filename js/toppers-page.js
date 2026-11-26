@@ -281,43 +281,57 @@
   const keys = (list, i, e) => { const j = e.key === 'ArrowRight' ? i + 1 : e.key === 'ArrowLeft' ? i - 1 : e.key === 'Home' ? 0 : e.key === 'End' ? list.length - 1 : null; return j === null ? null : Math.max(0, Math.min(list.length - 1, j)); };
   tabs.addEventListener('keydown', e => { const ys = CATS[cur].years, i = ys.indexOf(+(e.target.dataset.y || 0)); if (i < 0) return; const j = keys(ys, i, e); if (j === null) return; e.preventDefault(); pick(cur, ys[j], 'year'); });
   cats.addEventListener('keydown', e => { const ks = Object.keys(CATS), i = ks.indexOf(e.target.dataset.k); if (i < 0) return; const j = keys(ks, i, e); if (j === null) return; e.preventDefault(); pick(ks[j], 0, 'cat'); });
-  // ---------- the nav's Toppers menu (review 2026-11-26, "we can move this section into the nav"): CSE Toppers from Vajiram and IFoS
-  // Toppers from Vajiram, each with its count and years; opens on hover with a mouse, on click or Enter, ArrowDown into it; Escape,
-  // a click elsewhere or tabbing away close it. Choosing one switches the list and brings the year tabs into view. The phone drawer
-  // carries the same two links ----------
-  const navDd = $('#tpNav'), navBtn = $('#tpNavBtn'), navMenu = $('#tpNavMenu');
+  // ---------- the nav's Toppers menu (review 2026-11-26, "it should behave like the rest of the tabs in the nav, see how All courses
+  // works"): the same full-width panel as All courses and Study materials (css/v49.css .mega; opened, closed and the page dimmed by
+  // js/site-nav.js). Three numbered columns: CSE toppers (all, then the latest three years with their AIR 1), IFoS toppers (all, then each
+  // year), and the AIR 1s (the decade row, then the latest three AIR 1s with their programmes); on the right the counsellor card.
+  // Choosing a link switches the list (or goes to the AIR 1 row) and closes the panel. The phone drawer lists CSE and IFoS under Toppers
   const all = sel => [...document.querySelectorAll(sel)];
-  const navSet = open => { if (!navDd) return; navDd.classList.toggle('open', open); navBtn.setAttribute('aria-expanded', String(open)); document.documentElement.classList.toggle('tp-dd-open', open); };
-  navMark = () => all('[data-tp-k]').forEach(a => { if (a.dataset.tpK === cur) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
-  const goTo = k => {
-    pick(k, 0); navSet(false);
-    const browse = $('.tp-browse'); if (!browse) return;
-    const nav = $('#nav'), top = scrollY + browse.getBoundingClientRect().top - ((nav && nav.getBoundingClientRect().bottom) || 76) - 8;
+  const megaWrap = $('#toppersNav'), megaBtn = $('#toppersBtn'), megaTp = $('#megaTp');
+  const megaClose = () => {
+    if (!megaWrap) return;
+    megaWrap.classList.remove('open'); megaBtn.setAttribute('aria-expanded', 'false');
+    document.documentElement.classList.toggle('mega-open', all('.rn .explore.open').length > 0);
+  };
+  // the year being viewed is marked in the panel (only its year link), the kind being viewed in the phone drawer
+  navMark = () => all('[data-tp-k]').forEach(a => {
+    const on = a.matches('.rn-drawer__sub') ? a.dataset.tpK === cur : a.dataset.tpMark !== 'no' && a.dataset.tpY && a.dataset.tpK === cur && +a.dataset.tpY === curY;
+    if (on) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+  });
+  const scrollUnderNav = el => {
+    const nav = $('#nav'), top = scrollY + el.getBoundingClientRect().top - ((nav && nav.getBoundingClientRect().bottom) || 76) - 8;
     scrollTo({ top, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   };
-  if (navDd && navBtn && navMenu) {
-    navMenu.innerHTML = Object.entries(CATS).map(([k, c]) => {
-      const ys = c.years, span = ys.length > 1 ? `${ys[ys.length - 1]}–${ys[0]}` : `${ys[0]}`;
-      return `<a class="tp-navdd__a" href="toppers.html#${k}" data-tp-k="${k}"><span class="tp-navdd__t">${esc(c.label)} from Vajiram</span><span class="tp-navdd__d">${c.people.length} ranks · ${span}</span></a>`;
-    }).join('');
-    let t;
-    navBtn.addEventListener('click', () => navSet(!navDd.classList.contains('open')));
-    navDd.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') { clearTimeout(t); navSet(true); } });
-    navDd.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') t = setTimeout(() => navSet(false), 160); });
-    document.addEventListener('click', e => { if (!navDd.contains(e.target)) navSet(false); });
-    navDd.addEventListener('focusout', e => { if (!navDd.contains(e.relatedTarget)) navSet(false); });
-    navDd.addEventListener('keydown', e => {
-      if (e.key === 'Escape') { navSet(false); navBtn.focus(); }
-      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-        e.preventDefault(); navSet(true);
-        const links = all('.tp-navdd__a'), i = links.indexOf(document.activeElement);
-        const j = e.key === 'ArrowDown' ? (i + 1) % links.length : (i <= 0 ? links.length - 1 : i - 1); links[j].focus();
-      }
-    });
+  const goTo = (k, y) => { pick(k, y || 0); megaClose(); const b = $('.tp-browse'); if (b) scrollUnderNav(b); };
+  if (megaTp) {
+    const span = c => `${c.years[c.years.length - 1]}–${c.years[0]}`;
+    const one = (c, y) => byYear(c, y)[0];
+    const item = (href, data, t, d, n) => `<li><a class="mega__a" href="${href}" ${data}><span class="mega__t">${esc(t)}</span><span class="mega__d">${esc(d)}</span>${n ? `<span class="mega__n">${esc(n)}</span>` : ''}</a></li>`;
+    const yearItem = (k, c, y) => { const l = byYear(c, y), a1 = l[0]; return item(`toppers.html#${k}/${y}`, `data-tp-k="${k}" data-tp-y="${y}"`, `${c.exam} ${y}`, a1 && a1.rank === 1 ? `AIR 1 ${a1.name}` : `Top rank AIR ${a1.rank}, ${a1.name}`, `${l.length} toppers`); };
+    const C = CATS.cse, I = CATS.ifos;
+    const ones = C.years.map(y => one(C, y)).filter(p => p && p.rank === 1);
+    const cols = [
+      ['CSE Toppers', [item('toppers.html#cse', 'data-tp-k="cse"', 'All CSE toppers', 'UPSC Civil Services toppers from Vajiram, year by year.', `${C.people.length} ranks · ${span(C)}`),
+        ...C.years.slice(0, 3).map(y => yearItem('cse', C, y))]],
+      ['IFoS Toppers', [item('toppers.html#ifos', 'data-tp-k="ifos"', 'All IFoS toppers', 'Indian Forest Service toppers from Vajiram.', `${I.people.length} ranks · ${span(I)}`),
+        ...I.years.map(y => yearItem('ifos', I, y))]],
+      ['AIR 1s', [item('#tpAir1H', 'data-tp-go="air1"', 'A decade of AIR 1s', `Every year's All India Rank 1, ${C.years[C.years.length - 1]} to ${C.years[0]}.`, `${ones.length} AIR 1s`),
+        ...ones.slice(0, 3).map(p => item(`toppers.html#cse/${p.y}`, `data-tp-k="cse" data-tp-y="${p.y}" data-tp-mark="no"`, `${p.name}, ${p.y}`, tags(p.prog).join(', ') || 'AIR 1, UPSC CSE', ''))]],
+    ];
+    megaTp.innerHTML = `<div class="mega__stages">${cols.map(([k, items], i) => `<section class="mega__col" style="--i:${i}">
+        <p class="mega__k"><b>${String(i + 1).padStart(2, '0')}</b>${esc(k)}</p><ul>${items.join('')}</ul></section>`).join('')}</div>
+      <aside class="mega__aside" style="--i:${cols.length}">
+        <p class="mega__k">Next year's toppers list?</p>
+        <p class="mega__p">A counsellor will match you to the programme these toppers took, for the stage you are at.</p>
+        <a class="bt bt--brand mega__cta" href="index.html#contact">Talk to a counsellor<span class="sq sq--52 sq--white"></span></a>
+        <a class="mega__all" href="course-finder.html">Browse all courses<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a>
+      </aside>`;
   }
   document.addEventListener('click', e => {
+    const go = e.target.closest('[data-tp-go="air1"]');
+    if (go) { e.preventDefault(); megaClose(); const s = $('.tp-air1'); if (s) scrollUnderNav(s); return; }
     const a = e.target.closest('[data-tp-k]'); if (!a) return;
-    e.preventDefault(); goTo(a.dataset.tpK);
+    e.preventDefault(); goTo(a.dataset.tpK, +a.dataset.tpY || 0);
   });
   addEventListener('hashchange', () => { show(...fromHash()); navMark(); });
   show(...fromHash()); navMark();
