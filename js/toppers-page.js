@@ -163,11 +163,10 @@
     track.querySelectorAll('.tp-br').forEach(b => b.remove());
     const items = [...track.querySelectorAll('.tp-ri')], n = items.length; if (!n) return;
     const gx = parseFloat(getComputedStyle(track).columnGap) || 0, w = items[0].offsetWidth;
-    const fit = Math.max(1, Math.floor((track.clientWidth + gx) / (w + gx))), rows = Math.ceil(n / fit);
-    if (rows < 2) return;
-    const base = Math.floor(n / rows), extra = n % rows;
-    for (let r = 0, at = 0; r < rows - 1; r++) {
-      at += base + (r < extra ? 1 : 0);
+    // eight a row at most (review 2026-11-26, "every row should have 8 toppers only"): full rows of eight, the rest centred on the
+    // last row; fewer a row only where eight don't fit the window
+    const fit = Math.max(1, Math.floor((track.clientWidth + gx) / (w + gx))), k = Math.min(8, fit);
+    for (let at = k; at < n; at += k) {
       const br = document.createElement('li'); br.className = 'tp-br'; br.setAttribute('aria-hidden', 'true'); items[at - 1].after(br);
     }
   };
