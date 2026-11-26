@@ -20,7 +20,7 @@
 <link rel="stylesheet" href="css/footer-home.css?v=1">
 <link rel="stylesheet" href="css/ref-nav.css?v=1">
 <!-- the course detail page (branch kevin-course-detail-page, 2026-11-26): the redesign of vajiramandravi.com/courses/upsc-gs-course/ -->
-<link rel="stylesheet" href="css/course-detail.css?v=11">
+<link rel="stylesheet" href="css/course-detail.css?v=12">
 <script>document.documentElement.classList.add('js')</script>
 </head>
 <body class="cdp">
@@ -411,27 +411,36 @@
     </div>
   </section>
 
-  <!-- ============ our centres ============ -->
-  <section class="cd-sec cd-sec--beige cd-visit" aria-labelledby="visitH">
+  <!-- ============ Contact us: the homepage's component (Abhishek's repo, components/sections/ContactUs.jsx, review 2026-11-26): the New Delhi
+       centre's details on the left, the map on the right with the centre's card popping up over it ============ -->
+  <section class="cd-sec cd-sec--beige cd-contact" id="contact-us" aria-labelledby="locH">
     <div class="cd-wrap">
-      <header class="cd-head">
-        <p class="cd-lbl" data-rv><span>Visit us</span></p>
-        <h2 class="cd-h2" id="visitH" data-rv>Our centres</h2>
+      <header class="cd-head cd-head--c cd-contact__head">
+        <h2 class="cd-h2" id="locH" data-rv>Contact us</h2>
+        <p class="cd-intro" data-rv>Pick the channel that suits you, or visit us in New Delhi.</p>
       </header>
-      <div class="cd-visit__grid">
-        <address class="cd-place" data-rv>
-          <span class="cd-place__ic"><svg class="cd-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 10c0 4.42-8 12-8 12s-8-7.58-8-12a8 8 0 1 1 16 0Z"/><path d="M12 11a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" fill="currentColor"/></svg></span>
-          <h3>New Delhi</h3>
-          <p>Vajiram &amp; Ravi<br>1-B/7, Pusa Road, Old Rajinder Nagar,<br>New Delhi 110060</p>
-          <p class="cd-place__mark"><b>Landmark</b> Adjacent to Gate 5, Karol Bagh Metro Station &amp; Pillar no. 103</p>
-          <a class="cd-link" href="https://maps.app.goo.gl/Qd3YkMoiknKT8J456" target="_blank" rel="noopener"><svg class="cd-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7m0 0H8.5M17 7v8.5"/></svg><span>Open in Google Maps</span></a>
-        </address>
-        <address class="cd-place" data-rv style="--d:.06s">
-          <span class="cd-place__ic"><svg class="cd-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 10c0 4.42-8 12-8 12s-8-7.58-8-12a8 8 0 1 1 16 0Z"/><path d="M12 11a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z" fill="currentColor"/></svg></span>
-          <h3>Chennai</h3>
-          <p>No. 63, Police Commissioner Office Road,<br>Egmore,<br>Chennai 600008</p>
-          <a class="cd-link" href="https://www.google.com/maps/search/?api=1&amp;query=Vajiram%20%26%20Ravi%2C%2063%20Police%20Commissioner%20Office%20Road%2C%20Egmore%2C%20Chennai%20600008" target="_blank" rel="noopener"><svg class="cd-ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7m0 0H8.5M17 7v8.5"/></svg><span>Open in Google Maps</span></a>
-        </address>
+      <div class="cd-loc" data-rv>
+        <div class="cd-loc__details">
+          <p class="cd-loc__badge">New Delhi centre</p>
+          <h3 class="cd-loc__address">1-B/7, Pusa Road, Old Rajinder Nagar, New Delhi 110060</h3>
+          <p class="cd-loc__near"><span>Next to Gate 5 of Karol Bagh Metro Station,</span><span>near pillar 103</span></p>
+          <p class="cd-loc__hours">Mon – Sat, 9 am – 7 pm</p>
+          <ul class="cd-loc__meta">
+            <li><a class="cd-loc__link" href="tel:+918062206330" aria-label="Call us on 080-6220-6330"><svg class="cd-loc__ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span>080-6220-6330</span></a></li>
+            <li><a class="cd-loc__link" href="mailto:admissions@vajiramandravi.com" aria-label="Email us at admissions@vajiramandravi.com"><svg class="cd-loc__ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg><span>admissions@vajiramandravi.com</span></a></li>
+          </ul>
+        </div>
+        <div class="cd-loc__map">
+          <iframe class="cd-loc__frame" src="https://www.google.com/maps?q=Vajiram+%26+Ravi,+1-B%2F7+Pusa+Road,+Old+Rajinder+Nagar,+New+Delhi+110060&amp;z=16&amp;output=embed" title="Map: Vajiram &amp; Ravi, 1-B/7, Pusa Road, Old Rajinder Nagar, New Delhi 110060" tabindex="-1" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <a class="cd-loc__pop" href="https://www.google.com/maps/search/?api=1&amp;query=Vajiram+%26+Ravi,+1-B%2F7+Pusa+Road,+Old+Rajinder+Nagar,+New+Delhi+110060" target="_blank" rel="noopener" aria-label="Vajiram &amp; Ravi, New Delhi: open in Google Maps">
+            <span class="cd-loc__photo"><img src="assets/img/photos/campus-building.webp" alt="" width="800" height="400" loading="lazy" decoding="async"></span>
+            <span class="cd-loc__body">
+              <span class="cd-loc__name">Vajiram &amp; Ravi, New Delhi</span>
+              <span class="cd-loc__addr">1-B/7, Pusa Road, Old Rajinder Nagar, New Delhi 110060</span>
+              <span class="cd-loc__go" aria-hidden="true"><svg class="cd-loc__ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg></span>
+            </span>
+          </a>
+        </div>
       </div>
     </div>
   </section>

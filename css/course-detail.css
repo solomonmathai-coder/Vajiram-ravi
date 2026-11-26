@@ -486,3 +486,59 @@ html.js .cd [data-rv].in { opacity: 1; transform: none; }
 
 /* the closing card without its rank-holders badge (review 2026-11-26): the heading opens the card */
 .cd-close .cd-h2 { margin-top: 0; }
+
+/* ---------- Contact us: the homepage's component (Abhishek's repo, components/sections/ContactUs.jsx; review 2026-11-26, "update this
+   section with the contact us component"), its sizes, colours and motion as there: one white card up to 900px wide, the New Delhi
+   centre's details on the left (orange badge, the address as a serif heading, the landmark, the hours, then call and email over a
+   ruled line), the map on the right with the centre's card popping up over the pin ---------- */
+.cd-contact__head { margin-bottom: 0; }
+.cd-loc { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); width: 100%; max-width: 900px; margin: 20px auto 0; text-align: left;
+  overflow: hidden; border-radius: 8px; background: #fff; border: 1px solid rgb(45 18 4 / .08); border-right: 0; box-shadow: 0 28px 56px -32px rgb(45 18 4 / .35); }
+.cd-loc__details { position: relative; display: flex; flex-direction: column; justify-content: center; min-width: 0; padding: 30px clamp(24px, 3.4vw, 40px); }
+.cd-loc__badge { align-self: flex-start; margin: 0; font: 700 13px/1.2 var(--cd-sans); letter-spacing: .08em; text-transform: uppercase; color: #E57512; }
+.cd-loc__address { margin-top: 10px; font: 600 clamp(24px, 2vw, 28px)/1.2 var(--cd-serif); letter-spacing: -.01em; color: var(--cd-ink); text-wrap: balance; }
+.cd-loc__near { margin-top: 8px; font: 400 15px/1.5 var(--cd-sans); color: var(--cd-body); }
+.cd-loc__near span { display: block; }
+.cd-loc__hours { margin-top: 14px; font: 600 15px/1.5 var(--cd-sans); color: var(--cd-ink); }
+.cd-loc__meta { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; padding-top: 20px; border-top: 1px solid #EADBC4; }
+.cd-loc__ic { flex: none; width: 18px; height: 18px; fill: none; stroke: var(--cd-brand); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.cd-loc__link { display: inline-flex; align-items: center; gap: 8px; padding-bottom: 1px; font: 600 16.5px/1.3 var(--cd-sans); color: var(--cd-ink); text-decoration: none;
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: color .2s ease, background-size .3s cubic-bezier(.22, 1, .36, 1); }
+.cd-loc__link:hover, .cd-loc__link:focus-visible { color: var(--cd-brand); background-size: 100% 1px; }
+.cd-loc__link:focus-visible { outline: 2px solid var(--cd-brand); outline-offset: 3px; border-radius: 2px; }
+.cd-loc__map { position: relative; z-index: 1; min-height: 290px; width: 100%; overflow: hidden; background: #EDE6DA; }
+.cd-loc__frame { position: absolute; left: 0; right: 0; top: -64px; width: 100%; height: calc(160% + 128px); border: 0; pointer-events: none; }
+.cd-loc__pop { position: absolute; z-index: 2; left: calc(50% - 26px); bottom: calc(20% + 16px); display: block; width: 220px; translate: -50% 0; border-radius: 6px; background: #fff;
+  text-align: left; text-decoration: none; box-shadow: 0 18px 40px -16px rgb(45 18 4 / .45), 0 0 0 1px rgb(45 18 4 / .06);
+  transform-origin: 50% 100%; opacity: 0; scale: .94;
+  transition: opacity .5s ease .75s, scale .6s cubic-bezier(.34, 1.56, .64, 1) .75s, translate .45s cubic-bezier(.22, 1, .36, 1), box-shadow .3s ease; }
+.cd-loc__pop::after { content: ""; position: absolute; left: 50%; bottom: -7px; width: 14px; height: 14px; translate: -50% 0; rotate: 45deg; background: #fff; }
+.cd-loc.in .cd-loc__pop, html:not(.js) .cd-loc__pop { opacity: 1; scale: 1; }
+@media (hover: hover) and (pointer: fine) { .cd-loc__pop:hover { translate: -50% -4px; } }
+.cd-loc__pop:hover { box-shadow: 0 24px 44px -16px rgb(45 18 4 / .5), 0 0 0 1px rgb(45 18 4 / .08); }
+.cd-loc__pop:focus-visible { outline: 2px solid var(--cd-brand); outline-offset: 3px; }
+.cd-loc__photo { position: relative; display: block; aspect-ratio: 5 / 2; overflow: hidden; border-radius: 6px 6px 0 0; background: #6B2A0C; }
+.cd-loc__photo img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: 40% 50%; transition: transform .9s cubic-bezier(.22, 1, .36, 1); }
+@media (hover: hover) and (pointer: fine) { .cd-loc__pop:hover .cd-loc__photo img { transform: scale(1.05); } }
+.cd-loc__body { position: relative; z-index: 1; display: block; padding: 9px 38px 11px 12px; }
+.cd-loc__name { display: block; font: 600 13.5px/1.3 var(--cd-sans); color: var(--cd-ink); }
+.cd-loc__addr { display: block; margin-top: 2px; font: 400 12px/1.4 var(--cd-sans); color: var(--cd-body); }
+.cd-loc__go { position: absolute; right: 8px; bottom: 8px; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; color: var(--cd-ink);
+  transition: background-color .2s ease, translate .3s cubic-bezier(.22, 1, .36, 1); }
+.cd-loc__pop:hover .cd-loc__go, .cd-loc__pop:focus-visible .cd-loc__go { background: #FBEDE0; translate: 2px -2px; }
+@media (max-width: 860px) {
+  .cd-loc { grid-template-columns: minmax(0, 1fr); border-right: 1px solid rgb(45 18 4 / .08); border-bottom: 0; }
+  .cd-loc__map { min-height: 0; aspect-ratio: 2 / 1; }
+}
+@media (max-width: 560px) {
+  .cd-loc { margin-top: 16px; }
+  .cd-loc__details { padding: 22px; }
+  .cd-loc__meta { gap: 0; margin-top: 16px; padding-top: 6px; }
+  .cd-loc__link { min-height: 40px; gap: 10px; }
+  .cd-loc__map { aspect-ratio: 4 / 3; }
+  .cd-loc__pop { width: 210px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cd-loc__pop { opacity: 1; scale: 1; transition: none; }
+  .cd-loc__link, .cd-loc__photo img, .cd-loc__go { transition: none; }
+}
