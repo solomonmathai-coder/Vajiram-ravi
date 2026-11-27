@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type RefObject } from "react";
+import { useRef, type ReactNode, type RefObject } from "react";
 import { IChevDown, IClose, ISearch, IXCircle } from "./icons";
 import { DROPS, type FilterKey } from "./model";
 
@@ -22,7 +22,10 @@ export default function FilterBar({
   onDrop,
   onClearDrops,
   counts,
+  lead,
 }: {
+  /** A field before the dropdowns (the Category dropdown on phones and tablets, CategoryDrop). */
+  lead?: ReactNode;
   barRef: RefObject<HTMLDivElement | null>;
   query: string;
   onQuery: (q: string) => void;
@@ -70,6 +73,7 @@ export default function FilterBar({
           </button>
         </div>
         <div className="cf-filt" id="cfFilt" role="group" aria-label="Filter courses">
+          {lead}
           {DROPS.map((f) => (
             <label
               key={f.key}

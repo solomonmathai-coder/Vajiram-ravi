@@ -7,6 +7,7 @@ import { jumpToElement, scrollToY } from "@/lib/smoothScroll";
 import { setCategoryHandler } from "./catJump";
 import CategoryRail, { type RailItem } from "./CategoryRail";
 import CategorySection from "./CategorySection";
+import CategoryDrop from "./CategoryDrop";
 import FilterBar from "./FilterBar";
 import HeroStats from "./HeroStats";
 import { IHeadset } from "./icons";
@@ -109,10 +110,14 @@ export default function CourseFinder({ buildDay }: { buildDay: string }) {
     const z = getCanvasZoom();
     const y = el.getBoundingClientRect().top + scrollY;
     const down = y > scrollY;
-    const top = y - ((barRef.current?.offsetHeight ?? 0) + (down ? 0 : 70) + 24) * z; // going up, the nav comes back above the bar
+    // on phones and tablets (the Category dropdown in the bar): clear of the nav and the stuck bar under it
+    const fluid = document.querySelector<HTMLElement>(".cf-sel--cat")?.offsetParent;
+    const top = fluid
+      ? y - (navOff() + (barRef.current?.offsetHeight ?? 0) + 16)
+      : y - ((barRef.current?.offsetHeight ?? 0) + (down ? 0 : 70) + 24) * z; // going up, the nav comes back above the bar
     if (smooth && !prefersReducedMotion()) scrollToY(top);
     else window.scrollTo({ top, behavior: "instant" });
-  }, []);
+  }, [navOff]);
   const setCat = useCallback(
     (k: string) => {
       history.replaceState(null, "", `#cat=${k}`);
@@ -242,6 +247,7 @@ export default function CourseFinder({ buildDay }: { buildDay: string }) {
         onDrop={(key, value) => setDrops((d) => ({ ...d, [key]: value }))}
         onClearDrops={() => setDrops(NO_DROPS)}
         counts={counts}
+        lead={<CategoryDrop items={railItems} onGo={setCat} />}
       />
       <p className="vh" id="cfCount" aria-live="polite">
         {total ? `${total} course${total === 1 ? "" : "s"} shown` : "No courses match."}

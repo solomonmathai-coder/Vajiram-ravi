@@ -34,6 +34,13 @@ export const IChevDown = () => (
   </Ico>
 );
 
+/** Iconoir's check, the chosen row in a chip's menu. */
+export const ICheck = () => (
+  <Ico size={18} width={2}>
+    <path d="M5 13L9 17L19 7" />
+  </Ico>
+);
+
 /** Iconoir's xmark-circle (solid), the dropdowns' clear button. */
 export const IXCircle = () => (
   <svg viewBox="0 0 24 24" width={20} height={20} aria-hidden="true">

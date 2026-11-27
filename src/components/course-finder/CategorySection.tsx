@@ -5,6 +5,7 @@ import { cfAbout, cfNewCategories } from "@/data/course-finder";
 import { getCanvasZoom } from "@/lib/canvas";
 import { prefersReducedMotion } from "@/lib/motion";
 import Book from "./Book";
+import ChipMenu from "./ChipMenu";
 import { GoButton, IArw, ICal, IDur, ILive, IRoom, ITime } from "./icons";
 import { BADGE, CHIPS, hasChip, type Card, type Filters, type Section } from "./model";
 
@@ -219,18 +220,34 @@ export default function CategorySection({
   const label = sec.top ? "Our Top Picks" : sec.label;
 
   // only the chips this category has courses for are shown (his 2026-11-21); with none left, "All" alone says nothing,
-  // so the row goes too
+  // so the row goes too. On phones the row is one chip in the same design, the chosen one, with a dropdown of the others
+  // (27 Nov 2026, user: "make it one chip with a dropdown showing all this options in the same chip design";
+  // course-finder.css shows the row or the one chip)
+  const noChips = CHIPS.every(([v]) => disabled[v]);
   const chips = (
-    <div className="cf-chips" role="group" aria-label={`Show ${label} courses`} hidden={CHIPS.every(([v]) => disabled[v])}>
-      <button type="button" className="cf-chip" data-f="" aria-pressed={!f} onClick={() => setChip("")}>
-        All
-      </button>
-      {CHIPS.map(([v, l]) => (
-        <button key={v} type="button" className="cf-chip" data-f={v} aria-pressed={f === v} disabled={disabled[v]} hidden={disabled[v]} onClick={() => setChip(v)}>
-          {l}
+    <>
+      <div className="cf-chips" role="group" aria-label={`Show ${label} courses`} hidden={noChips}>
+        <button type="button" className="cf-chip" data-f="" aria-pressed={!f} onClick={() => setChip("")}>
+          All
         </button>
-      ))}
-    </div>
+        {CHIPS.map(([v, l]) => (
+          <button key={v} type="button" className="cf-chip" data-f={v} aria-pressed={f === v} disabled={disabled[v]} hidden={disabled[v]} onClick={() => setChip(v)}>
+            {l}
+          </button>
+        ))}
+      </div>
+      <div className="cf-chips cf-chipdrop" hidden={noChips}>
+        <ChipMenu
+          label={`Show ${label} courses`}
+          value={f}
+          onChange={setChip}
+          opts={[
+            { v: "", label: "All", n: ok.length },
+            ...CHIPS.filter(([v]) => !disabled[v]).map(([v, l]) => ({ v, label: l, n: ok.filter((k) => hasChip(k, v)).length })),
+          ]}
+        />
+      </div>
+    </>
   );
 
   const car = (

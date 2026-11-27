@@ -9,8 +9,8 @@ import { COVER } from "./Book";
  * near the middle of the screen. A short line for every section, the one being read longer and in the brand
  * colour. Hovering the lines (or tabbing to them) opens a list of every category, its cloth colour and its
  * number of courses; choosing one scrolls to it. Sections the filters have hidden are dimmed there. A tap
- * elsewhere closes it (his 2026-11-19 touch handling; his floating tablet and phone rail is not ported, the page
- * being laid out on the 1440px canvas). The open list stays between the sticky search bar and the bottom of the
+ * elsewhere closes it (his 2026-11-19 touch handling). Wider than 1100px only: on tablets and phones the categories are
+ * the homepage's tab bar instead (CategoryTabs; his floating rail there is not used). The open list stays between the sticky search bar and the bottom of the
  * screen (his 10eea1b fit(): --py nudges it from its centred spot, --ph caps its height and it scrolls, .is-capped),
  * fitted again as the page scrolls while it is open.
  */
