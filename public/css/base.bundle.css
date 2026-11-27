@@ -2247,7 +2247,7 @@ transition: opacity .7s var(--ease, cubic-bezier(.2, .7, .2, 1)), transform 1s c
 html.foot-curtain main { position: relative; z-index: 1;}
 html.foot-curtain footer.foot { position: sticky; bottom: var(--foot-off, 0px); z-index: 0; margin-top: 0; }
 html[lang="hi"] .talk .btn__t { font-family: "Mukta", var(--f); }
-:root { --h2: clamp(40px, 6vw, 64px); }
+:root { --h2: clamp(40px, 6vw, 60px); }
 .h2, .stats__h, .hw__h, .wc__h, .rs__head2 .h2 { font-size: var(--h2); line-height: 1.02; letter-spacing: -.03em; }
 .h2 { max-width: 15em; text-wrap: balance; }
 .gs__h { max-width: 14em; }
@@ -3140,7 +3140,7 @@ height: max(var(--hero-min), calc(100svh - var(--hdr-h) - var(--hdr-gap) - var(-
 @media (min-width: 1280px) and (prefers-reduced-motion: no-preference) {
 .dl--pin { height: min(var(--hero-fit), max(var(--hero-min), calc(100svh - var(--hdr-h) - var(--hdr-gap) - var(--hero-peek)))); }
 }
-:root { --sec-y: clamp(64px, 6.25vw, 90px); --py: var(--sec-y); --pb: var(--sec-y); --hd-lbl: 16px; --hd-in: 16px; --hd-gap: 12px; }
+:root { --sec-y: clamp(64px, 6.25vw, 90px); --py: var(--sec-y); --pb: var(--sec-y); --hd-lbl: 16px; --hd-in: 16px; --hd-gap: 24px; }
 .dl__arrows { position: absolute; z-index: 6;bottom: 18px; display: flex; gap: 10px; }
 .dl__arrows .btn { margin: 0; }
 @media (max-width: 1440px) { .dl__arrows { right: clamp(20px, 5.5vw, 100px); } }
@@ -3469,9 +3469,9 @@ html main #gs.gs { margin-bottom: var(--sec-y); }
 html main .cover > #dlPin ~ section#courses { margin-top: calc(var(--hx-tall, 0) * 30svh); }
 }
 :root { --card-gap: clamp(14px, 2vw, 28px); }
-:root { --hdr-pt: 22px; --hdr-gap: 20px; --strip-h: 0px; --hdr-h: calc(var(--hdr-pt) + 54px); }
-@media (max-width: 900px) { :root { --hdr-pt: 16px; } }
-@media (max-width: 760px) { :root { --hdr-pt: 10px; --hdr-gap: 14px; --hdr-h: calc(var(--hdr-pt) + 44px); } }
+:root { --sat: env(safe-area-inset-top, 0px); --hdr-pt: calc(22px + var(--sat)); --hdr-gap: 20px; --strip-h: 0px; --hdr-h: calc(var(--hdr-pt) + 54px); }
+@media (max-width: 900px) { :root { --hdr-pt: calc(16px + var(--sat)); } }
+@media (max-width: 760px) { :root { --hdr-pt: calc(10px + var(--sat)); --hdr-gap: 14px; --hdr-h: calc(var(--hdr-pt) + 44px); } }
 main#top { padding-top: calc(var(--hdr-h) + var(--hdr-gap)); }
 :root { --hero-beige: #F3E8D6; --ground-beige: linear-gradient(90deg, rgba(243, 232, 214, 0) 0%, rgba(243, 232, 214, .94) 30%, rgba(243, 232, 214, .94) 70%, rgba(243, 232, 214, 0) 100%), url(/assets/img/patterns/bg-jaali.svg) 0 0 / 36px 36px repeat, var(--hero-beige); }
 .dl--pin { background: var(--hero-beige); }
@@ -3519,6 +3519,11 @@ opacity: 0; transition: opacity .35s ease, width .2s ease, background-color .2s 
 @media (max-width: 760px) { html .nav-band { background: var(--ground-jaali); background-size: 100% 100%, 36px 36px, auto; background-position: 0 0, 0 0, 0 0; } }
 #faq .qa, #faq .qa:hover { box-shadow: inset 0 0 0 1px rgba(45, 18, 4, .08); }
 #faq .qa[open] { box-shadow: inset 0 0 0 1px rgba(45, 18, 4, .08), 0 18px 34px -22px rgba(120, 50, 10, .45); }
+.notch-shield { display: none; }
+@media (max-width: 900px) {
+.notch-shield { display: block; position: fixed; z-index: 55; top: 0; left: 0; right: 0; height: var(--hdr-pt, 10px); background: #FFFAF3; pointer-events: none; transition: opacity .25s ease; }
+html:has(#nav[data-top]) .notch-shield { opacity: 0; }
+}
 /* podium.css */
 #toppers.pd { --pd-gold: #FFD48A; --pd-plate-a: #8E2F0C; --pd-plate-b: #6C2208; --pd-line: rgba(255, 255, 255, .42);
 position: relative; isolation: isolate; padding-left: var(--px); padding-right: var(--px); color: #fff; text-align: center;
@@ -3855,7 +3860,7 @@ html #toppers .tp-row b { transition: color .4s var(--ease, ease); }
 html #toppers .tp-row .tp-badge { transition: background-color .4s var(--ease, ease), color .4s var(--ease, ease); }
 @media (prefers-reduced-motion: reduce) { html #toppers .tp-row, html #toppers .tp-row b, html #toppers .tp-row .tp-badge { transition: none; } }
 @media (max-width: 600px) {
-html #toppers .tp-record { padding-inline: 0; margin-top: var(--hd-gap); }
+html #toppers .tp-record { padding-inline: 0; margin-top: 12px; }
 html #toppers .tp-record > div { padding-inline: 8px; }
 html #toppers .tp-frame { margin-top: 6px; padding-inline: 12px; padding-top: 6px; padding-bottom: 8px; }
 html #toppers .tp-record > div > div:first-child { gap: 12px; }
@@ -3911,7 +3916,7 @@ html #toppers .tp-frame .dr__h::before, html #toppers .tp-frame .dr__h::after { 
 .dr__name { font-size: 11.5px; letter-spacing: .04em; }
 .dr__prog { font-size: 9px; letter-spacing: .06em; }
 @media (max-width: 640px) { .dr { --dw: 92px; } .dr__n { font-size: 22px; } .dr__name { font-size: 10.5px; } .dr__prog { font-size: 8.5px; } }
-html #toppers .dr { margin-top: 24px; }
+html #toppers .dr { margin-top: var(--hd-gap); }
 @media (min-width: 601px) { html #toppers .dr__cta { margin-top: 28px; } }
 html #toppers .tp-pane .tp-meta .dr__prog { display: block; -webkit-line-clamp: unset; overflow: visible; }
 .dr__fig--gs .dr__gem { background-image: url(../assets/img/toppers/figma/shield2-gs.svg); }

@@ -106,9 +106,9 @@ To change content, edit the files in `src/data`. To change a section's look, edi
 
 ## How it behaves
 
-### The homepage (/): the team's, as it is (updated 26 Nov 2026)
+### The homepage (/): the team's, as it is (updated 27 Nov 2026)
 
-"/" is the team's latest homepage: github.com/abhishekps-web/vajiram-ravi, branch `main` (a98fde4, 25 Nov 2026), as
+"/" is the team's latest homepage: github.com/abhishekps-web/vajiram-ravi, branch `main` (354a2ba, 27 Nov 2026), as
 deployed on vajiram-ravi.abhishek-ps.workers.dev (it replaced Kevin's copy from the `kevin` branch). That repository is
 where all the pages are built and updated; we only read from it (its `main`, `staging` and `courses-page` branches are
 not ours to change; anything we add to it goes on a new branch of its own). It is fetched here as the git remote `team`.
