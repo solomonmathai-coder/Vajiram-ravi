@@ -957,3 +957,16 @@ a.cd-seg__b::after { content: "↗"; margin-left: 5px; font-size: 12px; opacity:
 .cd-crumb--hero { margin: 0 0 16px; }
 /* (a tab with four cards lays them out two by two, not three and one) */
 @media (min-width: 1001px) { .cd-getp ul:has(> li:nth-child(4):last-child) { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* ---------- one spacing rhythm through the page, the homepage's (review 2026-11-27, "fix the spacing") ----------
+   every section 65% of the section spacing above and below (his calc(var(--sec-y) * .65): Talk to us, Contact us and the closing card
+   had 100%), and one gap from a section's heading block to its content (his --hd-gap: our heading blocks had their own, larger one) */
+main.cd > section.cd-sec { padding-top: calc(var(--sec-y, clamp(64px, 6.25vw, 90px)) * .65); padding-bottom: calc(var(--sec-y, clamp(64px, 6.25vw, 90px)) * .65); }
+main.cd > section.cd-close { padding-top: 0; }
+.cd .cd-head { margin-bottom: var(--hd-gap, clamp(36px, 3.4vw, 48px)); }
+.cd-talk__grid { row-gap: var(--hd-gap, clamp(36px, 3.4vw, 48px)); }
+/* Related courses on beige now (the ground alternates cream and beige again), and the payment panel white on Admission's beige */
+#related.cd-band-beige { background: linear-gradient(90deg, rgb(243 232 214 / 0) 0%, rgb(243 232 214 / .94) 30%, rgb(243 232 214 / .94) 70%, rgb(243 232 214 / 0) 100%),
+    url(../assets/img/patterns/bg-jaali.svg) 0 0 / 36px 36px repeat, #F3E8D6; }
+.cd-fees .cd-fees__pay { background: #fff; box-shadow: 0 0 0 1px var(--cd-line); }
+.cd .cd-contact__head { margin-bottom: 0; }   /* (his Contact us: the card sits 20px under its line, as on the homepage) */
