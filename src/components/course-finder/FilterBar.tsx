@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, type ReactNode, type RefObject } from "react";
+import FieldDrop from "./FieldDrop";
 import { IChevDown, IClose, ISearch, IXCircle } from "./icons";
 import { DROPS, type FilterKey } from "./model";
 
@@ -12,7 +13,8 @@ import { DROPS, type FilterKey } from "./model";
  * chevron for a clear button that empties just that one; "Clear filters" appears while any is set. The bar
  * sticks under the nav (CourseFinder sets .is-stuck and --cf-navoff). Since his 10eea1b the /courses page draws each
  * dropdown as a split button instead ("Mode: Any", the chevron in a segment at the right; course-finder.css, not on
- * /courses/books), and a click anywhere on a field opens its menu.
+ * /courses/books), and a click anywhere on a field opens its menu. With `menus` (/courses, 27 Nov 2026) each field opens
+ * the page's own menu card instead of the browser's list, which cannot be styled (FieldDrop).
  */
 export default function FilterBar({
   barRef,
@@ -23,9 +25,12 @@ export default function FilterBar({
   onClearDrops,
   counts,
   lead,
+  menus = false,
 }: {
   /** A field before the dropdowns (the Category dropdown on phones and tablets, CategoryDrop). */
   lead?: ReactNode;
+  /** The fields open the page's own menu card (FieldDrop) instead of the browser's list (/courses). */
+  menus?: boolean;
   barRef: RefObject<HTMLDivElement | null>;
   query: string;
   onQuery: (q: string) => void;
@@ -74,7 +79,41 @@ export default function FilterBar({
         </div>
         <div className="cf-filt" id="cfFilt" role="group" aria-label="Filter courses">
           {lead}
-          {DROPS.map((f) => (
+          {menus
+            ? DROPS.map((f) => (
+                <FieldDrop
+                  key={f.key}
+                  dataKey={f.key}
+                  label={f.label}
+                  value={drops[f.key]}
+                  on={!!drops[f.key]}
+                  onPick={(v) => onDrop(f.key, v)}
+                  opts={[
+                    { v: "", label: "Any" },
+                    ...f.opts.map(([v, l]) => {
+                      const n = counts[f.key][v] ?? 0;
+                      return { v, label: l, n, disabled: !n };
+                    }),
+                  ]}
+                  after={
+                    <button
+                      type="button"
+                      className="cf-sel__x"
+                      data-key={f.key}
+                      aria-label={`Clear ${f.label}`}
+                      onClick={(e) => {
+                        const field = e.currentTarget.parentElement;
+                        onDrop(f.key, "");
+                        field?.querySelector<HTMLButtonElement>(".cf-sel__btn")?.focus();
+                      }}
+                    >
+                      <IXCircle />
+                    </button>
+                  }
+                />
+              ))
+            : null}
+          {!menus && DROPS.map((f) => (
             <label
               key={f.key}
               className={`cf-sel${drops[f.key] ? " is-on" : ""}`}

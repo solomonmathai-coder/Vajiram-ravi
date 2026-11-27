@@ -1,19 +1,19 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { IChevDown } from "./icons";
+import { COVER } from "./Book";
 import type { RailItem } from "./CategoryRail";
+import FieldDrop from "./FieldDrop";
 
 /*
  * The categories on phones and tablets (27 Nov 2026, user: the rail's lines at the screen's edge "could be a drop down,
  * need to find a new method to show the course category"): the first field of the sticky bar, in the same design as
- * Mode, Medium and Target year ("Category: GS Foundation"). As the page scrolls it shows the category being read;
- * choosing another goes to it. Categories the search and dropdowns have emptied cannot be chosen. Shown at 1100px and
- * below only (course-finder.css .cf-sel--cat); wider screens keep the rail.
+ * Mode, Medium and Target year ("Category: CSAT (2)"), only as wide as what it says. As the page scrolls it shows the
+ * category being read; its menu (FieldDrop) lists every category with its book's colour and its course count, the ones
+ * the search and dropdowns have emptied greyed out; choosing one goes to it. Shown at 1100px and below only
+ * (course-finder.css .cf-sel--cat); wider screens keep the rail.
  */
 export default function CategoryDrop({ items, onGo }: { items: RailItem[]; onGo: (k: string) => void }) {
-  const ref = useRef<HTMLLabelElement>(null);
-  const selRef = useRef<HTMLSelectElement>(null);
   const [cur, setCur] = useState(items[0]?.k ?? "");
   const itemsRef = useRef(items);
   itemsRef.current = items;
@@ -22,14 +22,14 @@ export default function CategoryDrop({ items, onGo }: { items: RailItem[]; onGo:
 
   // the section being read: the last one whose top has passed a line a third of the way down the screen under the bar
   const spy = useCallback(() => {
-    const el = ref.current;
-    if (!el || !el.offsetParent || performance.now() < holdUntil.current) return;
     const bar = document.getElementById("cfBar");
-    const below = bar ? bar.getBoundingClientRect().bottom : 0;
+    const field = bar?.querySelector<HTMLElement>(".cf-sel--cat");
+    if (!bar || !field?.offsetParent || performance.now() < holdUntil.current) return;
+    const below = bar.getBoundingClientRect().bottom;
     const line = below + (innerHeight - below) / 3;
-    const list = itemsRef.current;
-    let k = list.find((x) => !x.hidden)?.k ?? "";
-    for (const x of list) {
+    const all = itemsRef.current;
+    let k = all.find((x) => !x.hidden)?.k ?? "";
+    for (const x of all) {
       if (x.hidden) continue;
       const s = document.getElementById(`cat-${x.k}`);
       if (!s) continue;
@@ -53,43 +53,21 @@ export default function CategoryDrop({ items, onGo }: { items: RailItem[]; onGo:
     spy();
   }, [hiddenKey, spy]);
 
+  const now = items.find((x) => x.k === cur);
   return (
-    <label
-      ref={ref}
-      className="cf-sel cf-sel--cat"
-      data-key="cat"
-      onClick={(e) => {
-        // a click anywhere on the field opens its menu, as the other dropdowns do
-        if ((e.target as HTMLElement).tagName === "SELECT") return;
-        try {
-          selRef.current?.showPicker();
-        } catch {
-          selRef.current?.focus();
-        }
+    <FieldDrop
+      className="cf-sel--cat"
+      dataKey="cat"
+      label="Category"
+      listLabel="Go to a course category"
+      value={cur}
+      text={now ? `${now.name} (${now.n})` : ""}
+      opts={items.map((x) => ({ v: x.k, label: x.name, n: x.n, disabled: x.hidden, dot: (COVER[x.k] || COVER.top).base }))}
+      onPick={(k) => {
+        setCur(k);
+        holdUntil.current = performance.now() + 1200;
+        onGo(k);
       }}
-    >
-      <fieldset className="cf-sel__o" aria-hidden="true">
-        <legend>Category</legend>
-      </fieldset>
-      <span className="cf-sel__l">Category</span>
-      <select
-        ref={selRef}
-        aria-label="Go to a course category"
-        value={cur}
-        onChange={(e) => {
-          const k = e.target.value;
-          setCur(k);
-          holdUntil.current = performance.now() + 1200;
-          onGo(k);
-        }}
-      >
-        {items.map((x) => (
-          <option key={x.k} value={x.k} disabled={x.hidden}>
-            {x.name} ({x.n})
-          </option>
-        ))}
-      </select>
-      <IChevDown />
-    </label>
+    />
   );
 }

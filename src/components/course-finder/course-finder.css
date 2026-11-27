@@ -1588,3 +1588,28 @@
   .cf-page:where(:not(.ab-page, .cb-page)) .cf-chips:not(.cf-chipdrop) { display: none; }
   .cf-page:where(:not(.ab-page, .cb-page)) .cf-chips.cf-chipdrop:not([hidden]) { display: flex; }
 }
+
+/* the bar's fields with their own menu (FieldDrop: Category, Mode, Medium, Target year; user 2026-11-27, the browser's list "is not
+   styled, why"): the field's button fills it (the name, then the choice, the chevron's segment at the right), on phones the field only
+   as wide as what it says (at most 260px); the menu is the chip menu's card, fixed to the screen under the field, the long list
+   scrolling inside it; Category's rows carry their book's colour */
+.cf-page:not(.cb-page) .cf-sel.cf-sel--btn { padding: 0; }
+.cf-page .cf-sel--btn .cf-sel__btn { display: flex; align-items: center; gap: 6px; flex: 1 1 auto; align-self: stretch; min-width: 0; margin: 0;
+  padding: 0 60px 0 16px; border: 0; border-radius: inherit; background: transparent; cursor: pointer; text-align: left; font: inherit; color: inherit; }
+.cf-page .cf-sel--btn .cf-sel__btn:focus { outline: none; }
+.cf-page .cf-sel--btn .cf-sel__v { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 500 15px/1 var(--f); color: #2A2016; }
+.cf-page .cf-sel--btn .cf-sel__v[data-empty] { color: rgb(42 32 22 / .5); }
+.cf-page .cf-sel--btn.is-on .cf-sel__v { color: var(--cf-brand); }
+.cf-page .cf-sel--btn > svg { transition: rotate .25s cubic-bezier(.2, .7, .3, 1); }
+.cf-page .cf-sel--btn.is-open > svg { rotate: 180deg; }
+.cf-page .cf-sel .cf-fm svg { position: static; right: auto; rotate: none; color: inherit; }   /* (the menu's tick: not the field's chevron) */
+@media (max-width: 760px) {
+  .cf-page:where(:not(.ab-page, .cb-page)) .cf-sel--btn .cf-sel__btn { padding: 0 46px 0 12px; gap: 4px; }
+  .cf-page:where(:not(.ab-page, .cb-page)) .cf-sel--btn .cf-sel__v { font-size: 14px; }
+  .cf-page:where(:not(.ab-page, .cb-page)) .cf-sel.cf-sel--btn { width: auto; max-width: 260px; }
+}
+.cf-page .cf-cm__menu.cf-fm { position: fixed; z-index: 40; min-width: 0; max-height: min(60vh, 440px);
+  overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; transform-origin: 32px 0; }
+.cf-page .cf-fm__dot { flex: none; width: 10px; height: 14px; border-radius: 2px; box-shadow: inset -2px 0 0 rgb(0 0 0 / .18); }
+.cf-page .cf-cm__o:disabled { opacity: .4; cursor: not-allowed; background: transparent; }
+@media (prefers-reduced-motion: reduce) { .cf-page .cf-sel--btn > svg { transition: none; } }

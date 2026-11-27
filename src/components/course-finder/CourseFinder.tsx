@@ -248,6 +248,7 @@ export default function CourseFinder({ buildDay }: { buildDay: string }) {
         onClearDrops={() => setDrops(NO_DROPS)}
         counts={counts}
         lead={<CategoryDrop items={railItems} onGo={setCat} />}
+        menus
       />
       <p className="vh" id="cfCount" aria-live="polite">
         {total ? `${total} course${total === 1 ? "" : "s"} shown` : "No courses match."}
